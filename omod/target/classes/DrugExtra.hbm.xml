@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+    <class name="org.openmrs.module.pharmacy.model.DrugExtra"
+           table="pharmacy_drug_extra">
+        <cache usage="read-write"/>
+
+        <id name="id" type="int" column="pharmacy_drug_extra_id" unsaved-value="0">
+            <generator
+                    class="org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator"/>
+        </id>
+        <discriminator column="pharmacy_drug_extra_id" insert="false"/>
+        <many-to-one name="option" property-ref="uuid" column="variable"/>
+        <property name="pill" type="java.lang.Integer" column="pill" length="255"/>
+        <many-to-one name="pharmacyLocations" property-ref="uuid" column="location_uuid"/>
+        <property name="amount" type="double" column="amount"  length="255"/>
+        <property name="quantitysold" type="java.lang.Integer" column="quantity_sold"/>
+        <many-to-one name="drug" class="org.openmrs.Drug" column="drug_id" not-null="true"/>
+        <property name="receipt" type="java.lang.Integer" column="receipt" length="255"/>
+        <property name="waiverNo" type="java.lang.Integer" column="waiverNo" length="255"/>
+        <property name="Amountw" type="double" column="wAmount"   length="255"/>
+        <property name="total_amount" type="double" column="total_amount" length="255"/>
+        <property name="total_waived" type="double" column="total_waived"  length="255"/>
+        <property name="expected_amount" type="double" column="total_expected"  length="255"/>
+        <property name="invoice" type="java.lang.Integer" column="invoice" length="255"/>
+        <property name="drugChange" type="java.lang.String" column="drug_change" length="255"/>
+        <property name="pharmacy_drug_uuid" type="java.lang.String" column="pharmacy_drug_uuid"  length="255"/>
+        <property name="chosenValue" type="java.lang.String" column="chosen_value"   length="255"/>
+        <property name="patientId" type="java.lang.Integer" column="patient_id"  length="255"/>
+        <property name="dosingCalculation" type="java.lang.String" column="doseCalculation"    length="255"/>
+        <many-to-one name="creator" class="org.openmrs.User"  column="creator" not-null="true"/>
+        <property name="dateCreated" type="java.util.Date" column="datecreated" not-null="true"/>
+        <property name="voided" type="boolean" not-null="true"/>
+        <many-to-one name="voidedBy" class="org.openmrs.User" column="voided_by"/>
+        <property name="dateVoided" type="java.util.Date" column="date_voided"/>
+        <property name="voidReason" type="java.lang.String" column="void_reason" length="255"/>
+        <property name="uuid" type="string" length="38" not-null="true"  unique="true"/>
+    </class>
+</hibernate-mapping>

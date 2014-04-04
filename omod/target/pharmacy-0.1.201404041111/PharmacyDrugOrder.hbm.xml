@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+    <class name="org.openmrs.module.pharmacy.model.PharmacyDrugOrder" table="pharmacy_drug_order">
+        <cache usage="read-write"/>
+
+        <id name="id" type="java.lang.Integer" column="pharmacy_drug_order_id" unsaved-value="0">
+            <generator
+                    class="org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator"/>
+        </id>
+        <many-to-one name="orderUuid" property-ref="uuid"  column="order_uuid"/>
+        <many-to-one name="drugInventoryUuid"  property-ref="uuid"  column="drug_inventory_uuid"/>
+        <many-to-one name="drugUuid" property-ref="uuid"   column="drug_extra_uuid"/>
+        <property name="dose" type="double" column="dose"  />
+        <property name="equivalentDailyDose" type="double" column="equivalent_daily_dose"  />
+        <property name="units" type="java.lang.String" column="units" length="255"/>
+        <property name="frequency" type="java.lang.String" column="frequency" length="255"/>
+        <property name="quantityGiven" type="int" column="quantity_given"  length="255"/>
+        <property name="quantityPrescribed" type="int" column="quantity_prescribed" length="255"/>
+        <many-to-one name="person" column="patient_uuid" not-null="true"/>
+        <property name="expected_next_visit_date" type="java.util.Date" column="expected_next_visit_date"/>
+        <many-to-one name="creator" class="org.openmrs.User" column="creator" not-null="true"/>
+        <property name="dateCreated" type="java.util.Date" column="datecreated" not-null="true"/>
+        <property name="voided" type="boolean" not-null="true"/>
+        <many-to-one name="voidedBy" class="org.openmrs.User"  column="voided_by"/>
+        <property name="dateVoided" type="java.util.Date" column="date_voided"/>
+        <property name="voidReason" type="java.lang.String" column="void_reason"  length="255"/>
+        <property name="uuid" type="java.lang.String" length="38" not-null="true" unique="true"/>
+        <property name="formName" type="java.lang.String" length="38" not-null="true" />
+    </class>
+</hibernate-mapping>

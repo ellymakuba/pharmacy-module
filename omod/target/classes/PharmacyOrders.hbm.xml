@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+    <class name="org.openmrs.module.pharmacy.model.PharmacyOrders" table="pharmacy_orders">
+        <cache usage="read-write"/>
+
+        <id name="id" type="int" column="pharmacy_order_id" unsaved-value="0">
+            <generator
+                    class="org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator"/>
+        </id>
+
+        <property name="concept" type="java.lang.String" column="concept_uuid"
+                  length="255"/>
+
+
+
+        <many-to-one name="pharmacyEncounter" property-ref="uuid" column="encounter_uuid"/>
+
+        <property name="instructions" type="java.lang.String" column="instructions"
+                  length="255"/>
+        <property name="startDate" type="java.util.Date" column="startdate"
+                />
+
+        <property name="autoEndDate" type="java.util.Date" column="auto_end_date"
+                />
+
+
+
+        <property name="discontinued" type="boolean" column="discontinued"
+                />
+        <property name="discontinuedDate" type="java.util.Date" column="discontinued_date"
+                />
+        <property name="discontinuedReason" type="java.lang.String" column="discontinued_reason"
+                  length="255"/>
+
+        <property name="dispensed" type="boolean" column="dispensed"
+                />
+
+
+        <many-to-one name="creator" class="org.openmrs.User"
+                     column="creator" not-null="true"/>
+
+        <property name="dateCreated" type="java.util.Date" column="datecreated"
+                  not-null="true"/>
+
+
+        <property name="voided" type="boolean" not-null="true"/>
+
+
+        <many-to-one name="voidedBy" class="org.openmrs.User"
+                     column="voided_by"/>
+
+        <property name="dateVoided" type="java.util.Date" column="date_voided"/>
+
+        <property name="voidReason" type="java.lang.String" column="void_reason"
+                  length="255"/>
+
+        <property name="uuid" type="java.lang.String" length="38"
+                  not-null="true" unique="true"/>
+
+
+
+
+
+
+    </class>
+</hibernate-mapping>
