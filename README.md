@@ -1,11 +1,12 @@
-<<<<<<< HEAD
-penmrs-module-pharmacy
-======================
+README file for the pharmacy module
+=======================================
 
-Pharmacy module for pharmacy 
-=======
-pharmacy-module
-===============
+Introduction 
+contains dispensing and inventory management modules
 
-ampath pharmacy module
->>>>>>> 387ad5aaf6c9f1ef068b52532fa59e6414d1630d
+Installation instructions
+fisrt install jforms module then add the pharmacy module to openmrs
+
+Contact information 
+elly makuba<ellymakuba@gmail.com>
+
