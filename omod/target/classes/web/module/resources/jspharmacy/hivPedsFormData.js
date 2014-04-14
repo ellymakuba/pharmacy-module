@@ -1227,7 +1227,7 @@ var row1Dose = {
 };
 
 $j.each(row1Dose.dose1, function (key, value) {
-    $j("#dose1").append('<option value="'+value.dosageID+'">'+value.dosageName+'</option>');
+    //$j("#dose1").append('<option value="'+value.dosageID+'">'+value.dosageName+'</option>');
     $j("#dose2").append('<option value="'+value.dosageID+'">'+value.dosageName+'</option>');
 
 });
@@ -2014,11 +2014,11 @@ $j('#weight') .change(
 
 
     });
-$j("#1,#2,#3,#4,#5,#6 , #1f,, #2f, #3f, #4fa,#4fb,#5fa,#5fb,#6f").hide()
+$j("#1,#2,#3,#4,#5,#6 , #1f, #2f, #3f, #4fa,#4fb,#5fa,#5fb,#6f,#doseLabel1,#doseLabel2,#doseLabel3,#dose4,#dose5,#dose6,#dose7").hide()
 
-$j('label[for="1"],label[for="2"],label[for="3"],label[for="4"],label[for="5"] ,label[for="6"],label[for="1f"],label[for="2f"],label[for="3f"],label[for="4fa"],label[for="4fb"],label[for="5fa"],label[for="5fb"],label[for="6f"]').hide();
+$j('label[for="1"],label[for="2"],label[for="3"],label[for="4"],label[for="5"] ,label[for="6"],label[for="1f"],label[for="2f"],label[for="3f"],label[for="4fa"],label[for="4fb"],label[for="5fa"],label[for="5fb"],label[for="6f"],label[for="dose4"],label[for="dose5"],label[for="dose6"],label[for="dose7"]').hide();
 
-$j("#1d,, #2d, #3d, #4da,#4db,#5da,#5db,#6d").hide()
+$j("#1d,#2d, #3d, #4da,#4db,#5da,#5db,#6d").hide()
 
 $j('label[for="1d"],label[for="2d"],label[for="3d"],label[for="4da"],label[for="4db"],label[for="5da"], label[for="5db"],label[for="6d"]').hide();
 
@@ -2028,10 +2028,10 @@ $j('label[for="1ma"],label[for="1mb"],label[for="1mc"],label[for="2ma"],label[fo
 
 function row1FirstOption() {
 
-    $j("#1,#1f, #1d, #1ma, #1mb,#1mc").show()
+    $j("#1,#1f, #1d, #1ma, #1mb,#1mc,#doseLabel1").show()
     $j('label[for="1"],label[for="1f"],label[for="1d"],label[for="1ma"],label[for="1mb"], label[for="1mc"]').show();
 
-    $j("#2,#2f, #2d, #2ma, #2mb,#2mc").hide()
+    $j("#2,#2f, #2d, #2ma, #2mb,#2mc,#doseLabel2,#doseLabel3,#dose4,#dose5,#dose6,#dose7").hide()
     $j('label[for="2"],label[for="2f"],label[for="2d"],label[for="2ma"],label[for="2mb"], label[for="2mc"]').hide();
 
     $j("#3,#3f, #3d, #3ma, #3mb,#3mc").hide()
@@ -2039,7 +2039,7 @@ function row1FirstOption() {
 
     $j("#4,#4fa,#4fb, #4da,#4db, #4ma, #4mb,#4mc,#4ma1, #4mb2,#4mc3").hide()
 
-    $j('label[for="4"],label[for="4fa"],label[for="4fb"],label[for="4da"],label[for="4db"], label[for="4ma"], label[for="4mb"], label[for="4mc"], label[for="4ma1"], label[for="4mb2"], label[for="4mc3"]').hide();
+    $j('label[for="4"],label[for="4fa"],label[for="4fb"],label[for="4da"],label[for="4db"], label[for="4ma"], label[for="4mb"], label[for="4mc"], label[for="4ma1"], label[for="4mb2"], label[for="4mc3"], label[for="dose4"], label[for="dose5"], label[for="dose6"], label[for="dose7"]').hide();
 
     $j("#5,#5fa,#5fb, #5da, #5db, #5ma, #5mb,#5mc,#5ma1, #5mb2,#5mc3").hide()
 
@@ -2050,12 +2050,12 @@ function row1FirstOption() {
 
 }
 function row1SecondOption() {
-    $j("#2,#2f, #2d, #2ma, #2mb,#2mc").show()
+    $j("#2,#2f, #2d, #2ma, #2mb,#2mc,#doseLabel2").show()
     $j('label[for="2"],label[for="2f"],label[for="2d"],label[for="2ma"],label[for="2mb"], label[for="2mc"]').show();
 
 
-    $j("#1,#1f, #1d, #1ma, #1mb,#1mc").hide()
-    $j('label[for="1"],label[for="1f"],label[for="1d"],label[for="1ma"],label[for="1mb"], label[for="1mc"]').hide();
+    $j("#1,#1f, #1d, #1ma, #1mb,#1mc,#doseLabel1,#doseLabel3,#dose4,#dose5,#dose6,#dose7").hide()
+    $j('label[for="1"],label[for="1f"],label[for="1d"],label[for="1ma"],label[for="1mb"], label[for="1mc"],label[for="dose4"],label[for="dose5"],label[for="dose6"],label[for="dose7"]').hide();
 
 
     $j("#3,#3f, #3d, #3ma, #3mb,#3mc").hide()
@@ -2075,11 +2075,11 @@ function row1SecondOption() {
 
 }
 function row1ThirdOption() {
-    $j("#3,#3f, #3d, #3ma, #3mb,#3mc").show()
+    $j("#3,#3f, #3d, #3ma, #3mb,#3mc,#doseLabel3").show()
     $j('label[for="3"],label[for="3f"],label[for="3d"],label[for="3ma"],label[for="3mb"], label[for="3mc"]').show();
 
-    $j("#1,#1f, #1d, #1ma, #1mb,#1mc").hide()
-    $j('label[for="1"],label[for="1f"],label[for="1d"],label[for="1ma"],label[for="1mb"], label[for="1mc"]').hide();
+    $j("#1,#1f, #1d, #1ma, #1mb,#1mc,#doseLabel1,#doseLabel2#dose4,#dose5,#dose6,#dose7").hide()
+    $j('label[for="1"],label[for="1f"],label[for="1d"],label[for="1ma"],label[for="1mb"], label[for="1mc"],label[for="dose4"],label[for="dose5"],label[for="dose6"],label[for="dose7"]').hide();
 
 
     $j("#2,#2f, #2d, #2ma, #2mb,#2mc").hide()
@@ -2101,17 +2101,17 @@ function row1ThirdOption() {
 }
 
 function row1FourthOption() {
-    $j("#1,#1f, #1d, #1ma, #1mb,#1mc").hide()
+    $j("#1,#1f, #1d, #1ma, #1mb,#1mc,#doseLabel1,#doseLabel2,#doseLabel3,#dose6,#dose7").hide()
     $j('label[for="1"],label[for="1f"],label[for="1d"],label[for="1ma"],label[for="1mb"], label[for="1mc"]').hide();
 
     $j("#2,#2f, #2d, #2ma, #2mb,#2mc").hide()
-    $j('label[for="2"],label[for="2f"],label[for="2d"],label[for="2ma"],label[for="2mb"], label[for="2mc"]').hide();
+    $j('label[for="2"],label[for="2f"],label[for="2d"],label[for="2ma"],label[for="2mb"], label[for="2mc"],label[for="dose6"],label[for="dose7"]').hide();
 
     $j("#3,#3f, #3d, #3ma, #3mb,#3mc").hide()
     $j('label[for="3"],label[for="3f"],label[for="3d"],label[for="3ma"],label[for="3mb"], label[for="3mc"]').hide();
 
-    $j("#4,#4fa,#4fb, #4da,#4db, #4ma, #4mb,#4mc,#4ma1, #4mb2,#4mc3").show()
-    $j('label[for="4"],label[for="4fa"],label[for="4fb"],label[for="4da"],label[for="4db"], label[for="4ma"], label[for="4mb"], label[for="4mc"], label[for="4ma1"], label[for="4mb2"], label[for="4mc3"]').show();
+    $j("#4,#4fa,#4fb, #4da,#4db, #4ma, #4mb,#4mc,#4ma1, #4mb2,#4mc3,#dose4,#dose5").show()
+    $j('label[for="4"],label[for="4fa"],label[for="4fb"],label[for="4da"],label[for="4db"], label[for="4ma"], label[for="4mb"], label[for="4mc"], label[for="4ma1"], label[for="4mb2"], label[for="4mc3"], label[for="#dose4"],label[for="#dose5"]').show();
 
     $j("#5,#5fa,#5fb, #5da, #5db, #5ma, #5mb,#5mc,#5ma1, #5mb2,#5mc3").hide()
 
@@ -2123,8 +2123,8 @@ function row1FourthOption() {
 
 }
 function row1FifthOption() {
-    $j("#1,#1f, #1d, #1ma, #1mb,#1mc").hide()
-    $j('label[for="1"],label[for="1f"],label[for="1d"],label[for="1ma"],label[for="1mb"], label[for="1mc"]').hide();
+    $j("#1,#1f, #1d, #1ma, #1mb,#1mc#doseLabel1,#doseLabel2,#doseLabel3,#dose4,#dose5").hide()
+    $j('label[for="1"],label[for="1f"],label[for="1d"],label[for="1ma"],label[for="1mb"], label[for="1mc"],label[for="dose4"],label[for="dose5"]').hide();
 
     $j("#2,#2f, #2d, #2ma, #2mb,#2mc").hide()
     $j('label[for="2"],label[for="2f"],label[for="2d"],label[for="2ma"],label[for="2mb"], label[for="2mc"]').hide();
@@ -2138,7 +2138,7 @@ function row1FifthOption() {
 
 
     $j("#5,#5fa,#5fb, #5da, #5db, #5ma, #5mb,#5mc,#5ma1, #5mb2,#5mc3").show()
-    $j('label[for="5"],label[for="5fa"],label[for="5fb"],label[for="5da"],label[for="5db"], label[for="5ma"], label[for="5mb"], label[for="5mc"], label[for="5ma1"], label[for="5mb2"], label[for="5mc3"]').show();
+    $j('label[for="5"],label[for="5fa"],label[for="5fb"],label[for="5da"],label[for="5db"], label[for="5ma"], label[for="5mb"], label[for="5mc"], label[for="5ma1"], label[for="5mb2"], label[for="5mc3"], label[for="#dose6"],label[for="#dose7"]').show();
 
 
     $j("#6,#6f, #6d, #6ma, #6mb,#6mc").hide()

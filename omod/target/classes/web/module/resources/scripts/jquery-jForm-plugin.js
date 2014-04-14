@@ -12,10 +12,7 @@
                 {
 
                     if(x.substring(3)=="hasTable")
-
-
                     {
-
                         html+="<table width='100%'>";
                         $.each(form[x].table, function(key,value) {
                             // create a row
@@ -129,7 +126,7 @@
                                             else if(key2.substring(3)=="label")
                                             {
 
-                                                html+=' <label>'+value2.label+'</label></br>';
+                                                html+=' <label id="'+ value2.id +'">'+value2.label+'</label></br>';
 
                                             }
                                             else if(key2.substring(3)=="div")
@@ -176,10 +173,7 @@
 
                                         html+="</td>";
 
-
                                     }
-
-
                                     else if(key1.substring(3)=="th")
                                     {
                                         html+="<th>";
@@ -188,7 +182,23 @@
                                             if(key2.substring(3)=="label")
                                             {
 
-                                                html+=' <label>'+value2.label+'</label>';
+                                                html+=' <label id="'+ value2.id +'">'+value2.label+'</label>';
+
+                                            }
+
+                                        });
+
+                                        html+="</th>";
+                                    }
+                                    else if(key1.substring(3)=="thdouble")
+                                    {
+                                        html+="<th colspan='2'>";
+                                        //add elements to that td created above
+                                        $.each(value1, function(key2,value2) {
+                                            if(key2.substring(3)=="label")
+                                            {
+
+                                                html+='<label id="'+ value2.id +'">'+value2.label+'</label>';
 
                                             }
 

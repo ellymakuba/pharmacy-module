@@ -194,7 +194,7 @@ public class LocationNamesController {
         drugNamess = new JSONArray();
         Collection<Role> xvc = userService.getAuthenticatedUser().getAllRoles();
         for (Role rl : xvc) {
-            if ((rl.equals("System Developer")) || (rl.equals("Provider"))) {
+            if ((rl.equals("Pharmacy Administrator")) || (rl.equals("Provider"))) {
                 editPharmacy = true;
                 deletePharmacy = true;
             }

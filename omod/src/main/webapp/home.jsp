@@ -417,7 +417,7 @@ $j.getJSON(
             <%
 
 
-        if (org.openmrs.api.context.Context.getAuthenticatedUser().hasRole("System Developer") ) {
+        if (org.openmrs.api.context.Context.getAuthenticatedUser().hasRole("Pharmacy Administrator") ) {
 
             %>
 

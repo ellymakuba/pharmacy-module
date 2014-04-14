@@ -796,7 +796,7 @@ public class DrugIncomingController {
                     Collection<Role> xvc = userService.getAuthenticatedUser().getAllRoles();
                     for (Role rl : xvc) {
 
-                        if ((rl.getRole().equals("System Developer")) || (rl.getRole().equals("Provider"))
+                        if ((rl.getRole().equals("Pharmacy Administrator")) || (rl.getRole().equals("Provider"))
                                 || (rl.getRole().equals("	Authenticated "))) {
 
                             editPharmacy = true;
@@ -884,7 +884,7 @@ public class DrugIncomingController {
                 Collection<Role> xvc = userService.getAuthenticatedUser().getAllRoles();
                 for (Role rl : xvc) {
 
-                    if ((rl.getRole().equals("System Developer")) || (rl.getRole().equals("Provider"))
+                    if ((rl.getRole().equals("Pharmacy Administrator")) || (rl.getRole().equals("Provider"))
                             || (rl.getRole().equals("	Authenticated "))) {
 
                         editPharmacy = true;
