@@ -11,3 +11,4 @@
 .settings/
 *.txt
 *~
+omod/target/
