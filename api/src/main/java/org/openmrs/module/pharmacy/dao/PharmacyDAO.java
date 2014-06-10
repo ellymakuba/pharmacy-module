@@ -665,6 +665,14 @@ public interface PharmacyDAO {
     @Transactional(readOnly=true)
     public List<DrugExtra> getDrugRange(Date from, Date to);
     public List<PharmacyStoreIncoming> getDrugQuantityAfterLastStockTake(Date minDate, Date maxDate,String uuid);
+
+    /**
+     * @return all the DrugDispenseSettings
+     */
+    @Transactional(readOnly=true)
+    public List<PharmacyEncounter> getEncountersRange(Date from, Date to,String location);
+    public List<PharmacyEncounter>  getCurrentPatientRegimen(String patientUUID);
+    public Integer getNumberOfPatientsOnRegimen(Date startDate,Date endDate,String regimenCode);
     /**
      * @return DrugDispenseSettings object by uuid
      */

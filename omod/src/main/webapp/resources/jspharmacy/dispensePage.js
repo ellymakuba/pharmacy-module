@@ -93,20 +93,21 @@ $j.getJSON("dispense.form?age=" + id, function (result)
     $j.each(result, function (key, val){jQuery.Age = {age:val};
     });
 });
+var patienteEncounters = $j('#pencounters').dataTable({
+    bJQueryUI:true,
+    bRetrieve:true,
+    bServerSide:true,
+    bProcessing:true,
+    sAjaxSource:"dispense.form?patientEncounters=pEn&patientID=" + id,
+    "fnServerData":fnDataTablesPipeline2
+});
 function getDataForms() {
     $j.getJSON("drugDetails.form?drop=forms", function (result) {
         $j("#formVal").get(0).options.length = 0;
         $j("#formVal").get(0).options[0] = new Option("Select",
             "-1");
-        $j
-            .each(
-            result,
-            function (index, value) { //bincard"stateList
-
-                $j("#formVal").get(0).options[$j(
-                    "#formVal").get(0).options.length] = new Option(
-                    value, value);
-                ;
+        $j.each(result, function (index, value) { //bincard"stateList
+                $j("#formVal").get(0).options[$j("#formVal").get(0).options.length] = new Option( value, value);
             });
     });
 }
@@ -324,35 +325,15 @@ $j("form#hivform").unbind('submit').submit(function ()
                     return $j(this).val();
                 }
             }).get();
-//          alert(values2);
         var vals = values.toString().split(",");
         var vals2 = values2.toString().split(",");
-        var one,two,three,four;
-        //alert("drug id is "+ drugid+"vals is"+vals);
-        var drugs = (drugid).toString().split(",");
-        for (i=0;i<=drugs.length;i++)
-        {
-            if(i==0)
-            {
-                one= drugs[i];
-            }
-            if(i==1)
-            {
-                two= drugs[i];
-            }
-            if(i==2)
-            {
-                three= drugs[i];
-            }
-            if(i==3)
-                four= drugs[i];
-        }
-        //alert(one + two+three+four) ;
-        var ans=checkHivRegimen(one,two,three,four,drugs.length);
-        if(ans==1)  {
-            //alert(numbers)  ;
-            var val= checkHivForm(numbers);
-
+        var drugs = drugid.toString().split(",");
+        var ans=checkHivRegimen(drugid);
+        if(ans==true)  {
+            var regimens=regimenFilter(drugid);
+            var regimenCode= regimens[0];
+            var regimenName=regimens[1];
+            var val= checkHivForm(regimenName);
             if(val==true)
             {
                 var qnty = vals2.toString().split(",");
@@ -373,7 +354,7 @@ $j("form#hivform").unbind('submit').submit(function ()
                             var fields = $j("#hivform").serializeArray();
                             $j.ajax({
                                 type:"POST",
-                                url:"hivProcessor.form",
+                                url:"hivProcessor.form?" + "regimenCode=" + regimenCode+"&regimenName="+regimenName,
                                 data:{values:JSON.stringify(fields) },
                                 dataType:"json",
                                 beforeSend:function (x) {
@@ -800,34 +781,17 @@ $j("form#hivpedsform").unbind('submit').submit(function () {
         var vals = values.toString().split(",");
         var vals2 = values2.toString().split(",");
         var drugQ = vals2.toString().split(",");
-        var one=0;
-        var two=0;
-        var three=0;
-        var four=0;
-        var drugid = $j("input[title='drug']").map(
-            function () {
+        var drugid = $j("input[title='drug']").map(function () {
                 if ($j(this).is(':checked')) {
                     return $j(this).val().substring(0,$j(this).val().indexOf('|'));
                 }
             }).get();
         var drugs = (drugid).toString().split(",");
-        for (i=0;i<drugs.length;i++)
-        {
-            if(i==0)     {
-                one= drugs[i];
-            }
-            if(i==1)    {
-                two= drugs[i];
-            }
-            if(i==2) {
-                three= drugs[i];
-            }
-            if(i==3)
-                four= drugs[i];
-        }
-        alert(one+" "+two+" "+three+" "+four);        ;
-        var ans=checkHivRegimen(one,two,three,four,drugs.length);
-        if(ans==1)  {
+        var ans=checkHivRegimen(drugid);
+        if(ans==true)  {
+            var regimens=regimenFilter(drugid);
+            var regimenCode= regimens[0];
+            var regimenName=regimens[1];
             var val= checkHivPedsForm(numbers);
             if(val==true){
                 var size = vals.length;
@@ -845,7 +809,7 @@ $j("form#hivpedsform").unbind('submit').submit(function () {
                             var fields = $j("#hivpedsform").serializeArray();
                             $j.ajax({
                                 type:"POST",
-                                url:"hivPedsProcessor.form",
+                                url:"hivPedsProcessor.form?"+ "regimenCode=" + regimenCode+"&regimenName="+regimenName,
                                 data:{values:JSON.stringify(fields) },
                                 dataType:"json",
                                 beforeSend:function (x) {
@@ -917,12 +881,6 @@ $j("form#psychiatryform").unbind('submit').submit(function () {
             function () {
                 return $j(this).val();
             }).get();
-
-
-
-
-
-
         var vals = values.toString().split(",");
         var vals2 = values2.toString().split(",");
 
@@ -1096,7 +1054,8 @@ function getDataDispense(data, pid, formid) {
         $j("#generalform").buildForm(JSON.parse(data));
         $j.getScript("" + jQuery.Page.context + "moduleResources/pharmacy/jspharmacy/generalFormScript.js", function () {});
         jQuery.Pid = {Pi:pid };
-        $j.getJSON("dispense.form?Pid=" + pid, function (result) { $j.each(result, function (index, value) { //bincard"stateList
+        $j.getJSON("dispense.form?Pid=" + pid, function (result) {
+            $j.each(result, function (index, value) { //bincard"stateList
             oFormObject = document.forms['generalform'];
             oFormObject.elements["patient|1#1"].value = value;
         });

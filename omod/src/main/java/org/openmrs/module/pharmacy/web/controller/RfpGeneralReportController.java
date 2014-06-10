@@ -122,27 +122,21 @@ public class RfpGeneralReportController {
 
                 }
                 if (!jsonObject.has("aaData")) {
-
                     datad2 = new JSONArray();
                     datad2.put("None");
                     datad2.put("None");
                     datad2.put("None");
                     datad2.put("None");
-
                     datad2.put("None");
                     datad2.put("None");
-
                     jsonObject.accumulate("aaData", datad2);
 
                 }
-
                 jsonObject.accumulate("iTotalRecords", jsonObject.getJSONArray("aaData").length());
                 jsonObject.accumulate("iTotalDisplayRecords", jsonObject.getJSONArray("aaData").length());
                 jsonObject.accumulate("iDisplayStart", 0);
                 jsonObject.accumulate("iDisplayLength", 10);
-
                 response.getWriter().print(jsonObject);
-
             }
             response.flushBuffer();
 
@@ -152,8 +146,6 @@ public class RfpGeneralReportController {
         }
 
     }
-
-
     public  Date fromSubmitString2Date(String date) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
         return dateFormat.parse(date);
@@ -162,12 +154,9 @@ public class RfpGeneralReportController {
     @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/rfpGeneral")
     public synchronized void pageLoadd(HttpServletRequest request, HttpServletResponse response) throws ParseException {
         String locationVal = null;
-
         service = Context.getService(PharmacyService.class);
         List<PharmacyLocationUsers> listUsers = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         int sizeUsers = listUsers.size();
-
-
         if (sizeUsers > 1) {
             locationVal = request.getSession().getAttribute("location").toString();
 
@@ -191,7 +180,6 @@ public class RfpGeneralReportController {
                 editPharmacy = true;
                 deletePharmacy = true;
             }
-
 
             if (rl.hasPrivilege("Edit Pharmacy")) {
                 editPharmacy = true;

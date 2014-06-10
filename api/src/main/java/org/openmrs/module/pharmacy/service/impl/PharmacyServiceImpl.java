@@ -522,6 +522,15 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public List<DrugExtra> getDrugRange(Date from, Date to) {
         return pharmacyDAO.getDrugRange(from,to);
     }
+    public List<PharmacyEncounter> getEncountersRange(Date from, Date to,String location) {
+        return pharmacyDAO.getEncountersRange(from,to,location);
+    }
+    public List<PharmacyEncounter> getCurrentPatientRegimen(String patientUUID){
+        return pharmacyDAO.getCurrentPatientRegimen(patientUUID);
+    }
+    public Integer getNumberOfPatientsOnRegimen(Date startDate,Date endDate,String regimenCode){
+        return pharmacyDAO.getNumberOfPatientsOnRegimen(startDate,endDate,regimenCode);
+    }
     public List<PharmacyStoreIncoming> getDrugQuantityAfterLastStockTake(Date minDate, Date maxDate,String uuid){
         return pharmacyDAO.getDrugQuantityAfterLastStockTake(minDate,maxDate,uuid);
     }

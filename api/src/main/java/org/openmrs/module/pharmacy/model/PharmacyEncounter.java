@@ -12,20 +12,31 @@ import java.util.Date;
 public class PharmacyEncounter extends BaseOpenmrsData {
 
     private Integer id;
-
     private String formName;
-
     private Patient person;
-
     private PharmacyLocations location;
-
-
-
     private PharmacyEncounterType encounter;
-
     private Date dateTime;
     private Date nextVisitDate;
     private int duration;
+    private String regimenCode;
+    private String regimenName;
+
+    public String getRegimenName() {
+        return regimenName;
+    }
+
+    public void setRegimenName(String regimenName) {
+        this.regimenName = regimenName;
+    }
+
+    public String getRegimenCode() {
+        return regimenCode;
+    }
+
+    public void setRegimenCode(String regimenCode) {
+        this.regimenCode = regimenCode;
+    }
 
     public int getDuration() {
         return duration;
@@ -34,15 +45,12 @@ public class PharmacyEncounter extends BaseOpenmrsData {
     public void setDuration(int duration) {
         this.duration = duration;
     }
-
     public Date getNextVisitDate() {
         return nextVisitDate;
     }
-
     public void setNextVisitDate(Date nextVisitDate) {
         this.nextVisitDate = nextVisitDate;
     }
-
     /** default constructor */
     public PharmacyEncounter() {
     }

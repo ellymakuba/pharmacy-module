@@ -387,7 +387,7 @@ public class CadiovascularController {
                 drugExtra.setChosenValue(null);
                 drugExtra.setReceipt(CheckIfIntNull(receiptNo));
                 drugExtra.setAmount(CheckIfDoubleNull(c.get(4).getConceptAnswer()));
-                drugExtra.setAmountw(CheckIfDoubleNull(c.get(5).getConceptAnswer()));
+                //drugExtra.setAmountw(CheckIfDoubleNull(c.get(5).getConceptAnswer()));
                 drugExtra.setDrugChange(null);
                 drugExtra.setTotal_amount(CheckIfDoubleNull(totalAmount));
                 drugExtra.setTotal_waived(CheckIfDoubleNull(totalWaived));

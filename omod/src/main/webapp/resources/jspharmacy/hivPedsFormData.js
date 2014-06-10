@@ -2014,9 +2014,9 @@ $j('#weight') .change(
 
 
     });
-$j("#1,#2,#3,#4,#5,#6 , #1f, #2f, #3f, #4fa,#4fb,#5fa,#5fb,#6f,#doseLabel1,#doseLabel2,#doseLabel3,#dose4,#dose5,#dose6,#dose7").hide()
+$j("#1,#2,#3,#4,#5,#6 , #1f, #2f, #3f, #4fa,#4fb,#5fa,#5fb,#6f,#doseLabel1,#doseLabel2,#doseLabel3,#dose5,#dose6,#dose7,#dose8").hide()
 
-$j('label[for="1"],label[for="2"],label[for="3"],label[for="4"],label[for="5"] ,label[for="6"],label[for="1f"],label[for="2f"],label[for="3f"],label[for="4fa"],label[for="4fb"],label[for="5fa"],label[for="5fb"],label[for="6f"],label[for="dose4"],label[for="dose5"],label[for="dose6"],label[for="dose7"]').hide();
+$j('label[for="1"],label[for="2"],label[for="3"],label[for="4"],label[for="5"] ,label[for="6"],label[for="1f"],label[for="2f"],label[for="3f"],label[for="4fa"],label[for="4fb"],label[for="5fa"],label[for="5fb"],label[for="6f"],label[for="dose4"],label[for="dose5"],label[for="dose6"],label[for="dose7"],label[for="dose8"]').hide();
 
 $j("#1d,#2d, #3d, #4da,#4db,#5da,#5db,#6d").hide()
 
@@ -2032,7 +2032,7 @@ function row1FirstOption() {
     $j('label[for="1"],label[for="1f"],label[for="1d"],label[for="1ma"],label[for="1mb"], label[for="1mc"]').show();
 
     $j("#2,#2f, #2d, #2ma, #2mb,#2mc,#doseLabel2,#doseLabel3,#dose4,#dose5,#dose6,#dose7").hide()
-    $j('label[for="2"],label[for="2f"],label[for="2d"],label[for="2ma"],label[for="2mb"], label[for="2mc"]').hide();
+    $j('label[for="2"],label[for="2f"],label[for="2d"],label[for="2ma"],label[for="2mb"], label[for="2mc"], label[for="dose4"], label[for="dose5"], label[for="dose6"], label[for="dose7"]').hide();
 
     $j("#3,#3f, #3d, #3ma, #3mb,#3mc").hide()
     $j('label[for="3"],label[for="3f"],label[for="3d"],label[for="3ma"],label[for="3mb"], label[for="3mc"]').hide();
@@ -2078,7 +2078,7 @@ function row1ThirdOption() {
     $j("#3,#3f, #3d, #3ma, #3mb,#3mc,#doseLabel3").show()
     $j('label[for="3"],label[for="3f"],label[for="3d"],label[for="3ma"],label[for="3mb"], label[for="3mc"]').show();
 
-    $j("#1,#1f, #1d, #1ma, #1mb,#1mc,#doseLabel1,#doseLabel2#dose4,#dose5,#dose6,#dose7").hide()
+    $j("#1,#1f, #1d, #1ma, #1mb,#1mc,#doseLabel1,#doseLabel2,#dose4,#dose5,#dose6,#dose7").hide()
     $j('label[for="1"],label[for="1f"],label[for="1d"],label[for="1ma"],label[for="1mb"], label[for="1mc"],label[for="dose4"],label[for="dose5"],label[for="dose6"],label[for="dose7"]').hide();
 
 
@@ -2111,7 +2111,7 @@ function row1FourthOption() {
     $j('label[for="3"],label[for="3f"],label[for="3d"],label[for="3ma"],label[for="3mb"], label[for="3mc"]').hide();
 
     $j("#4,#4fa,#4fb, #4da,#4db, #4ma, #4mb,#4mc,#4ma1, #4mb2,#4mc3,#dose4,#dose5").show()
-    $j('label[for="4"],label[for="4fa"],label[for="4fb"],label[for="4da"],label[for="4db"], label[for="4ma"], label[for="4mb"], label[for="4mc"], label[for="4ma1"], label[for="4mb2"], label[for="4mc3"], label[for="#dose4"],label[for="#dose5"]').show();
+    $j('label[for="4"],label[for="4fa"],label[for="4fb"],label[for="4da"],label[for="4db"], label[for="4ma"], label[for="4mb"], label[for="4mc"], label[for="4ma1"], label[for="4mb2"], label[for="4mc3"], label[for="dose4"],label[for="dose5"]').show();
 
     $j("#5,#5fa,#5fb, #5da, #5db, #5ma, #5mb,#5mc,#5ma1, #5mb2,#5mc3").hide()
 
@@ -2138,7 +2138,7 @@ function row1FifthOption() {
 
 
     $j("#5,#5fa,#5fb, #5da, #5db, #5ma, #5mb,#5mc,#5ma1, #5mb2,#5mc3").show()
-    $j('label[for="5"],label[for="5fa"],label[for="5fb"],label[for="5da"],label[for="5db"], label[for="5ma"], label[for="5mb"], label[for="5mc"], label[for="5ma1"], label[for="5mb2"], label[for="5mc3"], label[for="#dose6"],label[for="#dose7"]').show();
+    $j('label[for="5"],label[for="5fa"],label[for="5fb"],label[for="5da"],label[for="5db"], label[for="5ma"], label[for="5mb"], label[for="5mc"], label[for="5ma1"], label[for="5mb2"], label[for="5mc3"], label[for="dose6"],label[for="dose7"]').show();
 
 
     $j("#6,#6f, #6d, #6ma, #6mb,#6mc").hide()
@@ -2147,11 +2147,11 @@ function row1FifthOption() {
 
 }
 function row1SixthOption() {
-    $j("#6,#6f, #6d, #6ma, #6mb,#6mc").show()
-    $j('label[for="6"],label[for="6f"],label[for="6d"],label[for="6ma"],label[for="6mb"], label[for="6mc"]').show();
+    $j("#6,#6f, #6d, #6ma, #6mb,#6mc,#dose8").show()
+    $j('label[for="6"],label[for="6f"],label[for="6d"],label[for="6ma"],label[for="6mb"], label[for="6mc"], label[for="dose8"]').show();
 
-    $j("#1,#1f, #1d, #1ma, #1mb,#1mc").hide()
-    $j('label[for="1"],label[for="1f"],label[for="1d"],label[for="1ma"],label[for="1mb"], label[for="1mc"]').hide();
+    $j("#1,#1f, #1d, #1ma, #1mb,#1mc,#doseLabel1,#doseLabel2,#doseLabel3,#dose6,#dose7,#dose4,#dose5").hide()
+    $j('label[for="1"],label[for="1f"],label[for="1d"],label[for="1ma"],label[for="1mb"], label[for="1mc"],label[for="dose4"],label[for="dose5"],label[for="dose6"],label[for="dose7"]').hide();
 
     $j("#2,#2f, #2d, #2ma, #2mb,#2mc").hide()
     $j('label[for="2"],label[for="2f"],label[for="2d"],label[for="2ma"],label[for="2mb"], label[for="2mc"]').hide();
@@ -2172,23 +2172,23 @@ function row1SixthOption() {
 ////////////////////////////////////
 
 
-$j("#11,#12,#13,#14,#15,#16 , #11f,, #12f, #13f, #14fa,#14fb,#15fa,#15fb,#16f").hide()
+$j("#11,#12,#13,#14,#15,#16 , #11f,, #12f, #13f, #14fa,#14fb,#15fa,#15fb,#16f,#doseLabel2a,#doseLabel2b,#doseLabel2c,#dose2e,#dose2f,#dose2g,#dose2h,#dose2i").hide()
 
 $j('label[for="11"],label[for="12"],label[for="13"],label[for="14"],label[for="15"] ,label[for="16"],label[for="11f"],label[for="12f"],label[for="13f"],label[for="14fa"],label[for="14fb"],label[for="15fa"],label[for="15fb"],label[for="16f"]').hide();
 
 $j("#11d,, #12d, #13d, #14da,#14db,#15da,#15db,#16d").hide()
 
-$j('label[for="11d"],label[for="12d"],label[for="13d"],label[for="14da"],label[for="14db"],label[for="15da"], label[for="15db"],label[for="16d"]').hide();
+$j('label[for="11d"],label[for="12d"],label[for="13d"],label[for="14da"],label[for="14db"],label[for="15da"], label[for="15db"],label[for="16d"],label[for="dose2e"],label[for="dose2f"],label[for="dose2g"],label[for="dose2h"],label[for="dose2i"]').hide();
 
 $j("#11ma,#11mb,#11mc, #12ma,#12mb,#12mc, #13ma,#13mb,#13mc, #14ma,#14mb,#14mc, #14ma1,#14mb2,#14mc3, #15ma,#15mb,#15mc, #15ma1,#15mb2,#15mc3,#16ma,#16mb,#16mc,").hide()
 
 $j('label[for="11ma"],label[for="11mb"],label[for="11mc"],label[for="12ma"],label[for="12mb"],label[for="16ma"],label[for="16mb"],label[for="16mc"],label[for="15ma1"],label[for="15mb2"],label[for="15mc3"],label[for="15ma"],label[for="15mb"],label[for="15mc"], label[for="14ma1"],label[for="14mb2"],label[for="14mc3"],label[for="12mc"],label[for="13ma"],label[for="13mb"],label[for="13mc"],label[for="14ma"],label[for="14mb"],label[for="14mc"]').hide();
 function row2FirstOption() {
 
-    $j("#11,#11f, #11d, #11ma, #11mb,#11mc").show()
+    $j("#11,#11f, #11d, #11ma, #11mb,#11mc,#doseLabel2a").show()
     $j('label[for="11"],label[for="11f"],label[for="11d"],label[for="11ma"],label[for="11mb"], label[for="11mc"]').show();
 
-    $j("#12,#12f, #12d, #12ma, #12mb,#12mc").hide()
+    $j("#12,#12f, #12d, #12ma, #12mb,#12mc,#doseLabel2b,#doseLabel2c,#dose2c,#dose2f,#dose2g,dose2h,#dose2i").hide()
     $j('label[for="12"],label[for="12f"],label[for="12d"],label[for="12ma"],label[for="12mb"], label[for="12mc"]').hide();
 
     $j("#13,#13f, #13d, #13ma, #13mb,#13mc").hide()
@@ -2196,7 +2196,7 @@ function row2FirstOption() {
 
     $j("#14,#14fa,#14fb, #14da,#14db, #14ma, #14mb,#14mc,#14ma1, #14mb2,#14mc3").hide()
 
-    $j('label[for="14"],label[for="14fa"],label[for="14fb"],label[for="14da"],label[for="14db"], label[for="14ma"], label[for="14mb"], label[for="14mc"], label[for="14ma1"], label[for="14mb2"], label[for="14mc3"]').hide();
+    $j('label[for="14"],label[for="14fa"],label[for="14fb"],label[for="14da"],label[for="14db"], label[for="14ma"], label[for="14mb"], label[for="14mc"], label[for="14ma1"], label[for="14mb2"], label[for="14mc3"],label[for="dose2e"],label[for="dose2f"],label[for="dose2g"],label[for="dose2h"],label[for="dose2i"]').hide();
 
     $j("#15,#15fa,#15fb, #15da, #15db, #15ma, #15mb,#15mc,#15ma1, #15mb2,#15mc3").hide()
 
@@ -2207,16 +2207,16 @@ function row2FirstOption() {
 
 }
 function row2SecondOption() {
-    $j("#12,#12f, #12d, #12ma, #12mb,#12mc").show()
+    $j("#12,#12f, #12d, #12ma, #12mb,#12mc,#doseLabel2b").show()
     $j('label[for="12"],label[for="12f"],label[for="12d"],label[for="12ma"],label[for="12mb"], label[for="12mc"]').show();
 
 
-    $j("#11,#11f, #11d, #11ma, #11mb,#11mc").hide()
+    $j("#11,#11f, #11d, #11ma, #11mb,#11mc,#doseLabel2a,#doseLabel2c,#dose2c,#dose2f,#dose2g,dose2h,#dose2i").hide()
     $j('label[for="11"],label[for="11f"],label[for="11d"],label[for="11ma"],label[for="11mb"], label[for="11mc"]').hide();
 
 
     $j("#13,#13f, #13d, #13ma, #13mb,#13mc").hide()
-    $j('label[for="13"],label[for="13f"],label[for="13d"],label[for="13ma"],label[for="13mb"], label[for="13mc"]').hide();
+    $j('label[for="13"],label[for="13f"],label[for="13d"],label[for="13ma"],label[for="13mb"], label[for="13mc"],label[for="dose2e"],label[for="dose2f"],label[for="dose2g"],label[for="dose2h"],label[for="dose2i"]').hide();
 
     $j("#14,#14fa,#14fb, #14da,#14db, #14ma, #14mb,#14mc,#14ma1, #14mb2,#14mc3").hide()
 
@@ -2230,11 +2230,11 @@ function row2SecondOption() {
     $j('label[for="16"],label[for="16f"],label[for="16d"],label[for="16ma"],label[for="16mb"], label[for="16mc"]').hide();
 
 }function row2ThirdOption() {
-    $j("#13,#13f, #13d, #13ma, #13mb,#13mc").show()
+    $j("#13,#13f, #13d, #13ma, #13mb,#13mc,#doseLabel2c").show()
     $j('label[for="13"],label[for="13f"],label[for="13d"],label[for="13ma"],label[for="13mb"], label[for="13mc"]').show();
 
-    $j("#11,#11f, #11d, #11ma, #11mb,#11mc").hide()
-    $j('label[for="11"],label[for="11f"],label[for="11d"],label[for="11ma"],label[for="11mb"], label[for="11mc"]').hide();
+    $j("#11,#11f, #11d, #11ma, #11mb,#11mc,#doseLabel2a,#doseLabel2b,#dose2c,#dose2f,#dose2g,dose2h,#dose2i").hide()
+    $j('label[for="11"],label[for="11f"],label[for="11d"],label[for="11ma"],label[for="11mb"], label[for="11mc"]label[for="dose2e"],label[for="dose2f"],label[for="dose2g"],label[for="dose2h"],label[for="dose2i"]').hide();
 
 
     $j("#12,#12f, #12d, #12ma, #12mb,#12mc").hide()
@@ -2254,17 +2254,17 @@ function row2SecondOption() {
 
 
 }function row2FourthOption() {
-    $j("#11,#11f, #11d, #11ma, #11mb,#11mc").hide()
+    $j("#11,#11f, #11d, #11ma, #11mb,#11mc,#doseLabel2a,#doseLabel2b,#doseLabel2c,#dose2g,#dose2h,#dose2i").hide()
     $j('label[for="11"],label[for="11f"],label[for="11d"],label[for="11ma"],label[for="11mb"], label[for="11mc"]').hide();
 
     $j("#12,#12f, #12d, #12ma, #12mb,#12mc").hide()
-    $j('label[for="12"],label[for="12f"],label[for="12d"],label[for="12ma"],label[for="12mb"], label[for="12mc"]').hide();
+    $j('label[for="12"],label[for="12f"],label[for="12d"],label[for="12ma"],label[for="12mb"], label[for="12mc"], label[for="dose2g"], label[for="dose2h"], label[for="dose2i"]').hide();
 
     $j("#13,#13f, #13d, #13ma, #13mb,#13mc").hide()
     $j('label[for="13"],label[for="13f"],label[for="13d"],label[for="13ma"],label[for="13mb"], label[for="13mc"]').hide();
 
-    $j("#14,#14fa,#14fb, #14da,#14db, #14ma, #14mb,#14mc,#14ma1, #14mb2,#14mc3").show()
-    $j('label[for="14"],label[for="14fa"],label[for="14fb"],label[for="14da"],label[for="14db"], label[for="14ma"], label[for="14mb"], label[for="14mc"], label[for="14ma1"], label[for="14mb2"], label[for="14mc3"]').show();
+    $j("#14,#14fa,#14fb, #14da,#14db, #14ma, #14mb,#14mc,#14ma1, #14mb2,#14mc3,#dose2e,#dose2f").show()
+    $j('label[for="14"],label[for="14fa"],label[for="14fb"],label[for="14da"],label[for="14db"], label[for="14ma"], label[for="14mb"], label[for="14mc"], label[for="14ma1"], label[for="14mb2"], label[for="14mc3"],label[for="dose2e"],label[for="dose2f"]').show();
 
     $j("#15,#15fa,#15fb, #15da, #15db, #15ma, #15mb,#15mc,#15ma1, #15mb2,#15mc3").hide()
 
@@ -2275,11 +2275,11 @@ function row2SecondOption() {
 
 
 }function row2FifthOption() {
-    $j("#11,#11f, #11d, #11ma, #11mb,#11mc").hide()
+    $j("#11,#11f, #11d, #11ma, #11mb,#11mc,#doseLabel2a,#doseLabel2b,#doseLabel2c,#dose2e,#dose2f,#dose2i").hide()
     $j('label[for="11"],label[for="11f"],label[for="11d"],label[for="11ma"],label[for="11mb"], label[for="11mc"]').hide();
 
     $j("#12,#12f, #12d, #12ma, #12mb,#12mc").hide()
-    $j('label[for="12"],label[for="12f"],label[for="12d"],label[for="12ma"],label[for="12mb"], label[for="12mc"]').hide();
+    $j('label[for="12"],label[for="12f"],label[for="12d"],label[for="12ma"],label[for="12mb"], label[for="12mc"], label[for="dose2e"], label[for="dose2f"], label[for="dose2i"]').hide();
 
     $j("#13,#13f, #13d, #13ma, #13mb,#13mc").hide()
     $j('label[for="13"],label[for="13f"],label[for="13d"],label[for="13ma"],label[for="13mb"], label[for="13mc"]').hide();
@@ -2289,19 +2289,19 @@ function row2SecondOption() {
 
 
 
-    $j("#15,#15fa,#15fb, #15da, #15db, #15ma, #15mb,#15mc,#15ma1, #15mb2,#15mc3").show()
-    $j('label[for="15"],label[for="15fa"],label[for="15fb"],label[for="15da"],label[for="15db"], label[for="15ma"], label[for="15mb"], label[for="15mc"], label[for="15ma1"], label[for="15mb2"], label[for="15mc3"]').show();
+    $j("#15,#15fa,#15fb, #15da, #15db, #15ma, #15mb,#15mc,#15ma1, #15mb2,#15mc3,#dose2g,#dose2h").show()
+    $j('label[for="15"],label[for="15fa"],label[for="15fb"],label[for="15da"],label[for="15db"], label[for="15ma"], label[for="15mb"], label[for="15mc"], label[for="15ma1"], label[for="15mb2"], label[for="15mc3"], label[for="dose2g"], label[for="dose2h"]').show();
 
 
     $j("#16,#16f, #16d, #16ma, #16mb,#16mc").hide()
     $j('label[for="16"],label[for="16f"],label[for="16d"],label[for="16ma"],label[for="16mb"], label[for="16mc"]').hide();
 
 }function row2SixthOption() {
-    $j("#16,#16f, #16d, #16ma, #16mb,#16mc").show()
-    $j('label[for="16"],label[for="16f"],label[for="16d"],label[for="16ma"],label[for="16mb"], label[for="16mc"]').show();
+    $j("#16,#16f, #16d, #16ma, #16mb,#16mc,#dose2i").show()
+    $j('label[for="16"],label[for="16f"],label[for="16d"],label[for="16ma"],label[for="16mb"], label[for="16mc"],label[for="dose2i"]').show();
 
     $j("#11,#11f, #11d, #11ma, #11mb,#11mc").hide()
-    $j('label[for="11"],label[for="11f"],label[for="11d"],label[for="11ma"],label[for="11mb"], label[for="11mc"]').hide();
+    $j('label[for="11"],label[for="11f"],label[for="11d"],label[for="11ma"],label[for="11mb"], label[for="11mc"],#doseLabel2a,#doseLabel2b,#doseLabel2c,#dose2e,#dose2f,#dose2g,#dose2h').hide();
 
     $j("#12,#12f, #12d, #12ma, #12mb,#12mc").hide()
     $j('label[for="12"],label[for="12f"],label[for="12d"],label[for="12ma"],label[for="12mb"], label[for="12mc"]').hide();
@@ -2310,7 +2310,7 @@ function row2SecondOption() {
     $j('label[for="13"],label[for="13f"],label[for="13d"],label[for="13ma"],label[for="13mb"], label[for="13mc"]').hide();
 
     $j("#14,#14fa,#14fb, #14da,#14db, #14ma, #14mb,#14mc,#14ma1, #14mb2,#14mc3").hide()
-    $j('label[for="14"],label[for="14fa"],label[for="14fb"],label[for="14da"],label[for="14db"], label[for="14ma"], label[for="14mb"], label[for="14mc"], label[for="14ma1"], label[for="14mb2"], label[for="14mc3"]').hide();
+    $j('label[for="14"],label[for="14fa"],label[for="14fb"],label[for="14da"],label[for="14db"], label[for="14ma"], label[for="14mb"], label[for="14mc"], label[for="14ma1"], label[for="14mb2"], label[for="14mc3"], label[for="dose2e"], label[for="dose2f"], label[for="dose2g"],label[for="dose2h"]').hide();
 
 
 
@@ -2324,9 +2324,9 @@ function row2SecondOption() {
 
 
 
-$j("#21,#22,#23,#24,#25,#26 , #21f,, #22f, #23f, #24fa,#24fb,#25fa,#25fb,#26f").hide()
+$j("#21,#22,#23,#24,#25,#26 , #21f,, #22f, #23f, #24fa,#24fb,#25fa,#25fb,#26f,#doseLabel3b,#doseLabel3d,#doseLabel3f,#dose3g,#dose3h,#dose3i,#dose3j").hide()
 
-$j('label[for="21"],label[for="22"],label[for="23"],label[for="24"],label[for="25"] ,label[for="26"],label[for="21f"],label[for="22f"],label[for="23f"],label[for="24fa"],label[for="24fb"],label[for="25fa"],label[for="25fb"],label[for="26f"]').hide();
+$j('label[for="21"],label[for="22"],label[for="23"],label[for="24"],label[for="25"] ,label[for="26"],label[for="21f"],label[for="22f"],label[for="23f"],label[for="24fa"],label[for="24fb"],label[for="25fa"],label[for="25fb"],label[for="26f"],label[for="dose3g"],label[for="dose3h"],label[for="dose3i"],label[for="dose3j"]').hide();
 
 
 $j("#21d,, #22d, #23d, #24da,#24db,#25da,#25db,#26d").hide()
@@ -2338,14 +2338,14 @@ $j("#21ma,#21mb,#21mc, #22ma,#22mb,#22mc, #23ma,#23mb,#23mc, #24ma,#24mb,#24mc, 
 
 $j('label[for="21ma"],label[for="21mb"],label[for="21mc"],label[for="22ma"],label[for="22mb"],label[for="26ma"],label[for="26mb"],label[for="26mc"],label[for="25ma1"],label[for="25mb2"],label[for="25mc3"],label[for="25ma"],label[for="25mb"],label[for="25mc"], label[for="24ma1"],label[for="24mb2"],label[for="24mc3"],label[for="22mc"],label[for="23ma"],label[for="23mb"],label[for="23mc"],label[for="24ma"],label[for="24mb"],label[for="24mc"]').hide();
 function row3FirstOption() {
-    $j("#21,#21f, #21d, #21ma, #21mb,#21mc").show()
+    $j("#21,#21f, #21d, #21ma, #21mb,#21mc,#doseLabel3b").show()
     $j('label[for="21"],label[for="21f"],label[for="21d"],label[for="21ma"],label[for="21mb"], label[for="21mc"]').show();
 
-    $j("#22,#22f, #22d, #22ma, #22mb,#22mc").hide()
+    $j("#22,#22f, #22d, #22ma, #22mb,#22mc,#doseLabel3d,#doseLabel3f,#dose3g,#dose3h,#dose3i,#dose3j").hide()
     $j('label[for="22"],label[for="22f"],label[for="22d"],label[for="22ma"],label[for="22mb"], label[for="22mc"]').hide();
 
     $j("#23,#23f, #23d, #23ma, #23mb,#23mc").hide()
-    $j('label[for="23"],label[for="23f"],label[for="23d"],label[for="23ma"],label[for="23mb"], label[for="23mc"]').hide();
+    $j('label[for="23"],label[for="23f"],label[for="23d"],label[for="23ma"],label[for="23mb"], label[for="23mc"], label[for="dose3g"], label[for="dose3h"], label[for="dose3i"], label[for="dose3j"]').hide();
 
     $j("#24,#24fa,#24fb, #24da,#24db, #24ma, #24mb,#24mc,#24ma1, #24mb2,#24mc3").hide()
 
@@ -2360,11 +2360,11 @@ function row3FirstOption() {
 
 }
 function row3SecondOption() {
-    $j("#22,#22f, #22d, #22ma, #22mb,#22mc").show()
-    $j('label[for="22"],label[for="22f"],label[for="22d"],label[for="22ma"],label[for="22mb"], label[for="22mc"]').show();
+    $j("#22,#22f, #22d, #22ma, #22mb,#22mc,#doseLabel3d").show()
+    $j('label[for="22"],label[for="22f"],label[for="22d"],label[for="22ma"],label[for="22mb"], label[for="22mc"], label[for="dose3g"], label[for="dose3h"], label[for="dose3i"], label[for="dose3j"]').show();
 
 
-    $j("#21,#21f, #21d, #21ma, #21mb,#21mc").hide()
+    $j("#21,#21f, #21d, #21ma, #21mb,#21mc,#doseLabel3b,#doseLabel3f,#dose3g,#dose3h,#dose3i,#dose3j").hide()
     $j('label[for="21"],label[for="21f"],label[for="21d"],label[for="21ma"],label[for="21mb"], label[for="21mc"]').hide();
 
 
@@ -2383,11 +2383,11 @@ function row3SecondOption() {
     $j('label[for="26"],label[for="26f"],label[for="26d"],label[for="26ma"],label[for="26mb"], label[for="26mc"]').hide();
 
 }function row3ThirdOption() {
-    $j("#23,#23f, #23d, #23ma, #23mb,#23mc").show()
+    $j("#23,#23f, #23d, #23ma, #23mb,#23mc,#doseLabel3f").show()
     $j('label[for="23"],label[for="23f"],label[for="23d"],label[for="23ma"],label[for="23mb"], label[for="23mc"]').show();
 
-    $j("#21,#21f, #21d, #21ma, #21mb,#21mc").hide()
-    $j('label[for="21"],label[for="21f"],label[for="21d"],label[for="21ma"],label[for="21mb"], label[for="21mc"]').hide();
+    $j("#21,#21f, #21d, #21ma, #21mb,#21mc,#doseLabel3b,#doseLabel3d,#dose3g,#dose3h,#dose3i,#dose3j").hide()
+    $j('label[for="21"],label[for="21f"],label[for="21d"],label[for="21ma"],label[for="21mb"], label[for="21mc"], label[for="dose3g"], label[for="dose3h"], label[for="dose3i"], label[for="dose3j"]').hide();
 
 
     $j("#22,#22f, #22d, #22ma, #22mb,#22mc").hide()
@@ -2407,8 +2407,8 @@ function row3SecondOption() {
 
 
 }function row3FourthOption() {
-    $j("#21,#21f, #21d, #21ma, #21mb,#21mc").hide()
-    $j('label[for="21"],label[for="21f"],label[for="21d"],label[for="21ma"],label[for="21mb"], label[for="21mc"]').hide();
+    $j("#21,#21f, #21d, #21ma, #21mb,#21mc,#doseLabel3b,#doseLabel3d,#doseLabel3f,#dose3i,#dose3j").hide()
+    $j('label[for="21"],label[for="21f"],label[for="21d"],label[for="21ma"],label[for="21mb"], label[for="21mc"], label[for="dose3i"], label[for="dose3j"]').hide();
 
     $j("#22,#22f, #22d, #22ma, #22mb,#22mc").hide()
     $j('label[for="22"],label[for="22f"],label[for="22d"],label[for="22ma"],label[for="22mb"], label[for="22mc"]').hide();
@@ -2416,8 +2416,8 @@ function row3SecondOption() {
     $j("#23,#23f, #23d, #23ma, #23mb,#23mc").hide()
     $j('label[for="23"],label[for="23f"],label[for="23d"],label[for="23ma"],label[for="23mb"], label[for="23mc"]').hide();
 
-    $j("#24,#24fa,#24fb, #24da,#24db, #24ma, #24mb,#24mc,#24ma1, #24mb2,#24mc3").show()
-    $j('label[for="24"],label[for="24fa"],label[for="24fb"],label[for="24da"],label[for="24db"], label[for="24ma"], label[for="24mb"], label[for="24mc"], label[for="24ma1"], label[for="24mb2"], label[for="24mc3"]').show();
+    $j("#24,#24fa,#24fb, #24da,#24db, #24ma, #24mb,#24mc,#24ma1, #24mb2,#24mc3,#dose3g,#dose3h").show()
+    $j('label[for="24"],label[for="24fa"],label[for="24fb"],label[for="24da"],label[for="24db"], label[for="24ma"], label[for="24mb"], label[for="24mc"], label[for="24ma1"], label[for="24mb2"], label[for="24mc3"], label[for="dose3g"], label[for="dose3h"]').show();
 
     $j("#25,#25fa,#25fb, #25da, #25db, #25ma, #25mb,#25mc,#25ma1, #25mb2,#25mc3").hide()
 
@@ -2428,8 +2428,8 @@ function row3SecondOption() {
 
 
 }function row3FifthOption() {
-    $j("#21,#21f, #21d, #21ma, #21mb,#21mc").hide()
-    $j('label[for="21"],label[for="21f"],label[for="21d"],label[for="21ma"],label[for="21mb"], label[for="21mc"]').hide();
+    $j("#21,#21f, #21d, #21ma, #21mb,#21mc,#doseLabel3b,#doseLabel3d,#doseLabel3f,#dose3g,#dose3h,#dose3j").hide()
+    $j('label[for="21"],label[for="21f"],label[for="21d"],label[for="21ma"],label[for="21mb"], label[for="21mc"], label[for="dose3g"], label[for="dose3j"],label[for="dose3h"]').hide();
 
     $j("#22,#22f, #22d, #22ma, #22mb,#22mc").hide()
     $j('label[for="22"],label[for="22f"],label[for="22d"],label[for="22ma"],label[for="22mb"], label[for="22mc"]').hide();
@@ -2442,19 +2442,19 @@ function row3SecondOption() {
 
 
 
-    $j("#25,#25fa,#25fb, #25da, #25db, #25ma, #25mb,#25mc,#25ma1, #25mb2,#25mc3").show()
-    $j('label[for="25"],label[for="25fa"],label[for="25fb"],label[for="25da"],label[for="25db"], label[for="25ma"], label[for="25mb"], label[for="25mc"], label[for="25ma1"], label[for="25mb2"], label[for="25mc3"]').show();
+    $j("#25,#25fa,#25fb, #25da, #25db, #25ma, #25mb,#25mc,#25ma1, #25mb2,#25mc3,#dose3i").show()
+    $j('label[for="25"],label[for="25fa"],label[for="25fb"],label[for="25da"],label[for="25db"], label[for="25ma"], label[for="25mb"], label[for="25mc"], label[for="25ma1"], label[for="25mb2"], label[for="25mc3"],label[for="dose3i"]').show();
 
 
     $j("#26,#26f, #26d, #26ma, #26mb,#26mc").hide()
     $j('label[for="26"],label[for="26f"],label[for="26d"],label[for="26ma"],label[for="26mb"], label[for="26mc"]').hide();
 
 }function row3SixthOption() {
-    $j("#26,#26f, #26d, #26ma, #26mb,#26mc").show()
-    $j('label[for="26"],label[for="26f"],label[for="26d"],label[for="26ma"],label[for="26mb"], label[for="26mc"]').show();
+    $j("#26,#26f, #26d, #26ma, #26mb,#26mc,#dose3j").show()
+    $j('label[for="26"],label[for="26f"],label[for="26d"],label[for="26ma"],label[for="26mb"], label[for="26mc"], label[for="dose3j"]').show();
 
-    $j("#21,#21f, #21d, #21ma, #21mb,#21mc").hide()
-    $j('label[for="21"],label[for="21f"],label[for="21d"],label[for="21ma"],label[for="21mb"], label[for="21mc"]').hide();
+    $j("#21,#21f, #21d, #21ma, #21mb,#21mc,#doseLabel3b,#doseLabel3d,#doseLabel3f,#dose3g,#dose3h,#dose3i").hide()
+    $j('label[for="21"],label[for="21f"],label[for="21d"],label[for="21ma"],label[for="21mb"], label[for="21mc"], label[for="dose3g"], label[for="dose3i"],label[for="dose3h"]').hide();
 
     $j("#22,#22f, #22d, #22ma, #22mb,#22mc").hide()
     $j('label[for="22"],label[for="22f"],label[for="22d"],label[for="22ma"],label[for="22mb"], label[for="22mc"]').hide();
@@ -2478,10 +2478,14 @@ function row3SecondOption() {
 
 
 
-$j("#41,#42,#43,#44,#45,#46 , #41fa,#41fb, #42fa, #42fb,#43fa,#43fb, #44fa,#44fb,#45f,#46f").hide()
+$j("#41,#42,#43,#44,#45,#46 , #41fa,#41fb, #42fa, #42fb,#43fa,#43fb, #44fa,#44fb,#45f,#46f,#dose6a,#dose6b," +
+    "#dose6c,#dose6d,#dose6e,#dose6f,#dose6g,#dose6h,#dose6i,#dose6j,#dose6k").hide()
 
 $j('label[for="41"],label[for="42"],label[for="43"],label[for="44"],label[for="45"] ,label[for="46"],label[for="41fa"],label[for="41fb"],' +
-    'label[for="42fa"],label[for="42fb"],label[for="43fa"],label[for="43fb"],label[for="44fa"],label[for="44fb"],label[for="45f"],label[for="46f"]').hide();
+    'label[for="42fa"],label[for="42fb"],label[for="43fa"],label[for="43fb"],label[for="44fa"],label[for="44fb"],' +
+    'label[for="45f"],label[for="46f"],label[for="dose6a"],label[for="dose6b"],label[for="dose6c"],' +
+    'label[for="dose6d"],label[for="dose6e"],label[for="dose6f"],label[for="dose6g"],label[for="dose6h"]' +
+    ',label[for="dose6i"],label[for="dose6j"],label[for="dose6k"]').hide();
 
 
 $j("#41da,#41db, #42da, #42db,#43da, #43db,#44da,#44db,#45d,#46d").hide()
@@ -2502,18 +2506,21 @@ $j('label[for="41ma1"],label[for="41ma2"],label[for="41mb1"],label[for="41mb2"],
 
 
 function row5FirstOption() {
-    $j("#41,#41fa, #41fb,#41da,#41db, #41ma1,#41ma2, #41mb1,#41mb2,#41mc1,#41mc2").show()
+    $j("#41,#41fa, #41fb,#41da,#41db, #41ma1,#41ma2, #41mb1,#41mb2,#41mc1,#41mc2,#dose6a,#dose6b").show()
 
     $j('label[for="41"],label[for="41fa"],label[for="41fb"],label[for="41da"],label[for="41db"],' +
         'label[for="41ma1"],label[for="41ma2"],label[for="41mb1"], label[for="41mb2"],' +
-        'label[for="41mc1"],label[for="41mc2"]').show();
+        'label[for="41mc1"],label[for="41mc2"],label[for="dose6a"],label[for="dose6b"]').show();
 
 
-    $j("#42,#42fa, #42fb,#42da,#42db, #42ma1,#42ma2, #42mb1,#42mb2,#42mc1,#42mc2").hide()
+    $j("#42,#42fa, #42fb,#42da,#42db, #42ma1,#42ma2, #42mb1,#42mb2,#42mc1,#42mc2,#dose6c,#dose6d,#dose6e" +
+        ",#dose6f,#dose6g,#dose6h,#dose6i,#dose6j,#dose6k").hide()
 
     $j('label[for="42"],label[for="42fa"],label[for="42fb"],label[for="42da"],label[for="42db"],' +
         'label[for="42ma1"],label[for="42ma2"],label[for="42mb1"], label[for="42mb2"],' +
-        'label[for="42mc1"],label[for="42mc2"]').hide();
+        'label[for="42mc1"],label[for="42mc2"],label[for="dose6c"],' +
+        'label[for="dose6d"],label[for="dose6e"],label[for="dose6f"],label[for="dose6g"]' +
+        ',label[for="dose6h"],label[for="dose6i"],label[for="dose6j"],label[for="dose6k"]').hide();
 
     $j("#43,#43fa, #43fb,#43da,#43db, #43ma1,#43ma2, #43mb1,#43mb2,#43mc1,#43mc2").hide()
 
@@ -2541,18 +2548,19 @@ function row5FirstOption() {
 
 }
 function row5SecondOption() {
-    $j("#41,#41fa, #41fb,#41da,#41db, #41ma1,#41ma2, #41mb1,#41mb2,#41mc1,#41mc2").hide()
+    $j("#41,#41fa, #41fb,#41da,#41db, #41ma1,#41ma2, #41mb1,#41mb2,#41mc1,#41mc2,#dose6a,#dose6b,#dose6e,#dose6f,#dose6g,#dose6h,#dose6i,#dose6j,#dose6k").hide()
 
     $j('label[for="41"],label[for="41fa"],label[for="41fb"],label[for="41da"],label[for="41db"],' +
         'label[for="41ma1"],label[for="41ma2"],label[for="41mb1"], label[for="41mb2"],' +
-        'label[for="41mc1"],label[for="41mc2"]').hide();
+        'label[for="41mc1"],label[for="41mc2"],label[for="dose6a"],label[for="dose6b"],label[for="dose6e"],label[for="dose6f"],' +
+        'label[for="dose6g"],label[for="dose6h"],label[for="dose6i"],label[for="dose6j"],label[for="dose6k"]').hide();
 
 
-    $j("#42,#42fa, #42fb,#42da,#42db, #42ma1,#42ma2, #42mb1,#42mb2,#42mc1,#42mc2").show()
+    $j("#42,#42fa, #42fb,#42da,#42db, #42ma1,#42ma2, #42mb1,#42mb2,#42mc1,#42mc2,#dose6c,#dose6d").show()
 
     $j('label[for="42"],label[for="42fa"],label[for="42fb"],label[for="42da"],label[for="42db"],' +
         'label[for="42ma1"],label[for="42ma2"],label[for="42mb1"], label[for="42mb2"],' +
-        'label[for="42mc1"],label[for="42mc2"]').show();
+        'label[for="42mc1"],label[for="42mc2"],label[for="dose6c"],label[for="dose6d"]').show();
 
     $j("#43,#43fa, #43fb,#43da,#43db, #43ma1,#43ma2, #43mb1,#43mb2,#43mc1,#43mc2").hide()
 
@@ -2579,11 +2587,14 @@ function row5SecondOption() {
         'label[for="46mc"]').hide();
 
 }function row5ThirdOption() {
-    $j("#41,#41fa, #41fb,#41da,#41db, #41ma1,#41ma2, #41mb1,#41mb2,#41mc1,#41mc2").hide()
+    $j("#41,#41fa, #41fb,#41da,#41db, #41ma1,#41ma2, #41mb1,#41mb2,#41mc1,#41mc2,#dose6a,#dose6b," +
+        "#dose6c,#dose6d,#dose6g,#dose6h,#dose6i,#dose6j,#dose6k").hide()
 
     $j('label[for="41"],label[for="41fa"],label[for="41fb"],label[for="41da"],label[for="41db"],' +
         'label[for="41ma1"],label[for="41ma2"],label[for="41mb1"], label[for="41mb2"],' +
-        'label[for="41mc1"],label[for="41mc2"]').hide();
+        'label[for="41mc1"],label[for="41mc2"],label[for="dose6a"],label[for="dose6b"],label[for="dose6c"],' +
+        'label[for="dose6d"],label[for="dose6g"],label[for="dose6h"],label[for="dose6i"],label[for="dose6j"]' +
+        ',label[for="dose6k"]').hide();
 
 
     $j("#42,#42fa, #42fb,#42da,#42db, #42ma1,#42ma2, #42mb1,#42mb2,#42mc1,#42mc2").hide()
@@ -2592,11 +2603,11 @@ function row5SecondOption() {
         'label[for="42ma1"],label[for="42ma2"],label[for="42mb1"], label[for="42mb2"],' +
         'label[for="42mc1"],label[for="42mc2"]').hide();
 
-    $j("#43,#43fa, #43fb,#43da,#43db, #43ma1,#43ma2, #43mb1,#43mb2,#43mc1,#43mc2").show()
+    $j("#43,#43fa, #43fb,#43da,#43db, #43ma1,#43ma2, #43mb1,#43mb2,#43mc1,#43mc2,#dose6e,#dose6f").show()
 
     $j('label[for="43"],label[for="43fa"],label[for="43fb"],label[for="43da"],label[for="43db"],' +
         'label[for="43ma1"],label[for="43ma2"],label[for="43mb1"], label[for="43mb2"],' +
-        'label[for="43mc1"],label[for="43mc2"]').show();
+        'label[for="43mc1"],label[for="43mc2"],label[for="dose6e"],label[for="dose6f"]').show();
 
     $j("#44,#44fa, #44fb,#44da,#44db, #44ma1,#44ma2, #44mb1,#44mb2,#44mc1,#44mc2").hide()
 
@@ -2618,11 +2629,14 @@ function row5SecondOption() {
 
 
 }function row5FourthOption() {
-    $j("#41,#41fa, #41fb,#41da,#41db, #41ma1,#41ma2, #41mb1,#41mb2,#41mc1,#41mc2").hide()
+    $j("#41,#41fa, #41fb,#41da,#41db, #41ma1,#41ma2, #41mb1,#41mb2,#41mc1,#41mc2,#dose6a,#dose6b," +
+        "#dose6c,#dose6d,#dose6e,#dose6f,#dose6j,#dose6k").hide()
 
     $j('label[for="41"],label[for="41fa"],label[for="41fb"],label[for="41da"],label[for="41db"],' +
         'label[for="41ma1"],label[for="41ma2"],label[for="41mb1"], label[for="41mb2"],' +
-        'label[for="41mc1"],label[for="41mc2"]').hide();
+        'label[for="41mc1"],label[for="41mc2"],label[for="dose6a"],label[for="dose6b"],' +
+        'label[for="dose6c"],label[for="dose6d"],label[for="dose6e"],label[for="dose6f"],label[for="dose6j"]' +
+        ',label[for="dose6k"]').hide();
 
 
     $j("#42,#42fa, #42fb,#42da,#42db, #42ma1,#42ma2, #42mb1,#42mb2,#42mc1,#42mc2").hide()
@@ -2637,11 +2651,11 @@ function row5SecondOption() {
         'label[for="43ma1"],label[for="43ma2"],label[for="43mb1"], label[for="43mb2"],' +
         'label[for="43mc1"],label[for="43mc2"]').hide();
 
-    $j("#44,#44fa, #44fb,#44da,#44db, #44ma1,#44ma2, #44mb1,#44mb2,#44mc1,#44mc2").show()
+    $j("#44,#44fa, #44fb,#44da,#44db, #44ma1,#44ma2, #44mb1,#44mb2,#44mc1,#44mc2,#dose6h,#dose6i").show()
 
     $j('label[for="44"],label[for="44fa"],label[for="44fb"],label[for="44da"],label[for="44db"],' +
         'label[for="44ma1"],label[for="44ma2"],label[for="44mb1"], label[for="44mb2"],' +
-        'label[for="44mc1"],label[for="44mc2"]').show();
+        'label[for="44mc1"],label[for="44mc2"],label[for="dose6h"],label[for="dose6i"]').show();
 
     $j("#45,#45f, #45d, #45ma, #45mb,#45mc").hide()
 
@@ -2656,11 +2670,14 @@ function row5SecondOption() {
         'label[for="46mc"]').hide();
 
 }function row5FifthOption() {
-    $j("#41,#41fa, #41fb,#41da,#41db, #41ma1,#41ma2, #41mb1,#41mb2,#41mc1,#41mc2").hide()
+    $j("#41,#41fa, #41fb,#41da,#41db, #41ma1,#41ma2, #41mb1,#41mb2,#41mc1,#41mc2,#dose6a,#dose6b,#dose6c" +
+        ",#dose6d,#dose6e,#dose6f,#dose6g,#dose6h,#dose6i,#dose6k").hide()
 
     $j('label[for="41"],label[for="41fa"],label[for="41fb"],label[for="41da"],label[for="41db"],' +
         'label[for="41ma1"],label[for="41ma2"],label[for="41mb1"], label[for="41mb2"],' +
-        'label[for="41mc1"],label[for="41mc2"]').hide();
+        'label[for="41mc1"],label[for="41mc2"],label[for="dose6a"],label[for="dose6b"],' +
+        'label[for="dose6c"],label[for="dose6d"],label[for="dose6e"],label[for="dose6f"],label[for="dose6g"],' +
+        'label[for="dose6h"],label[for="dose6i"],label[for="dose6k"]').hide();
 
 
     $j("#42,#42fa, #42fb,#42da,#42db, #42ma1,#42ma2, #42mb1,#42mb2,#42mc1,#42mc2").hide()
@@ -2681,11 +2698,11 @@ function row5SecondOption() {
         'label[for="44ma1"],label[for="44ma2"],label[for="44mb1"], label[for="44mb2"],' +
         'label[for="44mc1"],label[for="44mc2"]').hide();
 
-    $j("#45,#45f, #45d, #45ma, #45mb,#45mc").show()
+    $j("#45,#45f, #45d, #45ma, #45mb,#45mc,#dose6j").show()
 
     $j('label[for="45"],label[for="45f"],label[for="45d"], ' +
         'label[for="45ma"], label[for="45mb"], label[for="45mc"], ' +
-        'label[for="45mc"]').show();
+        'label[for="45mc"],label[for="dose6j"]').show();
 
     $j("#46,#46f, #46d, #46ma, #46mb,#46mc").hide()
 
@@ -2694,11 +2711,14 @@ function row5SecondOption() {
         'label[for="46mc"]').hide();
 
 }function row5SixthOption() {
-    $j("#41,#41fa, #41fb,#41da,#41db, #41ma1,#41ma2, #41mb1,#41mb2,#41mc1,#41mc2").hide()
+    $j("#41,#41fa, #41fb,#41da,#41db, #41ma1,#41ma2, #41mb1,#41mb2,#41mc1,#41mc2,#dose6a,#dose6b," +
+        "#dose6c,#dose6d,#dose6e,#dose6f,#dose6g,#dose6h,#dose6i,#dose6j").hide()
 
     $j('label[for="41"],label[for="41fa"],label[for="41fb"],label[for="41da"],label[for="41db"],' +
         'label[for="41ma1"],label[for="41ma2"],label[for="41mb1"], label[for="41mb2"],' +
-        'label[for="41mc1"],label[for="41mc2"]').hide();
+        'label[for="41mc1"],label[for="41mc2"],label[for="dose6a"],label[for="dose6b"],' +
+        'label[for="dose6c"],label[for="dose6d"],label[for="dose6e"],label[for="dose6f"],' +
+        'label[for="dose6g"],label[for="dose6h"],label[for="dose6i"],label[for="dose6k"]').hide();
 
 
     $j("#42,#42fa, #42fb,#42da,#42db, #42ma1,#42ma2, #42mb1,#42mb2,#42mc1,#42mc2").hide()
@@ -2725,11 +2745,11 @@ function row5SecondOption() {
         'label[for="45ma"], label[for="45mb"], label[for="45mc"], ' +
         'label[for="45mc"]').hide();
 
-    $j("#46,#46f, #46d, #46ma, #46mb,#46mc").show()
+    $j("#46,#46f, #46d, #46ma, #46mb,#46mc,#dose6k").show()
 
     $j('label[for="46"],label[for="46f"],label[for="46d"], ' +
         'label[for="46ma"], label[for="46mb"], label[for="46mc"], ' +
-        'label[for="46mc"]').show();
+        'label[for="46mc"],label[for="dose6k"]').show();
 }
 
 
@@ -2738,13 +2758,16 @@ function row5SecondOption() {
 
 
 
-$j("#31,#32,#33,#34,#35,#36 , #31fa,#31fb, #32fa, #32fb,#33fa,#33fb, #34fa,#34fb,#35f,#36f").hide()
+$j("#31,#32,#33,#34,#35,#36 , #31fa,#31fb, #32fa, #32fb,#33fa,#33fb, #34fa,#34fb,#35f,#36f,#dose7a,#dose7b,#dose7c" +
+    ",#dose7d,#dose7e,#dose7f,#dose7g,#dose7h,#dose7i,#dose7j,#dose7k").hide();
 
 $j('label[for="31"],label[for="32"],label[for="33"],label[for="34"],label[for="35"] ,label[for="36"],label[for="31fa"],label[for="31fb"],' +
-    'label[for="32fa"],label[for="32fb"],label[for="33fa"],label[for="33fb"],label[for="34fa"],label[for="34fb"],label[for="35f"],label[for="36f"]').hide();
+    'label[for="32fa"],label[for="32fb"],label[for="33fa"],label[for="33fb"],label[for="34fa"],label[for="34fb"],label[for="35f"],label[for="36f"]' +
+    ',label[for="dose7a"],label[for="dose7b"],label[for="dose7c"],label[for="dose7d"],label[for="dose7e"]' +
+    ',label[for="dose7f"],label[for="dose7g"],label[for="dose7h"],label[for="dose7i"],label[for="dose7j"],label[for="dose7k"]').hide();
 
 
-$j("#31da,#31db, #32da, #32db,#33da, #33db,#34da,#34db,#35d,#36d").hide()
+$j("#31da,#31db, #32da, #32db,#33da, #33db,#34da,#34db,#35d,#36d").hide()  ;
 
 $j('label[for="31da"],label[for="31db"],label[for="32da"],label[for="32db"],label[for="33da"],label[for="33db"],' +
     'label[for="34da"],label[for="34db"],label[for="35d"], label[for="36d"]').hide();
@@ -2762,18 +2785,21 @@ $j('label[for="31ma1"],label[for="31ma2"],label[for="31mb1"],label[for="31mb2"],
 
 
 function row51FirstOption() {
-    $j("#31,#31fa, #31fb,#31da,#31db, #31ma1,#31ma2, #31mb1,#31mb2,#31mc1,#31mc2").show()
+    $j("#31,#31fa, #31fb,#31da,#31db, #31ma1,#31ma2, #31mb1,#31mb2,#31mc1,#31mc2,#dose7a,#dose7b").show()
 
     $j('label[for="31"],label[for="31fa"],label[for="31fb"],label[for="31da"],label[for="31db"],' +
         'label[for="31ma1"],label[for="31ma2"],label[for="31mb1"], label[for="31mb2"],' +
-        'label[for="31mc1"],label[for="31mc2"]').show();
+        'label[for="31mc1"],label[for="31mc2"],label[for="dose7a"],label[for="dose7b"]').show();
 
 
-    $j("#32,#32fa, #32fb,#32da,#32db, #32ma1,#32ma2, #32mb1,#32mb2,#32mc1,#32mc2").hide()
+    $j("#32,#32fa, #32fb,#32da,#32db, #32ma1,#32ma2, #32mb1,#32mb2,#32mc1,#32mc2,#dose7c,#dose7d,#dose7e," +
+        "#dose7f,#dose7g,#dose7h,#dose7i,#dose7j,#dose7k").hide()
 
     $j('label[for="32"],label[for="32fa"],label[for="32fb"],label[for="32da"],label[for="32db"],' +
         'label[for="32ma1"],label[for="32ma2"],label[for="32mb1"], label[for="32mb2"],' +
-        'label[for="32mc1"],label[for="32mc2"]').hide();
+        'label[for="32mc1"],label[for="32mc2"],label[for="dose7c"],label[for="dose7d"],label[for="dose7e"],' +
+        'label[for="dose7f"],label[for="dose7g"],label[for="dose7h"],label[for="dose7i"],label[for="dose7j"]' +
+        ',label[for="dose7k"]').hide();
 
     $j("#33,#33fa, #33fb,#33da,#33db, #33ma1,#33ma2, #33mb1,#33mb2,#33mc1,#33mc2").hide()
 
@@ -2801,18 +2827,21 @@ function row51FirstOption() {
 
 }
 function row51SecondOption() {
-    $j("#31,#31fa, #31fb,#31da,#31db, #31ma1,#31ma2, #31mb1,#31mb2,#31mc1,#31mc2").hide()
+    $j("#31,#31fa, #31fb,#31da,#31db, #31ma1,#31ma2, #31mb1,#31mb2,#31mc1,#31mc2,#dose7a,#dose7b" +
+        ",#dose7e,#dose7f,#dose7g,#dose7h,#dose7i,#dose7j,#dose7k").hide()
 
     $j('label[for="31"],label[for="31fa"],label[for="31fb"],label[for="31da"],label[for="31db"],' +
         'label[for="31ma1"],label[for="31ma2"],label[for="31mb1"], label[for="31mb2"],' +
-        'label[for="31mc1"],label[for="31mc2"]').hide();
+        'label[for="31mc1"],label[for="31mc2"],label[for="dose7a"],label[for="dose7b"]' +
+        ',label[for="dose7e"],label[for="dose7f"],label[for="dose7g"],label[for="dose7h"]' +
+        ',label[for="dose7i"],label[for="dose7j"],label[for="dose7k"]').hide();
 
 
-    $j("#32,#32fa, #32fb,#32da,#32db, #32ma1,#32ma2, #32mb1,#32mb2,#32mc1,#32mc2").show()
+    $j("#32,#32fa, #32fb,#32da,#32db, #32ma1,#32ma2, #32mb1,#32mb2,#32mc1,#32mc2,#dose7c,#dose7d").show()
 
     $j('label[for="32"],label[for="32fa"],label[for="32fb"],label[for="32da"],label[for="32db"],' +
         'label[for="32ma1"],label[for="32ma2"],label[for="32mb1"], label[for="32mb2"],' +
-        'label[for="32mc1"],label[for="32mc2"]').show();
+        'label[for="32mc1"],label[for="32mc2"],label[for="dose7c"],label[for="dose7d"]').show();
 
     $j("#33,#33fa, #33fb,#33da,#33db, #33ma1,#33ma2, #33mb1,#33mb2,#33mc1,#33mc2").hide()
 
@@ -2839,11 +2868,14 @@ function row51SecondOption() {
         'label[for="36mc"]').hide();
 
 }function row51ThirdOption() {
-    $j("#31,#31fa, #31fb,#31da,#31db, #31ma1,#31ma2, #31mb1,#31mb2,#31mc1,#31mc2").hide()
+    $j("#31,#31fa, #31fb,#31da,#31db, #31ma1,#31ma2, #31mb1,#31mb2,#31mc1,#31mc2,#dose7a,#dose7b,#dose7c" +
+        ",#dose7d,#dose7g,#dose7h,#dose7i,#dose7j,#dose7k").hide()
 
     $j('label[for="31"],label[for="31fa"],label[for="31fb"],label[for="31da"],label[for="31db"],' +
         'label[for="31ma1"],label[for="31ma2"],label[for="31mb1"], label[for="31mb2"],' +
-        'label[for="31mc1"],label[for="31mc2"]').hide();
+        'label[for="31mc1"],label[for="31mc2"],label[for="dose7a"],label[for="dose7b"],label[for="dose7c"]' +
+        ',label[for="dose7d"],label[for="dose7g"]' +
+        ',label[for="dose7h"],label[for="dose7i"],label[for="dose7j"],label[for="dose7k"]').hide();
 
 
     $j("#32,#32fa, #32fb,#32da,#32db, #32ma1,#32ma2, #32mb1,#32mb2,#32mc1,#32mc2").hide()
@@ -2852,11 +2884,11 @@ function row51SecondOption() {
         'label[for="32ma1"],label[for="32ma2"],label[for="32mb1"], label[for="32mb2"],' +
         'label[for="32mc1"],label[for="32mc2"]').hide();
 
-    $j("#33,#33fa, #33fb,#33da,#33db, #33ma1,#33ma2, #33mb1,#33mb2,#33mc1,#33mc2").show()
+    $j("#33,#33fa, #33fb,#33da,#33db, #33ma1,#33ma2, #33mb1,#33mb2,#33mc1,#33mc2,#dose7e,#dose7f").show()
 
     $j('label[for="33"],label[for="33fa"],label[for="33fb"],label[for="33da"],label[for="33db"],' +
         'label[for="33ma1"],label[for="33ma2"],label[for="33mb1"], label[for="33mb2"],' +
-        'label[for="33mc1"],label[for="33mc2"]').show();
+        'label[for="33mc1"],label[for="33mc2"],label[for="dose7e"],label[for="dose7f"]').show();
 
     $j("#34,#34fa, #34fb,#34da,#34db, #34ma1,#34ma2, #34mb1,#34mb2,#34mc1,#34mc2").hide()
 
@@ -2878,11 +2910,14 @@ function row51SecondOption() {
 
 
 }function row51FourthOption() {
-    $j("#31,#31fa, #31fb,#31da,#31db, #31ma1,#31ma2, #31mb1,#31mb2,#31mc1,#31mc2").hide()
+    $j("#31,#31fa, #31fb,#31da,#31db, #31ma1,#31ma2, #31mb1,#31mb2,#31mc1,#31mc2," +
+        "#dose7a,#dose7b,#dose7c,#dose7d,#dose7e,#dose7f,#dose7g,#dose7j,#dose7k").hide()
 
     $j('label[for="31"],label[for="31fa"],label[for="31fb"],label[for="31da"],label[for="31db"],' +
         'label[for="31ma1"],label[for="31ma2"],label[for="31mb1"], label[for="31mb2"],' +
-        'label[for="31mc1"],label[for="31mc2"]').hide();
+        'label[for="31mc1"],label[for="31mc2"],label[for="dose7a"],label[for="dose7b"],label[for="dose7c"]' +
+        ',label[for="dose7d"],label[for="dose7e"],label[for="dose7f"],label[for="dose7g"]' +
+        ',label[for="dose7j"],label[for="dose7k"]').hide();
 
 
     $j("#32,#32fa, #32fb,#32da,#32db, #32ma1,#32ma2, #32mb1,#32mb2,#32mc1,#32mc2").hide()
@@ -2897,11 +2932,11 @@ function row51SecondOption() {
         'label[for="33ma1"],label[for="33ma2"],label[for="33mb1"], label[for="33mb2"],' +
         'label[for="33mc1"],label[for="33mc2"]').hide();
 
-    $j("#34,#34fa, #34fb,#34da,#34db, #34ma1,#34ma2, #34mb1,#34mb2,#34mc1,#34mc2").show()
+    $j("#34,#34fa, #34fb,#34da,#34db, #34ma1,#34ma2, #34mb1,#34mb2,#34mc1,#34mc2,#dose7h,#dose7i").show()
 
     $j('label[for="34"],label[for="34fa"],label[for="34fb"],label[for="34da"],label[for="34db"],' +
         'label[for="34ma1"],label[for="34ma2"],label[for="34mb1"], label[for="34mb2"],' +
-        'label[for="34mc1"],label[for="34mc2"]').show();
+        'label[for="34mc1"],label[for="34mc2"],label[for="dose7h"],label[for="dose7i"]').show();
 
     $j("#35,#35f, #35d, #35ma, #35mb,#35mc").hide()
 
@@ -2916,11 +2951,14 @@ function row51SecondOption() {
         'label[for="36mc"]').hide();
 
 }function row51FifthOption() {
-    $j("#31,#31fa, #31fb,#31da,#31db, #31ma1,#31ma2, #31mb1,#31mb2,#31mc1,#31mc2").hide()
+    $j("#31,#31fa, #31fb,#31da,#31db, #31ma1,#31ma2, #31mb1,#31mb2,#31mc1,#31mc2,#dose7a,#dose7b" +
+        ",#dose7c,#dose7d,#dose7e,#dose7f,#dose7g,#dose7h,#dose7i,#dose7k").hide()
 
     $j('label[for="31"],label[for="31fa"],label[for="31fb"],label[for="31da"],label[for="31db"],' +
         'label[for="31ma1"],label[for="31ma2"],label[for="31mb1"], label[for="31mb2"],' +
-        'label[for="31mc1"],label[for="31mc2"]').hide();
+        'label[for="31mc1"],label[for="31mc2"],label[for="dose7a"],label[for="dose7b"],label[for="dose7c"]' +
+        ',label[for="dose7d"],label[for="dose7e"],label[for="dose7f"],label[for="dose7g"]' +
+        ',label[for="dose7h"],label[for="dose7i"],label[for="dose7k"]').hide();
 
 
     $j("#32,#32fa, #32fb,#32da,#32db, #32ma1,#32ma2, #32mb1,#32mb2,#32mc1,#32mc2").hide()
@@ -2941,11 +2979,11 @@ function row51SecondOption() {
         'label[for="34ma1"],label[for="34ma2"],label[for="34mb1"], label[for="34mb2"],' +
         'label[for="34mc1"],label[for="34mc2"]').hide();
 
-    $j("#35,#35f, #35d, #35ma, #35mb,#35mc").show()
+    $j("#35,#35f, #35d, #35ma, #35mb,#35mc,#dose7j").show()
 
     $j('label[for="35"],label[for="35f"],label[for="35d"], ' +
         'label[for="35ma"], label[for="35mb"], label[for="35mc"], ' +
-        'label[for="35mc"]').show();
+        'label[for="35mc"],label[for="dose7j"]').show();
 
     $j("#36,#36f, #36d, #36ma, #36mb,#36mc").hide()
 
@@ -2954,11 +2992,14 @@ function row51SecondOption() {
         'label[for="36mc"]').hide();
 
 }function row51SixthOption() {
-    $j("#31,#31fa, #31fb,#31da,#31db, #31ma1,#31ma2, #31mb1,#31mb2,#31mc1,#31mc2").hide()
+    $j("#31,#31fa, #31fb,#31da,#31db, #31ma1,#31ma2, #31mb1,#31mb2,#31mc1,#31mc2,#dose7a,#dose7b" +
+        ",#dose7c,#dose7d,#dose7e,#dose7f,#dose7g,#dose7h,#dose7i,#dose7j").hide()
 
     $j('label[for="31"],label[for="31fa"],label[for="31fb"],label[for="31da"],label[for="31db"],' +
         'label[for="31ma1"],label[for="31ma2"],label[for="31mb1"], label[for="31mb2"],' +
-        'label[for="31mc1"],label[for="31mc2"]').hide();
+        'label[for="31mc1"],label[for="31mc2"],label[for="dose7a"],label[for="dose7b"],label[for="dose7c"]' +
+        ',label[for="dose7d"],label[for="dose7e"],label[for="dose7f"],label[for="dose7g"]' +
+        ',label[for="dose7h"],label[for="dose7i"],label[for="dose7j"]').hide();
 
 
     $j("#32,#32fa, #32fb,#32da,#32db, #32ma1,#32ma2, #32mb1,#32mb2,#32mc1,#32mc2").hide()
@@ -2985,21 +3026,26 @@ function row51SecondOption() {
         'label[for="35ma"], label[for="35mb"], label[for="35mc"], ' +
         'label[for="35mc"]').hide();
 
-    $j("#36,#36f, #36d, #36ma, #36mb,#36mc").show()
+    $j("#36,#36f, #36d, #36ma, #36mb,#36mc,#dose7k").show()
 
     $j('label[for="36"],label[for="36f"],label[for="36d"], ' +
         'label[for="36ma"], label[for="36mb"], label[for="36mc"], ' +
-        'label[for="36mc"]').show();
+        'label[for="36mc"],label[for="dose7k"]').show();
 }
 
 /////////////          Evafirenz
 
 
 
-$j("#50,#51,#52,#53,#54,#55,#56,#57 , #50f,#51f,#52f,#53fa,#53fb, #54fa,#54fb,#55fa,,#55fb,#56f,#57f").hide()
+$j("#50,#51,#52,#53,#54,#55,#56,#57 , #50f,#51f,#52f,#53fa,#53fb, #54fa,#54fb,#55fa,,#55fb,#56f,#57f" +
+    ",#dose8a,#dose8b,#dose8c,#dose8d,#dose8e,#dose8f,#dose8g,#dose8h,#dose8i").hide()
 
-$j('label[for="50"],label[for="51"],label[for="52"],label[for="53"],label[for="54"],label[for="55"],label[for="56"],label[for="57"],' +
-    'label[for="50f"],label[for="51f"],label[for="52f"],label[for="53fa"],label[for="53fb"],label[for="54fa"],label[for="54fb"],label[for="55fa"],label[for="55fb"],label[for="56f"],label[for="57f"]').hide();
+$j('label[for="50"],label[for="51"],label[for="52"],label[for="53"],label[for="54"],label[for="55"],label[for="56"],' +
+    'label[for="57"],' +
+    'label[for="50f"],label[for="51f"],label[for="52f"],label[for="53fa"],label[for="53fb"],label[for="54fa"],' +
+    'label[for="54fb"],label[for="55fa"],label[for="55fb"],label[for="56f"],label[for="57f"],label[for="dose8a"]' +
+    ',label[for="dose8b"],label[for="dose8c"],label[for="dose8d"],label[for="dose8e"],label[for="dose8f"]' +
+    ',label[for="dose8g"],label[for="dose8h"],label[for="dose8i"]').hide();
 
 
 $j("#50d,#51d,#52d,#53d,#54d,#55d,#56d,#57d").hide()
@@ -3018,17 +3064,20 @@ $j('label[for="50ma"],label[for="50mb"],label[for="50mc"],label[for="51ma"],labe
 
 
 function row6FirstOption() {
-    $j("#50,#50f, #50d,#50ma,#50mb, #50mc").show()
+    $j("#50,#50f, #50d,#50ma,#50mb, #50mc,#dose8a").show()
 
-    $j('label[for="50"],label[for="50f"],label[for="50d"],label[for="50ma"],label[for="50mb"],label[for="50mc"]').show();
+    $j('label[for="50"],label[for="50f"],label[for="50d"],label[for="50ma"],label[for="50mb"],' +
+        'label[for="50mc"],label[for="dose8a"]').show();
 
     $j("#51,#51f, #51d,#51ma,#51mb, #51mc").hide()
 
     $j('label[for="51"],label[for="51f"],label[for="51d"],label[for="51ma"],label[for="51mb"],label[for="51mc"]').hide();
 
-    $j("#52,#52f, #52d,#52ma,#52mb, #52mc").hide()
+    $j("#52,#52f, #52d,#52ma,#52mb, #52mc,#dose8h,#dose8b,#dose8c,#dose8d,#dose8e,#dose8f,#dose8g,#dose8i").hide()
 
-    $j('label[for="52"],label[for="52f"],label[for="52d"],label[for="52ma"],label[for="52mb"],label[for="52mc"]').hide();
+    $j('label[for="52"],label[for="52f"],label[for="52d"],label[for="52ma"],label[for="52mb"],' +
+        'label[for="52mc"],label[for="dose8b"],label[for="dose8c"],label[for="dose8d"],label[for="dose8e"]' +
+        ',label[for="dose8f"],label[for="dose8g"],label[for="dose8h"],label[for="dose8i"]').hide();
 
 
     $j("#53,#53fa,#53fb, #53d,#53ma1,#53mb1, #53mc1,#53ma2,#53mb2, #53mc2").hide()
@@ -3055,13 +3104,16 @@ function row6FirstOption() {
 
 }
 function row6SecondOption() {
-    $j("#50,#50f, #50d,#50ma,#50mb, #50mc").hide()
+    $j("#50,#50f, #50d,#50ma,#50mb, #50mc,#dose8a,#dose8c,#dose8d,#dose8e,#dose8f,#dose8g,#dose8h,#dose8i").hide()
 
-    $j('label[for="50"],label[for="50f"],label[for="50d"],label[for="50ma"],label[for="50mb"],label[for="50mc"]').hide();
+    $j('label[for="50"],label[for="50f"],label[for="50d"],label[for="50ma"],label[for="50mb"],label[for="50mc"]' +
+        ',label[for="dose8a"],label[for="dose8c"],label[for="dose8d"],label[for="dose8e"]' +
+        ',label[for="dose8f"],label[for="dose8g"],label[for="dose8h"],label[for="dose8i"]').hide();
 
-    $j("#51,#51f, #51d,#51ma,#51mb, #51mc").show()
+    $j("#51,#51f, #51d,#51ma,#51mb, #51mc,#dose8a").show()
 
-    $j('label[for="51"],label[for="51f"],label[for="51d"],label[for="51ma"],label[for="51mb"],label[for="51mc"]').show();
+    $j('label[for="51"],label[for="51f"],label[for="51d"],label[for="51ma"],label[for="51mb"],' +
+        'label[for="51mc"],label[for="dose8a"]').show();
 
     $j("#52,#52f, #52d,#52ma,#52mb, #52mc").hide()
 
@@ -3090,18 +3142,20 @@ function row6SecondOption() {
     $j('label[for="57"],label[for="57f"],label[for="57d"],label[for="57ma"],label[for="57mb"],label[for="57mc"]').hide();
 
 }function row6ThirdOption() {
-    $j("#50,#50f, #50d,#50ma,#50mb, #50mc").hide()
+    $j("#50,#50f, #50d,#50ma,#50mb, #50mc,#dose8a,#dose8b,#dose8d,#dose8e,#dose8f,#dose8g,#dose8h,#dose8i").hide()
 
-    $j('label[for="50"],label[for="50f"],label[for="50d"],label[for="50ma"],label[for="50mb"],label[for="50mc"]').hide();
+    $j('label[for="50"],label[for="50f"],label[for="50d"],label[for="50ma"],label[for="50mb"],' +
+        'label[for="50mc"],label[for="dose8a"],label[for="dose8b"],label[for="dose8d"],label[for="dose8e"]' +
+        ',label[for="dose8f"],label[for="dose8g"],label[for="dose8h"],label[for="dose8i"]').hide();
 
     $j("#51,#51f, #51d,#51ma,#51mb, #51mc").hide()
 
     $j('label[for="51"],label[for="51f"],label[for="51d"],label[for="51ma"],label[for="51mb"],label[for="51mc"]').hide();
 
-    $j("#52,#52f, #52d,#52ma,#52mb, #52mc").show()
+    $j("#52,#52f, #52d,#52ma,#52mb, #52mc,#dose8c").show()
 
-    $j('label[for="52"],label[for="52f"],label[for="52d"],label[for="52ma"],label[for="52mb"],label[for="52mc"]').show();
-
+    $j('label[for="52"],label[for="52f"],label[for="52d"],label[for="52ma"],label[for="52mb"],label[for="52mc"]' +
+        ',label[for="dose8c"]').show();
 
     $j("#53,#53fa,#53fb, #53d,#53ma1,#53mb1, #53mc1,#53ma2,#53mb2, #53mc2").hide()
 
@@ -3125,9 +3179,11 @@ function row6SecondOption() {
     $j('label[for="57"],label[for="57f"],label[for="57d"],label[for="57ma"],label[for="57mb"],label[for="57mc"]').hide();
 
 }function row6FourthOption() {
-    $j("#50,#50f, #50d,#50ma,#50mb, #50mc").hide()
+    $j("#50,#50f, #50d,#50ma,#50mb,#50mc,#dose8a,#dose8b,#dose8c,#dose8e,#dose8f,#dose8g,#dose8h,#dose8i").hide()
 
-    $j('label[for="50"],label[for="50f"],label[for="50d"],label[for="50ma"],label[for="50mb"],label[for="50mc"]').hide();
+    $j('label[for="50"],label[for="50f"],label[for="50d"],label[for="50ma"],label[for="50mb"],label[for="50mc"]' +
+        ',label[for="dose8a"],label[for="dose8b"],label[for="dose8c"],label[for="dose8e"],label[for="dose8f"]' +
+        ',label[for="dose8g"],label[for="dose8h"],label[for="dose8i"]').hide();
 
     $j("#51,#51f, #51d,#51ma,#51mb, #51mc").hide()
 
@@ -3138,9 +3194,10 @@ function row6SecondOption() {
     $j('label[for="52"],label[for="52f"],label[for="52d"],label[for="52ma"],label[for="52mb"],label[for="52mc"]').hide();
 
 
-    $j("#53,#53fa,#53fb, #53d,#53ma1,#53mb1, #53mc1,#53ma2,#53mb2, #53mc2").show()
+    $j("#53,#53fa,#53fb, #53d,#53ma1,#53mb1, #53mc1,#53ma2,#53mb2, #53mc2,#dose8d").show()
 
-    $j('label[for="53"],label[for="53fa"],label[for="53fb"],label[for="53d"],label[for="53ma1"],label[for="53mb1"],label[for="53mc1"],label[for="53ma2"],label[for="53mb2"],label[for="53mc2"]').show();
+    $j('label[for="53"],label[for="53fa"],label[for="53fb"],label[for="53d"],label[for="53ma1"],label[for="53mb1"],' +
+        'label[for="53mc1"],label[for="53ma2"],label[for="53mb2"],label[for="53mc2"],label[for="dose8d"]').show();
 
     $j("#54,#54fa,#54fb, #54d,#54ma1,#54mb1, #54mc1,#54ma2,#54mb2, #54mc2").hide()
 
@@ -3161,9 +3218,11 @@ function row6SecondOption() {
 
 }function row6FifthOption() {
 
-    $j('label[for="50"],label[for="50f"],label[for="50d"],label[for="50ma"],label[for="50mb"],label[for="50mc"]').hide();
+    $j('label[for="50"],label[for="50f"],label[for="50d"],label[for="50ma"],label[for="50mb"],label[for="50mc"]' +
+        ',label[for="dose8a"],label[for="dose8b"],label[for="dose8c"],label[for="dose8d"],label[for="dose8f"]' +
+        ',label[for="dose8g"],label[for="dose8h"],label[for="dose8i"]').hide();
 
-    $j("#51,#51f, #51d,#51ma,#51mb, #51mc").hide()
+    $j("#51,#51f, #51d,#51ma,#51mb, #51mc,#dose8a,#dose8b,#dose8c,#dose8d,#dose8f,#dose8g,#dose8h,#dose8i").hide()
 
     $j('label[for="51"],label[for="51f"],label[for="51d"],label[for="51ma"],label[for="51mb"],label[for="51mc"]').hide();
 
@@ -3176,9 +3235,10 @@ function row6SecondOption() {
 
     $j('label[for="53"],label[for="53fa"],label[for="53fb"],label[for="53d"],label[for="53ma1"],label[for="53mb1"],label[for="53mc1"],label[for="53ma2"],label[for="53mb2"],label[for="53mc2"]').hide();
 
-    $j("#54,#54fa,#54fb, #54d,#54ma1,#54mb1, #54mc1,#54ma2,#54mb2, #54mc2").show()
+    $j("#54,#54fa,#54fb, #54d,#54ma1,#54mb1, #54mc1,#54ma2,#54mb2, #54mc2,#dose8e").show()
 
-    $j('label[for="54"],label[for="54fa"],label[for="54fb"],label[for="54d"],label[for="54ma1"],label[for="54mb1"],label[for="54mc1"],label[for="54ma2"],label[for="54mb2"],label[for="54mc2"]').show();
+    $j('label[for="54"],label[for="54fa"],label[for="54fb"],label[for="54d"],label[for="54ma1"],label[for="54mb1"],' +
+        'label[for="54mc1"],label[for="54ma2"],label[for="54mb2"],label[for="54mc2"],label[for="dose8e"]').show();
 
     $j("#55,#55fa,#55fb, #55d,#55ma1,#55mb1, #55mc1,#55ma2,#55mb2, #55mc2").hide()
     $j("#55ma,#55mb,#55mc").hide()
@@ -3197,9 +3257,10 @@ function row6SecondOption() {
 }function row6SixthOption() {
     $j('label[for="50"],label[for="50f"],label[for="50d"],label[for="50ma"],label[for="50mb"],label[for="50mc"]').hide();
 
-    $j("#51,#51f, #51d,#51ma,#51mb, #51mc").hide()
+    $j("#51,#51f, #51d,#51ma,#51mb, #51mc,#dose8a,#dose8b,#dose8c,#dose8d,#dose8e").hide()
 
-    $j('label[for="51"],label[for="51f"],label[for="51d"],label[for="51ma"],label[for="51mb"],label[for="51mc"]').hide();
+    $j('label[for="51"],label[for="51f"],label[for="51d"],label[for="51ma"],label[for="51mb"],label[for="51mc"]' +
+        ',label[for="dose8a"],label[for="dose8b"],label[for="dose8c"],label[for="dose8d"],label[for="dose8e"]').hide();
 
     $j("#52,#52f, #52d,#52ma,#52mb, #52mc").hide()
 
@@ -3214,9 +3275,10 @@ function row6SecondOption() {
 
     $j('label[for="54"],label[for="54fa"],label[for="54fb"],label[for="54d"],label[for="54ma1"],label[for="54mb1"],label[for="54mc1"],label[for="54ma2"],label[for="54mb2"],label[for="54mc2"]').hide();
 
-    $j("#55,#55fa,#55fb, #55d,#55ma1,#55mb1, #55mc1,#55ma2,#55mb2, #55mc2").show()
+    $j("#55,#55fa,#55fb, #55d,#55ma1,#55mb1, #55mc1,#55ma2,#55mb2, #55mc2,#dose8f").show()
 
-    $j('label[for="55"],label[for="55fa"],label[for="55fb"],label[for="55d"],label[for="55ma1"],label[for="55mb1"],label[for="55mc1"],label[for="55ma2"],label[for="55mb2"],label[for="55mc2"]').show();
+    $j('label[for="55"],label[for="55fa"],label[for="55fb"],label[for="55d"],label[for="55ma1"],label[for="55mb1"],' +
+        'label[for="55mc1"],label[for="55ma2"],label[for="55mb2"],label[for="55mc2"],label[for="dose8f"]').show();
 
 
 
@@ -3304,9 +3366,12 @@ function row6EightOption() {
 
 
 
-$j("#61,#62,#63,#64,#65,#66 , #61f,, #62f, #63f, #64fa,#64fb,#65fa,#65fb,#66f").hide()
+$j("#61,#62,#63,#64,#65,#66 , #61f,, #62f, #63f, #64fa,#64fb,#65fa,#65fb,#66f,#dose9a,#dose9b,#dose9c,#dose9e").hide()
 
-$j('label[for="61"],label[for="62"],label[for="63"],label[for="64"],label[for="65"] ,label[for="66"],label[for="61f"],label[for="62f"],label[for="63f"],label[for="64fa"],label[for="64fb"],label[for="65fa"],label[for="65fb"],label[for="66f"]').hide();
+$j('label[for="61"],label[for="62"],label[for="63"],label[for="64"],label[for="65"] ,label[for="66"],label[for="61f"],' +
+    'label[for="62f"],label[for="63f"],label[for="64fa"],label[for="64fb"],label[for="65fa"],label[for="65fb"],' +
+    'label[for="66f"],label[for="dose9a"],label[for="dose9b"],label[for="dose9c"],' +
+    'label[for="dose9d"],label[for="dose9e"]').hide();
 
 
 $j("#61d,, #62d, #63d, #64da,#64db,#65da,#65db,#66d").hide()
@@ -3318,11 +3383,13 @@ $j("#61ma,#61mb,#61mc, #62ma,#62mb,#62mc, #63ma,#63mb,#63mc, #64ma,#64mb,#64mc, 
 
 $j('label[for="61ma"],label[for="61mb"],label[for="61mc"],label[for="62ma"],label[for="62mb"],label[for="66ma"],label[for="66mb"],label[for="66mc"],label[for="65ma1"],label[for="65mb2"],label[for="65mc3"],label[for="65ma"],label[for="65mb"],label[for="65mc"], label[for="64ma1"],label[for="64mb2"],label[for="64mc3"],label[for="62mc"],label[for="63ma"],label[for="63mb"],label[for="63mc"],label[for="64ma"],label[for="64mb"],label[for="64mc"]').hide();
 function row7FirstOption() {
-    $j("#61,#61f, #61d, #61ma, #61mb,#61mc").show()
-    $j('label[for="61"],label[for="61f"],label[for="61d"],label[for="61ma"],label[for="61mb"], label[for="61mc"]').show();
+    $j("#61,#61f, #61d, #61ma, #61mb,#61mc,#dose9a").show()
+    $j('label[for="61"],label[for="61f"],label[for="61d"],label[for="61ma"],label[for="61mb"], ' +
+        'label[for="61mc"],label[for="dose9a"]').show();
 
-    $j("#62,#62f, #62d, #62ma, #62mb,#62mc").hide()
-    $j('label[for="62"],label[for="62f"],label[for="62d"],label[for="62ma"],label[for="62mb"], label[for="62mc"]').hide();
+    $j("#62,#62f, #62d, #62ma, #62mb,#62mc,#dose9b,#dose9c,#dose9d,#dose9e").hide()
+    $j('label[for="62"],label[for="62f"],label[for="62d"],label[for="62ma"],label[for="62mb"], label[for="62mc"]' +
+        ', label[for="dose9b"], label[for="dose9c"], label[for="dose9d"], label[for="dose9e"]').hide();
 
     $j("#63,#63f, #63d, #63ma, #63mb,#63mc").hide()
     $j('label[for="63"],label[for="63f"],label[for="63d"],label[for="63ma"],label[for="63mb"], label[for="63mc"]').hide();
@@ -3340,12 +3407,14 @@ function row7FirstOption() {
 
 }
 function row7SecondOption() {
-    $j("#62,#62f, #62d, #62ma, #62mb,#62mc").show()
-    $j('label[for="62"],label[for="62f"],label[for="62d"],label[for="62ma"],label[for="62mb"], label[for="62mc"]').show();
+    $j("#62,#62f, #62d, #62ma, #62mb,#62mc,#dose9b").show()
+    $j('label[for="62"],label[for="62f"],label[for="62d"],label[for="62ma"],label[for="62mb"], label[for="62mc"]' +
+     ', label[for="dose9b"]').show();
 
 
-    $j("#61,#61f, #61d, #61ma, #61mb,#61mc").hide()
-    $j('label[for="61"],label[for="61f"],label[for="61d"],label[for="61ma"],label[for="61mb"], label[for="61mc"]').hide();
+    $j("#61,#61f, #61d, #61ma, #61mb,#61mc,#dose9a,#dose9c,#dose9d,#dose9e").hide()
+    $j('label[for="61"],label[for="61f"],label[for="61d"],label[for="61ma"],label[for="61mb"], label[for="61mc"]' +
+        ', label[for="dose9a"], label[for="dose9c"], label[for="dose9d"], label[for="dose9e"]').hide();
 
 
     $j("#63,#63f, #63d, #63ma, #63mb,#63mc").hide()
@@ -3363,11 +3432,13 @@ function row7SecondOption() {
     $j('label[for="66"],label[for="66f"],label[for="66d"],label[for="66ma"],label[for="66mb"], label[for="66mc"]').hide();
 
 }function row7ThirdOption() {
-    $j("#63,#63f, #63d, #63ma, #63mb,#63mc").show()
-    $j('label[for="63"],label[for="63f"],label[for="63d"],label[for="63ma"],label[for="63mb"], label[for="63mc"]').show();
+    $j("#63,#63f, #63d, #63ma, #63mb,#63mc,#dose9c").show()
+    $j('label[for="63"],label[for="63f"],label[for="63d"],label[for="63ma"],label[for="63mb"], label[for="63mc"]' +
+        ', label[for="dose9c"]').show();
 
-    $j("#61,#61f, #61d, #61ma, #61mb,#61mc").hide()
-    $j('label[for="61"],label[for="61f"],label[for="61d"],label[for="61ma"],label[for="61mb"], label[for="61mc"]').hide();
+    $j("#61,#61f, #61d, #61ma, #61mb,#61mc,#dose9a,#dose9b,#dose9d,#dose9e").hide()
+    $j('label[for="61"],label[for="61f"],label[for="61d"],label[for="61ma"],label[for="61mb"], ' +
+        'label[for="61mc"],label[for="dose9a"],label[for="dose9b"],label[for="dose9d"],label[for="dose9d"]').hide();
 
 
     $j("#62,#62f, #62d, #62ma, #62mb,#62mc").hide()
@@ -3388,16 +3459,20 @@ function row7SecondOption() {
 
 }function row7FourthOption() {
     $j("#61,#61f, #61d, #61ma, #61mb,#61mc").hide()
-    $j('label[for="61"],label[for="61f"],label[for="61d"],label[for="61ma"],label[for="61mb"], label[for="61mc"]').hide();
+    $j('label[for="61"],label[for="61f"],label[for="61d"],label[for="61ma"],label[for="61mb"],' +
+        ' label[for="61mc"]').hide();
 
-    $j("#62,#62f, #62d, #62ma, #62mb,#62mc").hide()
-    $j('label[for="62"],label[for="62f"],label[for="62d"],label[for="62ma"],label[for="62mb"], label[for="62mc"]').hide();
+    $j("#62,#62f, #62d, #62ma, #62mb,#62mc,#dose9a,#dose9b,#dose9c,#dose9e").hide()
+    $j('label[for="62"],label[for="62f"],label[for="62d"],label[for="62ma"],label[for="62mb"], label[for="62mc"]' +
+        ', label[for="dose9a"], label[for="dose9b"], label[for="dose9c"], label[for="dose9e"]').hide();
 
     $j("#63,#63f, #63d, #63ma, #63mb,#63mc").hide()
     $j('label[for="63"],label[for="63f"],label[for="63d"],label[for="63ma"],label[for="63mb"], label[for="63mc"]').hide();
 
-    $j("#64,#64fa,#64fb, #64da,#64db, #64ma, #64mb,#64mc,#64ma1, #64mb2,#64mc3").show()
-    $j('label[for="64"],label[for="64fa"],label[for="64fb"],label[for="64da"],label[for="64db"], label[for="64ma"], label[for="64mb"], label[for="64mc"], label[for="64ma1"], label[for="64mb2"], label[for="64mc3"]').show();
+    $j("#64,#64fa,#64fb, #64da,#64db, #64ma, #64mb,#64mc,#64ma1, #64mb2,#64mc3,#dose9d").show()
+    $j('label[for="64"],label[for="64fa"],label[for="64fb"],label[for="64da"],label[for="64db"], label[for="64ma"],' +
+        ' label[for="64mb"], label[for="64mc"], label[for="64ma1"], label[for="64mb2"],' +
+        ' label[for="64mc3"],label[for="dose9d"]').show();
 
     $j("#65,#65fa,#65fb, #65da, #65db, #65ma, #65mb,#65mc,#65ma1, #65mb2,#65mc3").hide()
 
@@ -3408,8 +3483,9 @@ function row7SecondOption() {
 
 
 }function row7FifthOption() {
-    $j("#61,#61f, #61d, #61ma, #61mb,#61mc").hide()
-    $j('label[for="61"],label[for="61f"],label[for="61d"],label[for="61ma"],label[for="61mb"], label[for="61mc"]').hide();
+    $j("#61,#61f, #61d, #61ma, #61mb,#61mc,#dose9a,#dose9b,#dose9c,#dose9d").hide()
+    $j('label[for="61"],label[for="61f"],label[for="61d"],label[for="61ma"],label[for="61mb"], label[for="61mc"]' +
+        ', label[for="dose9a"], label[for="dose9b"], label[for="dose9c"], label[for="dose9d"]').hide();
 
     $j("#62,#62f, #62d, #62ma, #62mb,#62mc").hide()
     $j('label[for="62"],label[for="62f"],label[for="62d"],label[for="62ma"],label[for="62mb"], label[for="62mc"]').hide();
@@ -3422,8 +3498,10 @@ function row7SecondOption() {
 
 
 
-    $j("#65,#65fa,#65fb, #65da, #65db, #65ma, #65mb,#65mc,#65ma1, #65mb2,#65mc3").show()
-    $j('label[for="65"],label[for="65fa"],label[for="65fb"],label[for="65da"],label[for="65db"], label[for="65ma"], label[for="65mb"], label[for="65mc"], label[for="65ma1"], label[for="65mb2"], label[for="65mc3"]').show();
+    $j("#65,#65fa,#65fb, #65da, #65db, #65ma, #65mb,#65mc,#65ma1, #65mb2,#65mc3,#dose9e").show()
+    $j('label[for="65"],label[for="65fa"],label[for="65fb"],label[for="65da"],label[for="65db"], label[for="65ma"],' +
+        ' label[for="65mb"], label[for="65mc"], label[for="65ma1"], label[for="65mb2"], ' +
+        'label[for="65mc3"],label[for="dose9e"]').show();
 
 
     $j("#66,#66f, #66d, #66ma, #66mb,#66mc").hide()
@@ -3434,9 +3512,13 @@ function row7SecondOption() {
 
 
 
-$j("#71,#72,#73,#74,#75,#76 , #71f,, #72f, #73f, #74fa,#74fb,#75fa,#75fb,#76f").hide()
+$j("#71,#72,#73,#74,#75,#76 , #71f,, #72f, #73f, #74fa,#74fb,#75fa,#75fb,#76f,#dose10a,#dose10b,#dose10c,#dose10d" +
+    ",#dose10e").hide()
 
-$j('label[for="71"],label[for="72"],label[for="73"],label[for="74"],label[for="75"] ,label[for="76"],label[for="71f"],label[for="72f"],label[for="73f"],label[for="74fa"],label[for="74fb"],label[for="75fa"],label[for="75fb"],label[for="76f"]').hide();
+$j('label[for="71"],label[for="72"],label[for="73"],label[for="74"],label[for="75"] ,label[for="76"],label[for="71f"],' +
+    'label[for="72f"],label[for="73f"],label[for="74fa"],label[for="74fb"],label[for="75fa"],label[for="75fb"],' +
+    'label[for="76f"],label[for="dose10a"],label[for="dose10b"],label[for="dose10c"],label[for="dose10d"]' +
+    ',label[for="dose10e"]').hide();
 
 
 $j("#71d,, #72d, #73d, #74da,#74db,#75da,#75db,#76d").hide()
@@ -3448,11 +3530,13 @@ $j("#71ma,#71mb,#71mc, #72ma,#72mb,#72mc, #73ma,#73mb,#73mc, #74ma,#74mb,#74mc, 
 
 $j('label[for="71ma"],label[for="71mb"],label[for="71mc"],label[for="72ma"],label[for="72mb"],label[for="76ma"],label[for="76mb"],label[for="76mc"],label[for="75ma1"],label[for="75mb2"],label[for="75mc3"],label[for="75ma"],label[for="75mb"],label[for="75mc"], label[for="74ma1"],label[for="74mb2"],label[for="74mc3"],label[for="72mc"],label[for="73ma"],label[for="73mb"],label[for="73mc"],label[for="74ma"],label[for="74mb"],label[for="74mc"]').hide();
 function row8FirstOption() {
-    $j("#71,#71f, #71d, #71ma, #71mb,#71mc").show()
-    $j('label[for="71"],label[for="71f"],label[for="71d"],label[for="71ma"],label[for="71mb"], label[for="71mc"]').show();
+    $j("#71,#71f, #71d, #71ma, #71mb,#71mc,#dose10a").show()
+    $j('label[for="71"],label[for="71f"],label[for="71d"],label[for="71ma"],label[for="71mb"], ' +
+        'label[for="71mc"],label[for="dose10a"]').show();
 
-    $j("#72,#72f, #72d, #72ma, #72mb,#72mc").hide()
-    $j('label[for="72"],label[for="72f"],label[for="72d"],label[for="72ma"],label[for="72mb"], label[for="72mc"]').hide();
+    $j("#72,#72f, #72d, #72ma, #72mb,#72mc,#dose10b,#dose10c,#dose10d,#dose10e").hide()
+    $j('label[for="72"],label[for="72f"],label[for="72d"],label[for="72ma"],label[for="72mb"],' +
+        ' label[for="72mc"],label[for="dose10b"],label[for="dose10c"],label[for="dose10d"],label[for="dose10e"]').hide();
 
     $j("#73,#73f, #73d, #73ma, #73mb,#73mc").hide()
     $j('label[for="73"],label[for="73f"],label[for="73d"],label[for="73ma"],label[for="73mb"], label[for="73mc"]').hide();
@@ -3470,12 +3554,14 @@ function row8FirstOption() {
 
 }
 function row8SecondOption() {
-    $j("#72,#72f, #72d, #72ma, #72mb,#72mc").show()
-    $j('label[for="72"],label[for="72f"],label[for="72d"],label[for="72ma"],label[for="72mb"], label[for="72mc"]').show();
+    $j("#72,#72f, #72d, #72ma, #72mb,#72mc,#dose10b").show()
+    $j('label[for="72"],label[for="72f"],label[for="72d"],label[for="72ma"],label[for="72mb"],' +
+        ' label[for="72mc"],label[for="dose10b"]').show();
 
 
-    $j("#71,#71f, #71d, #71ma, #71mb,#71mc").hide()
-    $j('label[for="71"],label[for="71f"],label[for="71d"],label[for="71ma"],label[for="71mb"], label[for="71mc"]').hide();
+    $j("#71,#71f, #71d, #71ma, #71mb,#71mc,#dose10a,#dose10c,#dose10d,#dose10e").hide()
+    $j('label[for="71"],label[for="71f"],label[for="71d"],label[for="71ma"],label[for="71mb"], ' +
+        'label[for="71mc"],label[for="dose10a"],label[for="dose10c"],label[for="dose10d"],label[for="dose10e"]').hide();
 
 
     $j("#73,#73f, #73d, #73ma, #73mb,#73mc").hide()
@@ -3493,11 +3579,13 @@ function row8SecondOption() {
     $j('label[for="76"],label[for="76f"],label[for="76d"],label[for="76ma"],label[for="76mb"], label[for="76mc"]').hide();
 
 }function row8ThirdOption() {
-    $j("#73,#73f, #73d, #73ma, #73mb,#73mc").show()
-    $j('label[for="73"],label[for="73f"],label[for="73d"],label[for="73ma"],label[for="73mb"], label[for="73mc"]').show();
+    $j("#73,#73f, #73d, #73ma, #73mb,#73mc,#dose10c").show()
+    $j('label[for="73"],label[for="73f"],label[for="73d"],label[for="73ma"],label[for="73mb"],' +
+        ' label[for="73mc"],label[for="dose10c"]').show();
 
-    $j("#71,#71f, #71d, #71ma, #71mb,#71mc").hide()
-    $j('label[for="71"],label[for="71f"],label[for="71d"],label[for="71ma"],label[for="71mb"], label[for="71mc"]').hide();
+    $j("#71,#71f, #71d, #71ma, #71mb,#71mc,#dose10a,#dose10b,#dose10e,#dose10e").hide()
+    $j('label[for="71"],label[for="71f"],label[for="71d"],label[for="71ma"],label[for="71mb"], ' +
+        'label[for="71mc"],label[for="dose10a"],label[for="dose10b"],label[for="dose10d"],label[for="dose10e"]').hide();
 
 
     $j("#72,#72f, #72d, #72ma, #72mb,#72mc").hide()
@@ -3517,8 +3605,9 @@ function row8SecondOption() {
 
 
 }function row8FourthOption() {
-    $j("#71,#71f, #71d, #71ma, #71mb,#71mc").hide()
-    $j('label[for="71"],label[for="71f"],label[for="71d"],label[for="71ma"],label[for="71mb"], label[for="71mc"]').hide();
+    $j("#71,#71f, #71d, #71ma, #71mb,#71mc,#dose10a,#dose10b,#dose10c,#dose10e").hide()
+    $j('label[for="71"],label[for="71f"],label[for="71d"],label[for="71ma"],label[for="71mb"], ' +
+        'label[for="71mc"],label[for="dose10a"],label[for="dose10b"],label[for="dose10c"],label[for="dose10e"]').hide();
 
     $j("#72,#72f, #72d, #72ma, #72mb,#72mc").hide()
     $j('label[for="72"],label[for="72f"],label[for="72d"],label[for="72ma"],label[for="72mb"], label[for="72mc"]').hide();
@@ -3526,8 +3615,10 @@ function row8SecondOption() {
     $j("#73,#73f, #73d, #73ma, #73mb,#73mc").hide()
     $j('label[for="73"],label[for="73f"],label[for="73d"],label[for="73ma"],label[for="73mb"], label[for="73mc"]').hide();
 
-    $j("#74,#74fa,#74fb, #74da,#74db, #74ma, #74mb,#74mc,#74ma1, #74mb2,#74mc3").show()
-    $j('label[for="74"],label[for="74fa"],label[for="74fb"],label[for="74da"],label[for="74db"], label[for="74ma"], label[for="74mb"], label[for="74mc"], label[for="74ma1"], label[for="74mb2"], label[for="74mc3"]').show();
+    $j("#74,#74fa,#74fb, #74da,#74db, #74ma, #74mb,#74mc,#74ma1, #74mb2,#74mc3,#dose10d").show()
+    $j('label[for="74"],label[for="74fa"],label[for="74fb"],label[for="74da"],label[for="74db"],' +
+        ' label[for="74ma"], label[for="74mb"], label[for="74mc"], label[for="74ma1"], label[for="74mb2"], ' +
+        'label[for="74mc3"],label[for="dose10d"]').show();
 
     $j("#75,#75fa,#75fb, #75da, #75db, #75ma, #75mb,#75mc,#75ma1, #75mb2,#75mc3").hide()
 
@@ -3538,8 +3629,9 @@ function row8SecondOption() {
 
 
 }function row8FifthOption() {
-    $j("#71,#71f, #71d, #71ma, #71mb,#71mc").hide()
-    $j('label[for="71"],label[for="71f"],label[for="71d"],label[for="71ma"],label[for="71mb"], label[for="71mc"]').hide();
+    $j("#71,#71f, #71d, #71ma, #71mb,#71mc,#dose10a,#dose10b,#dose10c,#dose10d").hide()
+    $j('label[for="71"],label[for="71f"],label[for="71d"],label[for="71ma"],label[for="71mb"],' +
+        ' label[for="71mc"],label[for="dose10a"],label[for="dose10b"],label[for="dose10c"],label[for="dose10d"]').hide();
 
     $j("#72,#72f, #72d, #72ma, #72mb,#72mc").hide()
     $j('label[for="72"],label[for="72f"],label[for="72d"],label[for="72ma"],label[for="72mb"], label[for="72mc"]').hide();
@@ -3552,8 +3644,10 @@ function row8SecondOption() {
 
 
 
-    $j("#75,#75fa,#75fb, #75da, #75db, #75ma, #75mb,#75mc,#75ma1, #75mb2,#75mc3").show()
-    $j('label[for="75"],label[for="75fa"],label[for="75fb"],label[for="75da"],label[for="75db"], label[for="75ma"], label[for="75mb"], label[for="75mc"], label[for="75ma1"], label[for="75mb2"], label[for="75mc3"]').show();
+    $j("#75,#75fa,#75fb, #75da, #75db, #75ma, #75mb,#75mc,#75ma1, #75mb2,#75mc3,#dose10e").show()
+    $j('label[for="75"],label[for="75fa"],label[for="75fb"],label[for="75da"],label[for="75db"], label[for="75ma"],' +
+        ' label[for="75mb"], label[for="75mc"], label[for="75ma1"], label[for="75mb2"],' +
+        ' label[for="75mc3"],label[for="dose10e"]').show();
 
 
     $j("#76,#76f, #76d, #76ma, #76mb,#76mc").hide()
@@ -3564,9 +3658,13 @@ function row8SecondOption() {
 
 
 
-$j("#81,#82,#83,#84,#85,#86 , #81f,, #82f, #83f, #84fa,#84fb,#85fa,#85fb,#86f").hide()
+$j("#81,#82,#83,#84,#85,#86 , #81f,, #82f, #83f, #84fa,#84fb,#85fa,#85fb,#86f,#dose11a" +
+    ",#dose11b,#dose11c,#dose11d,#dose11e").hide()
 
-$j('label[for="81"],label[for="82"],label[for="83"],label[for="84"],label[for="85"] ,label[for="86"],label[for="81f"],label[for="82f"],label[for="83f"],label[for="84fa"],label[for="84fb"],label[for="85fa"],label[for="85fb"],label[for="86f"]').hide();
+$j('label[for="81"],label[for="82"],label[for="83"],label[for="84"],label[for="85"] ,' +
+    'label[for="86"],label[for="81f"],label[for="82f"],label[for="83f"],label[for="84fa"],' +
+    'label[for="84fb"],label[for="85fa"],label[for="85fb"],label[for="86f"],label[for="dose11a"]' +
+    ',label[for="dose11b"],label[for="dose11c"],label[for="dose11d"],label[for="dose11e"]').hide();
 
 
 $j("#81d,, #82d, #83d, #84da,#84db,#85da,#85db,#86d").hide()
@@ -3578,11 +3676,13 @@ $j("#81ma,#81mb,#81mc, #82ma,#82mb,#82mc, #83ma,#83mb,#83mc, #84ma,#84mb,#84mc, 
 
 $j('label[for="81ma"],label[for="81mb"],label[for="81mc"],label[for="82ma"],label[for="82mb"],label[for="86ma"],label[for="86mb"],label[for="86mc"],label[for="85ma1"],label[for="85mb2"],label[for="85mc3"],label[for="85ma"],label[for="85mb"],label[for="85mc"], label[for="84ma1"],label[for="84mb2"],label[for="84mc3"],label[for="82mc"],label[for="83ma"],label[for="83mb"],label[for="83mc"],label[for="84ma"],label[for="84mb"],label[for="84mc"]').hide();
 function row9FirstOption() {
-    $j("#81,#81f, #81d, #81ma, #81mb,#81mc").show()
-    $j('label[for="81"],label[for="81f"],label[for="81d"],label[for="81ma"],label[for="81mb"], label[for="81mc"]').show();
+    $j("#81,#81f, #81d, #81ma, #81mb,#81mc,#dose11a").show()
+    $j('label[for="81"],label[for="81f"],label[for="81d"],label[for="81ma"],label[for="81mb"], ' +
+        'label[for="81mc"],label[for="dose11a"]').show();
 
-    $j("#82,#82f, #82d, #82ma, #82mb,#82mc").hide()
-    $j('label[for="82"],label[for="82f"],label[for="82d"],label[for="82ma"],label[for="82mb"], label[for="82mc"]').hide();
+    $j("#82,#82f, #82d, #82ma, #82mb,#82mc,#dose11b,#dose11c,#dose11d,#dose11e").hide()
+    $j('label[for="82"],label[for="82f"],label[for="82d"],label[for="82ma"],label[for="82mb"], ' +
+        'label[for="82mc"],label[for="dose11b"],label[for="dose11c"],label[for="dose11d"],label[for="dose11e"]').hide();
 
     $j("#83,#83f, #83d, #83ma, #83mb,#83mc").hide()
     $j('label[for="83"],label[for="83f"],label[for="83d"],label[for="83ma"],label[for="83mb"], label[for="83mc"]').hide();
@@ -3600,12 +3700,15 @@ function row9FirstOption() {
 
 }
 function row9SecondOption() {
-    $j("#82,#82f, #82d, #82ma, #82mb,#82mc").show()
-    $j('label[for="82"],label[for="82f"],label[for="82d"],label[for="82ma"],label[for="82mb"], label[for="82mc"]').show();
+    $j("#82,#82f, #82d, #82ma, #82mb,#82mc,#dose11b").show()
+    $j('label[for="82"],label[for="82f"],label[for="82d"],label[for="82ma"],label[for="82mb"],' +
+        ' label[for="82mc"],label[for="dose11b"]').show();
 
 
-    $j("#81,#81f, #81d, #81ma, #81mb,#81mc").hide()
-    $j('label[for="81"],label[for="81f"],label[for="81d"],label[for="81ma"],label[for="81mb"], label[for="81mc"]').hide();
+    $j("#81,#81f, #81d, #81ma, #81mb,#81mc,#dose11a,#dose11c,#dose11d,#dose11e").hide()
+    $j('label[for="81"],label[for="81f"],label[for="81d"],label[for="81ma"],label[for="81mb"], ' +
+        'label[for="81mc"],label[for="dose11a"],label[for="dose11c"],label[for="dose11d"]' +
+        ',label[for="dose11e"]').hide();
 
 
     $j("#83,#83f, #83d, #83ma, #83mb,#83mc").hide()
@@ -3623,11 +3726,13 @@ function row9SecondOption() {
     $j('label[for="86"],label[for="86f"],label[for="86d"],label[for="86ma"],label[for="86mb"], label[for="86mc"]').hide();
 
 }function row9ThirdOption() {
-    $j("#83,#83f, #83d, #83ma, #83mb,#83mc").show()
-    $j('label[for="83"],label[for="83f"],label[for="83d"],label[for="83ma"],label[for="83mb"], label[for="83mc"]').show();
+    $j("#83,#83f, #83d, #83ma, #83mb,#83mc,#dose11c").show()
+    $j('label[for="83"],label[for="83f"],label[for="83d"],label[for="83ma"],label[for="83mb"], ' +
+        'label[for="83mc"],label[for="dose11c"]').show();
 
-    $j("#81,#81f, #81d, #81ma, #81mb,#81mc").hide()
-    $j('label[for="81"],label[for="81f"],label[for="81d"],label[for="81ma"],label[for="81mb"], label[for="81mc"]').hide();
+    $j("#81,#81f, #81d, #81ma, #81mb,#81mc,#dose11a,#dose11b,#dose11d,#dose11e").hide()
+    $j('label[for="81"],label[for="81f"],label[for="81d"],label[for="81ma"],label[for="81mb"], ' +
+        'label[for="81mc"],label[for="dose11a"],label[for="dose11b"],label[for="dose11d"],label[for="dose11e"]').hide();
 
 
     $j("#82,#82f, #82d, #82ma, #82mb,#82mc").hide()
@@ -3647,8 +3752,9 @@ function row9SecondOption() {
 
 
 }function row9FourthOption() {
-    $j("#81,#81f, #81d, #81ma, #81mb,#81mc").hide()
-    $j('label[for="81"],label[for="81f"],label[for="81d"],label[for="81ma"],label[for="81mb"], label[for="81mc"]').hide();
+    $j("#81,#81f, #81d, #81ma, #81mb,#81mc,#dose11a,#dose11b,#dose11c,#dose11e").hide()
+    $j('label[for="81"],label[for="81f"],label[for="81d"],label[for="81ma"],label[for="81mb"],' +
+        ' label[for="81mc"],label[for="dose11a"],label[for="dose11b"],label[for="dose11c"],label[for="dose11e"]').hide();
 
     $j("#82,#82f, #82d, #82ma, #82mb,#82mc").hide()
     $j('label[for="82"],label[for="82f"],label[for="82d"],label[for="82ma"],label[for="82mb"], label[for="82mc"]').hide();
@@ -3656,8 +3762,10 @@ function row9SecondOption() {
     $j("#83,#83f, #83d, #83ma, #83mb,#83mc").hide()
     $j('label[for="83"],label[for="83f"],label[for="83d"],label[for="83ma"],label[for="83mb"], label[for="83mc"]').hide();
 
-    $j("#84,#84fa,#84fb, #84da,#84db, #84ma, #84mb,#84mc,#84ma1, #84mb2,#84mc3").show()
-    $j('label[for="84"],label[for="84fa"],label[for="84fb"],label[for="84da"],label[for="84db"], label[for="84ma"], label[for="84mb"], label[for="84mc"], label[for="84ma1"], label[for="84mb2"], label[for="84mc3"]').show();
+    $j("#84,#84fa,#84fb, #84da,#84db, #84ma, #84mb,#84mc,#84ma1, #84mb2,#84mc3,#dose11d").show()
+    $j('label[for="84"],label[for="84fa"],label[for="84fb"],label[for="84da"],label[for="84db"], label[for="84ma"],' +
+        ' label[for="84mb"], label[for="84mc"], label[for="84ma1"], label[for="84mb2"],' +
+        ' label[for="84mc3"],label[for="dose11d"]').show();
 
     $j("#85,#85fa,#85fb, #85da, #85db, #85ma, #85mb,#85mc,#85ma1, #85mb2,#85mc3").hide()
 
@@ -3668,8 +3776,9 @@ function row9SecondOption() {
 
 
 }function row9FifthOption() {
-    $j("#81,#81f, #81d, #81ma, #81mb,#81mc").hide()
-    $j('label[for="81"],label[for="81f"],label[for="81d"],label[for="81ma"],label[for="81mb"], label[for="81mc"]').hide();
+    $j("#81,#81f, #81d, #81ma, #81mb,#81mc,#dose11a,#dose11b,#dose11c,#dose11d").hide()
+    $j('label[for="81"],label[for="81f"],label[for="81d"],label[for="81ma"],label[for="81mb"], ' +
+        'label[for="81mc"],label[for="dose11a"],label[for="dose11b"],label[for="dose11c"],label[for="dose11d"]').hide();
 
     $j("#82,#82f, #82d, #82ma, #82mb,#82mc").hide()
     $j('label[for="82"],label[for="82f"],label[for="82d"],label[for="82ma"],label[for="82mb"], label[for="82mc"]').hide();
@@ -3682,8 +3791,10 @@ function row9SecondOption() {
 
 
 
-    $j("#85,#85fa,#85fb, #85da, #85db, #85ma, #85mb,#85mc,#85ma1, #85mb2,#85mc3").show()
-    $j('label[for="85"],label[for="85fa"],label[for="85fb"],label[for="85da"],label[for="85db"], label[for="85ma"], label[for="85mb"], label[for="85mc"], label[for="85ma1"], label[for="85mb2"], label[for="85mc3"]').show();
+    $j("#85,#85fa,#85fb, #85da, #85db, #85ma, #85mb,#85mc,#85ma1, #85mb2,#85mc3,#dose11e").show()
+    $j('label[for="85"],label[for="85fa"],label[for="85fb"],label[for="85da"],label[for="85db"],' +
+        ' label[for="85ma"], label[for="85mb"], label[for="85mc"], label[for="85ma1"], label[for="85mb2"],' +
+        ' label[for="85mc3"],label[for="dose11e"]').show();
 
 
     $j("#86,#86f, #86d, #86ma, #86mb,#86mc").hide()
@@ -3694,9 +3805,13 @@ function row9SecondOption() {
 
 
 
-$j("#91,#92,#93,#94,#95,#96 , #91f,, #92f, #93f, #94fa,#94fb,#95fa,#95fb,#96f").hide()
+$j("#91,#92,#93,#94,#95,#96 , #91f,, #92f, #93f, #94fa,#94fb,#95fa,#95fb,#96f,#dose12a,#dose12b,#dose12c," +
+    "#dose12d,#dose12e").hide()
 
-$j('label[for="91"],label[for="92"],label[for="93"],label[for="94"],label[for="95"] ,label[for="96"],label[for="91f"],label[for="92f"],label[for="93f"],label[for="94fa"],label[for="94fb"],label[for="95fa"],label[for="95fb"],label[for="96f"]').hide();
+$j('label[for="91"],label[for="92"],label[for="93"],label[for="94"],label[for="95"] ,label[for="96"],' +
+    'label[for="91f"],label[for="92f"],label[for="93f"],label[for="94fa"],label[for="94fb"],' +
+    'label[for="95fa"],label[for="95fb"],label[for="96f"],label[for="dose11a"],label[for="dose11b"]' +
+    ',label[for="dose11c"],label[for="dose12d"],label[for="dose12e"],label[for="dose12f"]').hide();
 
 
 $j("#91d,, #92d, #93d, #94da,#94db,#95da,#95db,#96d").hide()
@@ -3708,11 +3823,13 @@ $j("#91ma,#91mb,#91mc, #92ma,#92mb,#92mc, #93ma,#93mb,#93mc, #94ma,#94mb,#94mc, 
 
 $j('label[for="91ma"],label[for="91mb"],label[for="91mc"],label[for="92ma"],label[for="92mb"],label[for="96ma"],label[for="96mb"],label[for="96mc"],label[for="95ma1"],label[for="95mb2"],label[for="95mc3"],label[for="95ma"],label[for="95mb"],label[for="95mc"], label[for="94ma1"],label[for="94mb2"],label[for="94mc3"],label[for="92mc"],label[for="93ma"],label[for="93mb"],label[for="93mc"],label[for="94ma"],label[for="94mb"],label[for="94mc"]').hide();
 function row10FirstOption() {
-    $j("#91,#91f, #91d, #91ma, #91mb,#91mc").show()
-    $j('label[for="91"],label[for="91f"],label[for="91d"],label[for="91ma"],label[for="91mb"], label[for="91mc"]').show();
+    $j("#91,#91f, #91d, #91ma, #91mb,#91mc,#dose12a").show()
+    $j('label[for="91"],label[for="91f"],label[for="91d"],label[for="91ma"],label[for="91mb"], ' +
+        'label[for="91mc"],label[for="dose12a"]').show();
 
-    $j("#92,#92f, #92d, #92ma, #92mb,#92mc").hide()
-    $j('label[for="92"],label[for="92f"],label[for="92d"],label[for="92ma"],label[for="92mb"], label[for="92mc"]').hide();
+    $j("#92,#92f, #92d, #92ma, #92mb,#92mc,#dose12b,#dose12c,#dose12d,#dose12e").hide()
+    $j('label[for="92"],label[for="92f"],label[for="92d"],label[for="92ma"],label[for="92mb"], ' +
+        'label[for="92mc"],label[for="dose12b"],label[for="dose12c"],label[for="dose12d"],label[for="dose12e"]').hide();
 
     $j("#93,#93f, #93d, #93ma, #93mb,#93mc").hide()
     $j('label[for="93"],label[for="93f"],label[for="93d"],label[for="93ma"],label[for="93mb"], label[for="93mc"]').hide();
@@ -3730,12 +3847,15 @@ function row10FirstOption() {
 
 }
 function row10SecondOption() {
-    $j("#92,#92f, #92d, #92ma, #92mb,#92mc").show()
-    $j('label[for="92"],label[for="92f"],label[for="92d"],label[for="92ma"],label[for="92mb"], label[for="92mc"]').show();
+    $j("#92,#92f, #92d, #92ma, #92mb,#92mc,#dose12b").show()
+    $j('label[for="92"],label[for="92f"],label[for="92d"],label[for="92ma"],label[for="92mb"],' +
+        ' label[for="92mc"],label[for="dose12b"]').show();
 
 
-    $j("#91,#91f, #91d, #91ma, #91mb,#91mc").hide()
-    $j('label[for="91"],label[for="91f"],label[for="91d"],label[for="91ma"],label[for="91mb"], label[for="91mc"]').hide();
+    $j("#91,#91f, #91d, #91ma, #91mb,#91mc,#dose12a,#dose12c,#dose12d,#dose12e").hide()
+    $j('label[for="91"],label[for="91f"],label[for="91d"],label[for="91ma"],label[for="91mb"], ' +
+        'label[for="91mc"],label[for="dose12a"],label[for="dose12c"],label[for="dose12d"]' +
+        ',label[for="dose12e"]').hide();
 
 
     $j("#93,#93f, #93d, #93ma, #93mb,#93mc").hide()
@@ -3753,11 +3873,13 @@ function row10SecondOption() {
     $j('label[for="96"],label[for="96f"],label[for="96d"],label[for="96ma"],label[for="96mb"], label[for="96mc"]').hide();
 
 }function row10ThirdOption() {
-    $j("#93,#93f, #93d, #93ma, #93mb,#93mc").show()
-    $j('label[for="93"],label[for="93f"],label[for="93d"],label[for="93ma"],label[for="93mb"], label[for="93mc"]').show();
+    $j("#93,#93f, #93d, #93ma, #93mb,#93mc,#dose12c").show()
+    $j('label[for="93"],label[for="93f"],label[for="93d"],label[for="93ma"],label[for="93mb"], ' +
+        'label[for="93mc"],label[for="dose12c"]').show();
 
-    $j("#91,#91f, #91d, #91ma, #91mb,#91mc").hide()
-    $j('label[for="91"],label[for="91f"],label[for="91d"],label[for="91ma"],label[for="91mb"], label[for="91mc"]').hide();
+    $j("#91,#91f, #91d, #91ma, #91mb,#91mc,#dose12a,#dose12b,#dose12d,#dose12e").hide()
+    $j('label[for="91"],label[for="91f"],label[for="91d"],label[for="91ma"],label[for="91mb"],' +
+        ' label[for="91mc"],label[for="dose12a"],label[for="dose12b"],label[for="dose12d"],label[for="dose12e"]').hide();
 
 
     $j("#92,#92f, #92d, #92ma, #92mb,#92mc").hide()
@@ -3777,8 +3899,10 @@ function row10SecondOption() {
 
 
 }function row10FourthOption() {
-    $j("#91,#91f, #91d, #91ma, #91mb,#91mc").hide()
-    $j('label[for="91"],label[for="91f"],label[for="91d"],label[for="91ma"],label[for="91mb"], label[for="91mc"]').hide();
+    $j("#91,#91f, #91d, #91ma, #91mb,#91mc,#dose12a,#dose12b,#dose12c,#dose12e").hide()
+    $j('label[for="91"],label[for="91f"],label[for="91d"],label[for="91ma"],label[for="91mb"], ' +
+        'label[for="91mc"],label[for="dose12a"],label[for="dose12b"],label[for="dose12c"]' +
+        ',label[for="dose12e"]').hide();
 
     $j("#92,#92f, #92d, #92ma, #92mb,#92mc").hide()
     $j('label[for="92"],label[for="92f"],label[for="92d"],label[for="92ma"],label[for="92mb"], label[for="92mc"]').hide();
@@ -3786,8 +3910,10 @@ function row10SecondOption() {
     $j("#93,#93f, #93d, #93ma, #93mb,#93mc").hide()
     $j('label[for="93"],label[for="93f"],label[for="93d"],label[for="93ma"],label[for="93mb"], label[for="93mc"]').hide();
 
-    $j("#94,#94fa,#94fb, #94da,#94db, #94ma, #94mb,#94mc,#94ma1, #94mb2,#94mc3").show()
-    $j('label[for="94"],label[for="94fa"],label[for="94fb"],label[for="94da"],label[for="94db"], label[for="94ma"], label[for="94mb"], label[for="94mc"], label[for="94ma1"], label[for="94mb2"], label[for="94mc3"]').show();
+    $j("#94,#94fa,#94fb, #94da,#94db, #94ma, #94mb,#94mc,#94ma1, #94mb2,#94mc3,#dose12d").show()
+    $j('label[for="94"],label[for="94fa"],label[for="94fb"],label[for="94da"],label[for="94db"], ' +
+        'label[for="94ma"], label[for="94mb"], label[for="94mc"], label[for="94ma1"], label[for="94mb2"],' +
+        ' label[for="94mc3"],label[for="dose12d"]').show();
 
     $j("#95,#95fa,#95fb, #95da, #95db, #95ma, #95mb,#95mc,#95ma1, #95mb2,#95mc3").hide()
 
@@ -3798,8 +3924,10 @@ function row10SecondOption() {
 
 
 }function row10FifthOption() {
-    $j("#91,#91f, #91d, #91ma, #91mb,#91mc").hide()
-    $j('label[for="91"],label[for="91f"],label[for="91d"],label[for="91ma"],label[for="91mb"], label[for="91mc"]').hide();
+    $j("#91,#91f, #91d, #91ma, #91mb,#91mc,#dose12a,#dose12b,,#dose12c,#dose12d").hide()
+    $j('label[for="91"],label[for="91f"],label[for="91d"],label[for="91ma"],label[for="91mb"], ' +
+        'label[for="91mc"],label[for="dose12a"],label[for="dose12b"],label[for="dose12c"]' +
+        ',label[for="dose12d"]').hide();
 
     $j("#92,#92f, #92d, #92ma, #92mb,#92mc").hide()
     $j('label[for="92"],label[for="92f"],label[for="92d"],label[for="92ma"],label[for="92mb"], label[for="92mc"]').hide();
@@ -3812,8 +3940,10 @@ function row10SecondOption() {
 
 
 
-    $j("#95,#95fa,#95fb, #95da, #95db, #95ma, #95mb,#95mc,#95ma1, #95mb2,#95mc3").show()
-    $j('label[for="95"],label[for="95fa"],label[for="95fb"],label[for="95da"],label[for="95db"], label[for="95ma"], label[for="95mb"], label[for="95mc"], label[for="95ma1"], label[for="95mb2"], label[for="95mc3"]').show();
+    $j("#95,#95fa,#95fb, #95da, #95db, #95ma, #95mb,#95mc,#95ma1, #95mb2,#95mc3,#dose12e").show()
+    $j('label[for="95"],label[for="95fa"],label[for="95fb"],label[for="95da"],label[for="95db"],' +
+        ' label[for="95ma"], label[for="95mb"], label[for="95mc"], label[for="95ma1"], label[for="95mb2"],' +
+        ' label[for="95mc3"],label[for="dose12e"]').show();
 
 
     $j("#96,#96f, #96d, #96ma, #96mb,#96mc").hide()
@@ -3827,17 +3957,21 @@ function row10SecondOption() {
 
 
 
-$j("#110,#111,#112,#113,#114,#115,#116,#117,#111f,#112f,#113fa,#113fb, #114fa,#114fb,#112f1,,#113fa1,#113fb1,#113fb2, #114fa1,#114fb1").hide()
+$j("#110,#111,#112,#113,#114,#115,#116,#117,#111f,#112f,#113fa,#113fb, #114fa,#114fb,#112f1").hide()
 
 $j('label[for="117"],label[for="111"],label[for="112"],label[for="113"],label[for="114"],label[for="115"],label[for="116"],label[for="116"],' +
     'label[for="110f"],label[for="111f"],label[for="112f1"],label[for="112f"],label[for="113fa"],label[for="113fb"],label[for="114fb"],label[for="114fa"],label[for="114fa1"],label[for="114fb1"],' +
     'label[for="113fa1"],label[for="113fb1"],label[for="113fb2"],' +
-    'label[for="115fb"],label[for="116f"],label[for="117f"]').hide();
+    'label[for="115fb"],label[for="116f"],label[for="117f"]"]').hide();
 
 
-$j("#110d,#111d,#112d,#113d,#114d,#115d,#116d,#117d").hide()
+$j("#110d,#111d,#112d,#113d,#114d,#115d,#116d,#117d,#dose13a,#dose13b,#dose13c,#dose13d,#dose13e" +
+    ",#dose13f,#dose13g,#dose13h,#dose13i").hide()
 
-$j('label[for="110d"],label[for="111d"],label[for="112d"],label[for="113d"],label[for="114d"],label[for="115d"],label[for="116d"],label[for="116d"],label[for="117d"]').hide();
+$j('label[for="110d"],label[for="111d"],label[for="112d"],label[for="113d"],label[for="114d"],' +
+    'label[for="115d"],label[for="116d"],label[for="116d"],label[for="117d"],label[for="dose13a"]' +
+    ',label[for="dose13b"],label[for="dose13c"],label[for="dose13d"],label[for="dose13e"],label[for="dose13f"]' +
+    ',label[for="dose13g"],label[for="dose13h"],label[for="dose13i"]').hide();
 
 
 $j("#110ma,#110mb,#110mc,#111ma,#111mb,#111mc,#112ma,#112mb,#112mc,  #113ma1,#113ma2,#113mb1,#113mb2,#113mc1,#113mc2, " +
@@ -3854,13 +3988,17 @@ $j('label[for="110ma"],label[for="110mb"],label[for="110mc"],label[for="111ma"],
 
 
 function row11SecondOption() {
-    $j("#111,#111f, #111d,#111ma,#111mb, #111mc").show()
+    $j("#111,#111f, #111d,#111ma,#111mb, #111mc,#dose13a").show()
 
-    $j('label[for="111"],label[for="111f"],label[for="111d"],label[for="111ma"],label[for="111mb"],label[for="111mc"]').show();
+    $j('label[for="111"],label[for="111f"],label[for="111d"],label[for="111ma"],' +
+        'label[for="111mb"],label[for="111mc"],label[for="dose13a"]').show();
 
-    $j("#112,#112f, #112d,#112ma,#112mb, #112mc").hide()
+    $j("#112,#112f, #112d,#112ma,#112mb, #112mc,#dose13b,#dose13c,#dose13d,#dose13e,#dose13f,#dose13h" +
+        ",#dose13i").hide()
 
-    $j('label[for="112"],label[for="112f"],label[for="112d"],label[for="112ma"],label[for="112mb"],label[for="112mc"]').hide();
+    $j('label[for="112"],label[for="112f"],label[for="112d"],label[for="112ma"],label[for="112mb"],' +
+        'label[for="112mc"],label[for="dose13b"],label[for="dose13c"],label[for="dose13d"],label[for="dose13e"]' +
+        ',label[for="dose13f"],label[for="dose13h"],label[for="dose13i"]').hide();
 
 
     $j("#113,#113fa,#113fb, #113d,#113ma1,#113mb1, #113mc1,#113ma2,#113mb2, #113mc2").hide()
@@ -3898,13 +4036,17 @@ function row11SecondOption() {
         'label[for="114ma11"],label[for="114mb11"],label[for="114mc11"],label[for="114ma21"],label[for="114mb21"],label[for="114mc21"]').hide();
 
 }function row11ThirdOption() {
-    $j("#111,#111f, #111d,#111ma,#111mb, #111mc").hide()
+    $j("#111,#111f, #111d,#111ma,#111mb, #111mc,#dose13a,#dose13c,#dose13d,#dose13e,#dose13t,#dose13g,#dose13h,#dose13i").hide()
 
-    $j('label[for="111"],label[for="111f"],label[for="111d"],label[for="111ma"],label[for="111mb"],label[for="111mc"]').hide();
+    $j('label[for="111"],label[for="111f"],label[for="111d"],label[for="111ma"],label[for="111mb"],' +
+        'label[for="111mc"],label[for="dose13a"],label[for="dose13c"]' +
+        ',label[for="dose13d"],label[for="dose13e"],label[for="dose13f"],label[for="dose13g"]' +
+        ',label[for="dose13h"],label[for="dose13i"]').hide();
 
-    $j("#112,#112f, #112d,#112ma,#112mb, #112mc").show()
+    $j("#112,#112f, #112d,#112ma,#112mb, #112mc,#dose13b").show()
 
-    $j('label[for="112"],label[for="112f"],label[for="112d"],label[for="112ma"],label[for="112mb"],label[for="112mc"]').show();
+    $j('label[for="112"],label[for="112f"],label[for="112d"],label[for="112ma"],label[for="112mb"],' +
+        'label[for="112mc"],label[for="dose13b"]').show();
 
 
     $j("#113,#113fa,#113fb, #113d,#113ma1,#113mb1, #113mc1,#113ma2,#113mb2, #113mc2").hide()
@@ -3943,18 +4085,23 @@ function row11SecondOption() {
 
 
 }function row11FourthOption() {
-    $j("#111,#111f, #111d,#111ma,#111mb, #111mc").hide()
+    $j("#111,#111f, #111d,#111ma,#111mb, #111mc,#dose13a,#dose13b,#dose13d," +
+        "#dose13e,#dose13f,#dose13g,#dose13h,#dose13i").hide()
 
-    $j('label[for="111"],label[for="111f"],label[for="111d"],label[for="111ma"],label[for="111mb"],label[for="111mc"]').hide();
+    $j('label[for="111"],label[for="111f"],label[for="111d"],label[for="111ma"],' +
+        'label[for="111mb"],label[for="111mc"],label[for="dose13a"],label[for="dose13b"],label[for="dose13d"]' +
+        ',label[for="dose13e"],label[for="dose13f"],label[for="dose13g"],label[for="dose13h"],label[for="dose13i"]').hide();
 
     $j("#112,#112f, #112d,#112ma,#112mb, #112mc").hide()
 
     $j('label[for="112"],label[for="112f"],label[for="112d"],label[for="112ma"],label[for="112mb"],label[for="112mc"]').hide();
 
 
-    $j("#113,#113fa,#113fb, #113d,#113ma1,#113mb1, #113mc1,#113ma2,#113mb2, #113mc2").show()
+    $j("#113,#113fa,#113fb, #113d,#113ma1,#113mb1, #113mc1,#113ma2,#113mb2, #113mc2,#dose13c").show()
 
-    $j('label[for="113"],label[for="113fa"],label[for="113fb"],label[for="113d"],label[for="113ma1"],label[for="113mb1"],label[for="113mc1"],label[for="113ma2"],label[for="113mb2"],label[for="113mc2"]').show();
+    $j('label[for="113"],label[for="113fa"],label[for="113fb"],label[for="113d"],label[for="113ma1"],' +
+        'label[for="113mb1"],label[for="113mc1"],label[for="113ma2"],label[for="113mb2"],label[for="113mc2"]' +
+        ',label[for="dose13c"]').show();
 
     $j("#114,#114fa,#114fb, #114d,#114ma1,#114mb1, #114mc1,#114ma2,#114mb2, #114mc2").hide()
 
@@ -3990,9 +4137,13 @@ function row11SecondOption() {
 
 }function row11FifthOption() {
 
-    $j("#111,#111f, #111d,#111ma,#111mb, #111mc").hide()
+    $j("#111,#111f, #111d,#111ma,#111mb, #111mc,#dose13a,#dose13b,#dose13c," +
+        "#dose13e,#dose13f,#dose13g,#dose13h,#dose13i").hide()
 
-    $j('label[for="111"],label[for="111f"],label[for="111d"],label[for="111ma"],label[for="111mb"],label[for="111mc"]').hide();
+    $j('label[for="111"],label[for="111f"],label[for="111d"],label[for="111ma"],label[for="111mb"],' +
+        'label[for="111mc"],label[for="dose13a"],label[for="dose13b"],label[for="dose13c"]' +
+        ',label[for="dose13e"],label[for="dose13f"],label[for="dose13g"]' +
+        ',label[for="dose13h"],label[for="dose13i"]').hide();
 
     $j("#112,#112f, #112d,#112ma,#112mb, #112mc").hide()
 
@@ -4003,10 +4154,11 @@ function row11SecondOption() {
 
     $j('label[for="113"],label[for="113fa"],label[for="113fb"],label[for="113d"],label[for="113ma1"],label[for="113mb1"],label[for="113mc1"],label[for="113ma2"],label[for="113mb2"],label[for="113mc2"]').hide();
 
-    $j("#114,#114fa,#114fb, #114d,#114ma1,#114mb1, #114mc1,#114ma2,#114mb2, #114mc2").show()
+    $j("#114,#114fa,#114fb, #114d,#114ma1,#114mb1, #114mc1,#114ma2,#114mb2, #114mc2,#dose13d").show()
 
     $j('label[for="114"],label[for="114fa"],label[for="114fb"],label[for="114d"],' +
-        'label[for="114ma1"],label[for="114mb1"],label[for="114mc1"],label[for="114ma2"],label[for="114mb2"],label[for="114mc2"]').show();
+        'label[for="114ma1"],label[for="114mb1"],label[for="114mc1"],label[for="114ma2"],' +
+        'label[for="114mb2"],label[for="114mc2"],label[for="dose13d"]').show();
 
 
 
@@ -4037,9 +4189,12 @@ function row11SecondOption() {
 
 
 }function row11SixthOption() {
-    $j("#111,#111f, #111d,#111ma,#111mb, #111mc").hide()
+    $j("#111,#111f, #111d,#111ma,#111mb, #111mc,#dose13a,#dose13b,#dose13c,#dose13d," +
+        "#dose13f,#dose13g,#dose13h,#dose13i").hide()
 
-    $j('label[for="111"],label[for="111f"],label[for="111d"],label[for="111ma"],label[for="111mb"],label[for="111mc"]').hide();
+    $j('label[for="111"],label[for="111f"],label[for="111d"],label[for="111ma"],' +
+        'label[for="111mb"],label[for="111mc"],label[for="dose13a"],label[for="dose13b"],label[for="dose13d"]' +
+        ',label[for="dose13f"],label[for="dose13g"],label[for="dose13h"],label[for="dose13i"]').hide();
 
     $j("#112,#112f, #112d,#112ma,#112mb, #112mc").hide()
 
@@ -4057,10 +4212,11 @@ function row11SecondOption() {
 
 
 
-    $j("#115,#112f1, #115d,#112ma1,#112mb1, #112mc1").show()
+    $j("#115,#112f1, #115d,#112ma1,#112mb1, #112mc1,#dose13e").show()
 
 
-    $j('label[for="115"],label[for="112f1"],label[for="115d"],label[for="112ma1"],label[for="112mb1"],label[for="112mc1"]').show();
+    $j('label[for="115"],label[for="112f1"],label[for="115d"],label[for="112ma1"],' +
+        'label[for="112mb1"],label[for="112mc1"],label[for="dose13e"]').show();
 
 
 
@@ -4085,9 +4241,12 @@ function row11SecondOption() {
 }
 
 function row11SeventhOption() {
-    $j("#111,#111f, #111d,#111ma,#111mb, #111mc").hide()
+    $j("#111,#111f, #111d,#111ma,#111mb, #111mc,#dose13a,#dose13b,#dose13c,#dose13d,#dose13e," +
+        "#dose13h,#dose13i").hide()
 
-    $j('label[for="111"],label[for="111f"],label[for="111d"],label[for="111ma"],label[for="111mb"],label[for="111mc"]').hide();
+    $j('label[for="111"],label[for="111f"],label[for="111d"],label[for="111ma"],label[for="111mb"],' +
+        'label[for="111mc"],label[for="dose13a"],label[for="dose13b"],label[for="dose13d"]' +
+        ',label[for="dose13e"],label[for="dose13h"],label[for="dose13i"]').hide();
 
     $j("#112,#112f, #112d,#112ma,#112mb, #112mc").hide()
 
@@ -4112,12 +4271,15 @@ function row11SeventhOption() {
 
 
 
-    $j("#116,#116f, #116d,#113fa1,#113fb1, #113fb2,#113ma11,#113ma21,#113ma22,#113mb11,#113mb21,#113mb22,#113mc11,#113mc21,#113mc22").show()
+    $j("#116,#116f, #116d,#113fa1,#113fb1, #113fb2,#113ma11,#113ma21,#113ma22,#113mb11,#113mb21,#113mb22,#113mc11," +
+        "#113mc21,#113mc22,#dose13f,#dose13g").show()
 
 
 
-    $j('label[for="116"],label[for="116f"],label[for="116d"],  label[for="113fa1"], label[for="113fb1"],  label[for="113fb2"],label[for="113ma11"],label[for="113ma21"],label[for="113ma22"],' +
-        'label[for="113mb11"],label[for="113mb21"],label[for="113mb22"],label[for="113mc11"],label[for="113mc21"],label[for="113mc22"]').show();
+    $j('label[for="116"],label[for="116f"],label[for="116d"],  label[for="113fa1"], label[for="113fb1"], ' +
+        ' label[for="113fb2"],label[for="113ma11"],label[for="113ma21"],label[for="113ma22"],' +
+        'label[for="113mb11"],label[for="113mb21"],label[for="113mb22"],label[for="113mc11"],label[for="113mc21"],' +
+        'label[for="113mc22"],label[for="dose13f"],label[for="dose13g"]').show();
 
 
     $j("#117,#114fa1,#114fb1, #117d, #114ma11,#114mb11, #114mc11,#114ma21,#114mb21, #114mc21").hide()
@@ -4131,9 +4293,12 @@ function row11SeventhOption() {
 }
 
 function row11EightOption() {
-    $j("#111,#111f, #111d,#111ma,#111mb, #111mc").hide()
+    $j("#111,#111f, #111d,#111ma,#111mb, #111mc,#dose13a,#dose13b,#dose13c,#dose13d,#dose13e,#dose13f," +
+    "#dose13g").hide()
 
-    $j('label[for="111"],label[for="111f"],label[for="111d"],label[for="111ma"],label[for="111mb"],label[for="111mc"]').hide();
+    $j('label[for="111"],label[for="111f"],label[for="111d"],label[for="111ma"],label[for="111mb"],' +
+        'label[for="111mc"],label[for="dose13a"],label[for="dose13b"],label[for="dose13c"]' +
+        ',label[for="dose13d"],label[for="dose13e"],label[for="dose13f"],label[for="dose13g"]').hide();
 
     $j("#112,#112f, #112d,#112ma,#112mb, #112mc").hide()
 
@@ -4158,21 +4323,25 @@ function row11EightOption() {
 
 
 
-    $j("#116,#116f, #116d,#113fa1,#113fb1, #113fb2,#113ma11,#113ma21,#113ma22,#113mb11,#113mb21,#113mb22,#113mc11,#113mc21,#113mc22").hide()
+    $j("#116,#116f, #116d,#113fa1,#113fb1, #113fb2,#113ma11,#113ma21,#113ma22,#113mb11,#113mb21,#113mb22," +
+        "#113mc11,#113mc21,#113mc22").hide()
 
 
 
-    $j('label[for="116"],label[for="116f"],label[for="116d"],  label[for="113fa1"], label[for="113fb1"],  label[for="113fb2"],    label[for="113ma11"],label[for="113ma21"],label[for="113ma22"],' +
-        'label[for="113mb11"],label[for="113mb21"],label[for="113mb22"],label[for="113mc11"],label[for="113mc21"],label[for="113mc22"]').hide();
+    $j('label[for="116"],label[for="116f"],label[for="116d"],  label[for="113fa1"], label[for="113fb1"], ' +
+        ' label[for="113fb2"],    label[for="113ma11"],label[for="113ma21"],label[for="113ma22"],' +
+        'label[for="113mb11"],label[for="113mb21"],label[for="113mb22"],label[for="113mc11"],' +
+        'label[for="113mc21"],label[for="113mc22"]').hide();
 
 
-    $j("#117,#114fa1,#114fb1, #117d, #114ma11,#114mb11, #114mc11,#114ma21,#114mb21, #114mc21").show()
+    $j("#117,#114fa1,#114fb1, #117d, #114ma11,#114mb11, #114mc11,#114ma21,#114mb21, #114mc21,#dose13h,#dose13i").show()
 
 
 
 
     $j('label[for="117"],label[for="114fa1"],label[for="117d"],' +
-        'label[for="114ma11"],label[for="114mb11"],label[for="114mc11"],label[for="114ma21"],label[for="114mb21"],label[for="114mc21"]').show();
+        'label[for="114ma11"],label[for="114mb11"],label[for="114mc11"],label[for="114ma21"],' +
+        'label[for="114mb21"],label[for="114mc21"],label[for="dose13h"],label[for="dose13i"]').show();
 }
 
 
@@ -4182,10 +4351,16 @@ function row11EightOption() {
 
 /////////////////////////// LopinVIR
 
-$j("#120,#121,#122,#123,#124,#125,#126,#127 , #120f,#121f,#122f,#123fa,#123fb, #124fa,#124fb,#125fa,,#125fb,#126f,#127f").hide()
+$j("#120,#121,#122,#123,#124,#125,#126,#127 , #120f,#121f,#122f,#123fa,#123fb, #124fa,#124fb,#125fa" +
+    ",#125fb,#126f,#127f,#dose14a,#dose14b,#dose14c,#dose14d,#dose14e,#dose14f,#dose14g,#dose14h,#dose14i,#dose14j").hide()
 
-$j('label[for="120"],label[for="121"],label[for="122"],label[for="123"],label[for="124"],label[for="125"],label[for="126"],label[for="127"],' +
-    'label[for="120f"],label[for="121f"],label[for="122f"],label[for="123fa"],label[for="123fb"],label[for="124fa"],label[for="124fb"],label[for="125fa"],label[for="125fb"],label[for="126f"],label[for="127f"]').hide();
+$j('label[for="120"],label[for="121"],label[for="122"],label[for="123"],label[for="124"],label[for="125"],' +
+    'label[for="126"],label[for="127"],' +
+    'label[for="120f"],label[for="121f"],label[for="122f"],label[for="123fa"],label[for="123fb"],' +
+    'label[for="124fa"],label[for="124fb"],label[for="125fa"],label[for="125fb"],label[for="126f"],' +
+    'label[for="127f"],label[for="dose14a"],label[for="dose14b"],label[for="dose14c"],label[for="dose14d"]' +
+    ',label[for="dose14e"],label[for="dose14f"],label[for="dose14g"],label[for="dose14h"]' +
+    ',label[for="dose14i"],label[for="dose14j"]').hide();
 
 
 $j("#120d,#121d,#122d,#123d,#124d,#125d,#126d,#127d").hide()
@@ -4204,13 +4379,17 @@ $j('label[for="120ma"],label[for="120mb"],label[for="120mc"],label[for="121ma"],
 
 
 function row12FirstOption() {
-    $j("#120,#120f, #120d,#120ma,#120mb, #120mc").show()
+    $j("#120,#120f, #120d,#120ma,#120mb, #120mc,#dose14a").show()
 
-    $j('label[for="120"],label[for="120f"],label[for="120d"],label[for="120ma"],label[for="120mb"],label[for="120mc"]').show();
+    $j('label[for="120"],label[for="120f"],label[for="120d"],label[for="120ma"],' +
+        'label[for="120mb"],label[for="120mc"],label[for="dose14a"]').show();
 
-    $j("#121,#121f, #121d,#121ma,#121mb, #121mc").hide()
+    $j("#121,#121f, #121d,#121ma,#121mb, #121mc,#dose14b,#dose14c,#dose14d,#dose14e,#dose14f," +
+        "#dose14g,#dose14h,#dose14i").hide()
 
-    $j('label[for="121"],label[for="121f"],label[for="121d"],label[for="121ma"],label[for="121mb"],label[for="121mc"]').hide();
+    $j('label[for="121"],label[for="121f"],label[for="121d"],label[for="121ma"],' +
+        'label[for="121mb"],label[for="121mc"],label[for="dose14b"],label[for="dose14c"],label[for="dose14d"],' +
+        'label[for="dose14e"],label[for="dose14f"],label[for="dose14g"],label[for="dose14h"],label[for="dose14i"]').hide();
 
     $j("#122,#122f, #122d,#122ma,#122mb, #122mc").hide()
 
@@ -4241,13 +4420,17 @@ function row12FirstOption() {
 
 }
 function row12SecondOption() {
-    $j("#120,#120f, #120d,#120ma,#120mb, #120mc").hide()
+    $j("#120,#120f, #120d,#120ma,#120mb, #120mc,#dose14a,#dose14c,#dose14d,#dose14e.#dose14f," +
+        "#dose14g,#dose14h,#dose14i").hide()
 
-    $j('label[for="120"],label[for="120f"],label[for="120d"],label[for="120ma"],label[for="120mb"],label[for="120mc"]').hide();
+    $j('label[for="120"],label[for="120f"],label[for="120d"],label[for="120ma"],label[for="120mb"],' +
+        'label[for="120mc"],label[for="dose14a"],label[for="dose14c"],label[for="dose14d"],' +
+        'label[for="dose14e"],label[for="dose14f"],label[for="dose14g"],label[for="dose14h"],label[for="dose14i"]').hide();
 
-    $j("#121,#121f, #121d,#121ma,#121mb, #121mc").show()
+    $j("#121,#121f, #121d,#121ma,#121mb, #121mc,#dose14b").show()
 
-    $j('label[for="121"],label[for="121f"],label[for="121d"],label[for="121ma"],label[for="121mb"],label[for="121mc"]').show();
+    $j('label[for="121"],label[for="121f"],label[for="121d"],label[for="121ma"],label[for="121mb"],' +
+        'label[for="121mc"],label[for="dose14b"]').show();
 
     $j("#122,#122f, #122d,#122ma,#122mb, #122mc").hide()
 
@@ -4276,17 +4459,22 @@ function row12SecondOption() {
     $j('label[for="127"],label[for="127f"],label[for="127d"],label[for="127ma"],label[for="127mb"],label[for="127mc"]').hide();
 
 }function row12ThirdOption() {
-    $j("#120,#120f, #120d,#120ma,#120mb, #120mc").hide()
+    $j("#120,#120f, #120d,#120ma,#120mb, #120mc,#dose14a,#dose14b,#dose14d,#dose14e," +
+        "#dose14f,#dose14g,#dose14h,#dose14i").hide()
 
-    $j('label[for="120"],label[for="120f"],label[for="120d"],label[for="120ma"],label[for="120mb"],label[for="120mc"]').hide();
+    $j('label[for="120"],label[for="120f"],label[for="120d"],label[for="120ma"],label[for="120mb"],' +
+        'label[for="120mc"],label[for="dose14a"],label[for="dose14b"],label[for="dose14d"],' +
+        'label[for="dose14e"],label[for="dose14f"],label[for="dose14g"],label[for="dose14h"],' +
+        'label[for="dose14i"]').hide();
 
     $j("#121,#121f, #121d,#121ma,#121mb, #121mc").hide()
 
     $j('label[for="121"],label[for="121f"],label[for="121d"],label[for="121ma"],label[for="121mb"],label[for="121mc"]').hide();
 
-    $j("#122,#122f, #122d,#122ma,#122mb, #122mc").show()
+    $j("#122,#122f, #122d,#122ma,#122mb, #122mc,#dose14c").show()
 
-    $j('label[for="122"],label[for="122f"],label[for="122d"],label[for="122ma"],label[for="122mb"],label[for="122mc"]').show();
+    $j('label[for="122"],label[for="122f"],label[for="122d"],label[for="122ma"],' +
+        'label[for="122mb"],label[for="122mc"],,label[for="dose14c"]').show();
 
 
     $j("#123,#123fa,#123fb, #123d,#123ma1,#123mb1, #123mc1,#123ma2,#123mb2, #123mc2").hide()
@@ -4311,9 +4499,13 @@ function row12SecondOption() {
     $j('label[for="127"],label[for="127f"],label[for="127d"],label[for="127ma"],label[for="127mb"],label[for="127mc"]').hide();
 
 }function row12FourthOption() {
-    $j("#120,#120f, #120d,#120ma,#120mb, #120mc").hide()
+    $j("#120,#120f, #120d,#120ma,#120mb, #120mc,#dose14a,#dose14b,#dose14c," +
+        "#dose14f,#dose14g,#dose14h,#dose14i").hide()
 
-    $j('label[for="120"],label[for="120f"],label[for="120d"],label[for="120ma"],label[for="120mb"],label[for="120mc"]').hide();
+    $j('label[for="120"],label[for="120f"],label[for="120d"],label[for="120ma"],label[for="120mb"],' +
+        'label[for="120mc"],label[for="dose14a"],label[for="dose14b"],label[for="dose14c"],' +
+        'label[for="dose14f"],label[for="dose14g"],label[for="dose14h"],' +
+        'label[for="dose14i"]').hide();
 
     $j("#121,#121f, #121d,#121ma,#121mb, #121mc").hide()
 
@@ -4324,9 +4516,11 @@ function row12SecondOption() {
     $j('label[for="122"],label[for="122f"],label[for="122d"],label[for="122ma"],label[for="122mb"],label[for="122mc"]').hide();
 
 
-    $j("#123,#123fa,#123fb, #123d,#123ma1,#123mb1, #123mc1,#123ma2,#123mb2, #123mc2").show()
+    $j("#123,#123fa,#123fb, #123d,#123ma1,#123mb1, #123mc1,#123ma2,#123mb2, #123mc2,#dose14d,#dose14e").show()
 
-    $j('label[for="123"],label[for="123fa"],label[for="123fb"],label[for="123d"],label[for="123ma1"],label[for="123mb1"],label[for="123mc1"],label[for="123ma2"],label[for="123mb2"],label[for="123mc2"]').show();
+    $j('label[for="123"],label[for="123fa"],label[for="123fb"],label[for="123d"],label[for="123ma1"],' +
+        'label[for="123mb1"],label[for="123mc1"],label[for="123ma2"],label[for="123mb2"],label[for="123mc2"]' +
+        ',label[for="dose14d"],label[for="dose14e"]').show();
 
     $j("#124,#124fa,#124fb, #124d,#124ma1,#124mb1, #124mc1,#124ma2,#124mb2, #124mc2").hide()
 
@@ -4347,9 +4541,11 @@ function row12SecondOption() {
 
 }function row12FifthOption() {
 
-    $j('label[for="120"],label[for="120f"],label[for="120d"],label[for="120ma"],label[for="120mb"],label[for="120mc"]').hide();
+    $j('label[for="120"],label[for="120f"],label[for="120d"],label[for="120ma"],label[for="120mb"],' +
+        'label[for="120mc"],label[for="dose14a"],label[for="dose14b"],label[for="dose14c"],label[for="dose14d"]' +
+        ',label[for="dose14h"],label[for="dose14i"]').hide();
 
-    $j("#121,#121f, #121d,#121ma,#121mb, #121mc").hide()
+    $j("#121,#121f, #121d,#121ma,#121mb, #121mc,#dose14a,#dose14b,#dose14c,#dose14d,#dose14h,#dose14i").hide()
 
     $j('label[for="121"],label[for="121f"],label[for="121d"],label[for="121ma"],label[for="121mb"],label[for="121mc"]').hide();
 
@@ -4362,9 +4558,11 @@ function row12SecondOption() {
 
     $j('label[for="123"],label[for="123fa"],label[for="123fb"],label[for="123d"],label[for="123ma1"],label[for="123mb1"],label[for="123mc1"],label[for="123ma2"],label[for="123mb2"],label[for="123mc2"]').hide();
 
-    $j("#124,#124fa,#124fb, #124d,#124ma1,#124mb1, #124mc1,#124ma2,#124mb2, #124mc2").show()
+    $j("#124,#124fa,#124fb, #124d,#124ma1,#124mb1, #124mc1,#124ma2,#124mb2, #124mc2,#dose14f,#dose14g").show()
 
-    $j('label[for="124"],label[for="124fa"],label[for="124fb"],label[for="124d"],label[for="124ma1"],label[for="124mb1"],label[for="124mc1"],label[for="124ma2"],label[for="124mb2"],label[for="124mc2"]').show();
+    $j('label[for="124"],label[for="124fa"],label[for="124fb"],label[for="124d"],label[for="124ma1"],' +
+        'label[for="124mb1"],label[for="124mc1"],label[for="124ma2"],label[for="124mb2"],label[for="124mc2"]' +
+        ',label[for="dose14f"],label[for="dose14g"]').show();
 
     $j("#125,#125fa,#125fb, #125d,#125ma1,#125mb1, #125mc1,#125ma2,#125mb2, #125mc2").hide()
 
@@ -4380,9 +4578,12 @@ function row12SecondOption() {
     $j('label[for="127"],label[for="127f"],label[for="127d"],label[for="127ma"],label[for="127mb"],label[for="127mc"]').hide();
 
 }function row12SixthOption() {
-    $j('label[for="120"],label[for="120f"],label[for="120d"],label[for="120ma"],label[for="120mb"],label[for="120mc"]').hide();
+    $j('label[for="120"],label[for="120f"],label[for="120d"],label[for="120ma"],' +
+        'label[for="120mb"],label[for="120mc"],label[for="dose14a"],label[for="dose14b"],label[for="dose14c"]' +
+        ',label[for="dose14d"],label[for="dose14e"],label[for="dose14f"],label[for="dose14g"],label[for="dose14j"]').hide();
 
-    $j("#121,#121f, #121d,#121ma,#121mb, #121mc").hide()
+    $j("#121,#121f, #121d,#121ma,#121mb, #121mc,#dose14a,#dose14b,#dose14c,#dose14d,#dose14e,#dose14f,#dose14g" +
+        ",#dose14j").hide()
 
     $j('label[for="121"],label[for="121f"],label[for="121d"],label[for="121ma"],label[for="121mb"],label[for="121mc"]').hide();
 
@@ -4399,9 +4600,11 @@ function row12SecondOption() {
 
     $j('label[for="124"],label[for="124fa"],label[for="124fb"],label[for="124d"],label[for="124ma1"],label[for="124mb1"],label[for="124mc1"],label[for="124ma2"],label[for="124mb2"],label[for="124mc2"]').hide();
 
-    $j("#125,#125fa,#125fb, #125d,#125ma1,#125mb1, #125mc1,#125ma2,#125mb2, #125mc2").show()
+    $j("#125,#125fa,#125fb, #125d,#125ma1,#125mb1, #125mc1,#125ma2,#125mb2, #125mc2,#dose14h,#dose14i").show()
 
-    $j('label[for="125"],label[for="125fa"],label[for="125fb"],label[for="125d"],label[for="125ma1"],label[for="125mb1"],label[for="125mc1"],label[for="125ma2"],label[for="125mb2"],label[for="125mc2"]').show();
+    $j('label[for="125"],label[for="125fa"],label[for="125fb"],label[for="125d"],label[for="125ma1"],' +
+        'label[for="125mb1"],label[for="125mc1"],label[for="125ma2"],label[for="125mb2"],' +
+        'label[for="125mc2"],label[for="dose14h"],label[for="dose14i"]').show();
 
 
 
@@ -4414,9 +4617,13 @@ function row12SecondOption() {
 }
 
 function row12SeventhOption() {
-    $j('label[for="120"],label[for="120f"],label[for="120d"],label[for="120ma"],label[for="120mb"],label[for="120mc"]').hide();
+    $j('label[for="120"],label[for="120f"],label[for="120d"],label[for="120ma"],label[for="120mb"],' +
+        'label[for="120mc"],label[for="dose14a"],label[for="dose14b"],label[for="dose14c"],label[for="dose14d"]' +
+        ',label[for="dose14e"],label[for="dose14f"],label[for="dose14g"],label[for="dose14h"],' +
+        'label[for="dose14i"]').hide();
 
-    $j("#121,#121f, #121d,#121ma,#121mb, #121mc").hide()
+    $j("#121,#121f, #121d,#121ma,#121mb, #121mc,#dose14a,#dose14b,#dose14c,#dose14d,#dose14e,#dose14f," +
+        "#dose14g,#dose14h,#dose14i").hide()
 
     $j('label[for="121"],label[for="121f"],label[for="121d"],label[for="121ma"],label[for="121mb"],label[for="121mc"]').hide();
 
@@ -4439,9 +4646,10 @@ function row12SeventhOption() {
 
 
 
-    $j("#126,#126f, #126d,#126ma,#126mb, #126mc").show()
+    $j("#126,#126f, #126d,#126ma,#126mb, #126mc,#dose14j").show()
 
-    $j('label[for="126"],label[for="126f"],label[for="126d"],label[for="126ma"],label[for="126mb"],label[for="126mc"]').show();
+    $j('label[for="126"],label[for="126f"],label[for="126d"],label[for="126ma"],label[for="126mb"],' +
+        'label[for="126mc"],label[for="dose14j"]').show();
     $j("#127,#127f, #127d,#127ma,#127mb, #127mc").hide()
 
     $j('label[for="127"],label[for="127f"],label[for="127d"],label[for="127ma"],label[for="127mb"],label[for="127mc"]').hide();
@@ -4451,10 +4659,15 @@ function row12SeventhOption() {
 
 
 
-$j("#201,#202,#203,#204,#205,#206 , #201fa,#201fb, #202fa, #202fb,#203fa,#203fb, #204fa,#204fb,#205f,#206f").hide()
+$j("#201,#202,#203,#204,#205,#206 , #201fa,#201fb, #202fa, #202fb,#203fa,#203fb, #204fa,#204fb," +
+    "#205f,#206f,#dose22a,#dose22b,#dose22c,#dose22d,#dose22e,#dose22f,#dose22g,#dose22h,#dose22i").hide()
 
-$j('label[for="201"],label[for="202"],label[for="203"],label[for="204"],label[for="205"] ,label[for="206"],label[for="201fa"],label[for="201fb"],' +
-    'label[for="202fa"],label[for="202fb"],label[for="203fa"],label[for="203fb"],label[for="204fa"],label[for="204fb"],label[for="205f"],label[for="206f"]').hide();
+$j('label[for="201"],label[for="202"],label[for="203"],label[for="204"],label[for="205"] ,' +
+    'label[for="206"],label[for="201fa"],label[for="201fb"],' +
+    'label[for="202fa"],label[for="202fb"],label[for="203fa"],label[for="203fb"],' +
+    'label[for="204fa"],label[for="204fb"],label[for="205f"],label[for="206f"],label[for="dose22a"],' +
+    'label[for="dose22b"],label[for="dose22c"],label[for="dose22d"],label[for="dose22e"]' +
+    ',label[for="dose22f"],label[for="dose22g"],label[for="dose22h"],label[for="dose22i"]').hide();
 
 
 $j("#201da,#201db, #202da, #202db,#203da, #203db,#204da,#204db,#205d,#206d").hide()
@@ -4475,18 +4688,21 @@ $j('label[for="201ma1"],label[for="201ma2"],label[for="201mb1"],label[for="201mb
 
 
 function row20FirstOption() {
-    $j("#201,#201fa, #201fb,#201da,#201db, #201ma1,#201ma2, #201mb1,#201mb2,#201mc1,#201mc2").show()
+    $j("#201,#201fa, #201fb,#201da,#201db, #201ma1,#201ma2, #201mb1,#201mb2,#201mc1,#201mc2,#dose22a").show()
 
     $j('label[for="201"],label[for="201fa"],label[for="201fb"],label[for="201da"],label[for="201db"],' +
         'label[for="201ma1"],label[for="201ma2"],label[for="201mb1"], label[for="201mb2"],' +
-        'label[for="201mc1"],label[for="201mc2"]').show();
+        'label[for="201mc1"],label[for="201mc2"],label[for="dose22a"]').show();
 
 
-    $j("#202,#202fa, #202fb,#202da,#202db, #202ma1,#202ma2, #202mb1,#202mb2,#202mc1,#202mc2").hide()
+    $j("#202,#202fa, #202fb,#202da,#202db, #202ma1,#202ma2, #202mb1,#202mb2,#202mc1,#202mc2,#dose22b" +
+        ",#dose22c,#dose22d,#dose22e,#dose22f,#dose22g,#dose22h,#dose22i").hide()
 
     $j('label[for="202"],label[for="202fa"],label[for="202fb"],label[for="202da"],label[for="202db"],' +
         'label[for="202ma1"],label[for="202ma2"],label[for="202mb1"], label[for="202mb2"],' +
-        'label[for="202mc1"],label[for="202mc2"]').hide();
+        'label[for="202mc1"],label[for="202mc2"],label[for="dose22b"],label[for="dose22c"],' +
+        'label[for="dose22d"],label[for="dose22e"],label[for="dose22f"],label[for="dose22g"],' +
+        'label[for="dose22h"],label[for="dose22i"]').hide();
 
     $j("#203,#203fa, #203fb,#203da,#203db, #203ma1,#203ma2, #203mb1,#203mb2,#203mc1,#203mc2").hide()
 
@@ -4514,18 +4730,22 @@ function row20FirstOption() {
 
 }
 function row20SecondOption() {
-    $j("#201,#201fa, #201fb,#201da,#201db, #201ma1,#201ma2, #201mb1,#201mb2,#201mc1,#201mc2").hide()
+    $j("#201,#201fa, #201fb,#201da,#201db, #201ma1,#201ma2, #201mb1,#201mb2,#201mc1,#201mc2," +
+        "#dose22a,#dose22d,#dose22e,#dose22f,#dose22g,#dose22h,#dose22i").hide()
 
     $j('label[for="201"],label[for="201fa"],label[for="201fb"],label[for="201da"],label[for="201db"],' +
         'label[for="201ma1"],label[for="201ma2"],label[for="201mb1"], label[for="201mb2"],' +
-        'label[for="201mc1"],label[for="201mc2"]').hide();
+        'label[for="201mc1"],label[for="201mc2"],label[for="dose22a"],label[for="dose22d"]' +
+        ',label[for="dose22e"],label[for="dose22f"],label[for="dose22g"],label[for="dose22h"]' +
+        ',label[for="dose22i"]').hide();
 
 
-    $j("#202,#202fa, #202fb,#202da,#202db, #202ma1,#202ma2, #202mb1,#202mb2,#202mc1,#202mc2").show()
+    $j("#202,#202fa, #202fb,#202da,#202db, #202ma1,#202ma2, #202mb1,#202mb2,#202mc1," +
+        "#202mc2,#dose22b,#dose22c").show()
 
     $j('label[for="202"],label[for="202fa"],label[for="202fb"],label[for="202da"],label[for="202db"],' +
         'label[for="202ma1"],label[for="202ma2"],label[for="202mb1"], label[for="202mb2"],' +
-        'label[for="202mc1"],label[for="202mc2"]').show();
+        'label[for="202mc1"],label[for="202mc2"],label[for="dose22b"],label[for="dose22c"]').show();
 
     $j("#203,#203fa, #203fb,#203da,#203db, #203ma1,#203ma2, #203mb1,#203mb2,#203mc1,#203mc2").hide()
 
@@ -4552,11 +4772,13 @@ function row20SecondOption() {
         'label[for="206mc"]').hide();
 
 }function row20ThirdOption() {
-    $j("#201,#201fa, #201fb,#201da,#201db, #201ma1,#201ma2, #201mb1,#201mb2,#201mc1,#201mc2").hide()
+    $j("#201,#201fa, #201fb,#201da,#201db, #201ma1,#201ma2, #201mb1,#201mb2,#201mc1," +
+        "#201mc2,#dose22a,#dose22b,#dose22c,#dose22f,#dose22g,#dose22h,#dose22i").hide()
 
     $j('label[for="201"],label[for="201fa"],label[for="201fb"],label[for="201da"],label[for="201db"],' +
         'label[for="201ma1"],label[for="201ma2"],label[for="201mb1"], label[for="201mb2"],' +
-        'label[for="201mc1"],label[for="201mc2"]').hide();
+        'label[for="201mc1"],label[for="201mc2"],label[for="dose22a"],label[for="dose22b"]' +
+        ',label[for="dose22c"],label[for="dose22f"],label[for="dose22g"],label[for="dose22h"],label[for="dose22i"]').hide();
 
 
     $j("#202,#202fa, #202fb,#202da,#202db, #202ma1,#202ma2, #202mb1,#202mb2,#202mc1,#202mc2").hide()
@@ -4565,11 +4787,12 @@ function row20SecondOption() {
         'label[for="202ma1"],label[for="202ma2"],label[for="202mb1"], label[for="202mb2"],' +
         'label[for="202mc1"],label[for="202mc2"]').hide();
 
-    $j("#203,#203fa, #203fb,#203da,#203db, #203ma1,#203ma2, #203mb1,#203mb2,#203mc1,#203mc2").show()
+    $j("#203,#203fa, #203fb,#203da,#203db, #203ma1,#203ma2, #203mb1,#203mb2,#203mc1,#203mc2," +
+        "#dose22d,#dose22e").show()
 
     $j('label[for="203"],label[for="203fa"],label[for="203fb"],label[for="203da"],label[for="203db"],' +
         'label[for="203ma1"],label[for="203ma2"],label[for="203mb1"], label[for="203mb2"],' +
-        'label[for="203mc1"],label[for="203mc2"]').show();
+        'label[for="203mc1"],label[for="203mc2"],label[for="dose22d"],label[for="dose22e"]').show();
 
     $j("#204,#204fa, #204fb,#204da,#204db, #204ma1,#204ma2, #204mb1,#204mb2,#204mc1,#204mc2").hide()
 
@@ -4591,11 +4814,13 @@ function row20SecondOption() {
 
 
 }function row20FourthOption() {
-    $j("#201,#201fa, #201fb,#201da,#201db, #201ma1,#201ma2, #201mb1,#201mb2,#201mc1,#201mc2").hide()
+    $j("#201,#201fa, #201fb,#201da,#201db, #201ma1,#201ma2, #201mb1,#201mb2,#201mc1,#201mc2,#dose22a" +
+        ",#dose22b,#dose22c,#dose22d,#dose22e,#dose22h,#dose22i").hide()
 
     $j('label[for="201"],label[for="201fa"],label[for="201fb"],label[for="201da"],label[for="201db"],' +
         'label[for="201ma1"],label[for="201ma2"],label[for="201mb1"], label[for="201mb2"],' +
-        'label[for="201mc1"],label[for="201mc2"]').hide();
+        'label[for="201mc1"],label[for="201mc2"],label[for="dose22a"],label[for="dose22b"],label[for="dose22c"]' +
+        ',label[for="dose22d"],label[for="dose22e"],label[for="dose22h"],label[for="dose22i"]').hide();
 
 
     $j("#202,#202fa, #202fb,#202da,#202db, #202ma1,#202ma2, #202mb1,#202mb2,#202mc1,#202mc2").hide()
@@ -4610,11 +4835,11 @@ function row20SecondOption() {
         'label[for="203ma1"],label[for="203ma2"],label[for="203mb1"], label[for="203mb2"],' +
         'label[for="203mc1"],label[for="203mc2"]').hide();
 
-    $j("#204,#204fa, #204fb,#204da,#204db, #204ma1,#204ma2, #204mb1,#204mb2,#204mc1,#204mc2").show()
+    $j("#204,#204fa, #204fb,#204da,#204db, #204ma1,#204ma2, #204mb1,#204mb2,#204mc1,#204mc2,#dose22f,#dose22g").show()
 
     $j('label[for="204"],label[for="204fa"],label[for="204fb"],label[for="204da"],label[for="204db"],' +
         'label[for="204ma1"],label[for="204ma2"],label[for="204mb1"], label[for="204mb2"],' +
-        'label[for="204mc1"],label[for="204mc2"]').show();
+        'label[for="204mc1"],label[for="204mc2"],label[for="dose22f"],label[for="dose22g"]').show();
 
     $j("#205,#205f, #205d, #205ma, #205mb,#205mc").hide()
 
@@ -4629,11 +4854,13 @@ function row20SecondOption() {
         'label[for="206mc"]').hide();
 
 }function row20FifthOption() {
-    $j("#201,#201fa, #201fb,#201da,#201db, #201ma1,#201ma2, #201mb1,#201mb2,#201mc1,#201mc2").hide()
+    $j("#201,#201fa, #201fb,#201da,#201db, #201ma1,#201ma2, #201mb1,#201mb2,#201mc1,#201mc2,#dose22a" +
+        "#dose22b,#dose22c,#dose22d,#dose22e,#dose22f,#dose22g").hide()
 
     $j('label[for="201"],label[for="201fa"],label[for="201fb"],label[for="201da"],label[for="201db"],' +
         'label[for="201ma1"],label[for="201ma2"],label[for="201mb1"], label[for="201mb2"],' +
-        'label[for="201mc1"],label[for="201mc2"]').hide();
+        'label[for="201mc1"],label[for="201mc2"],label[for="dose22a"],label[for="dose22b"]' +
+        ',label[for="dose22c"],label[for="dose22d"],label[for="dose22e"],label[for="dose22f"],label[for="dose22g"]').hide();
 
 
     $j("#202,#202fa, #202fb,#202da,#202db, #202ma1,#202ma2, #202mb1,#202mb2,#202mc1,#202mc2").hide()
@@ -4654,11 +4881,11 @@ function row20SecondOption() {
         'label[for="204ma1"],label[for="204ma2"],label[for="204mb1"], label[for="204mb2"],' +
         'label[for="204mc1"],label[for="204mc2"]').hide();
 
-    $j("#205,#205f, #205d, #205ma, #205mb,#205mc").show()
+    $j("#205,#205f, #205d, #205ma, #205mb,#205mc,#dose22h,#dose22i").show()
 
     $j('label[for="205"],label[for="205f"],label[for="205d"], ' +
         'label[for="205ma"], label[for="205mb"], label[for="205mc"], ' +
-        'label[for="205mc"]').show();
+        'label[for="205mc"],label[for="dose22h"],label[for="dose22i"]').show();
 
     $j("#206,#206f, #206d, #206ma, #206mb,#206mc").hide()
 
@@ -4708,10 +4935,14 @@ function row20SecondOption() {
 
 /////////////////////////// dapsone
 
-$j("#210,#211,#212,#213,#214,#215,#216,#217 , #210f,#211f,#212f,#213fa,#213fb, #214fa,#214fb,#215fa,,#215fb,#216f,#217f").hide()
+$j("#210,#211,#212,#213,#214,#215,#216,#217 , #210f,#211f,#212f,#213fa,#213fb, " +
+    "#214fa,#214fb,#215fa,,#215fb,#216f,#217f,#dose23a,#dose23b,#dose23c").hide()
 
-$j('label[for="210"],label[for="211"],label[for="212"],label[for="213"],label[for="214"],label[for="215"],label[for="216"],label[for="217"],' +
-    'label[for="210f"],label[for="211f"],label[for="212f"],label[for="213fa"],label[for="213fb"],label[for="214fa"],label[for="214fb"],label[for="215fa"],label[for="215fb"],label[for="216f"],label[for="217f"]').hide();
+$j('label[for="210"],label[for="211"],label[for="212"],label[for="213"],label[for="214"],label[for="215"],' +
+    'label[for="216"],label[for="217"],' +
+    'label[for="210f"],label[for="211f"],label[for="212f"],label[for="213fa"],' +
+    'label[for="213fb"],label[for="214fa"],label[for="214fb"],label[for="215fa"],' +
+    'label[for="215fb"],label[for="216f"],label[for="217f"],label[for="dose23a"],label[for="dose23b"],label[for="dose23c"]').hide();
 
 
 $j("#210d,#211d,#212d,#213d,#214d,#215d,#216d,#217d").hide()
@@ -4730,13 +4961,15 @@ $j('label[for="210ma"],label[for="210mb"],label[for="210mc"],label[for="211ma"],
 
 
 function row21FirstOption() {
-    $j("#210,#210f, #210d,#210ma,#210mb, #210mc").show()
+    $j("#210,#210f, #210d,#210ma,#210mb, #210mc,#dose23a").show()
 
-    $j('label[for="210"],label[for="210f"],label[for="210d"],label[for="210ma"],label[for="210mb"],label[for="210mc"]').show();
+    $j('label[for="210"],label[for="210f"],label[for="210d"],label[for="210ma"],label[for="210mb"],' +
+        'label[for="210mc"],label[for="dose23a"]').show();
 
-    $j("#211,#211f, #211d,#211ma,#211mb, #211mc").hide()
+    $j("#211,#211f, #211d,#211ma,#211mb, #211mc,#dose23b,#dose23c").hide()
 
-    $j('label[for="211"],label[for="211f"],label[for="211d"],label[for="211ma"],label[for="211mb"],label[for="211mc"]').hide();
+    $j('label[for="211"],label[for="211f"],label[for="211d"],label[for="211ma"],' +
+        'label[for="211mb"],label[for="211mc"],label[for="dose23b"],label[for="dose23c"]').hide();
 
     $j("#212,#212f, #212d,#212ma,#212mb, #212mc").hide()
 
@@ -4747,13 +4980,15 @@ function row21FirstOption() {
 
 }
 function row21SecondOption() {
-    $j("#210,#210f, #210d,#210ma,#210mb, #210mc").hide()
+    $j("#210,#210f, #210d,#210ma,#210mb, #210mc,#dose23a,#dose23c").hide()
 
-    $j('label[for="210"],label[for="210f"],label[for="210d"],label[for="210ma"],label[for="210mb"],label[for="210mc"]').hide();
+    $j('label[for="210"],label[for="210f"],label[for="210d"],label[for="210ma"],label[for="210mb"],' +
+        'label[for="210mc"],label[for="dose23a"],label[for="dose23c"]').hide();
 
-    $j("#211,#211f, #211d,#211ma,#211mb, #211mc").show()
+    $j("#211,#211f, #211d,#211ma,#211mb, #211mc,#dose23b").show()
 
-    $j('label[for="211"],label[for="211f"],label[for="211d"],label[for="211ma"],label[for="211mb"],label[for="211mc"]').show();
+    $j('label[for="211"],label[for="211f"],label[for="211d"],label[for="211ma"],label[for="211mb"],' +
+        'label[for="211mc"],label[for="dose23b"]').show();
 
     $j("#212,#212f, #212d,#212ma,#212mb, #212mc").hide()
 
@@ -4762,17 +4997,19 @@ function row21SecondOption() {
 
 
 }function row21ThirdOption() {
-    $j("#210,#210f, #210d,#210ma,#210mb, #210mc").hide()
+    $j("#210,#210f, #210d,#210ma,#210mb, #210mc,#dose23a,#dose23b").hide()
 
-    $j('label[for="210"],label[for="210f"],label[for="210d"],label[for="210ma"],label[for="210mb"],label[for="210mc"]').hide();
+    $j('label[for="210"],label[for="210f"],label[for="210d"],label[for="210ma"],label[for="210mb"],' +
+        'label[for="210mc"],label[for="dose23a"],label[for="dose23b"]').hide();
 
     $j("#211,#211f, #211d,#211ma,#211mb, #211mc").hide()
 
     $j('label[for="211"],label[for="211f"],label[for="211d"],label[for="211ma"],label[for="211mb"],label[for="211mc"]').hide();
 
-    $j("#212,#212f, #212d,#212ma,#212mb, #212mc").show()
+    $j("#212,#212f, #212d,#212ma,#212mb, #212mc,#dose23c").show()
 
-    $j('label[for="212"],label[for="212f"],label[for="212d"],label[for="212ma"],label[for="212mb"],label[for="212mc"]').show();
+    $j('label[for="212"],label[for="212f"],label[for="212d"],label[for="212ma"],label[for="212mb"],' +
+        'label[for="212mc"],label[for="dose23c"]').show();
 
 
 
@@ -4785,15 +5022,20 @@ function row21SecondOption() {
 
 /////////////////////////// Isoniazid
 
-$j("#220,#221,#222,#223,#224,#225,#226,#227 , #220f,#221f,#222f,#223fa,#223fb, #224fa,#224fb,#225fa,,#225fb,#226f,#227f").hide()
+$j("#220,#221,#222,#223,#224,#225,#226,#227 , #220f,#221f,#222f,#223fa,#223fb, " +
+    "#224fa,#224fb,#225fa,,#225fb,#226f,#227f,#dose24a,#dose24b,#dose24c,#dose24d").hide()
 
-$j('label[for="220"],label[for="221"],label[for="222"],label[for="223"],label[for="224"],label[for="225"],label[for="226"],label[for="227"],' +
-    'label[for="220f"],label[for="221f"],label[for="222f"],label[for="223fa"],label[for="223fb"],label[for="224fa"],label[for="224fb"],label[for="225fa"],label[for="225fb"],label[for="226f"],label[for="227f"]').hide();
+$j('label[for="220"],label[for="221"],label[for="222"],label[for="223"],label[for="224"],' +
+    'label[for="225"],label[for="226"],label[for="227"],' +
+    'label[for="220f"],label[for="221f"],label[for="222f"],label[for="223fa"],' +
+    'label[for="223fb"],label[for="224fa"],label[for="224fb"],label[for="225fa"],label[for="225fb"],' +
+    'label[for="226f"],label[for="227f"],label[for="dose24a"],label[for="dose24b"],label[for="dose24c"],' +
+    'label[for="dose24d"]').hide();
 
 
 $j("#220d,#221d,#222d,#223d,#224d,#225d,#226d,#227d").hide()
 
-$j('label[for="220d"],label[for="221d"],label[for="222d"],label[for="223d"],label[for="224d"],label[for="225d"],label[for="226d"],label[for="226d"],,label[for="227d"]').hide();
+$j('label[for="220d"],label[for="221d"],label[for="222d"],label[for="223d"],label[for="224d"],label[for="225d"],label[for="226d"],label[for="226d"],label[for="227d"]').hide();
 
 
 $j("#220ma,#220mb,#220mc,#221ma,#221mb,#221mc,#222ma,#222mb,#222mc,  #223ma1,#223ma2,#223mb1,#223mb2,#223mc1,#223mc2, " +
@@ -4807,13 +5049,15 @@ $j('label[for="220ma"],label[for="220mb"],label[for="220mc"],label[for="221ma"],
 
 
 function row22SecondOption() {
-    $j("#221,#221f, #221d,#221ma,#221mb, #221mc").show()
+    $j("#221,#221f, #221d,#221ma,#221mb, #221mc,#dose24a").show()
 
-    $j('label[for="221"],label[for="221f"],label[for="221d"],label[for="221ma"],label[for="221mb"],label[for="221mc"]').show();
+    $j('label[for="221"],label[for="221f"],label[for="221d"],' +
+        'label[for="221ma"],label[for="221mb"],label[for="221mc"],label[for="dose24a"]').show();
 
-    $j("#222,#222f, #222d,#222ma,#222mb, #222mc").hide()
+    $j("#222,#222f, #222d,#222ma,#222mb, #222mc,#dose24b,#dose24c,#dose24d").hide()
 
-    $j('label[for="222"],label[for="222f"],label[for="222d"],label[for="222ma"],label[for="222mb"],label[for="222mc"]').hide();
+    $j('label[for="222"],label[for="222f"],label[for="222d"],label[for="222ma"],label[for="222mb"],' +
+        'label[for="222mc"],label[for="dose24b"],label[for="dose24c"],label[for="dose24d"]').hide();
 
 
     $j("#223,#223fa,#223fb, #223d,#223ma1,#223mb1, #223mc1,#223ma2,#223mb2, #223mc2").hide()
@@ -4823,13 +5067,15 @@ function row22SecondOption() {
 
 
 }function row22ThirdOption() {
-    $j("#221,#221f, #221d,#221ma,#221mb, #221mc").hide()
+    $j("#221,#221f, #221d,#221ma,#221mb, #221mc,#dose24a,#dose24c,#dose24d").hide()
 
-    $j('label[for="221"],label[for="221f"],label[for="221d"],label[for="221ma"],label[for="221mb"],label[for="221mc"]').hide();
+    $j('label[for="221"],label[for="221f"],label[for="221d"],label[for="221ma"],label[for="221mb"],' +
+        'label[for="221mc"],label[for="dose24a"],label[for="dose24c"],label[for="dose24d"]').hide();
 
-    $j("#222,#222f, #222d,#222ma,#222mb, #222mc").show()
+    $j("#222,#222f, #222d,#222ma,#222mb, #222mc,#dose24b").show()
 
-    $j('label[for="222"],label[for="222f"],label[for="222d"],label[for="222ma"],label[for="222mb"],label[for="222mc"]').show();
+    $j('label[for="222"],label[for="222f"],label[for="222d"],label[for="222ma"],label[for="222mb"],' +
+        'label[for="222mc"],label[for="dose24b"]').show();
 
 
     $j("#223,#223fa,#223fb, #223d,#223ma1,#223mb1, #223mc1,#223ma2,#223mb2, #223mc2").hide()
@@ -4841,18 +5087,21 @@ function row22SecondOption() {
 
 }function row22FourthOption() {
 
-    $j("#221,#221f, #221d,#221ma,#221mb, #221mc").hide()
+    $j("#221,#221f, #221d,#221ma,#221mb, #221mc,#dose24a,#dose24b").hide()
 
-    $j('label[for="221"],label[for="221f"],label[for="221d"],label[for="221ma"],label[for="221mb"],label[for="221mc"]').hide();
+    $j('label[for="221"],label[for="221f"],label[for="221d"],label[for="221ma"],label[for="221mb"],' +
+        'label[for="221mc"],label[for="dose24a"],label[for="dose24b"]').hide();
 
     $j("#222,#222f, #222d,#222ma,#222mb, #222mc").hide()
 
     $j('label[for="222"],label[for="222f"],label[for="222d"],label[for="222ma"],label[for="222mb"],label[for="222mc"]').hide();
 
 
-    $j("#223,#223fa,#223fb, #223d,#223ma1,#223mb1, #223mc1,#223ma2,#223mb2, #223mc2").show()
+    $j("#223,#223fa,#223fb, #223d,#223ma1,#223mb1, #223mc1,#223ma2,#223mb2, #223mc2,#dose24c,#dose24d").show()
 
-    $j('label[for="223"],label[for="223fa"],label[for="223fb"],label[for="223d"],label[for="223ma1"],label[for="223mb1"],label[for="223mc1"],label[for="223ma2"],label[for="223mb2"],label[for="223mc2"]').show();
+    $j('label[for="223"],label[for="223fa"],label[for="223fb"],label[for="223d"],label[for="223ma1"],' +
+        'label[for="223mb1"],label[for="223mc1"],label[for="223ma2"],label[for="223mb2"],' +
+        'label[for="223mc2"],label[for="dose24c"],label[for="dose24d"]').show();
 
 
 
@@ -4912,7 +5161,7 @@ function validateHivPedsForm(){
         else{num=0;}
         if(($j("#2").is(':checked')))
         {
-            if ((!$j("#2f").is(':checked')||(!$j("#2d").is(':checked'))||($j("input#qnty1").val()=="")    ))
+            if ((!$j("#2f").is(':checked')||($j("input#qnty1").val()=="")    ))
             {
                 num=0;
                 return num;
@@ -4926,7 +5175,7 @@ function validateHivPedsForm(){
         }
         if(($j("#3").is(':checked')))
         {
-            if ((!$j("#3f").is(':checked')||(!$j("#3d").is(':checked'))||($j("input#qnty1").val()=="")    ))
+            if ((!$j("#3f").is(':checked')||($j("input#qnty1").val()=="")    ))
             {
                 num=0;
                 return num;
@@ -4939,7 +5188,7 @@ function validateHivPedsForm(){
         }
         if(($j("#4").is(':checked'))){
             if($j("#4fa").is(':checked')&& !$j("#4fb").is(':checked')){
-                if ((!$j("#4fa").is(':checked')||(!$j("#4da").is(':checked'))||($j("input#qnty1").val()=="")   )){
+                if ((!$j("#4fa").is(':checked')||($j("input#qnty1").val()=="")   )){
                     num=0;
                     return num;
                 }
@@ -4954,7 +5203,7 @@ function validateHivPedsForm(){
                     num=1;
             }
             if(!$j("#4fa").is(':checked')&& $j("#4fb").is(':checked')){
-                if ((!$j("#4fb").is(':checked')||(!$j("#4db").is(':checked'))||($j("input#qnty1").val()=="")   )){
+                if ((!$j("#4fb").is(':checked')||($j("input#qnty1").val()=="")   )){
                     num=0;
                     return num;
                 }
@@ -4986,7 +5235,7 @@ function validateHivPedsForm(){
                     num=1;
             }
             if(!$j("#5fa").is(':checked')&& $j("#5fb").is(':checked')){
-                if ((!$j("#5fb").is(':checked')||(!$j("#5db").is(':checked'))||($j("input#qnty1").val()=="")   )){
+                if ((!$j("#5fb").is(':checked')||($j("input#qnty1").val()==""))){
                     num=0;
                     return num;
                 }
@@ -5003,7 +5252,7 @@ function validateHivPedsForm(){
         }
 
         if(($j("#6").is(':checked'))){
-            if ((!$j("#6f").is(':checked')||(!$j("#6d").is(':checked'))||($j("input#qnty1").val()=="")    )){
+            if ((!$j("#6f").is(':checked')||($j("input#qnty1").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -5020,7 +5269,7 @@ function validateHivPedsForm(){
     }
     if ($j("#drug2").is(':checked')) {
         if(($j("#11").is(':checked'))){
-            if ((!$j("#11f").is(':checked')||(!$j("#11d").is(':checked'))||($j("input#qnty2").val()=="")    )){
+            if ((!$j("#11f").is(':checked')||($j("input#qnty2").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -5037,7 +5286,7 @@ function validateHivPedsForm(){
         else
             num=0;
         if(($j("#12").is(':checked'))){
-            if ((!$j("#12f").is(':checked')||(!$j("#12d").is(':checked'))||($j("input#qnty2").val()=="")    )){
+            if ((!$j("#12f").is(':checked')||($j("input#qnty2").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -5052,7 +5301,7 @@ function validateHivPedsForm(){
                 num=1;
         }
         if(($j("#13").is(':checked'))){
-            if ((!$j("#13f").is(':checked')||(!$j("#13d").is(':checked'))||($j("input#qnty2").val()=="")    )){
+            if ((!$j("#13f").is(':checked')||($j("input#qnty2").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -5068,7 +5317,7 @@ function validateHivPedsForm(){
         }
         if(($j("#14").is(':checked'))){
             if($j("#14fa").is(':checked')&& !$j("#14fb").is(':checked')){
-                if ((!$j("#14fa").is(':checked')||(!$j("#14da").is(':checked'))||($j("input#qnty2").val()=="")   )){
+                if ((!$j("#14fa").is(':checked')||($j("input#qnty2").val()=="")   )){
                     num=0;
                     return num;
                 }
@@ -5083,7 +5332,7 @@ function validateHivPedsForm(){
                     num=1;
             }
             if(!$j("#14fa").is(':checked')&& $j("#14fb").is(':checked')){
-                if ((!$j("#14fb").is(':checked')||(!$j("#14db").is(':checked'))||($j("input#qnty2").val()=="")   )){
+                if ((!$j("#14fb").is(':checked')||($j("input#qnty2").val()=="")   )){
                     num=0;
                     return num;
                 }
@@ -5116,7 +5365,7 @@ function validateHivPedsForm(){
                     num=1;
             }
             if(!$j("#15fa").is(':checked')&& $j("#15fb").is(':checked')){
-                if ((!$j("#15fb").is(':checked')||(!$j("#15db").is(':checked'))||($j("input#qnty1").val()=="")   )){
+                if ((!$j("#15fb").is(':checked')||($j("input#qnty1").val()=="")   )){
                     num=0;
                     return num;
                 }
@@ -5133,7 +5382,7 @@ function validateHivPedsForm(){
         }
 
         if(($j("#16").is(':checked'))){
-            if ((!$j("#16f").is(':checked')||(!$j("#16d").is(':checked'))||($j("input#qnty2").val()=="")    )){
+            if ((!$j("#16f").is(':checked')||($j("input#qnty2").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -5150,7 +5399,7 @@ function validateHivPedsForm(){
     }
     if ($j("#drug3").is(':checked')) {
         if(($j("#21").is(':checked'))){
-            if ((!$j("#21f").is(':checked')||(!$j("#21d").is(':checked'))||($j("input#qnty3").val()=="")    )){
+            if ((!$j("#21f").is(':checked')||($j("input#qnty3").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -5167,7 +5416,7 @@ function validateHivPedsForm(){
         else
             num=0;
         if(($j("#22").is(':checked'))){
-            if ((!$j("#22f").is(':checked')||(!$j("#22d").is(':checked'))||($j("input#qnty3").val()=="")    )){
+            if ((!$j("#22f").is(':checked')||($j("input#qnty3").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -5182,7 +5431,7 @@ function validateHivPedsForm(){
                 num=1;
         }
         if(($j("#23").is(':checked'))){
-            if ((!$j("#23f").is(':checked')||(!$j("#23d").is(':checked'))||($j("input#qnty3").val()=="")    )){
+            if ((!$j("#23f").is(':checked')||($j("input#qnty3").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -5198,7 +5447,7 @@ function validateHivPedsForm(){
         }
         if(($j("#24").is(':checked'))){
             if($j("#24fa").is(':checked')&& !$j("#24fb").is(':checked')){
-                if ((!$j("#24fa").is(':checked')||(!$j("#24da").is(':checked'))||($j("input#qnty3").val()=="")   )){
+                if ((!$j("#24fa").is(':checked')||($j("input#qnty3").val()=="")   )){
                     num=0;
                     return num;
                 }
@@ -5214,7 +5463,7 @@ function validateHivPedsForm(){
 
             }
             if(!$j("#24fa").is(':checked')&& $j("#24fb").is(':checked')){
-                if ((!$j("#24fb").is(':checked')||(!$j("#24db").is(':checked'))||($j("input#qnty3").val()=="")   )){
+                if ((!$j("#24fb").is(':checked')||($j("input#qnty3").val()=="")   )){
                     num=0;
                     return num;
                 }
@@ -5231,7 +5480,7 @@ function validateHivPedsForm(){
         }
         if(($j("#25").is(':checked'))){
             if(($j("#25").is(':checked'))){
-                if ((!$j("#25fb").is(':checked')||(!$j("#23db").is(':checked'))||($j("input#qnty3").val()=="")    )){
+                if ((!$j("#25fb").is(':checked')||($j("input#qnty3").val()=="")    )){
                     num=0;
                     return num;
                 }
@@ -5247,7 +5496,7 @@ function validateHivPedsForm(){
             }
         }
         if(($j("#26").is(':checked'))){
-            if ((!$j("#26f").is(':checked')||(!$j("#26d").is(':checked'))||($j("input#qnty3").val()=="")    )){
+            if ((!$j("#26f").is(':checked')||($j("input#qnty3").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -5291,7 +5540,7 @@ function validateHivPedsForm(){
     if ($j("#drug6").is(':checked')) {
         if(($j("#31").is(':checked'))){
             if($j("#31fa").is(':checked')&& !$j("#31fb").is(':checked')){
-                if ((!$j("#31fa").is(':checked')||(!$j("#31da").is(':checked'))||($j("input#qnty6").val()=="")   )){
+                if ((!$j("#31fa").is(':checked')||($j("input#qnty6").val()=="")   )){
                     num=0;
                     ;
                     return num;
@@ -5308,7 +5557,7 @@ function validateHivPedsForm(){
 
             }
             if(!$j("#31fa").is(':checked')&& $j("#31fb").is(':checked')){
-                if ((!$j("#31fb").is(':checked')||(!$j("#31db").is(':checked'))||($j("input#qnty6").val()=="")   )){
+                if ((!$j("#31fb").is(':checked')||($j("input#qnty6").val()=="")   )){
                     num=0;
                     return num;
 
@@ -5328,7 +5577,7 @@ function validateHivPedsForm(){
             num=0;
         if(($j("#32").is(':checked'))){
             if($j("#32fa").is(':checked')&& !$j("#32fb").is(':checked')){
-                if ((!$j("#32fa").is(':checked')||(!$j("#32da").is(':checked'))||($j("input#qnty6").val()=="")   )){
+                if ((!$j("#32fa").is(':checked')||($j("input#qnty6").val()=="")   )){
                     num=0;
                     ;
                     return num;
@@ -5344,7 +5593,7 @@ function validateHivPedsForm(){
                     num=1;
             }
             if(!$j("#32fa").is(':checked')&& $j("#32fb").is(':checked')){
-                if ((!$j("#32fb").is(':checked')||(!$j("#32db").is(':checked'))||($j("input#qnty6").val()=="")   )){
+                if ((!$j("#32fb").is(':checked')||($j("input#qnty6").val()=="")   )){
                     num=0;
                     return num;
                 }
@@ -5362,7 +5611,7 @@ function validateHivPedsForm(){
         }
         if(($j("#33").is(':checked'))){
             if($j("#33fa").is(':checked')&& !$j("#33fb").is(':checked')){
-                if ((!$j("#33fa").is(':checked')||(!$j("#33da").is(':checked'))||($j("input#qnty6").val()=="")   )){
+                if ((!$j("#33fa").is(':checked')||($j("input#qnty6").val()=="")   )){
                     num=0;
                     ;
                     return num;
@@ -5378,7 +5627,7 @@ function validateHivPedsForm(){
                     num=1;
             }
             if(!$j("#33fa").is(':checked')&& $j("#33fb").is(':checked')){
-                if ((!$j("#33fb").is(':checked')||(!$j("#33db").is(':checked'))||($j("input#qnty6").val()=="")   )){
+                if ((!$j("#33fb").is(':checked')||($j("input#qnty6").val()=="")   )){
                     num=0;
                     return num;
 
@@ -5396,7 +5645,7 @@ function validateHivPedsForm(){
         }
         if(($j("#34").is(':checked'))){
             if($j("#34fa").is(':checked')&& !$j("#34fb").is(':checked')){
-                if ((!$j("#34fa").is(':checked')||(!$j("#34da").is(':checked'))||($j("input#qnty6").val()=="")   )){
+                if ((!$j("#34fa").is(':checked')||($j("input#qnty6").val()=="")   )){
                     num=0;
                     ;
                     return num;
@@ -5412,7 +5661,7 @@ function validateHivPedsForm(){
                     num=1;
             }
             if(!$j("#34fa").is(':checked')&& $j("#34fb").is(':checked')){
-                if ((!$j("#34fb").is(':checked')||(!$j("#34db").is(':checked'))||($j("input#qnty6").val()=="")   )){
+                if ((!$j("#34fb").is(':checked')||($j("input#qnty6").val()=="")   )){
                     num=0;
                     return num;
 
@@ -5443,7 +5692,7 @@ function validateHivPedsForm(){
 
 
             if(($j("#35").is(':checked'))){
-                if ((!$j("#35f").is(':checked')||(!$j("#35d").is(':checked'))||($j("input#qnty6").val()=="")    )){
+                if ((!$j("#35f").is(':checked')||($j("input#qnty6").val()=="")    )){
                     num=0;
                     return num;
                 }
@@ -5463,7 +5712,7 @@ function validateHivPedsForm(){
         }
 
         if(($j("#36").is(':checked'))){
-            if ((!$j("#36f").is(':checked')||(!$j("#36d").is(':checked'))||($j("input#qnty6").val()=="")    )){
+            if ((!$j("#36f").is(':checked')||($j("input#qnty6").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -5477,29 +5726,13 @@ function validateHivPedsForm(){
             else
                 num=1;
         }
-
-
-
-
     }
-
-
-
     if ($j("#drug7").is(':checked')) {
-
-
         if(($j("#41").is(':checked'))){
-
-
             if($j("#41fa").is(':checked')&& !$j("#41fb").is(':checked')){
-
-
-                if ((!$j("#41fa").is(':checked')||(!$j("#41da").is(':checked'))||($j("input#qnty7").val()=="")   )){
+                if ((!$j("#41fa").is(':checked')||($j("input#qnty7").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
@@ -5508,254 +5741,139 @@ function validateHivPedsForm(){
 
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
-                    num=1;
-
-            }
+                    num=1;            }
             if(!$j("#41fa").is(':checked')&& $j("#41fb").is(':checked')){
-
-                if ((!$j("#41fb").is(':checked')||(!$j("#41db").is(':checked'))||($j("input#qnty7").val()=="")   )){
+                if ((!$j("#41fb").is(':checked')||($j("input#qnty7").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
 
                 if (((!$j("#41ma2").is(':checked'))&&(!$j("#41mb2").is(':checked'))&&(!$j("#41mc2").is(':checked'))))
 
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         }
         else
             num=0;
         if(($j("#42").is(':checked'))){
-
-
             if($j("#42fa").is(':checked')&& !$j("#42fb").is(':checked')){
-
-
-                if ((!$j("#42fa").is(':checked')||(!$j("#42da").is(':checked'))||($j("input#qnty7").val()=="")   )){
+                if ((!$j("#42fa").is(':checked')||($j("input#qnty7").val()=="")   )){
                     num=0;
-                    ;
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
                 if (((!$j("#42ma1").is(':checked'))&&(!$j("#42mb1").is(':checked'))&&(!$j("#42mc1").is(':checked'))))
 
                 {
                     num=0;
-
                     return num;
-
 
                 }
                 else
                     num=1;
-
             }
             if(!$j("#42fa").is(':checked')&& $j("#42fb").is(':checked')){
-
-                if ((!$j("#42fb").is(':checked')||(!$j("#42db").is(':checked'))||($j("input#qnty7").val()=="")   )){
+                if ((!$j("#42fb").is(':checked')||($j("input#qnty7").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#42ma2").is(':checked'))&&(!$j("#42mb2").is(':checked'))&&(!$j("#42mc2").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         }
         if(($j("#43").is(':checked'))){
-
-
             if($j("#43fa").is(':checked')&& !$j("#43fb").is(':checked')){
-
-
-                if ((!$j("#43fa").is(':checked')||(!$j("#43da").is(':checked'))||($j("input#qnty7").val()=="")   )){
+                if ((!$j("#43fa").is(':checked')||($j("input#qnty7").val()=="")   )){
                     num=0;
-                    ;
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
                 if (((!$j("#43ma1").is(':checked'))&&(!$j("#43mb1").is(':checked'))&&(!$j("#43mc1").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
             }
             if(!$j("#43fa").is(':checked')&& $j("#43fb").is(':checked')){
-
-                if ((!$j("#43fb").is(':checked')||(!$j("#43db").is(':checked'))||($j("input#qnty7").val()=="")   )){
+                if ((!$j("#43fb").is(':checked')||($j("input#qnty7").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#43ma2").is(':checked'))&&(!$j("#43mb2").is(':checked'))&&(!$j("#43mc2").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
 
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         }
-
-
-
         if(($j("#44").is(':checked'))){
-
-
             if($j("#44fa").is(':checked')&& !$j("#44fb").is(':checked')){
-
-
-                if ((!$j("#44fa").is(':checked')||(!$j("#44da").is(':checked'))||($j("input#qnty7").val()=="")   )){
+                if ((!$j("#44fa").is(':checked')||($j("input#qnty7").val()=="")   )){
                     num=0;
-                    ;
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
                 if (((!$j("#44ma1").is(':checked'))&&(!$j("#44mb1").is(':checked'))&&(!$j("#44mc1").is(':checked'))))
 
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
             }
             if(!$j("#44fa").is(':checked')&& $j("#44fb").is(':checked')){
-
-                if ((!$j("#44fb").is(':checked')||(!$j("#44db").is(':checked'))||($j("input#qnty7").val()=="")   )){
+                if ((!$j("#44fb").is(':checked')||($j("input#qnty7").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#44ma2").is(':checked'))&&(!$j("#44mb2").is(':checked'))&&(!$j("#44mc2").is(':checked'))))
-
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         }
-
         if(($j("#45").is(':checked'))){
-
-
-
             if(($j("#45").is(':checked'))){
-                if ((!$j("#45f").is(':checked')||(!$j("#45d").is(':checked'))||($j("input#qnty7").val()=="")    )){
+                if ((!$j("#45f").is(':checked')||($j("input#qnty7").val()=="")    )){
                     num=0;
                     return num;
                 }
                 else
                     num=1;
-
                 if (((!$j("#45ma").is(':checked'))&&(!$j("#45mb").is(':checked'))&&(!$j("#45mc").is(':checked'))))
-
                 {
                     num=0;
                     return num;
@@ -5763,13 +5881,9 @@ function validateHivPedsForm(){
                 else
                     num=1;
             }
-
-
-
         }
-
         if(($j("#46").is(':checked'))){
-            if ((!$j("#46f").is(':checked')||(!$j("#46d").is(':checked'))||($j("input#qnty7").val()=="")    )){
+            if ((!$j("#46f").is(':checked')||($j("input#qnty7").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -5784,17 +5898,8 @@ function validateHivPedsForm(){
                 num=1;
         }
 
-
-
-
     }
-
-
-
-
     if ($j("#drug8").is(':checked')) {
-
-
         if(($j("#51").is(':checked'))){
             if ((!$j("#51f").is(':checked')||(!$j("#51d").is(':checked'))||($j("input#qnty8").val()=="")    )){
                 num=0;
@@ -5813,7 +5918,7 @@ function validateHivPedsForm(){
         else
             num=0;
         if(($j("#52").is(':checked'))){
-            if ((!$j("#52f").is(':checked')||(!$j("#52d").is(':checked'))||($j("input#qnty8").val()=="")    )){
+            if ((!$j("#52f").is(':checked')||($j("input#qnty8").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -5828,7 +5933,7 @@ function validateHivPedsForm(){
                 num=1;
         }
         if(($j("#53").is(':checked'))){
-            if ((!$j("#53f").is(':checked')||(!$j("#53d").is(':checked'))||($j("input#qnty8").val()=="")    )){
+            if ((!$j("#53f").is(':checked')||($j("input#qnty8").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -5842,196 +5947,102 @@ function validateHivPedsForm(){
             else
                 num=1;
         }
-
-
-
         if(($j("#54").is(':checked'))){
-
-
             if($j("#54fa").is(':checked')&& !$j("#54fb").is(':checked')){
-
-
-                if ((!$j("#54fa").is(':checked')||(!$j("#54d").is(':checked'))||($j("input#qnty8").val()=="")   )){
+                if ((!$j("#54fa").is(':checked')||($j("input#qnty8").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
                 if (((!$j("#54ma2").is(':checked'))&&(!$j("#54mb2").is(':checked'))&&(!$j("#54mc2").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
             }
             if(!$j("#54fa").is(':checked')&& $j("#54fb").is(':checked')){
-
-                if ((!$j("#54fb").is(':checked')||(!$j("#54d").is(':checked'))||($j("input#qnty8").val()=="")   )){
+                if ((!$j("#54fb").is(':checked')||($j("input#qnty8").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#54ma1").is(':checked'))&&(!$j("#54mb1").is(':checked'))&&(!$j("#54mc1").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         }
         if(($j("#55").is(':checked'))){
-
-
             if($j("#55fa").is(':checked')&& !$j("#55fb").is(':checked')){
-
-
-                if ((!$j("#55fa").is(':checked')||(!$j("#55d").is(':checked'))||($j("input#qnty8").val()=="")   )){
+                if ((!$j("#55fa").is(':checked')||($j("input#qnty8").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
                 if (((!$j("#55ma2").is(':checked'))&&(!$j("#55mb2").is(':checked'))&&(!$j("#55mc2").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
-
             }
             if(!$j("#55fa").is(':checked')&& $j("#55fb").is(':checked')){
-
-                if ((!$j("#55fb").is(':checked')||(!$j("#55d").is(':checked'))||($j("input#qnty8").val()=="")   )){
+                if ((!$j("#55fb").is(':checked')||($j("input#qnty8").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#55ma").is(':checked'))&&(!$j("#55mb").is(':checked'))&&(!$j("#55mc").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
             }
-
-
-
-
         } if(($j("#56").is(':checked'))){
-
-
             if($j("#56fa").is(':checked')&& !$j("#56fb").is(':checked')){
-
-
-                if ((!$j("#56fa").is(':checked')||(!$j("#56da").is(':checked'))||($j("input#qnty8").val()=="")   )){
+                if ((!$j("#56fa").is(':checked')||($j("input#qnty8").val()=="")   )){
                     num=0;
-                    ;
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
                 if (((!$j("#56ma").is(':checked'))&&(!$j("#56mb").is(':checked'))&&(!$j("#56mc").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
             }
             if(!$j("#56fa").is(':checked')&& $j("#56fb").is(':checked')){
-
-                if ((!$j("#56fb").is(':checked')||(!$j("#56db").is(':checked'))||($j("input#qnty8").val()=="")   )){
+                if ((!$j("#56fb").is(':checked')||($j("input#qnty8").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#56ma1").is(':checked'))&&(!$j("#56mb2").is(':checked'))&&(!$j("#56mc3").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         }
-
         if(($j("#57").is(':checked'))){
-
-
-
             if(($j("#57").is(':checked'))){
                 if ((!$j("#57fb").is(':checked')||(!$j("#57db").is(':checked'))||($j("input#qnty8").val()=="")    )){
                     num=0;
@@ -6047,13 +6058,9 @@ function validateHivPedsForm(){
                 else
                     num=1;
             }
-
-
-
         }
-
         if(($j("#58").is(':checked'))){
-            if ((!$j("#58").is(':checked')||(!$j("#58d").is(':checked'))||($j("input#qnty8").val()=="")    )){
+            if ((!$j("#58").is(':checked')||($j("input#qnty8").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6067,115 +6074,10 @@ function validateHivPedsForm(){
             else
                 num=1;
         }
-
-
     }
-
-
-
-
-//    if ($j("#drug9").is(':checked')) {
-//
-//
-//        if(($j("#61").is(':checked'))){
-//            if ((!$j("#61f").is(':checked')||(!$j("#61d").is(':checked'))||($j("input#qnty9").val()=="")    )){
-//                num=0;
-//                return num;
-//            }
-//            else
-//                num=1;
-//            if (((!$j("#61ma").is(':checked'))&&(!$j("#61mb").is(':checked'))&&(!$j("#61mc").is(':checked'))))
-//            {
-//                num=0;
-//                return num;
-//            }
-//            else
-//                num=1;
-//        }
-//        else
-//            num=0;
-//        if(($j("#62").is(':checked'))){
-//            if ((!$j("#62f").is(':checked')||(!$j("#62d").is(':checked'))||($j("input#qnty9").val()=="")    )){
-//                num=0;
-//                return num;
-//            }
-//            else
-//                num=1;
-//            if (((!$j("#62ma").is(':checked'))&&(!$j("#62mb").is(':checked'))&&(!$j("#62mc").is(':checked'))))
-//            {
-//                num=0;
-//                return num;
-//            }
-//            else
-//                num=1;
-//        }
-//        if(($j("#63").is(':checked'))){
-//            if ((!$j("#63f").is(':checked')||(!$j("#63d").is(':checked'))||($j("input#qnty9").val()=="")    )){
-//                num=0;
-//                return num;
-//            }
-//            else
-//                num=1;
-//            if (((!$j("#63ma").is(':checked'))&&(!$j("#63mb").is(':checked'))&&(!$j("#63mc").is(':checked'))))
-//            {
-//                num=0;
-//                return num;
-//            }
-//            else
-//                num=1;
-//        }
-//
-//
-//
-//
-//        if(($j("#64").is(':checked'))){
-//
-//
-//
-//            if(($j("#64").is(':checked'))){
-//                if ((!$j("#64fb").is(':checked')||(!$j("#64db").is(':checked'))||($j("input#qnty9").val()=="")    )){
-//                    num=0;
-//                    return num;
-//                }
-//                else
-//                    num=1;
-//                if (((!$j("#64ma").is(':checked'))&&(!$j("#64mb").is(':checked'))&&(!$j("#64mc").is(':checked'))))
-//                {
-//                    num=0;
-//                    return num;
-//                }
-//                else
-//                    num=1;
-//            }
-//
-//
-//
-//        }
-//
-//        if(($j("#65").is(':checked'))){
-//            if ((!$j("#65").is(':checked')||(!$j("#65").is(':checked'))||($j("input#qnty9").val()=="")    )){
-//                num=0;
-//                return num;
-//            }
-//            else
-//                num=1;
-//            if (((!$j("#65ma").is(':checked'))&&(!$j("#65mb").is(':checked'))&&(!$j("#65mc").is(':checked'))))
-//            {
-//                num=0;
-//                return num;
-//            }
-//            else
-//                num=1;
-//        }
-//
-//
-//    }
-
     if ($j("#drug9").is(':checked')) {
-
-
         if(($j("#61").is(':checked'))){
-            if ((!$j("#61f").is(':checked')||(!$j("#61d").is(':checked'))||($j("input#qnty9").val()=="")    )){
+            if ((!$j("#61f").is(':checked')||($j("input#qnty9").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6192,7 +6094,7 @@ function validateHivPedsForm(){
         else
             num=0;
         if(($j("#62").is(':checked'))){
-            if ((!$j("#62f").is(':checked')||(!$j("#62d").is(':checked'))||($j("input#qnty9").val()=="")    )){
+            if ((!$j("#62f").is(':checked')||($j("input#qnty9").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6207,7 +6109,7 @@ function validateHivPedsForm(){
                 num=1;
         }
         if(($j("#63").is(':checked'))){
-            if ((!$j("#63f").is(':checked')||(!$j("#63d").is(':checked'))||($j("input#qnty9").val()=="")    )){
+            if ((!$j("#63f").is(':checked')||($j("input#qnty9").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6221,16 +6123,9 @@ function validateHivPedsForm(){
             else
                 num=1;
         }
-
-
-
-
         if(($j("#64").is(':checked'))){
-
-
-
             if(($j("#64").is(':checked'))){
-                if ((!$j("#64fb").is(':checked')||(!$j("#64db").is(':checked'))||($j("input#qnty9").val()=="")    )){
+                if ((!$j("#64fb").is(':checked')||($j("input#qnty9").val()=="")    )){
                     num=0;
                     return num;
                 }
@@ -6244,13 +6139,9 @@ function validateHivPedsForm(){
                 else
                     num=1;
             }
-
-
-
         }
-
         if(($j("#65").is(':checked'))){
-            if ((!$j("#65").is(':checked')||(!$j("#65").is(':checked'))||($j("input#qnty9").val()=="")    )){
+            if ((!$j("#65").is(':checked')||($j("input#qnty9").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6264,16 +6155,10 @@ function validateHivPedsForm(){
             else
                 num=1;
         }
-
-
     }
-
-
     if ($j("#drug10").is(':checked')) {
-
-
         if(($j("#71").is(':checked'))){
-            if ((!$j("#71f").is(':checked')||(!$j("#71d").is(':checked'))||($j("input#qnty10").val()=="")    )){
+            if ((!$j("#71f").is(':checked')||($j("input#qnty10").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6290,7 +6175,7 @@ function validateHivPedsForm(){
         else
             num=0;
         if(($j("#72").is(':checked'))){
-            if ((!$j("#72f").is(':checked')||(!$j("#72d").is(':checked'))||($j("input#qnty10").val()=="")    )){
+            if ((!$j("#72f").is(':checked')||($j("input#qnty10").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6305,7 +6190,7 @@ function validateHivPedsForm(){
                 num=1;
         }
         if(($j("#73").is(':checked'))){
-            if ((!$j("#73f").is(':checked')||(!$j("#73d").is(':checked'))||($j("input#qnty10").val()=="")    )){
+            if ((!$j("#73f").is(':checked')||($j("input#qnty10").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6319,16 +6204,9 @@ function validateHivPedsForm(){
             else
                 num=1;
         }
-
-
-
-
         if(($j("#74").is(':checked'))){
-
-
-
             if(($j("#74").is(':checked'))){
-                if ((!$j("#74fb").is(':checked')||(!$j("#74db").is(':checked'))||($j("input#qnty10").val()=="")    )){
+                if ((!$j("#74fb").is(':checked')||($j("input#qnty10").val()=="")    )){
                     num=0;
                     return num;
                 }
@@ -6342,13 +6220,9 @@ function validateHivPedsForm(){
                 else
                     num=1;
             }
-
-
-
         }
-
         if(($j("#75").is(':checked'))){
-            if ((!$j("#75").is(':checked')||(!$j("#75").is(':checked'))||($j("input#qnty10").val()=="")    )){
+            if ((!$j("#75").is(':checked')||($j("input#qnty10").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6362,15 +6236,10 @@ function validateHivPedsForm(){
             else
                 num=1;
         }
-
-
     }
-
     if ($j("#drug11").is(':checked')) {
-
-
         if(($j("#81").is(':checked'))){
-            if ((!$j("#81f").is(':checked')||(!$j("#81d").is(':checked'))||($j("input#qnty11").val()=="")    )){
+            if ((!$j("#81f").is(':checked')||($j("input#qnty11").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6402,7 +6271,7 @@ function validateHivPedsForm(){
                 num=1;
         }
         if(($j("#83").is(':checked'))){
-            if ((!$j("#83f").is(':checked')||(!$j("#83d").is(':checked'))||($j("input#qnty11").val()=="")    )){
+            if ((!$j("#83f").is(':checked')||($j("input#qnty11").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6416,16 +6285,8 @@ function validateHivPedsForm(){
             else
                 num=1;
         }
-
-
-
-
         if(($j("#84").is(':checked'))){
-
-
-
-            if(($j("#84").is(':checked'))){
-                if ((!$j("#84fb").is(':checked')||(!$j("#84db").is(':checked'))||($j("input#qnty11").val()=="")    )){
+                if ((!$j("#84fa").is(':checked')||($j("input#qnty11").val()==""))){
                     num=0;
                     return num;
                 }
@@ -6438,14 +6299,9 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
-            }
-
-
-
         }
-
         if(($j("#85").is(':checked'))){
-            if ((!$j("#85").is(':checked')||(!$j("#85").is(':checked'))||($j("input#qnty11").val()=="")    )){
+            if ((!$j("#85").is(':checked')||($j("input#qnty11").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6459,16 +6315,10 @@ function validateHivPedsForm(){
             else
                 num=1;
         }
-
-
     }
-
-
     if ($j("#drug12").is(':checked')) {
-
-
         if(($j("#91").is(':checked'))){
-            if ((!$j("#91f").is(':checked')||(!$j("#91d").is(':checked'))||($j("input#qnty12").val()=="")    )){
+            if ((!$j("#91f").is(':checked')||($j("input#qnty12").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6485,7 +6335,7 @@ function validateHivPedsForm(){
         else
             num=0;
         if(($j("#92").is(':checked'))){
-            if ((!$j("#92f").is(':checked')||(!$j("#92d").is(':checked'))||($j("input#qnty12").val()=="")    )){
+            if ((!$j("#92f").is(':checked')||($j("input#qnty12").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6500,7 +6350,7 @@ function validateHivPedsForm(){
                 num=1;
         }
         if(($j("#93").is(':checked'))){
-            if ((!$j("#93f").is(':checked')||(!$j("#93d").is(':checked'))||($j("input#qnty12").val()=="")    )){
+            if ((!$j("#93f").is(':checked')||($j("input#qnty12").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6514,16 +6364,9 @@ function validateHivPedsForm(){
             else
                 num=1;
         }
-
-
-
-
         if(($j("#94").is(':checked'))){
-
-
-
             if(($j("#94").is(':checked'))){
-                if ((!$j("#94fb").is(':checked')||(!$j("#94db").is(':checked'))||($j("input#qnty12").val()=="")    )){
+                if ((!$j("#94fb").is(':checked')||($j("input#qnty12").val()=="")    )){
                     num=0;
                     return num;
                 }
@@ -6537,13 +6380,9 @@ function validateHivPedsForm(){
                 else
                     num=1;
             }
-
-
-
         }
-
         if(($j("#95").is(':checked'))){
-            if ((!$j("#95").is(':checked')||(!$j("#95").is(':checked'))||($j("input#qnty12").val()=="")    )){
+            if ((!$j("#95").is(':checked')||($j("input#qnty12").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6557,18 +6396,10 @@ function validateHivPedsForm(){
             else
                 num=1;
         }
-
-
     }
-
-
-
-
     if ($j("#drug13").is(':checked')) {
-
-
         if(($j("#111").is(':checked'))){
-            if ((!$j("#111f").is(':checked')||(!$j("#111d").is(':checked'))||($j("input#qnty13").val()=="")    )){
+            if ((!$j("#111f").is(':checked')||($j("input#qnty13").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6585,7 +6416,7 @@ function validateHivPedsForm(){
         else
             num=0;
         if(($j("#112").is(':checked'))){
-            if ((!$j("#112f").is(':checked')||(!$j("#112d").is(':checked'))||($j("input#qnty13").val()=="")    )){
+            if ((!$j("#112f").is(':checked')||($j("input#qnty13").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6599,144 +6430,78 @@ function validateHivPedsForm(){
             else
                 num=1;
         }
-
-
-
-
         if(($j("#113").is(':checked'))){
-
-
             if($j("#113fa").is(':checked')&& !$j("#113fb").is(':checked')){
-
-
-                if ((!$j("#113fa").is(':checked')||(!$j("#113d").is(':checked'))||($j("input#qnty13").val()=="")   )){
+                if ((!$j("#113fa").is(':checked')||($j("input#qnty13").val()=="")   )){
                     num=0;
-                    ;
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
                 if (((!$j("#113ma1").is(':checked'))&&(!$j("#113mb1").is(':checked'))&&(!$j("#113mc1").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
             }
             if(!$j("#113fa").is(':checked')&& $j("#113fb").is(':checked')){
-
-                if ((!$j("#113fb").is(':checked')||(!$j("#113d").is(':checked'))||($j("input#qnty13").val()=="")   )){
+                if ((!$j("#113fb").is(':checked')||($j("input#qnty13").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#113ma2").is(':checked'))&&(!$j("#113mb2").is(':checked'))&&(!$j("#113mc2").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         }
-
-
         if(($j("#114").is(':checked'))){
-
-
             if($j("#114fa").is(':checked')&& !$j("#114fb").is(':checked')){
-
-
-                if ((!$j("#114fa").is(':checked')||(!$j("#114d").is(':checked'))||($j("input#qnty13").val()=="")   )){
+                if ((!$j("#114fa").is(':checked')||($j("input#qnty13").val()=="")   )){
                     num=0;
-                    ;
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
                 if (((!$j("#114ma1").is(':checked'))&&(!$j("#114mb1").is(':checked'))&&(!$j("#114mc1").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
 
                 }
                 else
                     num=1;
-
             }
             if(!$j("#114fa").is(':checked')&& $j("#114fb").is(':checked')){
-
-                if ((!$j("#114fb").is(':checked')||(!$j("#114d").is(':checked'))||($j("input#qnty13").val()=="")   )){
+                if ((!$j("#114fb").is(':checked')||($j("input#qnty13").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#114ma2").is(':checked'))&&(!$j("#114mb2").is(':checked'))&&(!$j("#114mc2").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         }
-
-
         if(($j("#115").is(':checked'))){
-            if ((!$j("#112f1").is(':checked')||(!$j("#115d").is(':checked'))||($j("input#qnty13").val()=="")    )){
+            if ((!$j("#112f1").is(':checked')||($j("input#qnty13").val()=="")    )){
                 num=0;
                 return num;
             }
             else
                 num=1;
-
             if (((!$j("#112ma1").is(':checked'))&&(!$j("#112mb1").is(':checked'))&&(!$j("#112mb1").is(':checked'))))
             {
                 num=0;
@@ -6748,148 +6513,80 @@ function validateHivPedsForm(){
 
 
         if(($j("#116").is(':checked'))){
-
-
             if((($j("#113fa1").is(':checked'))&&($j("#113fb1").is(':checked')))&& !$j("#113fb2").is(':checked')){
-
-
-                if (!(($j("#113fa1").is(':checked'))&&($j("#113fb1").is(':checked')))||((!$j("#116d").is(':checked'))||($j("input#qnty13").val()=="")   )){
+                if (!(($j("#113fa1").is(':checked'))&&($j("#113fb1").is(':checked')))||(($j("input#qnty13").val()=="")   )){
                     num=0;
-                    ;
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
                 if (((!$j("#113ma11").is(':checked'))&&(!$j("#113mb11").is(':checked'))&&(!$j("#113mc11").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
                 if (((!$j("#113ma21").is(':checked'))&&(!$j("#113mb21").is(':checked'))&&(!$j("#113mc21").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
             }
-
-
             if(!(($j("#113fa1").is(':checked'))&&($j("#113fb1").is(':checked')))&& $j("#113fb2").is(':checked')){
 
-                if (!$j("#113fb2").is(':checked')||((!$j("#116d").is(':checked'))||($j("input#qnty13").val()=="")   )){
+                if (!$j("#113fb2").is(':checked')||(($j("input#qnty13").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#113ma22").is(':checked'))&&(!$j("#113ma22").is(':checked'))&&(!$j("#113ma22").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         } if(($j("#117").is(':checked'))){
-
-
             if($j("#114fa1").is(':checked')&& !$j("#114fb1").is(':checked')){
-
-
-                if ((!$j("#114fa1").is(':checked')||(!$j("#117d").is(':checked'))||($j("input#qnty13").val()=="")   )){
+                if ((!$j("#114fa1").is(':checked')||($j("input#qnty13").val()=="")   )){
                     num=0;
-                    ;
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
                 if (((!$j("#114ma11").is(':checked'))&&(!$j("#114mb11").is(':checked'))&&(!$j("#114mc11").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
             }
             if(!$j("#114fa1").is(':checked')&& $j("#114fb1").is(':checked')){
-
-                if ((!$j("#114fb1").is(':checked')||(!$j("#117d").is(':checked'))||($j("input#qnty13").val()=="")   )){
+                if ((!$j("#114fb1").is(':checked')||($j("input#qnty13").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#114ma21").is(':checked'))&&(!$j("#114mb21").is(':checked'))&&(!$j("#114mc21").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         }
-
-
     }
-
     if ($j("#drug14").is(':checked')) {
-
-
         if(($j("#120").is(':checked'))){
-            if ((!$j("#120f").is(':checked')||(!$j("#120d").is(':checked'))||($j("input#qnty14").val()=="")    )){
+            if ((!$j("#120f").is(':checked')||($j("input#qnty14").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6922,7 +6619,7 @@ function validateHivPedsForm(){
                 num=1;
         }
         if(($j("#122").is(':checked'))){
-            if ((!$j("#122f").is(':checked')||(!$j("#122d").is(':checked'))||($j("input#qnty14").val()=="")    )){
+            if ((!$j("#122f").is(':checked')||($j("input#qnty14").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -6936,210 +6633,107 @@ function validateHivPedsForm(){
             else
                 num=1;
         }
-
-
-
         if(($j("#123").is(':checked'))){
-
-
             if($j("#123fa").is(':checked')&& !$j("#123fb").is(':checked')){
-
-
-                if (((!$j("#123fa").is(':checked'))||(!$j("#123d").is(':checked'))||($j("input#qnty14").val()=="")   )){
+                if (((!$j("#123fa").is(':checked'))||($j("input#qnty14").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
                 if (((!$j("#123ma1").is(':checked'))&&(!$j("#123mb1").is(':checked'))&&(!$j("#123mc1").is(':checked'))))
                 {
                     num=0;
-
-
-
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
             }
             if(!$j("#123fa").is(':checked')&& $j("#123fb").is(':checked')){
-
-                if ((!$j("#123fb").is(':checked'))||((!$j("#123d").is(':checked'))||($j("input#qnty14").val()=="")   )){
+                if ((!$j("#123fb").is(':checked'))||(($j("input#qnty14").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#123ma2").is(':checked'))&&(!$j("#123mb2").is(':checked'))&&(!$j("#123mc2").is(':checked'))))
 
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         }
-
-
         if(($j("#124").is(':checked'))){
-
-
             if($j("#124fa").is(':checked')&& !$j("#124fb").is(':checked')){
-
-
-                if (((!$j("#124fa").is(':checked'))||(!$j("#124d").is(':checked'))||($j("input#qnty14").val()=="")   )){
+                if (((!$j("#124fa").is(':checked'))||($j("input#qnty14").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
                 if (((!$j("#124ma1").is(':checked'))&&(!$j("#124mb1").is(':checked'))&&(!$j("#124mc1").is(':checked'))))
                 {
                     num=0;
-
-
-
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
             }
             if(!$j("#124fa").is(':checked')&& $j("#124fb").is(':checked')){
-
-                if ((!$j("#124fb").is(':checked'))||((!$j("#124d").is(':checked'))||($j("input#qnty14").val()=="")   )){
+                if ((!$j("#124fb").is(':checked'))||(($j("input#qnty14").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#124ma2").is(':checked'))&&(!$j("#124mb2").is(':checked'))&&(!$j("#124mc2").is(':checked'))))
 
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         }
-
         if(($j("#125").is(':checked'))){
-
-
             if($j("#125fa").is(':checked')&& !$j("#125fb").is(':checked')){
-
-
-                if (((!$j("#125fa").is(':checked'))||(!$j("#125d").is(':checked'))||($j("input#qnty14").val()=="")   )){
+                if (((!$j("#125fa").is(':checked'))||($j("input#qnty14").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
                 if (((!$j("#125ma1").is(':checked'))&&(!$j("#125mb1").is(':checked'))&&(!$j("#125mc1").is(':checked'))))
                 {
                     num=0;
-
-
-
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
             }
             if(!$j("#125fa").is(':checked')&& $j("#125fb").is(':checked')){
-
-                if ((!$j("#125fb").is(':checked'))||((!$j("#125d").is(':checked'))||($j("input#qnty14").val()=="")   )){
+                if ((!$j("#125fb").is(':checked'))||(($j("input#qnty14").val()==""))){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#125ma2").is(':checked'))&&(!$j("#125mb2").is(':checked'))&&(!$j("#125mc2").is(':checked'))))
 
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         }
-
         if(($j("#126").is(':checked'))){
-            if ((!$j("#126f").is(':checked')||(!$j("#126d").is(':checked'))||($j("input#qnty14").val()=="")    )){
+            if ((!$j("#126f").is(':checked')||($j("input#qnty14").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -7153,19 +6747,9 @@ function validateHivPedsForm(){
             else
                 num=1;
         }
-
-
-
-
     } if ($j("#drug15").is(':checked')) {
-
-
         if(($j("#136").is(':checked')))
-
-
-
-            if ((!$j("#136f").is(':checked')||!$j("#136d").is(':checked')||($j("input#qnty15").val()=="")    )){
-
+            if ((!$j("#136f").is(':checked')||($j("input#qnty15").val()==""))){
                 num=0;
                 return num;
             }
@@ -7179,24 +6763,14 @@ function validateHivPedsForm(){
         }
         else
             num=1;
-
     }
-
     if ($j("#drug16").is(':checked')) {
-
-
         if(($j("#146").is(':checked')))
-
-
-
-            if ((!$j("#146f").is(':checked')||!$j("#146d").is(':checked')||($j("input#qnty16").val()=="")    )){
-
-                num=0;
+            if ((!$j("#146f").is(':checked')||($j("input#qnty16").val()=="")    )){                num=0;
                 return num;
             }
             else
                 num=1;
-
         if (((!$j("#146ma").is(':checked'))&&(!$j("#146mb").is(':checked'))&&(!$j("#146mc").is(':checked'))))
         {
             num=0;
@@ -7204,18 +6778,11 @@ function validateHivPedsForm(){
         }
         else
             num=1;
-
     }
 
     if ($j("#drug17").is(':checked')) {
-
-
         if(($j("#156").is(':checked')))
-
-
-
-            if ((!$j("#156f").is(':checked')||!$j("#156d").is(':checked')||($j("input#qnty17").val()=="")    )){
-
+            if ((!$j("#156f").is(':checked')||($j("input#qnty17").val()==""))){
                 num=0;
                 return num;
             }
@@ -7229,23 +6796,15 @@ function validateHivPedsForm(){
         }
         else
             num=1;
-
     }
     if ($j("#drug18").is(':checked')) {
-
-
         if(($j("#166").is(':checked')))
-
-
-
-            if ((!$j("#166f").is(':checked')||!$j("#166d").is(':checked')||($j("input#qnty18").val()=="")    )){
-
+            if ((!$j("#166f").is(':checked')||($j("input#qnty18").val()=="")    )){
                 num=0;
                 return num;
             }
             else
                 num=1;
-
         if (((!$j("#166ma").is(':checked'))&&(!$j("#166mb").is(':checked'))&&(!$j("#166mc").is(':checked'))))
         {
             num=0;
@@ -7256,20 +6815,13 @@ function validateHivPedsForm(){
 
     }
     if ($j("#drug19").is(':checked')) {
-
-
         if(($j("#176").is(':checked')))
-
-
-
-            if ((!$j("#176f").is(':checked')||!$j("#176d").is(':checked')||($j("input#qnty19").val()=="")    )){
-
+            if ((!$j("#176f").is(':checked')||($j("input#qnty19").val()=="")    )){
                 num=0;
                 return num;
             }
             else
                 num=1;
-
         if (((!$j("#176ma").is(':checked'))&&(!$j("#176mb").is(':checked'))&&(!$j("#176mc").is(':checked'))))
         {
             num=0;
@@ -7277,24 +6829,15 @@ function validateHivPedsForm(){
         }
         else
             num=1;
-
     }
-
     if ($j("#drug20").is(':checked')) {
-
-
         if(($j("#186").is(':checked')))
-
-
-
-            if ((!$j("#186f").is(':checked')||!$j("#186d").is(':checked')||($j("input#qnty20").val()=="")    )){
-
+            if ((!$j("#186f").is(':checked')||($j("input#qnty20").val()==""))){
                 num=0;
                 return num;
             }
             else
                 num=1;
-
         if (((!$j("#186ma").is(':checked'))&&(!$j("#186mb").is(':checked'))&&(!$j("#186mc").is(':checked'))))
         {
             num=0;
@@ -7302,24 +6845,16 @@ function validateHivPedsForm(){
         }
         else
             num=1;
-
     }
 
     if ($j("#drug21").is(':checked')) {
-
-
         if(($j("#196").is(':checked')))
-
-
-
-            if ((!$j("#196f").is(':checked')||!$j("#196d").is(':checked')||($j("input#qnty21").val()=="")    )){
-
+            if ((!$j("#196f").is(':checked')||($j("input#qnty21").val()==""))){
                 num=0;
                 return num;
             }
             else
                 num=1;
-
         if (((!$j("#196ma").is(':checked'))&&(!$j("#196mb").is(':checked'))&&(!$j("#196mc").is(':checked'))))
         {
             num=0;
@@ -7327,281 +6862,154 @@ function validateHivPedsForm(){
         }
         else
             num=1;
-
     }
 
     if ($j("#drug22").is(':checked')) {
-
-
         if(($j("#201").is(':checked'))){
-
-
             if($j("#201fa").is(':checked')&& !$j("#201fb").is(':checked')){
-
-
-                if ((!$j("#201fa").is(':checked')||(!$j("#201da").is(':checked'))||($j("input#qnty22").val()=="")   )){
+                if ((!$j("#201fa").is(':checked')||($j("input#qnty22").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
                 if (((!$j("#201ma1").is(':checked'))&&(!$j("#201mb1").is(':checked'))&&(!$j("#201mc1").is(':checked'))))
 
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
             }
             if(!$j("#201fa").is(':checked')&& $j("#201fb").is(':checked')){
-
-                if ((!$j("#201fb").is(':checked')||(!$j("#201db").is(':checked'))||($j("input#qnty22").val()=="")   )){
+                if ((!$j("#201fb").is(':checked')||($j("input#qnty22").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#201ma2").is(':checked'))&&(!$j("#201mb2").is(':checked'))&&(!$j("#201mc2").is(':checked'))))
 
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         }
         else
             num=0;
-
         if(($j("#202").is(':checked'))){
-
-
             if($j("#202fa").is(':checked')&& !$j("#202fb").is(':checked')){
-
-
-                if ((!$j("#202fa").is(':checked')||(!$j("#202da").is(':checked'))||($j("input#qnty22").val()=="")   )){
+                if ((!$j("#202fa").is(':checked')||($j("input#qnty22").val()=="")   )){
                     num=0;
-                    ;
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
                 if (((!$j("#202ma1").is(':checked'))&&(!$j("#202mb1").is(':checked'))&&(!$j("#202mc1").is(':checked'))))
-
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
             }
             if(!$j("#202fa").is(':checked')&& $j("#202fb").is(':checked')){
-
-                if ((!$j("#202fb").is(':checked')||(!$j("#202db").is(':checked'))||($j("input#qnty7").val()=="")   )){
+                if ((!$j("#202fb").is(':checked')||($j("input#qnty7").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#202ma2").is(':checked'))&&(!$j("#202mb2").is(':checked'))&&(!$j("#202mc2").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         }
         if(($j("#203").is(':checked'))){
-
-
             if($j("#203fa").is(':checked')&& !$j("#203fb").is(':checked')){
-
-
-                if ((!$j("#203fa").is(':checked')||(!$j("#203da").is(':checked'))||($j("input#qnty22").val()=="")   )){
+                if ((!$j("#203fa").is(':checked')||($j("input#qnty22").val()=="")   )){
                     num=0;
-                    ;
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
                 if (((!$j("#203ma1").is(':checked'))&&(!$j("#203mb1").is(':checked'))&&(!$j("#203mc1").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
 
                 }
                 else
                     num=1;
-
             }
             if(!$j("#203fa").is(':checked')&& $j("#203fb").is(':checked')){
-
-                if ((!$j("#203fb").is(':checked')||(!$j("#203db").is(':checked'))||($j("input#qnty22").val()=="")   )){
+                if ((!$j("#203fb").is(':checked')||($j("input#qnty22").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#203ma2").is(':checked'))&&(!$j("#203mb2").is(':checked'))&&(!$j("#203mc2").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         }
-
-
-
         if(($j("#204").is(':checked'))){
-
-
             if($j("#204fa").is(':checked')&& !$j("#204fb").is(':checked')){
-
-
-                if ((!$j("#204fa").is(':checked')||(!$j("#204da").is(':checked'))||($j("input#qnty22").val()=="")   )){
+                if ((!$j("#204fa").is(':checked')||($j("input#qnty22").val()=="")   )){
                     num=0;
-                    ;
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
                 if (((!$j("#204ma1").is(':checked'))&&(!$j("#204mb1").is(':checked'))&&(!$j("#204mc1").is(':checked'))))
 
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
 
             }
             if(!$j("#204fa").is(':checked')&& $j("#204fb").is(':checked')){
-
-                if ((!$j("#204fb").is(':checked')||(!$j("#204db").is(':checked'))||($j("input#qnty22").val()=="")   )){
+                if ((!$j("#204fb").is(':checked')||($j("input#qnty22").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#204ma2").is(':checked'))&&(!$j("#204mb2").is(':checked'))&&(!$j("#204mc2").is(':checked'))))
 
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         }
-
         if(($j("#205").is(':checked'))){
-
-
-
             if(($j("#205").is(':checked'))){
-                if ((!$j("#205f").is(':checked')||(!$j("#205d").is(':checked'))||($j("input#qnt22").val()=="")    )){
+                if ((!$j("#205f").is(':checked')||($j("input#qnt22").val()=="")    )){
                     num=0;
                     return num;
                 }
                 else
                     num=1;
-
                 if (((!$j("#205ma").is(':checked'))&&(!$j("#205mb").is(':checked'))&&(!$j("#205mc").is(':checked'))))
-
                 {
                     num=0;
                     return num;
@@ -7609,24 +7017,12 @@ function validateHivPedsForm(){
                 else
                     num=1;
             }
-
-
-
         }
-
-
-
-
-
+        alert("num is++++++"+num);
     }
-
-
-
     if ($j("#drug23").is(':checked')) {
-
-
         if(($j("#211").is(':checked'))){
-            if ((!$j("#211f").is(':checked')||(!$j("#211d").is(':checked'))||($j("input#qnty23").val()=="")    )){
+            if ((!$j("#211f").is(':checked')||($j("input#qnty23").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -7643,7 +7039,7 @@ function validateHivPedsForm(){
         else
             num=0;
         if(($j("#212").is(':checked'))){
-            if ((!$j("#212f").is(':checked')||(!$j("#212d").is(':checked'))||($j("input#qnty23").val()=="")    )){
+            if ((!$j("#212f").is(':checked')||($j("input#qnty23").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -7658,7 +7054,7 @@ function validateHivPedsForm(){
                 num=1;
         }
         if(($j("#213").is(':checked'))){
-            if ((!$j("#213f").is(':checked')||(!$j("#213d").is(':checked'))||($j("input#qnty23").val()=="")    )){
+            if ((!$j("#213f").is(':checked')||($j("input#qnty23").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -7672,26 +7068,10 @@ function validateHivPedsForm(){
             else
                 num=1;
         }
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
-
     if ($j("#drug24").is(':checked')) {
-
-
         if(($j("#221").is(':checked'))){
-            if ((!$j("#221f").is(':checked')||(!$j("#221d").is(':checked'))||($j("input#qnty24").val()=="")    )){
+            if ((!$j("#221f").is(':checked')||($j("input#qnty24").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -7708,7 +7088,7 @@ function validateHivPedsForm(){
         else
             num=0;
         if(($j("#222").is(':checked'))){
-            if ((!$j("#222f").is(':checked')||(!$j("#222d").is(':checked'))||($j("input#qnty23").val()=="")    )){
+            if ((!$j("#222f").is(':checked')||($j("input#qnty23").val()=="")    )){
                 num=0;
                 return num;
             }
@@ -7722,338 +7102,283 @@ function validateHivPedsForm(){
             else
                 num=1;
         }
-
-
-
-
         if(($j("#223").is(':checked'))){
-
-
             if($j("#223fa").is(':checked')&& !$j("#223fb").is(':checked')){
-
-
-                if ((!$j("#223fa").is(':checked')||(!$j("#223d").is(':checked'))||($j("input#qnty23").val()=="")   )){
+                if ((!$j("#223fa").is(':checked')||($j("input#qnty23").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
                 if (((!$j("#223ma1").is(':checked'))&&(!$j("#223mb1").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
             }
             if(!$j("#223fa").is(':checked')&& $j("#234fb").is(':checked')){
 
-                if ((!$j("#234fb").is(':checked')||(!$j("#223d").is(':checked'))||($j("input#qnty23").val()=="")   )){
+                if ((!$j("#234fb").is(':checked')||($j("input#qnty23").val()=="")   )){
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
-
                 if (((!$j("#223ma2").is(':checked'))&&(!$j("#223mb2").is(':checked'))))
                 {
                     num=0;
-
                     return num;
-
-
                 }
                 else
                     num=1;
-
-
             }
-
-
-
-
         }
-
-
-
-
     }
-
     if(num==9)
         num=2;
-
     return num;
-
-
-
-
-
 }
-
 var check1=0;
 var check2=0;
 var check3=0;
 var check4=0;
-
-
 var numbers = [
     [6467],
-    [6964],
-    [792],
-    [630,633],
     [630,631],
-    [1400,631],
+    [797,628,631],
+    [6964],
     [1400,633],
-    [6965,633],
+    [792],
     [6965,631],
-    [6180,631],
-    [6180,794],
-    [6180,633],
+    [630,633],
+    [630,814],
+    [1400,631],
+    [1400,797],
+    [6965,633],
+    [6965,814],
     [630,794],
+    [630,6159],
     [1400,794],
-    [794,6965],
-    [631,6180],
-    [794,6180],
-    [656],
-    [916],
-    [92],
-    [633,6180],
-    [814,628,6156],
-    [633,628,797],
-    [631,628,797],
-    [1400,814,794],
-    [628],
-    [6180]
+    [1400,6159],
+    [6965,794],
+    [630],
+    [797,628],
+    [6965],
+    [625,628],
+    [802,628],
+    [1400]
 ];
-function checkHivRegimen(one, two,three,four,siz){
-    for (var index = 0; index < numbers.length; index++)
+var regimen ='';
+var splicedRegimen=''
+function checkHivRegimen(val)
+{
+    regimen=val;
+    splicedRegimen=val.slice(0);
+    var septrinPosition=splicedRegimen.indexOf('916');
+    var dapsonePosition=splicedRegimen.indexOf('92');
+    var isoniazidPosition=splicedRegimen.indexOf('656');
+    var isRegimenValid = false ;
+    for (numbersCounter = 0 ;
+         numbersCounter < numbers.length ;
+         numbersCounter ++ )
     {
-        check1=0;
-        check2=0;
-        check3=0;
-        check4=0;
-        var size =numbers[index].length;
-        if(size==1)
-        {
+        if(septrinPosition>=0 || dapsonePosition>=0 || isoniazidPosition>=0){
+            if(septrinPosition>=0)
             {
-                for (var innerIndex = 0; innerIndex < numbers[index].length; innerIndex++)
-                {
-                    if(innerIndex==0 && numbers[index][0]!=0)
-                    {
-                        if(numbers[index][innerIndex]==one){
-                            check1=1;
-                        }
-                    }
-                }
-                if(check1==1 )
-                {
-                    return 1;
-                    break;
-                }
+                splicedRegimen.splice(septrinPosition,1);
             }
-        }
-        else if(size==2)
-        {
-            for (var innerIndex = 0; innerIndex < numbers[index].length; innerIndex++)
+            if(dapsonePosition>=0)
             {
-                if(innerIndex==0 && numbers[index][0]!=0)
-                {
-                    if(numbers[index][innerIndex]==one){
-                        check1=1;
-                    }
-                }
-                if(innerIndex==1 && numbers[index][1]!=0)
-                {
-                    if(numbers[index][innerIndex]==two){
-                        check2=1;
-                    }
-                }
+                splicedRegimen.splice(dapsonePosition,1);
             }
-            if(check1==1&&check2==1 )
+            if(isoniazidPosition>=0)
             {
-                return 1;
-                break;
-            }else
-            {
-                var newr= new Array();
-                newr=numbers[index].reverse();
-                for (var innerIndex = 0; innerIndex <newr.length; innerIndex++)
-                {
-                    if(innerIndex==0 && newr[0]!=0)
-                    {
-                        if(newr[innerIndex]==one){
-                            check1=1;
-                        }
-                    }
-                    if(innerIndex==1 && newr[1]!=0)
-                    {
-                        if(newr[innerIndex]==two){
-                            check2=1;
-                        }
-                    }
-                }
-                if(check1==1&&check2==1 )
-                {
-                    return 1;
-                    break;
-                }
+                splicedRegimen.splice(isoniazidPosition,1);
             }
-        }
-        else if(size==3)
-        {
-            {
-                for (var innerIndex = 0; innerIndex < numbers[index].length; innerIndex++)
-                {
-                    if(innerIndex==0 && numbers[index][0]!=0)
-                    {
-                        if(numbers[index][innerIndex]==one){
-                            check1=1;
-                        }
-                    }
-                    if(innerIndex==1 && numbers[index][1]!=0)
-                    {
-                        if(numbers[index][innerIndex]==two){
-                            check2=1;
-                        }
-                    }
-                    if(innerIndex==2 && numbers[index][2]!=0)
-                    {
-                        if(numbers[index][2]==three){
-                            check3=1;
-                        }
-                    }
-                }
-                if(check1==1&&check2==1&&check3==1 )
-                {
-                    return 1;
-                    break;
-                }else
-                {
-                    var newr= new Array();
-                    newr=numbers[index].reverse();
-                    for (var innerIndex = 0; innerIndex <newr.length; innerIndex++)
-                    {
-                        if(innerIndex==0 && newr[innerIndex]!=0)
-                        {
-                            if(newr[innerIndex]==one){
-                                check1=1;
-                            }
-                        }
-                        if(innerIndex==1 && newr[innerIndex]!=0)
-                        {
-                            if(newr[innerIndex]==two){
-                                check2=1;
-                            }
-                        }
-                        if(innerIndex==2 && newr[innerIndex]!=0)
-                        {
-                            if(newr[innerIndex]==three){
-                                check3=1;
-                            }
-                        }
-                    }
-                    if(check1==1&&check2==1&&check3==1)
-                    {
-                        return 1;
-                        break;
-                    }
-                }
-            }
-        }
-        else if(size==4)
-        {
-            {
-                for (var innerIndex = 0; innerIndex < numbers[index].length; innerIndex++)
-                {
-                    if(innerIndex==0 && numbers[index][0]!=0)
-                    {
-                        if(numbers[index][innerIndex]==one){
-                            check1=1;
-                        }
-                    }
-                    if(innerIndex==1 && numbers[index][1]!=0)
-                    {
-                        if(numbers[index][innerIndex]==two){
-                            check2=1;
-                        }
-                    }
-                    if(innerIndex==2 && numbers[index][2]!=0)
-                    {
-                        if(numbers[index][2]==three){
-                            check3=1;
-                        }
-                    }
-                    if(innerIndex==3 && numbers[index][3]!=0)
-                    {
-                        if(numbers[index][innerIndex]==four){
-                            check4=1;
-                        }
-                    }
-                }
-                if(check1==1&&check2==1&&check3==1&&check4==1 )
-                {
-                    return 1;
-                    break;
 
-                }else
-                {
-                    var newr= new Array();
-                    newr=numbers[index].reverse();
-                    for (var innerIndex = 0; innerIndex <newr.length; innerIndex++)
-                    {
-                        if(innerIndex==0 && newr[innerIndex]!=0)
-                        {
-                            if(newr[innerIndex]==one){
-                                check1=1;
-                            }
-                        }
-                        if(innerIndex==1 && newr[innerIndex]!=0)
-                        {
-                            if(newr[innerIndex]==two){
-                                check2=1;
-                            }
-                        }
-                        if(innerIndex==2 && newr[innerIndex]!=0)
-                        {
-                            if(newr[innerIndex]==three
-                                ){
-                                check3=1;
-                            }
-                        }
-                        if(innerIndex==3 && newr[innerIndex]!=0)
-                        {
-                            if(newr[innerIndex]==four){
-                                check3=1;
-                            }
-                        }
-                    }
-                    if(check1==1&&check2==1&&check3==1&&check4==1 )
-                    {
-                        return 1;
-                        break;
-                    }
-
-                }
-
+        }
+        currNumber = numbers[numbersCounter] ; // curr array
+        lengthOfCurrentRegimenUnderTest = currNumber.length ;
+        if(lengthOfCurrentRegimenUnderTest != splicedRegimen.length)
+            continue ;
+        for(regimenCounter = 0 ;
+            regimenCounter < splicedRegimen.length ;
+            regimenCounter++ ) {
+            if(!contains(splicedRegimen[regimenCounter], currNumber)) {
+                isRegimenValid = false ;
+                break ;
             }
+
+            isRegimenValid = true ;
+        }
+        if(isRegimenValid)
+            break ;
+
+    }
+    if(regimen>splicedRegimen){
+        isRegimenValid = true ;
+    }
+    return isRegimenValid ;
+}
+
+function contains(needle, haystack) {
+
+    for (i = 0 ; i < haystack.length; i++)
+    {
+        if(needle == haystack[i])
+            return true ;
+    }
+
+    return false ;
+}
+function regimenFilter(val){
+    regimen=val;
+    splicedRegimen=val;
+    var septrinPosition=regimen.indexOf('916');
+    var dapsonePosition=regimen.indexOf('92');
+    var isoniazidPosition=regimen.indexOf('656');
+    var positionOfEquity = -1 ;
+    var regimenCode='';
+    var regimenName='';
+    for (numbersCounter = 0 ;
+         numbersCounter < numbers.length ;
+         numbersCounter ++ )
+    {
+        if(septrinPosition>=0 || dapsonePosition>=0 || isoniazidPosition>=0){
+            if(septrinPosition>=0)
+            {
+                splicedRegimen.splice(septrinPosition,1);
+            }
+            if(dapsonePosition>=0)
+            {
+                splicedRegimen.splice(dapsonePosition,1);
+            }
+            if(isoniazidPosition>=0)
+            {
+                splicedRegimen.splice(isoniazidPosition,1);
+            }
+
+        }
+        currNumber = numbers[numbersCounter] ; // curr array
+        lengthOfCurrentRegimenUnderTest = currNumber.length ;
+        if(lengthOfCurrentRegimenUnderTest != splicedRegimen.length)
+            continue ;
+        var sortedCurrNumber=currNumber.sort();
+        var sortedSPlicedRegimen=splicedRegimen.sort();
+        if(sortedCurrNumber.toString()==sortedSPlicedRegimen.toString()){
+            positionOfEquity=numbersCounter;
+            break;
         }
 
     }
+    if(positionOfEquity < 3){
+        if($j("#patienttype1").is(':checked')){
+            regimenName='AZT/3TC/NVP';
+            regimenCode='PM3';
+        }
+        else{
+            regimenName='AZT/3TC/NVP';
+            regimenCode='CF1A';
+        }
+    }
+    else if(positionOfEquity < 5) {
+        regimenName='TDF/3TC/EFV';
+        regimenCode='AF2B';
+    }
+    else if(positionOfEquity < 7) {
+        regimenName='d4T/3TC/NVP';
+        regimenCode='CF3A';
+    }
+    else if(positionOfEquity ==7) {
+        if($j("#patienttype1").is(':checked')) {
+            regimenName='AZT/3TC/EFV';
+            regimenCode='PM4';
+        }
+        else{
+            regimenName='AZT/3TC/EFV';
+            regimenCode='CF1B';
+        }
+    }
+    else if(positionOfEquity ==8) {
+        regimenName='AZT/3TC/ABC';
+        regimenCode='CF2C';
+    }
+    else if(positionOfEquity ==9) {
+        if($j("#patienttype1").is(':checked')) {
+            regimenName='TDF/3TC/NVP';
+            regimenCode='PM6';
+        }
+        else if($j("#patienttype3").is(':checked')) {
+            regimenName='TDF/3TC/NVP';
+            regimenCode='PA3B';
+        }
+        else{
+            regimenName='TDF/3TC/NVP';
+            regimenCode='AF2A';
+        }
+    }
+    else if(positionOfEquity ==10) {
+        regimenName='TDF/3TC/AZT';
+        regimenCode='AF2C';
+    }
+    else if(positionOfEquity ==11) {
+        regimenName='d4T/3TC/EFV';
+        regimenCode='AF3B';
+    }
+    else if(positionOfEquity ==12) {
+        regimenName='d4T/3TC/ABC';
+        regimenCode='AF3C';
+    }
+    else if(positionOfEquity ==13) {
+        if($j("#patienttype1").is(':checked')) {
+            regimenName='AZT/3TC/LPV/r';
+            regimenCode='PM5';
+        }
+        else if($j("#patienttype3").is(':checked')){
+            regimenName='AZT/3TC/LPV/r';
+            regimenCode='PA1B';
+        }
+        else{
+            regimenName='AZT/3TC/LPV/r';
+            regimenCode='AS1A';
+        }
+    }
+    else if(positionOfEquity ==14) {
+        regimenName='AZT/3TC/ATV/r';
+        regimenCode='CF1C';
+    }
+    else if(positionOfEquity ==15) {
+        regimenName='TDF/3TC/LPV/r';
+        regimenCode='AS2A';
+    }
+    else if(positionOfEquity ==16) {
+        regimenName='TDF/3TC/ATV/r';
+        regimenCode='AS2C';
+    }
+    else if(positionOfEquity ==17) {
+        if($j("#patienttype3").is(':checked')){
+            regimenName='d4T/3TC/LPV/r';
+            regimenCode='PA2B';
+        }
+        else{
+            regimenName='d4T/3TC/LPV/r';
+            regimenCode='CS3A';
+        }
 
+    }
+    else if(positionOfEquity==18 || positionOfEquity==19){
+        regimenName='AZT/3TC';
+        regimenCode='PA1A';
+    }
+    else if (positionOfEquity==20 || positionOfEquity==21){
+        regimenName='D4T/3TC';
+        regimenCode='PA2A';
+    }
+    else if(positionOfEquity==22 || positionOfEquity==23){
+        regimenName='TDF/3TC';
+        regimenCode='PA3A'
+    }
+    return [regimenCode,regimenName];
 }
-
-

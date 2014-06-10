@@ -3719,4 +3719,14 @@
             <column name="formName" type="VARCHAR(38)"/>
         </addColumn>
     </changeSet>
+    <changeSet author="ellymakuba" id="2014-05-20-11:03am">
+        <addColumn tableName="pharmacy_encounter">
+            <column name="regimenCode" type="VARCHAR(38)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2014-05-22-02:18pm">
+        <addColumn tableName="pharmacy_encounter">
+            <column name="regimenName" type="VARCHAR(38)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

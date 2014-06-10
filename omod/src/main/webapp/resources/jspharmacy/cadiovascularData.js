@@ -108,7 +108,7 @@ $j('#drug3').live('click',function(){
     if($j('#drug3').attr('checked')==true){
     var values = $j("input[title='drug']").map(
         function () {
-            if(this.id=="drug1"){
+            if(this.id=="drug3"){
                 return $j(this).val().substring($j(this).val().indexOf('|')+1);
             }
 

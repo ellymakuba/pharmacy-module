@@ -473,6 +473,9 @@ public interface PharmacyService extends OpenmrsService {
      */
     @Transactional(readOnly=true)
     public List<DrugExtra> getDrugRange(Date from, Date to);
+    public List<PharmacyEncounter> getEncountersRange(Date f,Date t,String loc);
+    public List<PharmacyEncounter>  getCurrentPatientRegimen(String patientUUID);
+    public Integer getNumberOfPatientsOnRegimen(Date startDate,Date endDate,String regimenCode);
     public List<PharmacyStoreIncoming> getDrugQuantityAfterLastStockTake(Date minDate, Date maxDate,String uuid);
     /**
      * @return DrugDispenseSettings object by uuid

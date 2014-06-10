@@ -13,8 +13,6 @@
     </description>
     <activator>org.openmrs.module.pharmacy.PharmacyActivator</activator>
     <updateURL>https://dev.openmrs.org/modules/download/@MODULE_ID@/update.rdf</updateURL>
-
-
     <require_modules>
 
         <require_module>org.openmrs.module.jforms</require_module>
@@ -43,8 +41,6 @@
         <name>Set Location</name>
         <description>Set pharmacy location</description>
     </privilege>
-
-
     <privilege>
         <name>Delete Pharmacy</name>
         <description>This is privilege for user who can delete a Pharmacy information</description>
@@ -67,8 +63,6 @@
         <name>Pharmacy Admin</name>
         <description>Manage pharmacy admin</description>
     </privilege>
-
-
     <privilege>
         <name>Pharmacy inventory</name>
         <description>Manage pharmacy inventory</description>
@@ -77,43 +71,26 @@
         <name>Approve Pharmacy</name>
         <description>Approve from suppliers</description>
     </privilege>
-
-
     <mappingFiles>
-
         PharmacyLocations.hbm.xml
         PharmacyLocationUsers.hbm.xml
         DrugMaxMin.hbm.xml
         PharmacyCategory.hbm.xml
-
         DrugTransactions.hbm.xml
-
         PharmacySupplies.hbm.xml
         PharmacyEncounterType.hbm.xml
         PharmacyEncounter.hbm.xml
-
         PharmacyGeneralVariables.hbm.xml
         PharmacyTransactionType.hbm.xml
-
         PharmacyStore.hbm.xml
-
         PharmacyStoreIncoming.hbm.xml
-
         PharmacyStoreOutgoing.hbm.xml
         PharmacyStoreApproved.hbm.xml
-
-
         PharmacyObs.hbm.xml
         PharmacyOrders.hbm.xml
-
         DrugDispenseSettings.hbm.xml
         PharmacyDrugOrderExtra.hbm.xml
         PharmacyDrugOrder.hbm.xml
         DrugExtra.hbm.xml
-
-
-
     </mappingFiles>
-
-
 </module>

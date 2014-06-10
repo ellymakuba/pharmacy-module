@@ -1327,6 +1327,37 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
         return results;
 
     }
+    public List<PharmacyEncounter> getEncountersRange(Date minDate,Date maxDate,String location) {
+        String sql="SELECT pe.* FROM pharmacy_encounter pe  WHERE pe.location_uuid like :loc " +
+        "AND pe.datecreated BETWEEN :sDate AND :eDate GROUP BY pe.regimenCode";
+        SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);
+        query.addEntity(PharmacyEncounter.class);
+        query.setParameter("sDate",minDate);
+        query.setParameter("eDate",maxDate);
+        query.setParameter("loc",location);
+        List results = query.list();
+        return results;
+
+    }
+    public List<PharmacyEncounter> getCurrentPatientRegimen(String patientUUID) {
+        String sql="SELECT pe.* FROM pharmacy_encounter pe  WHERE pe.patient_uuid like :pUUID " +
+        "AND (pe.form_name like 'ADULTHIV' OR pe.form_name like 'PEDIATRICARV') ORDER BY pe.pharmacy_encounter_id DESC LIMIT 1";
+        SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);
+        query.addEntity(PharmacyEncounter.class);
+        query.setParameter("pUUID",patientUUID);
+        List results = query.list();
+        return results;
+
+    }
+   public Integer  getNumberOfPatientsOnRegimen(Date startDate,Date endDate,String regimenCode){
+       String sql="SELECT COUNT(*) FROM pharmacy_encounter WHERE regimenCode LIKE :regimen AND dateCreated BETWEEN :sDate AND :eDate";
+       SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);
+       query.setParameter("regimen",regimenCode);
+       query.setParameter("sDate", startDate);
+       query.setParameter("eDate", endDate);
+       return ((Number) query.uniqueResult()).intValue();
+
+   }
     public List<PharmacyStoreIncoming> getDrugQuantityAfterLastStockTake(Date minDate, Date maxDate,String uuid) {
         String sql = "SELECT SUM(quantity_in) FROM pharmacy_inventory_incoming where pharmacy_drug_uuid like :'uid' AND dateCreated BETWEEN :sDate AND :eDate";
         SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);

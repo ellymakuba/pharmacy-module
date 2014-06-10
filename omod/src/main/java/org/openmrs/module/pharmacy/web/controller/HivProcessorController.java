@@ -78,6 +78,8 @@ public class HivProcessorController {
         ObsProcessor obsProcessor = new ObsProcessor();
         MedicationProcessor medicationProcessor = new MedicationProcessor();
         String locationVal = null;
+        String regimenCode=request.getParameter("regimenCode");
+        String regimenName=request.getParameter("regimenName");
         service = Context.getService(PharmacyService.class);
         List<PharmacyLocationUsers> listUsers = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         int sizeUsers = listUsers.size();
@@ -140,7 +142,6 @@ public class HivProcessorController {
 
                              if(value.indexOf("-")>0){
                              medicationProcessor = new MedicationProcessor();
-
                              medicationProcessor.setConcept(value.substring(value.indexOf("*")+1,(value.indexOf("#"))));
                              medicationProcessor.setConceptAnswer(value.substring(value.indexOf("-")+1,(value.indexOf("|"))));
 
@@ -153,7 +154,6 @@ public class HivProcessorController {
                              addToBigList=true;
                              DispensedFirstPass=false;
                              listMedicationProcessors.add(medicationProcessor);
-                            log.info("+++++++++++++++++++++++++++++++++++++++++++++++drug one "+drug);
                          }
                         else if(value.indexOf("|")>0){
                              medicationProcessor = new MedicationProcessor();
@@ -170,7 +170,6 @@ public class HivProcessorController {
                              addToBigList=true;
                              DispensedFirstPass=false;
                              listMedicationProcessors.add(medicationProcessor);
-                                 log.info("+++++++++++++++++++++++++++++++++++++++++++++++drug two "+drug);
                          }
                 }
                 else if(value.substring(0,value.indexOf("*")).equalsIgnoreCase("ObsDrug1")){
@@ -186,13 +185,7 @@ public class HivProcessorController {
                 }
                 else
                 {
-                    if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Month")) {
-                              medicationProcessor = new MedicationProcessor();
-                            medicationProcessor.setquantity(value.substring(value.indexOf("@")+1,(value.length()-1)));
-                                listMedicationProcessors.add(medicationProcessor);//
-
-                        }
-                   else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Month1"))
+                    if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Month1"))
                     {
                         medicationProcessor = new MedicationProcessor();
                         medicationProcessor.setquantity(value.substring(value.indexOf("@")+1,(value.length()-1)));
@@ -360,13 +353,8 @@ public class HivProcessorController {
                     {
 
                         medicationProcessor = new MedicationProcessor();
-
-
-
                         medicationProcessor.setquantity(value.substring(value.indexOf("@")+1,(value.length()-1)));
-                        listMedicationProcessors.add(medicationProcessor);
-
-//
+                        listMedicationProcessors.add(medicationProcessor);//
 
                     }
                     else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Month17"))
@@ -436,45 +424,34 @@ public class HivProcessorController {
                     else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Dispensed1"))
                     {
                         medicationProcessor = new MedicationProcessor();
-
                         medicationProcessor.setDispensed(value.substring(value.indexOf("@")+1,(value.length()-1)));
-
                         listMedicationProcessors.add(medicationProcessor);
-
                     }
                     else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Dispensed2"))
                     {
                         medicationProcessor = new MedicationProcessor();
-
                         medicationProcessor.setDispensed(value.substring(value.indexOf("@")+1,(value.length()-1)));
-
                         listMedicationProcessors.add(medicationProcessor);
 
                     }
                     else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Dispensed3"))
                     {
                         medicationProcessor = new MedicationProcessor();
-
                         medicationProcessor.setDispensed(value.substring(value.indexOf("@")+1,(value.length()-1)));
-
                         listMedicationProcessors.add(medicationProcessor);
 
                     }
                     else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Dispensed4"))
                     {
                         medicationProcessor = new MedicationProcessor();
-
                         medicationProcessor.setDispensed(value.substring(value.indexOf("@")+1,(value.length()-1)));
-
                         listMedicationProcessors.add(medicationProcessor);
 
                     }
                     else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Dispensed5"))
                     {
                         medicationProcessor = new MedicationProcessor();
-
                         medicationProcessor.setDispensed(value.substring(value.indexOf("@")+1,(value.length()-1)));
-
                         listMedicationProcessors.add(medicationProcessor);
 
                     }
@@ -553,9 +530,7 @@ public class HivProcessorController {
                     else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Dispensed14"))
                     {
                         medicationProcessor = new MedicationProcessor();
-
                         medicationProcessor.setDispensed(value.substring(value.indexOf("@")+1,(value.length()-1)));
-
                         listMedicationProcessors.add(medicationProcessor);
 
                     }
@@ -604,24 +579,17 @@ public class HivProcessorController {
                         listMedicationProcessors.add(medicationProcessor);
 
                     }
-
                     else   if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("otherd"))
                     {
 
-                        log.info("otherd value is ----------------------------------------------------------"+value.substring(value.indexOf("@")+1,(value.length()-1)).length());
                         if(value.substring(value.indexOf("@")+1,(value.length()-1)).length()>0) {
                             medicationProcessor = new MedicationProcessor();
                             medicationProcessor.setDispensed(value.substring(value.indexOf("@")+1,(value.length()-1)));
-
                             listMedicationProcessors.add( medicationProcessor);
                         }
-
-
                     }
                     else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Prescriber"))
                         {
-
-
                             encounterProcessor.setPrescriber(value.substring(value.indexOf("@") + 1, value.length() - 1));
 
                         }
@@ -629,21 +597,12 @@ public class HivProcessorController {
                     {
                         medicationProcessor = new MedicationProcessor();
                          listMedicationProcessors.add(medicationProcessor);
-
                     }
-
-
-
-
                 }
-
-
-
                 if(addToBigList) {
                     bigListMedicationProcessors.add(listMedicationProcessors);
                     addToBigList=false;
                 }
-
             }
             PharmacyEncounter pharmacyEncounter = new PharmacyEncounter();
             pharmacyEncounter.setEncounter(service.getPharmacyEncounterTypeByName(encounterProcessor.getEncounterType()));
@@ -659,7 +618,8 @@ public class HivProcessorController {
             pharmacyEncounter.setNextVisitDate(endDate);
             pharmacyEncounter.setDuration(Integer.parseInt(encounterProcessor.getDuration()));
             pharmacyEncounter.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));
-
+            pharmacyEncounter.setRegimenCode(regimenCode);
+            pharmacyEncounter.setRegimenName(regimenName);
             service.savePharmacyEncounter(pharmacyEncounter);
             for (int y=0;y<listObsProcessor.size();y++){
                 ppharmacyObs = new PharmacyObs(); //
@@ -671,8 +631,6 @@ public class HivProcessorController {
                 }
                 ppharmacyObs.setLocation(service.getPharmacyLocationsByName(locationVal));
                 ppharmacyObs.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));
-
-
                 ppharmacyObs.setPharmacyEncounter(pharmacyEncounter);
                 ppharmacyObs.setValueDatetime(null);
                 ppharmacyObs.setValueNumeric(CheckIfDoubleNull(listObsProcessor.get(y).getConceptAnswer()));
@@ -730,7 +688,7 @@ public class HivProcessorController {
                 pharmacyDrugOrder.setFrequency(CheckIfStringNull(c.get(2).getFrequency()));
                 pharmacyDrugOrder.setOrderUuid(pharmacyOrders);
                 pharmacyDrugOrder.setQuantityPrescribed(CheckIfIntNull(c.get(2).getQuantity()));
-                pharmacyDrugOrder.setQuantityGiven(CheckIfIntNull(c.get(4).getDispensed()));
+                pharmacyDrugOrder.setQuantityGiven(CheckIfIntNull(c.get(5).getDispensed()));
                 pharmacyDrugOrder.setUnits(CheckIfStringNull(c.get(2).getUnits()));
                 String date_s = "2000-01-18 00:00:00.0";
                 SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -783,7 +741,7 @@ public class HivProcessorController {
                     today=actualDate.getTime()/DaysInMillSec;
                     DiffInDays=daysToNextVisit-today;
                 }
-                int no_of_days_to_last= CheckIfIntNull(c.get(4).getDispensed())/2+(int) DiffInDays;
+                int no_of_days_to_last= CheckIfIntNull(c.get(5).getDispensed())/2+(int) DiffInDays;
                 Calendar cal=new GregorianCalendar();
                 cal.add(Calendar.DAY_OF_MONTH, no_of_days_to_last);
                 SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -797,10 +755,9 @@ public class HivProcessorController {
                 }
                 pharmacyDrugOrder.setExpected_next_visit_date(expNextDateOfVisit);
                 numbersInventtory[position][0]= c.get(0).getDrug().getDrugId();
-                 numbersInventtory[position][1]= CheckIfIntNull(c.get(4).getDispensed());
+                 numbersInventtory[position][1]= CheckIfIntNull(c.get(5).getDispensed());
                 listPharmacyDrugOrders.add(pharmacyDrugOrder);//
                 listAnotherPharmacyObs.add(createPharmacyObs("1896",c.get(1).getFrequency(),"",c.get(0).getDrug().getDrugId().toString(),encounterProcessor.getPrescriber(),locationVal,encounterProcessor.getPatientId(),pharmacyEncounter,null));
-
                 listAnotherPharmacyObs.add(createPharmacyObs(c.get(0).getConcept(),c.get(0).getConceptAnswer(),"",c.get(0).getDrug().getDrugId().toString(),encounterProcessor.getPrescriber(),locationVal,encounterProcessor.getPatientId(),pharmacyEncounter,pharmacyOrders));
                 position++;
 //

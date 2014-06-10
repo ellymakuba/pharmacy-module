@@ -212,7 +212,7 @@ $j('#drug4').live('click',function(){
     }
 }) ;
 $j('#drug5').live('click',function(){
-    if($j('#drug2').attr('checked')==true){
+    if($j('#drug5').attr('checked')==true){
         var values = $j("input[title='drug']").map(
             function () {
                 if(this.id=="drug5"){
@@ -257,7 +257,7 @@ $j('#drug5').live('click',function(){
     }
 }) ;
 $j('#drug6').live('click',function(){
-    if($j('#drug2').attr('checked')==true){
+    if($j('#drug6').attr('checked')==true){
         var values = $j("input[title='drug']").map(
             function () {
                 if(this.id=="drug6"){
@@ -1105,17 +1105,14 @@ function checkHivForm(val){
     cRegimen=val;
     if(cRegimen!=pRegimen)
     {
-
-        if($j("#regimenchange").is(':checked') || ($j("#arvtype3").is(':checked') ) || ($j("#arvtype4").is(':checked') ))  {
+        if($j("#regimenchange").is(':checked') || $j("#arvtype3").is(':checked') || $j("#arvtype4").is(':checked'))  {
             return true;
         }
         else{
-            $j("#errordiv").html("Regimen Not ok Or Select Regimen change");
-            document.getElementById('errordiv').style.color = 'blue';
-            $j("#errordiv").css("color","red");
-            setTimeout(function(){
-                $j("#errordiv").css("color","white");
-            },5000);
+            $j("#errorDialog").empty();
+            $j('<dl><dt></dt><dd >' + "Info: " + "Regimen Not ok Or Select Regimen change\n"+ '</dd></dl> ').appendTo('#errorDialog');
+            $j("#errorDialog").dialog("open")
+
             return false
         }
 
@@ -1297,391 +1294,239 @@ var check4=0;
 
 var numbers = [
     [6467],
-    [6964],
-    [792],
-    [630,633],
     [630,631],
-    [1400,631],
+    [797,628,631],
+    [6964],
     [1400,633],
-    [6965,633],
+    [792],
     [6965,631],
-    [6180,631],
-    [6180,794],
-    [6180,633],
+    [630,633],
+    [630,814],
+    [1400,631],
+    [1400,797],
+    [6965,633],
+    [6965,814],
     [630,794],
+    [630,6159],
     [1400,794],
-    [794,6965],
-    [631,6180],
-    [794,6180],
-    [656],
-    [916],
-    [92],
-    [633,6180],
-    [814,628,6156],
-    [633,628,797],
-    [631,628,797],
-    [1400,814,794],
-    [6180]
+    [1400,6159],
+    [6965,794],
+    [630],
+    [797,628],
+    [6965],
+    [625,628],
+    [802,628],
+    [1400]
 ];
-
-
-
-
-function checkHivRegimen(one, two,three,four,siz){
-
-    for (var index = 0; index < numbers.length; index++)
+var regimen ='';
+var splicedRegimen=''
+function checkHivRegimen(val)
+{
+    regimen=val;
+    splicedRegimen=val.slice(0);
+    var septrinPosition=splicedRegimen.indexOf('916');
+    var dapsonePosition=splicedRegimen.indexOf('92');
+    var isoniazidPosition=splicedRegimen.indexOf('656');
+    var isRegimenValid = false ;
+    for (numbersCounter = 0 ;
+         numbersCounter < numbers.length ;
+         numbersCounter ++ )
     {
-
-        check1=0;
-        check2=0;
-        check3=0;
-        check4=0;
-        var size =numbers[index].length;
-
-
-        if(size==1)
-        {
+        if(septrinPosition>=0 || dapsonePosition>=0 || isoniazidPosition>=0){
+            if(septrinPosition>=0)
             {
-
-
-                for (var innerIndex = 0; innerIndex < numbers[index].length; innerIndex++)
-                {
-
-                    if(innerIndex==0 && numbers[index][0]!=0)
-                    {
-
-                        if(numbers[index][innerIndex]==one){
-
-                            check1=1;
-
-                        }
-                    }
-
-
-
-
-                }
-
-                if(check1==1 )
-                {
-
-                    return 1;
-
-                    break;
-
-
-                }
+                splicedRegimen.splice(septrinPosition,1);
+            }
+            if(dapsonePosition>=0)
+            {
+                splicedRegimen.splice(dapsonePosition,1);
+            }
+            if(isoniazidPosition>=0)
+            {
+                splicedRegimen.splice(isoniazidPosition,1);
             }
 
         }
-        else if(size==2)
-        {
-
-
-            for (var innerIndex = 0; innerIndex < numbers[index].length; innerIndex++)
-            {
-
-                if(innerIndex==0 && numbers[index][0]!=0)
-                {
-
-                    if(numbers[index][innerIndex]==one){
-
-                        check1=1;
-
-                    }
-                }
-
-                if(innerIndex==1 && numbers[index][1]!=0)
-                {
-
-                    if(numbers[index][innerIndex]==two){
-
-                        check2=1;
-
-                    }
-                }
-
-
+        currNumber = numbers[numbersCounter] ; // curr array
+        lengthOfCurrentRegimenUnderTest = currNumber.length ;
+        if(lengthOfCurrentRegimenUnderTest != splicedRegimen.length)
+            continue ;
+        for(regimenCounter = 0 ;
+            regimenCounter < splicedRegimen.length ;
+            regimenCounter++ ) {
+            if(!contains(splicedRegimen[regimenCounter], currNumber)) {
+                isRegimenValid = false ;
+                break ;
             }
 
+            isRegimenValid = true ;
+        }
+        if(isRegimenValid)
+            break ;
 
-            if(check1==1&&check2==1 )
+    }
+     if(regimen>splicedRegimen){
+         isRegimenValid = true ;
+     }
+    return isRegimenValid ;
+}
+
+function contains(needle, haystack) {
+
+        for (i = 0 ; i < haystack.length; i++)
+        {
+            if(needle == haystack[i])
+                return true ;
+        }
+
+    return false ;
+}
+function regimenFilter(val){
+    regimen=val;
+    splicedRegimen=val.slice(0);
+    var septrinPosition=regimen.indexOf('916');
+    var dapsonePosition=regimen.indexOf('92');
+    var isoniazidPosition=regimen.indexOf('656');
+    var positionOfEquity = -1 ;
+    var regimenCode='';
+    var regimenName='';
+    for (numbersCounter = 0 ;
+         numbersCounter < numbers.length ;
+         numbersCounter ++ )
+    {
+        if(septrinPosition>=0 || dapsonePosition>=0 || isoniazidPosition>=0){
+            if(septrinPosition>=0)
             {
-
-                return 1;
-
-                break;
-
-
-            }else
+                splicedRegimen.splice(septrinPosition,1);
+            }
+            if(dapsonePosition>=0)
             {
-
-                var newr= new Array();
-
-                newr=numbers[index].reverse();
-
-
-                for (var innerIndex = 0; innerIndex <newr.length; innerIndex++)
-                {
-
-                    if(innerIndex==0 && newr[0]!=0)
-                    {
-
-                        if(newr[innerIndex]==one){
-
-                            check1=1;
-
-                        }
-                    }
-
-                    if(innerIndex==1 && newr[1]!=0)
-                    {
-
-                        if(newr[innerIndex]==two){
-
-                            check2=1;
-
-                        }
-                    }
-                }
-
-                if(check1==1&&check2==1 )
-                {
-
-                    return 1;
-                    break;
-
-                }
-
+                splicedRegimen.splice(dapsonePosition,1);
+            }
+            if(isoniazidPosition>=0)
+            {
+                splicedRegimen.splice(isoniazidPosition,1);
             }
 
         }
-        else if(size==3)
-        {
-
-            {
-
-
-                for (var innerIndex = 0; innerIndex < numbers[index].length; innerIndex++)
-                {
-
-                    if(innerIndex==0 && numbers[index][0]!=0)
-                    {
-
-                        if(numbers[index][innerIndex]==one){
-
-                            check1=1;
-
-                        }
-                    }
-
-                    if(innerIndex==1 && numbers[index][1]!=0)
-                    {
-
-                        if(numbers[index][innerIndex]==two){
-
-                            check2=1;
-
-                        }
-                    }
-
-                    if(innerIndex==2 && numbers[index][2]!=0)
-                    {
-                        if(numbers[index][2]==three){
-
-                            check3=1;
-
-                        }
-                    }
-
-
-                }
-
-
-                if(check1==1&&check2==1&&check3==1 )
-                {
-
-                    return 1;
-                    break;
-
-
-                }else
-                {
-
-                    var newr= new Array();
-
-                    newr=numbers[index].reverse();
-
-
-                    for (var innerIndex = 0; innerIndex <newr.length; innerIndex++)
-                    {
-
-                        if(innerIndex==0 && newr[innerIndex]!=0)
-                        {
-
-                            if(newr[innerIndex]==one){
-
-                                check1=1;
-
-                            }
-                        }
-
-                        if(innerIndex==1 && newr[innerIndex]!=0)
-                        {
-
-                            if(newr[innerIndex]==two){
-
-                                check2=1;
-
-                            }
-                        }
-                        if(innerIndex==2 && newr[innerIndex]!=0)
-                        {
-
-                            if(newr[innerIndex]==three
-                                ){
-
-                                check3=1;
-
-                            }
-                        }
-
-
-                    }
-
-                    if(check1==1&&check2==1&&check3==1)
-                    {
-                        return 1;
-                        break;
-
-                    }
-
-                }
-
-            }
-        }
-        else if(size==4)
-        {
-
-            {
-
-
-                for (var innerIndex = 0; innerIndex < numbers[index].length; innerIndex++)
-                {
-
-                    if(innerIndex==0 && numbers[index][0]!=0)
-                    {
-
-                        if(numbers[index][innerIndex]==one){
-
-                            check1=1;
-
-                        }
-                    }
-
-                    if(innerIndex==1 && numbers[index][1]!=0)
-                    {
-
-                        if(numbers[index][innerIndex]==two){
-
-                            check2=1;
-
-                        }
-                    }
-
-                    if(innerIndex==2 && numbers[index][2]!=0)
-                    {
-                        if(numbers[index][2]==three){
-
-                            check3=1;
-
-                        }
-                    }
-
-                    if(innerIndex==3 && numbers[index][3]!=0)
-                    {
-                        if(numbers[index][innerIndex]==four){
-
-                            check4=1;
-
-                        }
-                    }
-                }
-
-
-                if(check1==1&&check2==1&&check3==1&&check4==1 )
-                {
-
-                    return 1;
-                    break;
-
-
-                }else
-                {
-
-                    var newr= new Array();
-
-                    newr=numbers[index].reverse();
-
-
-                    for (var innerIndex = 0; innerIndex <newr.length; innerIndex++)
-                    {
-
-                        if(innerIndex==0 && newr[innerIndex]!=0)
-                        {
-
-                            if(newr[innerIndex]==one){
-
-                                check1=1;
-
-                            }
-                        }
-
-                        if(innerIndex==1 && newr[innerIndex]!=0)
-                        {
-
-                            if(newr[innerIndex]==two){
-
-                                check2=1;
-
-                            }
-                        }
-                        if(innerIndex==2 && newr[innerIndex]!=0)
-                        {
-
-                            if(newr[innerIndex]==three
-                                ){
-
-                                check3=1;
-
-                            }
-                        }
-
-                        if(innerIndex==3 && newr[innerIndex]!=0)
-                        {
-
-                            if(newr[innerIndex]==four){
-
-                                check3=1;
-
-                            }
-                        }
-                    }
-
-                    if(check1==1&&check2==1&&check3==1&&check4==1 )
-                    {
-                        return 1;
-                        break;
-
-                    }
-
-                }
-
-            }
+        currNumber = numbers[numbersCounter] ; // curr array
+        lengthOfCurrentRegimenUnderTest = currNumber.length ;
+        if(lengthOfCurrentRegimenUnderTest != splicedRegimen.length)
+            continue ;
+        var sortedCurrNumber=currNumber.sort();
+        var sortedSPlicedRegimen=splicedRegimen.sort();
+        if(sortedCurrNumber.toString()==sortedSPlicedRegimen.toString()){
+            positionOfEquity=numbersCounter;
+            break;
         }
 
     }
+    if(positionOfEquity < 3){
+        if($j("#patienttype1").is(':checked')){
+            regimenName='AZT/3TC/NVP';
+            regimenCode='PM3';
+        }
+        else{
+            regimenName='AZT/3TC/NVP';
+            regimenCode='AF1A';
+        }
+    }
+    else if(positionOfEquity < 5) {
+      regimenName='TDF/3TC/EFV';
+      regimenCode='AF2B';
+    }
+    else if(positionOfEquity < 7) {
+        regimenName='d4T/3TC/NVP';
+        regimenCode='AF3A';
+    }
+    else if(positionOfEquity ==7) {
+        if($j("#patienttype1").is(':checked')) {
+        regimenName='AZT/3TC/EFV';
+        regimenCode='PM4';
+        }
+        else{
+            regimenName='AZT/3TC/EFV';
+            regimenCode='AF1B';
+        }
+    }
+    else if(positionOfEquity ==8) {
+        regimenName='AZT/3TC/ABC';
+        regimenCode='AF1C';
+    }
+    else if(positionOfEquity ==9) {
+        if($j("#patienttype1").is(':checked')) {
+        regimenName='TDF/3TC/NVP';
+        regimenCode='PM6';
+        }
+        else if($j("#patienttype3").is(':checked')) {
+            regimenName='TDF/3TC/NVP';
+            regimenCode='PA3B';
+        }
+        else{
+            regimenName='TDF/3TC/NVP';
+            regimenCode='AF2A';
+        }
+    }
+    else if(positionOfEquity ==10) {
+        regimenName='TDF/3TC/AZT';
+        regimenCode='AF2C';
+    }
+    else if(positionOfEquity ==11) {
+        regimenName='d4T/3TC/EFV';
+        regimenCode='AF3B';
+    }
+    else if(positionOfEquity ==12) {
+        regimenName='d4T/3TC/ABC';
+        regimenCode='AF3C';
+    }
+    else if(positionOfEquity ==13) {
+        if($j("#patienttype1").is(':checked')) {
+        regimenName='AZT/3TC/LPV/r';
+        regimenCode='PM5';
+        }
+        else if($j("#patienttype3").is(':checked')){
+            regimenName='AZT/3TC/LPV/r';
+            regimenCode='PA1B';
+        }
+        else{
+          regimenName='AZT/3TC/LPV/r';
+          regimenCode='AS1A';
+        }
+    }
+    else if(positionOfEquity ==14) {
+        regimenName='AZT/3TC/ATV/r';
+        regimenCode='AS1B';
+    }
+    else if(positionOfEquity ==15) {
+        regimenName='TDF/3TC/LPV/r';
+        regimenCode='AS2A';
+    }
+    else if(positionOfEquity ==16) {
+        regimenName='TDF/3TC/ATV/r';
+        regimenCode='AS2C';
+    }
+    else if(positionOfEquity ==17) {
+      if($j("#patienttype3").is(':checked')){
+          regimenName='d4T/3TC/LPV/r';
+          regimenCode='PA2B';
+      }
+        else{
+          regimenName='d4T/3TC/LPV/r';
+          regimenCode='AS4A';
+      }
 
-}
-
-
+    }
+    else if(positionOfEquity==18 || positionOfEquity==19){
+        regimenName='AZT/3TC';
+        regimenCode='PA1A';
+    }
+    else if (positionOfEquity==20 || positionOfEquity==21){
+        regimenName='D4T/3TC';
+        regimenCode='PA2A';
+    }
+    else if(positionOfEquity==22 || positionOfEquity==23){
+        regimenName='TDF/3TC';
+        regimenCode='PA3A'
+    }
+    return [regimenCode,regimenName];
+ }

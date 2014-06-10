@@ -49,12 +49,12 @@
         </table>
     </div>
     <h3 class="boxHeaderP">Patient Encounters</h3>
-    <table cellpadding="0" cellspacing="0" border="0" class="display"  id="pencounetrs">
+    <table cellpadding="0" cellspacing="0" border="0" class="display"  id="pencounters">
         <thead>
         <tr>
             <th width="4%">Encounter Date</th>
             <th>Form Name</th>
-            <th>Changed Regimen</th>
+            <th>Issued Medication</th>
             <th>User</th>
         </tr>
         </thead>

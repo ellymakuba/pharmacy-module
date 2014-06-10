@@ -258,7 +258,7 @@ public class LocationUsersController {
         Collection<Role> xvc = userService.getAuthenticatedUser().getAllRoles();
         for (Role rl : xvc) {
 
-            if ((rl.equals("Pharmacy Administrator")) || (rl.equals("Provider"))) {
+            if ((rl.equals("Pharmacy Administrator"))) {
 
                 editPharmacy = true;
                 deletePharmacy = true;

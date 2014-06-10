@@ -82,6 +82,7 @@ public class dispenseController {
         String regimen = request.getParameter("regimen");
         String filter = request.getParameter("filter");
         String encounter = request.getParameter("encounter");
+        String patientEncounters= request.getParameter("patientEncounters");
         String pen = request.getParameter("Pen");
         String formtype = request.getParameter("formtype");
         String drugID = request.getParameter("drugCheck");
@@ -99,7 +100,7 @@ public class dispenseController {
         } else if (sizePharmacyLocationUsers == 1) {
             locationVal = pharmacyLocationUsersByUserName.get(0).getLocation();
         }
-        if (patientId != null) {
+        if (patientId != null && patientEncounters == null) {
             list = service.getPharmacyEncounter();
             size = list.size();
         }
@@ -107,7 +108,7 @@ public class dispenseController {
         jsonArray = new JSONArray();
         listPharmacyDrugOrder=service.getPharmacyDrugOrders();
         try {
-             if (patientId != null) {
+             if (patientId != null && patientEncounters == null) {
                  ArrayList<Date> dates=new ArrayList<Date>();
                  jsonArray1 = new JSONArray();
                  String date_s = "2000-01-18 00:00:00.0";
@@ -234,11 +235,63 @@ public class dispenseController {
                 response.getWriter().print(jsonArray);
                 list = null;
                 size = 0;
-            } else if (encounter != null) {
+            }
+             else if (patientEncounters != null) {
+                 person = Context.getPersonService().getPerson(Integer.parseInt(patientId));
+                 list = Context.getService(PharmacyService.class).getPharmacyEncounterListByPatientId(person);
+                 sizeList = list.size();
+                 jsonObject= new JSONObject();
+                 if(sizeList >0){
+                 for (int i = 0; i < sizeList; i++) {
+                     jsonArray=new JSONArray();
+                     listDrugs = service.getPharmacyOrdersByEncounterId(list.get(i));
+                     listDrugsSize = listDrugs.size();
+                     jsonObject1 = new JSONObject();
+                     String drugsIssuedToPatient="";
+                     for (int j = 0; j < listDrugsSize; j++) {//
+                         if (listDrugs.get(j).getConcept() != null) {
+                             listObsConcepts =service.getPharmacyObsByPharmacyOrder(listDrugs.get(j));
+                             for (int y = 0; y < listObsConcepts.size(); y++) {
+                                 log.info("listobsconcept++++++++++++++++++++++++++++++++++++++++++++++++"+listObsConcepts.get(y).getValue_drug().getName());
+                                 drugsIssuedToPatient=drugsIssuedToPatient +listObsConcepts.get(y).getValue_drug().getName().toString() ;
+                                 //jsonObject1.append("" + y,Context.getConceptService().getConcept(listObsConcepts.get(y).getValueCoded()).getDisplayString());
+                                 //jsonObject1.append("" + y, listObsConcepts.get(y).getValue_drug().getDrugId());
+                             }
+                         }
+                     }
+                     jsonArray.put(list.get(i).getDateTime());
+                     jsonArray.put(list.get(i).getFormName());
+                     jsonArray.put(drugsIssuedToPatient);
+                     jsonArray.put(list.get(i).getCreator());
+                     jsonObject.accumulate("aaData",jsonArray);
+                 }
+                 }
+                 else{
+                     jsonArray=new JSONArray();
+                     jsonArray.put("None");
+                     jsonArray.put("None");
+                     jsonArray.put("None");
+                     jsonArray.put("None");
+                     jsonObject.accumulate("aaData",jsonArray);
+                 }
+                 jsonObject.accumulate("iTotalRecords", jsonObject.getJSONArray("aaData").length());
+                 jsonObject.accumulate("iTotalDisplayRecords", jsonObject.getJSONArray("aaData").length());
+                 jsonObject.accumulate("iDisplayStart", 0);
+                 jsonObject.accumulate("iDisplayLength", 10);
+                 response.getWriter().print(jsonObject);
+             }
+             else if (encounter != null) {
                 person = Context.getPersonService().getPerson(Integer.parseInt(pen));
-                list = Context.getService(PharmacyService.class).getPharmacyEncounterListByPatientId(person);
+                 list=service.getCurrentPatientRegimen(pen);
+                 sizeList = list.size();
+                 jsonObject= new JSONObject();
+                 if(list.get(0).getRegimenName() !=null){
+                     jsonObject.accumulate("aaData",list.get(0).getRegimenName());
+                 }
+                 response.getWriter().print(jsonObject);
+                /* list = Context.getService(PharmacyService.class).getPharmacyEncounterListByPatientId(person);
                 sizeList = list.size();
-                Map<Object, Long> mp = new HashMap<Object, Long>();
+                 Map<Object, Long> mp = new HashMap<Object, Long>();
                 for (int i = 0; i < sizeList; i++) {
                     if(list.get(i).getFormName().equalsIgnoreCase(formtype))  {
                         Calendar cal1 = Calendar.getInstance();
@@ -251,8 +304,8 @@ public class dispenseController {
                         long diffMinutes = diff / (60 * 1000);
                         mp.put(list.get(i).getUuid(), diffMinutes);
                     }
-                }
-                if (!list.isEmpty() && !mp.isEmpty()) {
+                }  */
+                /* if (!list.isEmpty() && !mp.isEmpty()) {
                     Long min = Collections.min(mp.values());
                     Set s = mp.entrySet();
                     Iterator it = s.iterator();
@@ -275,8 +328,8 @@ public class dispenseController {
                             }
                         }
                     }
-                }
-                response.getWriter().print(jsonObject);
+                } */
+
             } else if (passUserId != null) {
                 jsonArray = new JSONArray();
                 jsonArray.put(Context.getUserContext().getAuthenticatedUser().getSystemId());

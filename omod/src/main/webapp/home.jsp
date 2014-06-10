@@ -636,6 +636,7 @@ $j("#incomingperm").hide();//
 $j("#drugusagepage").hide();//
 $j("#requestsumpage").hide();//
 $j("#rfpreportpage").hide();
+$j("#fmapreportpage").hide();
 
 $j("#dataDiv").hide();//
 
@@ -684,6 +685,7 @@ $j("#locationsetter").tabs();//
 $j("#drugusagepage").tabs();//
 $j("#requestsumpage").tabs();//
 $j("#rfpreportpage").tabs();
+$j("#fmapreportpage").tabs();
 
 
 $j("#DrugCategory").tabs();//
@@ -799,6 +801,7 @@ $j("#DGeneral").click(function() {
     $j("#General").show();//
     $j("#DrugCategory").hide();//
     $j("#rfpreportpage").hide();
+    $j("#fmapreportpage").hide();
     $j("#spinner").hide();
     $j("#Batchsetter").hide();
     $j("#Barcode").hide();
@@ -842,6 +845,7 @@ $j("#DCategories").click(function () {
     CloseAll();
 
     $j("#rfpreportpage").hide();
+    $j("#fmapreportpage").hide();
     $j("#DrugCategory").show();//
     $j("#General").hide();//
     $j("#spinner").hide();
@@ -896,6 +900,7 @@ $j("#DBatch").click(function () {
             $j("#drugusagepage").hide();//
             $j("#requestsumpage").hide();//
             $j("#rfpreportpage").hide();
+            $j("#fmapreportpage").hide();
             $j("#General").hide();//
             $j("#spinner").hide();
             $j("#Batchsetter").show();
@@ -953,6 +958,7 @@ $j("#DBarcode").click(function () {
             $j("#requestsumpage").hide();//
             CloseAll();
             $j("#rfpreportpage").hide();
+            $j("#fmapreportpage").hide();
             $j("#General").hide();//
             $j("#spinner").hide();
             $j("#Batchsetter").hide();
@@ -995,6 +1001,7 @@ $j("#regimenlink").click(function () {
     $j("#requestsumpage").hide();//
     CloseAll();
     $j("#rfpreportpage").hide();
+    $j("#fmapreportpage").hide();
     $j("#General").hide();
     $j("#Batchsetter").hide();
     $j("#Barcode").hide();
@@ -1063,6 +1070,7 @@ $j("#dstock").click(function () {
             $j("#requestsumpage").hide();//
             CloseAll();
             $j("#rfpreportpage").hide();
+            $j("#fmapreportpage").hide();
             $j("#Batchsetter").hide();
             $j("#Barcode").hide();
             $j("#spinner").hide();
@@ -1124,6 +1132,7 @@ $j("#dstore").click(function () {
             $j("#requestsumpage").hide();//
             CloseAll();
             $j("#rfpreportpage").hide();
+            $j("#fmapreportpage").hide();
             $j("#Batchsetter").hide();
             $j("#Barcode").hide();
             $j("#spinner").hide();
@@ -1188,6 +1197,7 @@ $j("#dlow").click(function () {
             $j("#requestsumpage").hide();//
             CloseAll();
             $j("#rfpreportpage").hide();
+            $j("#fmapreportpage").hide();
             $j('#inlowlocation').empty();
             $j(data).appendTo(' #inlowlocation');
             $j("#Batchsetter").hide();
@@ -1253,6 +1263,7 @@ $j("#dhigh").click(function () {
             $j("#requestsumpage").hide();//
             CloseAll();
             $j("#rfpreportpage").hide();
+            $j("#fmapreportpage").hide();
             $j('#inhighlocation').empty();
             $j(data).appendTo(' #inhighlocation');
             $j("#drughigh").show("slow");
@@ -1304,6 +1315,7 @@ $j("#locationsetterid").click(function () {
     $j("#requestsumpage").hide();//
     CloseAll();
     $j("#rfpreportpage").hide();
+    $j("#fmapreportpage").hide();
     $j("#druglow").hide();
     $j("#drughigh").hide();
     $j("#Batchsetter").hide();
@@ -1354,6 +1366,7 @@ $j("#requestsum").click(function () {
 
     $j("#requestsumpage").show();
     $j("#rfpreportpage").hide();
+    $j("#fmapreportpage").hide();
     $j("#druglow").hide();
     $j("#drughigh").hide();
     $j("#Batchsetter").hide();
@@ -1431,6 +1444,54 @@ $j("#rfpreport").click(function () {
 
 
 
+
+
+/*View to choose location*/
+$j("#fmapreport").click(function () {
+    $j("#spinner").show();
+
+    $j('#tab_1fmapreport').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/FmapReport.jsp #report', function () {
+        $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/f-maps.js", function () {
+
+        });
+
+
+    });
+    $j("#drugusagepage").hide();//
+    $j("#requestsumpage").hide();//
+    CloseAll();
+    $j("#fmapreportpage").show();
+    $j("#rfpreportpage").hide();
+    $j("#requestsumpage").hide();
+    $j("#druglow").hide();
+    $j("#drughigh").hide();
+    $j("#Batchsetter").hide();
+    $j("#Barcode").hide();
+    $j("#locationsetter").hide();
+    $j("#locationError").hide();//
+    $j("#store").hide();
+    $j("#stock").hide();
+    $j("#psychiatrysec").hide();
+    $j("#settings").hide();
+    $j("#transactionsLogs").hide();
+    $j("#dashboarddata").hide();//
+    $j("#incomingData").hide();
+    $j("#incomingDatanew").hide();
+
+    $j("#maxmin").hide();//
+    $j("#outgoing").hide();
+    $j("#transactionsSetting").hide();
+    $j("#supplierSettings").hide();
+    $j("#regimen").hide();
+    $j("#DrugCategory").hide();//
+    $j("#General").hide();//
+    $j("#locationNames").hide();
+    $j("#locationUsers").hide();
+    $j("#approvedData").hide();//
+
+    //CloseDialog();
+});
+
 /*View to choose location*/
 $j("#drugusage").click(function () {
     $j("#spinner").show();
@@ -1446,6 +1507,7 @@ $j("#drugusage").click(function () {
     $j("#requestsumpage").hide();//
     CloseAll();
     $j("#rfpreportpage").hide();
+    $j("#fmapreportpage").hide();
     $j("#drugusagepage").show();
     $j("#druglow").hide();
     $j("#drughigh").hide();
@@ -1511,6 +1573,7 @@ $j("#dincoming").click(function () {
             $j("#incomingData").show("slow");
             $j("#incomingDatanew").hide();
             $j("#rfpreportpage").hide();
+            $j("#fmapreportpage").hide();
             $j("#druglow").hide();
             $j("#drughigh").hide();
             $j("#spinner").hide();
@@ -1566,6 +1629,7 @@ $j("#dincomingnew").click(function () {
             $j("#requestsumpage").hide();//
             CloseAll();
             $j("#rfpreportpage").hide();
+            $j("#fmapreportpage").hide();
             $j(data).appendTo(' #inincominglocation');
             $j("#Batchsetter").hide();
             $j("#Barcode").hide();
@@ -1636,6 +1700,7 @@ $j("#dapproved").click(function () {
 
             CloseAll();
             $j("#rfpreportpage").hide();
+            $j("#fmapreportpage").hide();
             $j("#outgoing").hide();
             $j("#spinner").hide();
             $j("#druglow").hide();
@@ -1700,6 +1765,7 @@ $j("#doutgoing").click(function () {
             $j("#requestsumpage").hide();//
             CloseAll();
             $j("#rfpreportpage").hide();
+            $j("#fmapreportpage").hide();
             $j("#outgoing").show("slow");
             $j("#spinner").hide();
             $j("#druglow").hide();
@@ -1765,6 +1831,7 @@ $j("#dtransactions").click(function () {
             $j("#requestsumpage").hide();//
             CloseAll();
             $j("#rfpreportpage").hide();
+            $j("#fmapreportpage").hide();
             $j("#transactionsLogs").show("slow");
             $j("#druglow").hide();
             $j("#drughigh").hide();
@@ -3156,6 +3223,26 @@ CloseDialog();
 </DIV>
 </DIV>
 
+<DIV id="fmapreportpage">
+
+    <DIV class="header-footer ui-state-default ui-corner-all"
+         style="padding: 3px 5px 5px; text-align: center; margin-bottom: 1ex;">
+        F-map Report
+    </DIV>
+
+    <UL
+            style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
+        <LI><A href="#tab_1"><SPAN>F-map Report </SPAN> </A>
+        </LI>
+    </UL>
+    <DIV class="ui-layout-content ui-widget-content ui-corner-bottom"
+         style="border-top: 0; padding-bottom: 1em;">
+        <DIV id="tab_1fmapreport"></DIV>
+
+
+    </DIV>
+</DIV>
+
 
 <DIV id="maxmin">
 
@@ -3321,7 +3408,7 @@ CloseDialog();
 
                 <LI><A href="#" id="requestsum">Detailed Dispensed Drugs Report</A></LI>
                 <LI><A href="#" id="rfpreport">General RFP Report</A></LI>
-
+                <LI><A href="#" id="fmapreport">F-map Report</A></LI>
                 <%--<LI><A href="#" id="drugusage">Drug usage</A>--%>
                 <%--</LI>--%>
 
