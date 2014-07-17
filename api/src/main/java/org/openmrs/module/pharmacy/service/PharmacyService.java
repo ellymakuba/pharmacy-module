@@ -91,7 +91,7 @@ public interface PharmacyService extends OpenmrsService {
 
     public List<PharmacyStoreOutgoing> getPharmacyStoreOutgoingByLocation(PharmacyLocations uuid);
 
-
+    public List<DrugExtra> getUnprocessedReceiptsByEncounterUUID(String encounterUUID);
     /**
      * save PharmacyLocations
      *
@@ -319,7 +319,7 @@ public interface PharmacyService extends OpenmrsService {
      * @return one pharmacyInventory object by uuid
      */
     public List<PharmacyStore> getPharmacyInventoryByCategory(PharmacyCategory uuid);
-
+    public List<PharmacyStore> getPharmacyInventoryByNameAndLocation(String name,String location);
     /**
      * @return list pharmacyInventory object by uuid
      */
@@ -388,7 +388,7 @@ public interface PharmacyService extends OpenmrsService {
      * @return one pharmacyInventory object by uuid
      */
     @Transactional(readOnly=true)
-    public PharmacyStore getPharmacyInventoryByDrugUuid(Drug uuid,String location);
+    public PharmacyStore getPharmacyInventoryByDrugUuid(String uuid,String location);
 
     /**
      * save pharmacyOrders
@@ -476,6 +476,7 @@ public interface PharmacyService extends OpenmrsService {
     public List<PharmacyEncounter> getEncountersRange(Date f,Date t,String loc);
     public List<PharmacyEncounter>  getCurrentPatientRegimen(String patientUUID);
     public Integer getNumberOfPatientsOnRegimen(Date startDate,Date endDate,String regimenCode);
+    public String  getPatientByIdentifier(String identifier);
     public List<PharmacyStoreIncoming> getDrugQuantityAfterLastStockTake(Date minDate, Date maxDate,String uuid);
     /**
      * @return DrugDispenseSettings object by uuid
@@ -499,9 +500,10 @@ public interface PharmacyService extends OpenmrsService {
 
     /**
      * @return DrugDispenseSettings object by drug id
+     * @param id
      */
     @Transactional(readOnly=true)
-    public DrugDispenseSettings getDrugDispenseSettingsByLocation(PharmacyLocations id);
+    public DrugDispenseSettings getDrugDispenseSettingsByLocation(String id);
 
     /**
      * save PharmacySupplier
@@ -511,7 +513,7 @@ public interface PharmacyService extends OpenmrsService {
      */
 
     public PharmacySupplier savePharmacySupplier(PharmacySupplier pharmacySupplier);
-
+    public PharmacyDose savePharmacyDose(PharmacyDose pharmacyDose);
     /**
      * @return all the PharmacySupplier
      */
@@ -529,10 +531,9 @@ public interface PharmacyService extends OpenmrsService {
      */
 
     public PharmacySupplier getPharmacySupplierByName(String name);
-
-
-
-
+    public List<PharmacyDose> getPharmacyDose();
+    public PharmacyDose getPharmacyDoseByUuid(String uuid);
+    public PharmacyDose getPharmacyDoseByName(String name);
     /**
      * save PharmacyStoreIncoming
      *

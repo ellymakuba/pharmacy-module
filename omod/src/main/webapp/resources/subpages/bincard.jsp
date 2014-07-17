@@ -1,99 +1,48 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-
-</head>
+<head></head>
 <body>
-
 <DIV id="dtab_1">
-
-
 <div id="detailsformBin" title="Are you sure?">
-
-
 </div>
-
-
 <div id="detailsformCheck" title="Password check">
     <form id="check" action="#">
-
-
         <label>User password</label>
         <input type="password" name="password" id="password" class="required"/> <br/>
         <input type="hidden" name="pass" id="pass"/> <br/>
-
     </form>
 </div>
 <form id="categoryfilter" action="#">
     <hr color=#1aad9b width="100%">
-
     <fieldset>
-
         <legend> Category Filter</legend>
-
         <label>Drug Category</label>
-
         <select id="filtercategory" name="filtercategory">
-
-
         </select>
-
-
     </fieldset>
     <hr color=#1aad9b width="100%">
-
 </form>
-
-
 <DIV id="incss">
-    <!-- 		<a href="#" id="bincardform">Add drugs </a> -->
-
-
     <form id="bincard" name="bincard" action="#">
-
-
         <fieldset>
-
             <legend>Bincard name</legend>
             <input type="text" name="binedit" id="binedit" value="false"/>
-            <input
-                    type="text" name="binuuid" id="binuuid"/>
+            <input type="text" name="binuuid" id="binuuid"/>
             <label>Drug</label>
             <input type="text" name="bindrug" id="bindrug" class="required"/><br/> <br/>
-
-
-            <label>Quantity</label> <input type="text"
-                                           name="binquantityin" id="binquantityin" class="required"/> <br/> <br/>
-
-
-            <label>Max
-                value</label> <input type="text" name="binmax" id="binmax"/> <br/> <br/>
-            <label
-                    for="engine">Min value</label> <input type="text" name="binmin"
-                                                          id="binmin"/><br/> <br/>
-
-            <label>Batch No</label>
-            <input type="text" name="binbatch" id="binbatch" class="required"/> <br/> <br/>
-            <label>S 11 No</label>
-            <input type="text" name="bins11" id="bins11" class="required"/> <br/> <br/>
-
-            <label for="incomingexpire">Expire date</label>
-            <input type="text" name="binexpire" id="binexpire" class="required"/> <br/> <br/>
-            <label>Delivery No</label>
-            <input type="text" name="delivery" id="delivery" class="required"/><br/> <br/>
-
-
+            <label>Quantity</label> <input type="text" name="binquantityin" id="binquantityin" class="required"/> <br/> <br/>
+            <label>Max value</label> <input type="text" name="binmax" id="binmax"/> <br/> <br/>
+            <label for="engine">Min value</label> <input type="text" name="binmin" id="binmin"/><br/> <br/>
+            <label>Batch No</label><input type="text" name="binbatch" id="binbatch" class="required"/> <br/> <br/>
+            <label>S 11 No</label><input type="text" name="bins11" id="bins11" class="required"/> <br/> <br/>
+            <label for="incomingexpire">Expire date</label><input type="text" name="binexpire" id="binexpire" class="required"/> <br/> <br/>
+            <label>Delivery No</label> <input type="text" name="delivery" id="delivery" class="required"/><br/> <br/>
             <label>Change Reasons</label> <br/>
-
-
             <input type="checkbox" name="bincom" value="wrong entry"/> wrong entry
             <input type="checkbox" name="bincom2" value="Issued to wrong facility "/> Issued to wrong facility
-
             <input type="checkbox" name="bincom3" value="Return "/> Return <br/>
-
-            <input class="submit"
-                   type="submit" value="Submit"/>
+            <input class="submit" type="submit" value="Submit"/>
         </fieldset>
 
     </form>
@@ -150,20 +99,14 @@
         <th>UUID</th>
         <th>Drug</th>
         <th>Quantity</th>
-
-
-
         <th>Maxlevel</th>
         <th>Minlevel</th>
         <th>Expire date</th>
         <th>Batch No</th>
         <th>Batch No</th>
-
         <th>S11 No</th>
         <th>Delivery No</th>
         <th>Suppier</th>
-
-
         <th>Void</th>
     </tr>
     </thead>
@@ -171,27 +114,18 @@
     <tr>
         <th></th>
         <th></th>
-
-        <th></th>
-
-
-        <th></th>
-        <th></th>
-
         <th></th>
         <th></th>
         <th></th>
-
-        <th></th>
-        <th></th>
-
         <th></th>
         <th></th>
         <th></th>
-
         <th></th>
-
-
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
     </tr>
     </tbody>
 

@@ -125,49 +125,30 @@ public class DrugDispenseStore {
 
         serviceLocation = Context.getLocationService();
         datadFrm = new JSONArray();
-
         drugDispenseSettings = service.getDrugDispenseSettings();
-
         size = drugDispenseSettings.size();
-
          try {
-
             if (dialog != null) {
-
-
                 json = new JSONObject();
                 pharmacyStoreList = service.getPharmacyInventory();
                 size2 = pharmacyStoreList.size();
-
                 for (int i = 0; i < size2; i++) {
-
-
-                    if (service.getPharmacyLocationsByUuid(pharmacyStoreList.get(i).getLocation()).getName()
-                            .equalsIgnoreCase(locationVal)) {
-
-
-
+                    if (service.getPharmacyLocationsByUuid(pharmacyStoreList.get(i).getLocation()).getName().equalsIgnoreCase(locationVal)) {
                         datadFrm = new JSONArray();
-
                         datadFrm = getArray(pharmacyStoreList, i, dialog, locationVal);
-
                         if (datadFrm != null)
                             json.accumulate("aaData", datadFrm);
                     }
 
                 }
-
                 if (!json.has("aaData")) {
                     datad2 = new JSONArray();
-
                     datad2.put("None");
                     datad2.put("None");
                     datad2.put("None");
-
                     datad2.put("None");
                     datad2.put("None");
                     datad2.put("None");
-
                     json.accumulate("aaData", datad2);
                 }
                 dialog = null;
@@ -368,34 +349,21 @@ public class DrugDispenseStore {
     }
 
     public synchronized JSONArray getArray(List<PharmacyStore> pharmacyStore, int size, String id, String location) {
-
-        if (service.getPharmacyLocationsByUuid(pharmacyStore.get(size).getLocation()).getName()
-                .equalsIgnoreCase(location)) {
-
+        if (service.getPharmacyLocationsByUuid(pharmacyStore.get(size).getLocation()).getName().equalsIgnoreCase(location)) {
+            log.info("drug is not in location one ++++++++++++++++++++++++++++++++++++++++++++++"+pharmacyStore.get(size).getDrugs().getDrugId());
             if (dialog != null) {
-
-
-
-
+                log.info("drug is not in location two ++++++++++++++++++++++++++++++++++++++++++++++"+pharmacyStore.get(size).getDrugs().getDrugId());
                 if (pharmacyStore.get(size).getDrugs().getName().equalsIgnoreCase(id.substring(0,id.indexOf(">")))) {
-
                     DateTime x = new DateTime(pharmacyStore.get(size).getExpireDate());
-
                     Months d = Months.monthsBetween( new DateTime(), x);
                     int num = d.getMonths();
-
-
                     datad2 = new JSONArray();
-
                     datad2.put(pharmacyStore.get(size).getUuid());
                     datad2.put(pharmacyStore.get(size).getDrugs().getName());
                     datad2.put(pharmacyStore.get(size).getQuantity());
-
                     datad2.put(pharmacyStore.get(size).getBatchNo());
-
                     datad2.put(num);
                     datad2.put("<input type='radio' name='check1' />");
-
                     return datad2;
 
                 } else

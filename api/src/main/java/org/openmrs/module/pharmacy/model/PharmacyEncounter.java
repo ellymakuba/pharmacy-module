@@ -21,6 +21,15 @@ public class PharmacyEncounter extends BaseOpenmrsData {
     private int duration;
     private String regimenCode;
     private String regimenName;
+    private Integer display;
+
+    public Integer getDisplay() {
+        return display;
+    }
+
+    public void setDisplay(Integer display) {
+        this.display = display;
+    }
 
     public String getRegimenName() {
         return regimenName;

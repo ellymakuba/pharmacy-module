@@ -49,33 +49,25 @@ public class InventoryStockController {
     private ContainerFactory containerFactory;
     private List<PharmacyLocationUsers> pharmacyLocationUsersByUserName;
     private int sizePharmacyLocationUsers;
-    private List<PharmacyObs> listObs;
-    private List<PharmacyObs> listObsConcepts;
-    private  List<PharmacyOrders> listPharmacyOrders   ;
-    private   List<PharmacyDrugOrder>    listPharmacyDrugOrder ;
-    private   List<DrugExtra> listPharmacyDrugExtra    ;
-    private int sizeRegimen;
-    private JSONObject jsonObject, jsonObject1,jsonObject2;
-    private JSONArray jsonArray, jsonArray1, jsonArray2;
-    private PharmacyEncounter pharmacyEncounterByUuid;
+    private JSONObject jsonObject2;
     private Iterator iterator,iterator2;
-    private Person person;
-    private List<User> userList;
     private PharmacyTransactionTypes pharmacyTransactionTypes;
-    private int size1;
-    private boolean addMiddle;
-    private PharmacyDrugOrder pharmacyDrugOrder;
     private List<PharmacyStore> drugsInInventory;
-    private Integer quantity;
+    private PharmacyStore pharmacyStore;
+    private boolean allowDispense=false;
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/stockInventory")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) throws IOException, JSONException {
         String locationVal = null;
-        String drugID = request.getParameter("jsonDrugObject");
+        String drugID =request.getParameter("jsonDrugObject");
+        String select=request.getParameter("select");
+        String checkBoolean=request.getParameter("checkBoolean");
+
         service = Context.getService(PharmacyService.class);
         patientService = Context.getEncounterService();
         usersService = Context.getUserService();
         service = Context.getService(PharmacyService.class);
         userService = Context.getUserContext();
+
         pharmacyLocationUsersByUserName = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         sizePharmacyLocationUsers = pharmacyLocationUsersByUserName.size();
         if (sizePharmacyLocationUsers > 1) {
@@ -85,7 +77,11 @@ public class InventoryStockController {
         }
         int drugsQuantityInStore=0;
         jsonObject2 = new JSONObject(drugID); // this parses the jsonObject
-        iterator2 = jsonObject2.keys(); //gets all the keys
+        String myVals[]=exractKeyAndValue(drugID);
+        String drugName=myVals[1];
+        if(select !=null){
+         if(select.equalsIgnoreCase("stock")) {
+        iterator2 = jsonObject2.keys();
         while (iterator2.hasNext()) {
             drugsQuantityInStore=0;
             String key2 = iterator2.next().toString(); // get key
@@ -93,17 +89,53 @@ public class InventoryStockController {
             int drugsInInventorySize=drugsInInventory.size();
             for(int inInventory=0; inInventory<drugsInInventorySize; inInventory++){
                 if(drugsInInventory.get(inInventory).getLocation().equals(service.getPharmacyLocationsByName(locationVal).getUuid())){
-                    if(drugsInInventory.get(inInventory).getDrugs().getUuid().equals(Context.getConceptService().getDrug(Integer.parseInt(key2)).getUuid())){
+                    if(drugsInInventory.get(inInventory).getDrugs().getUuid().equals(Context.getConceptService().getDrugByNameOrId(drugName).getUuid())){
                         drugsQuantityInStore=drugsQuantityInStore+drugsInInventory.get(inInventory).getQuantity();
                     }
                 }
+                }
             }
-            //log.info("drug ID is +++++++++++++++++++++++++++++++++++++++++++++"+Context.getConceptService().getDrug(Integer.parseInt(key2)).getDrugId()+"quantity is "+drugsQuantityInStore);
+            response.getWriter().print("" + drugsQuantityInStore);
+          }
+
+            else if(select.equalsIgnoreCase("unitPrice")){
+             pharmacyStore=new PharmacyStore();
+             String drugUUID=Context.getConceptService().getDrugByNameOrId(drugName).getUuid();
+             pharmacyStore = service.getPharmacyInventoryByDrugUuid(drugUUID,service.getPharmacyLocationsByName(locationVal).getUuid());
+             response.getWriter().print("" + pharmacyStore.getUnitPrice());
+         }
         }
-
-        response.getWriter().print("" + drugsQuantityInStore);
-
+        else if(checkBoolean !=null){
+            allowDispense=false;
+            if(Context.getConceptService().getDrugByNameOrId(drugName) !=null){
+                DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugId(Context.getConceptService().getDrugByNameOrId(drugName));
+                if(drugDispenseSettings !=null){
+                    PharmacyStore pharmacyStore = drugDispenseSettings.getInventoryId();
+                    if(pharmacyStore !=null) {
+                        allowDispense=true;
+                    }
+                }
+            }
+            response.getWriter().print("" + allowDispense);
+        }
     }
+    public synchronized String[] exractKeyAndValue(String jsonText) {
+        String value = "";
+        String key="";
+        JSONParser parser = new JSONParser();
+        try {
+            Map json = (Map) parser.parse(jsonText, containerFactory);
+            Iterator iter = json.entrySet().iterator();
 
-
+            while (iter.hasNext()) {
+                Map.Entry entry = (Map.Entry) iter.next();
+                key+=entry.getKey();
+                value+=entry.getValue();
+            }
+        } catch (Exception pe) {
+            log.info(pe);
+        }
+        String myvals[]={key,value};
+        return myvals;
+    }
 }

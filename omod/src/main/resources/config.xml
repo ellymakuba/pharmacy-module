@@ -92,5 +92,6 @@
         PharmacyDrugOrderExtra.hbm.xml
         PharmacyDrugOrder.hbm.xml
         DrugExtra.hbm.xml
+        PharmacyDose.hbm.xml
     </mappingFiles>
 </module>

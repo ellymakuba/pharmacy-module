@@ -52,6 +52,7 @@
     <table cellpadding="0" cellspacing="0" border="0" class="display"  id="pencounters">
         <thead>
         <tr>
+            <th width="4%">Action</th>
             <th width="4%">Encounter Date</th>
             <th>Form Name</th>
             <th>Issued Medication</th>
@@ -60,6 +61,7 @@
         </thead>
         <tbody>
         <tr>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>

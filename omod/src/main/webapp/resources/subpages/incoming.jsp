@@ -95,13 +95,9 @@
                 </tr>
             </table>
             <input type="button"  value="Add Drug" onclick="addRow('tableincoming')"/>
-
             <input type="button"   value="Remove Drug" onclick="deleteRow('tableincoming')"/>
-
             <br/>
-
             <input class="submit" type="submit" value="Submit"/>
-
         </fieldset>
 
     </form>

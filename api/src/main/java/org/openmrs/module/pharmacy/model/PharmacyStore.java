@@ -9,32 +9,19 @@ import java.util.Date;
  * @author Ampath Developers PharmacyStore
  */
 public class PharmacyStore extends BaseOpenmrsData {
-
     private Integer id;
-
     private Drug drugs;
-
     private Integer quantity;
-
     private Integer quantityIn;
-
     private Integer quantityOut;
-
     private Integer maxLevel;
-
     private Integer minLevel;
-
     private String changeReason;
     private String stockReason;
-
     private String location;
-
     private Date expireDate;
-
     private PharmacyStoreIncoming incoming;
-
     private PharmacyStoreOutgoing outgoing;
-
     private PharmacyCategory category;
     private  Double buyingPrice;
     private  Double sellingPrice;
@@ -43,14 +30,19 @@ public class PharmacyStore extends BaseOpenmrsData {
     private Integer deliveryNo;
     private Date lastEditDate;
     private  Double unitPrice;
+    private PharmacyDose dose;
     private PharmacySupplier supplier;
-
-
     private PharmacyTransactionTypes transaction;
-
-
     /** default constructor */
     public PharmacyStore() {
+    }
+
+    public PharmacyDose getDose() {
+        return dose;
+    }
+
+    public void setDose(PharmacyDose dose) {
+        this.dose = dose;
     }
 
     /**

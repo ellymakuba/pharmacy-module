@@ -230,27 +230,16 @@ function tableSetUp(category) {
     $j("#incss").show();
 
     $j("#tbincard").show();
-
-
     $j("#parent_field").show();
-
 }
-
-
 $j('select#filtercategory').change(function () {
-
-
     var e = document.getElementById("filtercategory");
     var str = e.options[e.selectedIndex].value;
-
-
     if (str !== "-1") {
         tableSetUp(str);
     }
 });
-
 getDrugFilter();
-
 
 $j(function () {
 

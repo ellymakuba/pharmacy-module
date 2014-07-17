@@ -26,139 +26,81 @@ import java.util.*;
 
 @Controller
 public class DrugBincardController {
-
     private static final Log log = LogFactory.getLog(DrugBincardController.class);
-
     private JSONArray data;
-
     private JSONArray datad;
-
     public PharmacyService service;
-
     String drop = null;
-
     private boolean found = false;
-
     private String uuid;
-
     private String drugstrength;
-
     private String drugunit;
-
     private String formulation;
-
     private String originalbindrug;
-
     private String dialog = null;
-
     private LocationService serviceLocation;
-
     private PharmacyStoreIncoming pharmacyStoreIncoming = null;
-
     private PharmacyStoreOutgoing pharmacyStoreOutgoing = null;
-
     private Location locationClass = null;
-
     private Date dateVal = null;
-
     private int inVal = 0;
-
     private int outVal = 0;
-
     private int totalVal = 0;
-
     private String filter = null;
-
     private String uuidfilter = null;
-
     private boolean exit = false;
-
     private Integer quantity;
-
     private Double unitPrice;
-
     private Integer drugId;
-
     private String uuiddialog;
-
     private Calendar currentDate;
-
     private Calendar readDate;
-
     private Date dateC;
-
     private GregorianCalendar one;
-
     private GregorianCalendar two;
-
     private String dialogShow;
-
     private JSONArray datad2;
-
     private ConceptService serviceDrugs;
-
     private String bintotal = null;
-
     private int total;
-
-    private String druguuid;
-
+    private String druguuid,display;
     private String druguuidshow = null;
-
     private String drugname;
-
-    private JSONArray jsonsAll;
-
+    private JSONArray jsonsAll,doseJsonArray;
     private Date newDate;
-
     private Date givenDate;
-
     private int monthsDiff;
-
-    private String category;
-
+    private String category,selectDose,doseUUID;
     private UserContext userService;
-
     private AdministrationService userAdmin;
-
     private boolean editPharmacy = false;
-
     private boolean deletePharmacy = false;
-
-    private JSONObject json;
-
+    private JSONObject json,doseObject;
     private String value, s11number;
     private List<PharmacyLocationUsers> pharmacyLocationUsersByUserName;
     private List<PharmacyStore> pharmacyStores;
-    private List<PharmacyStore> pharmacyStoreList;
+    private List<PharmacyStore> pharmacyStoreList,pharmacyStoreList2;
+    List<PharmacyDose> doseList;
     private List<Drug> allDrugs;
     private JSONArray jsonArray;
     private PharmacyStore pharmacyStore;
-    private DrugTransactions drugTransactions;
-
-
+    private PharmacyDose doseInstance;
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/drugBincard")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) {
-
-
         String locationVal = null;
         serviceLocation = Context.getLocationService();
-
         service = Context.getService(PharmacyService.class);
         pharmacyLocationUsersByUserName = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         int sizeUsers = pharmacyLocationUsersByUserName.size();
-
-
         if (sizeUsers > 1) {
             locationVal = request.getSession().getAttribute("location").toString();
 
         } else if (sizeUsers == 1) {
             locationVal = pharmacyLocationUsersByUserName.get(0).getLocation();
-
-
         }
+        doseList=service.getPharmacyDose();
         userService = Context.getUserContext();
-        drop = request.getParameter("drop");
+        selectDose = request.getParameter("selectDose");
         dialog = request.getParameter("dialog");
         dialogShow = request.getParameter("dialog");
         druguuidshow = request.getParameter("druguuidshow");
@@ -166,319 +108,51 @@ public class DrugBincardController {
         bintotal = request.getParameter("bintotal");
         uuiddialog = request.getParameter("uuid");
         filter = request.getParameter("sSearch");
-
-
         category = request.getParameter("category");
+        String drop = request.getParameter("drop");
+        String searchDrug = request.getParameter("searchDrug");
+        display=request.getParameter("display");
 
-        if (filter == null)
-            filter = "a";
-
-        currentDate = Calendar.getInstance();
-        readDate = Calendar.getInstance();
-
-        Date dateC = new Date();
-
-        currentDate.setTime(dateC);
-
-        one = new GregorianCalendar();
-        two = new GregorianCalendar();
-
-        one.set(currentDate.get(currentDate.YEAR), currentDate.get(currentDate.MONTH),
-                currentDate.get(currentDate.DAY_OF_MONTH));
-
-        service = Context.getService(PharmacyService.class);
         serviceDrugs = Context.getConceptService();
         pharmacyStores = service.getPharmacyInventory();
-
         pharmacyStoreList = service.getPharmacyInventoryByCategory(service.getPharmacyCategoryByName(category));
-
         allDrugs = Context.getConceptService().getAllDrugs();
         int size = pharmacyStores.size();
         int drugSize = allDrugs.size();
         json = new JSONObject();
+        doseObject=new JSONObject();
         jsonArray = new JSONArray();
-        response.setContentType("application/json");
-
-        if (filter.startsWith("s11"))
-            s11number = filter.substring(4);
-
-        if (uuiddialog == null && druguuidshow == null && filter != null) {
-
-            if (filter.length() > 2 && !filter.startsWith("s11")) {
-
-                originalbindrug = filter;
-
-                serviceLocation = Context.getLocationService();
-                allDrugs = serviceDrugs.getAllDrugs();
-                int dnames = allDrugs.size();
-                for (int i = 0; i < dnames; i++) {
-                    uuidfilter = getString(allDrugs, i, originalbindrug);
-                    if (uuidfilter != null)
-                        break;
-
-                }
-
-            }
-        }
         try {
+            if(selectDose !=null){
 
-            if (dialog != null) {
-
-                for (int i = 0; i < size; i++) {
-                    if (service.getPharmacyLocationsByUuid(pharmacyStores.get(i).getLocation()).getName()
-                            .equalsIgnoreCase(locationVal)) {
-
-                        datad2 = new JSONArray();
-                        datad2 = getArrayDialog(pharmacyStores, i, locationVal);
-                        if (datad2 != null)
-                            json.accumulate("aaData", datad2);
-                    }
-
+                for(int i=0; i<doseList.size(); i++)
+                {
+                    jsonArray.put("" + getDropDown(doseList, i));
                 }
-
-                if (!json.has("aaData")) {
-                    datad2 = new JSONArray();
-
-                    datad2.put("None");
-                    datad2.put("None");
-                    datad2.put("None");
-
-                    datad2.put("None");
-                    datad2.put("None");
-                    datad2.put("None");
-
-                    json.accumulate("aaData", datad2);
-                }
-                json.accumulate("iTotalRecords", json.getJSONArray("aaData").length());
-                json.accumulate("iTotalDisplayRecords", json.getJSONArray("aaData").length());
-                json.accumulate("iDisplayStart", 0);
-                json.accumulate("iDisplayLength", 10);
-
-                response.getWriter().print(json);
-            } else if (druguuidshow != null) {
-                jsonsAll = new JSONArray();
-                for (int i = 0; i < size; i++) {
-
-
-                    if ((service.getPharmacyLocationsByUuid(pharmacyStores.get(i).getLocation()).getName()
-                            .equalsIgnoreCase(locationVal) && (pharmacyStores.get(i).getCategory().getName().equalsIgnoreCase(category)))) {
-
-                        if (druguuidshow.equals(pharmacyStores.get(i).getDrugs().getUuid())) {
-
-                            jsonArray = new JSONArray();
-
-                            jsonArray.put(pharmacyStores.get(i).getDrugs().getName());
-                            jsonArray.put(pharmacyStores.get(i).getQuantity());
-                            jsonArray.put(10);
-                            jsonArray.put(pharmacyStores.get(i).getMaxLevel());
-                            jsonArray.put(pharmacyStores.get(i).getMinLevel());
-
-                            jsonArray.put(pharmacyStores.get(i).getExpireDate().toString().substring(0, 10));
-
-                            jsonArray.put(pharmacyStores.get(i).getBatchNo());
-                            jsonArray.put(pharmacyStores.get(i).getS11());
-                            jsonArray.put(pharmacyStores.get(i).getDeliveryNo());
-
-                            if (pharmacyStores.get(i).getSupplier() == null)
-                                jsonArray.put(pharmacyStores.get(i).getSupplier());
-                            else
-                                jsonArray.put(pharmacyStores.get(i).getSupplier().getName());
-
-                            jsonsAll.put(jsonArray);
-
-                        }
-
-                    }
-
-                }
-
-                response.getWriter().print(jsonsAll);
-            } else if (bintotal != null) {
-                total = 0;
-                druguuid = null;
-                drugname = null;
-                HashMap test = new HashMap();
-                HashMap add = new HashMap();
-
-
-                size = pharmacyStoreList.size();
-                for (int i = 0; i < size; i++) {
-                    druguuid = null;
-                    drugname = null;
-
-                    if ((service.getPharmacyLocationsByUuid(pharmacyStoreList.get(i).getLocation()).getName()
-                            .equalsIgnoreCase(locationVal))) {
-
-                        total =0;
-
-                        druguuid = pharmacyStoreList.get(i).getDrugs().getUuid();
-                        drugname = pharmacyStoreList.get(i).getDrugs().getName();
-
-
-                        for (int t = 0; t < size; t++) {
-                            if (pharmacyStoreList.get(i).getDrugs().getName().equalsIgnoreCase(pharmacyStoreList.get(t).getDrugs().getName())) {
-
-                                if ((service.getPharmacyLocationsByUuid(pharmacyStoreList.get(t).getLocation()).getName()
-                                        .equalsIgnoreCase(locationVal))) {
-                                total += pharmacyStoreList.get(t).getQuantity();
-
-                                    System.out.println(pharmacyStoreList.get(i).getDrugs().getName()+"total=="+druguuid+"== "+total);
-                                test.put(druguuid, total);
-                                }
-
-                            }
-
-                        }
-                    }
-
-
-//
-
-                }
-//
-                if (druguuid != null && drugname != null) {
-
-                }
-                for (int ch = 0; ch < size; ch++) {
-
-
-
-                    if ((service.getPharmacyLocationsByUuid(pharmacyStoreList.get(ch).getLocation()).getName()
-                            .equalsIgnoreCase(locationVal))) {
-
-                        if (!add.containsKey(pharmacyStoreList.get(ch).getDrugs().getUuid())) {
-
-
-                            if (test.containsKey(pharmacyStoreList.get(ch).getDrugs().getUuid())) {
-
-
-                                add.put(pharmacyStoreList.get(ch).getDrugs().getUuid(), pharmacyStoreList.get(ch).getDrugs().getUuid());
-
-
-                            data = new JSONArray();
-                            data.put("<img src='/openmrs/moduleResources/pharmacy/images/details_open.png'/>");
-                            data.put(pharmacyStoreList.get(ch).getDrugs().getUuid());
-                            data.put(pharmacyStoreList.get(ch).getDrugs().getName());
-
-                            data.put(test.get(pharmacyStoreList.get(ch).getDrugs().getUuid()));
-
-
-                                newDate = new Date();
-                            givenDate = pharmacyStoreList.get(ch).getExpireDate();
-
-                            monthsDiff = ((givenDate.getYear() - newDate.getYear()) * 12)
-                                    + (givenDate.getMonth() - newDate.getMonth());
-
-
-                            if (monthsDiff <= 6) {
-
-                                data.put(monthsDiff);
-                            } else {
-                                data.put("7");
-
-
-                            }
-                            if (pharmacyStoreList.get(ch).getQuantity() <= pharmacyStoreList.get(ch).getMinLevel()) {
-                                data.put("8");
-
-                            }
-                                else
-                            {
-                                data.put("7");
-
-                            }
-
-                            json.accumulate("aaData", data);
-
-                        }
-
-
-                    }
-                    }
-                }
-
-                if (!json.has("aaData")) {
-
-                    data = new JSONArray();
-                    data.put("No entry");
-
-                    data.put("No entry");
-                    data.put("No entry");
-
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-
-
-                    json.accumulate("aaData", data);
-                }
-
-
-                json.accumulate("iTotalRecords", json.getJSONArray("aaData").length());
-                json.accumulate("iTotalDisplayRecords", json.getJSONArray("aaData").length());
-                json.accumulate("iDisplayStart", 0);
-                json.accumulate("iDisplayLength", 10);
-
-                response.getWriter().print(json);
-            } else {
-
-
-                for (int i = 0; i < size; i++) {
-
-                    if (pharmacyStores.get(i).getCategory() != null) {
-                        if (category.equals("-111")) {
-
-                        } else if ((service.getPharmacyLocationsByUuid(pharmacyStores.get(i).getLocation()).getName()
-                                .equalsIgnoreCase(locationVal))
-                                && (pharmacyStores.get(i).getCategory().getName().equalsIgnoreCase(category))) {
-
-                            JSONArray val = getArray(pharmacyStores, i, locationVal);
-                            if (val != null)
-                                json.accumulate("aaData", val);
-
-                        }
-                        if (exit)
-                            break;
-                    }
-
-                    data = new JSONArray();
-                }
-
-                if (!json.has("aaData")) {
-
-                    data = new JSONArray();
-                    data.put("No entry");
-
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-
-                    json.accumulate("aaData", data);
-                }
-
-                json.accumulate("iTotalRecords", json.getJSONArray("aaData").length());
-                json.accumulate("iTotalDisplayRecords", json.getJSONArray("aaData").length());
-                json.accumulate("iDisplayStart", 0);
-                json.accumulate("iDisplayLength", 10);
-
-                response.getWriter().print(json);
+                response.getWriter().print(jsonArray);
             }
-            exit = false;
+            else if (drop !=null) {
+                String locationUUID=service.getPharmacyLocationsByName(locationVal).getUuid();
+                pharmacyStoreList2 = service. getPharmacyInventoryByNameAndLocation(searchDrug,locationUUID);
+                int sizeD = pharmacyStoreList2.size();
+                for (int i = 0; i < sizeD; i++) {
+                    jsonArray.put("" + getPharmacyDrugDropDown(pharmacyStoreList2, i));
+                }
 
-
-            response.flushBuffer();
+                response.getWriter().print(jsonArray);
+            }
+             else{
+                jsonArray =new JSONArray();
+                for (int i = 0; i < size; i++) {
+                    if(service.getPharmacyLocationsByUuid(pharmacyStores.get(i).getLocation()).getName().equalsIgnoreCase(locationVal))
+                    {
+                       jsonArray = getArray(pharmacyStores, i, locationVal);
+                        json.accumulate("aaData",jsonArray);
+                    }
+                 }
+                response.getWriter().print(json);
+           }
         } catch (Exception e) {
-
             log.error("Error generated", e);
         }
 
@@ -487,257 +161,62 @@ public class DrugBincardController {
     @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/drugBincard")
     public synchronized void pageLoadd(HttpServletRequest request, HttpServletResponse response) {
         serviceDrugs = Context.getConceptService();
-
         userService = Context.getUserContext();
         service = Context.getService(PharmacyService.class);
         drugId = Integer.parseInt(request.getParameter("drug_id"));
         quantity = Integer.parseInt(request.getParameter("aStcock"));
-        unitPrice = Double.parseDouble(request.getParameter("unitPrice"));
+        unitPrice = Double.parseDouble(request.getParameter("unitP"));
+        doseUUID=request.getParameter("dose");
         uuid= request.getParameter("uuid");
         serviceLocation = Context.getLocationService();
-
         String locationVal = null;
-
-        service = Context.getService(PharmacyService.class);
         List<PharmacyLocationUsers> listUsers = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         int sizeUsers = listUsers.size();
-
-
         if (sizeUsers > 1) {
             locationVal = request.getSession().getAttribute("location").toString();
 
         } else if (sizeUsers == 1) {
             locationVal = listUsers.get(0).getLocation();
-
-
         }
-         //log.info("the drug id is+++++++++++++++++++++++++++++++++++++++++++++++++++++++ "+unitPrice);
-
-        updateInventory(drugId,quantity,unitPrice,locationVal);
-
+       doseInstance=service.getPharmacyDoseByName(doseUUID);
+        updateInventory(drugId,quantity,unitPrice,doseInstance,locationVal);
     }
-
     public synchronized JSONArray getArray(List<PharmacyStore> pharmacyStore, int size, String location) {
-        // show all details for bincard
-        if (s11number != null) {
-
-            if (!s11number.equalsIgnoreCase("all")) {
-                if ((Integer.parseInt(s11number) == pharmacyStore.get(size).getS11())) {
-                    if (service.getPharmacyLocationsByUuid(pharmacyStore.get(size).getLocation()).getName()
-                            .equalsIgnoreCase(location)) {
-
-                        data = new JSONArray();
-                        Collection<Role> xvc = userService.getAuthenticatedUser().getAllRoles();
-                        for (Role rl : xvc) {
-
-                            if ((rl.getRole().equals("Pharmacy Administrator")) || (rl.getRole().equals("Provider")) || (rl.getRole().equals("	Authenticated "))) {
-
-                                editPharmacy = true;
+     if (service.getPharmacyLocationsByUuid(pharmacyStore.get(size).getLocation()).getName().equalsIgnoreCase(location)) {
+       data = new JSONArray();
+       Collection<Role> xvc = userService.getAuthenticatedUser().getAllRoles();
+        for (Role rl : xvc) {
+           if ((rl.getRole().equals("Pharmacy Administrator")) || (rl.getRole().equals("Provider")) || (rl.getRole().equals("	Authenticated "))) {
+               editPharmacy = true;
+                deletePharmacy = true;
+            }
+          if (rl.hasPrivilege("Edit Pharmacy")) {
+            editPharmacy = true;
+          }
+                if (rl.hasPrivilege("Delete Pharmacy")) {
                                 deletePharmacy = true;
-                            }
-
-
-                            if (rl.hasPrivilege("Edit Pharmacy")) {
-                                editPharmacy = true;
-                            }
-
-                            if (rl.hasPrivilege("Delete Pharmacy")) {
-                                deletePharmacy = true;
-                            }
-
-                        }
-
-                        if (editPharmacy) {
-
-                            data.put("edit");
-                            editPharmacy = false;
-                        } else
-                            data.put("");
-                        data.put(pharmacyStore.get(size).getUuid());
-
-                        data.put(pharmacyStore.get(size).getDrugs().getName());
-
-                        data.put(pharmacyStore.get(size).getQuantity());
-
-                        data.put(pharmacyStore.get(size).getExpireDate().toString().substring(0, 10));
-
-                        data.put(pharmacyStore.get(size).getBatchNo());
-                        data.put(pharmacyStore.get(size).getDrugs().getDrugId());
-                        data.put(pharmacyStore.get(size).getUnitPrice());
-
-                        if (deletePharmacy) {
-                            data.put("void");
-                            deletePharmacy = false;
-                        } else
-                            data.put("");
-                        return data;
-                    }
+                  }
                 }
-            } else {
-
-                if (service.getPharmacyLocationsByUuid(pharmacyStore.get(size).getLocation()).getName()
-                        .equalsIgnoreCase(location)) {
-
-                    data = new JSONArray();
-                    Collection<Role> xvc = userService.getAuthenticatedUser().getAllRoles();
-                    for (Role rl : xvc) {
-
-                        if ((rl.getRole().equals("Pharmacy Administrator")) || (rl.getRole().equals("Provider")) || (rl.getRole().equals("	Authenticated "))) {
-
-                            editPharmacy = true;
-                            deletePharmacy = true;
-                        }
-
-
-                        if (rl.hasPrivilege("Edit Pharmacy")) {
-                            editPharmacy = true;
-                        }
-
-                        if (rl.hasPrivilege("Delete Pharmacy")) {
-                            deletePharmacy = true;
-                        }
-
-                    }
-                    if (editPharmacy) {
-
-                        data.put("edit");
-                        editPharmacy = false;
-                    } else
-                        data.put("");
-                    data.put(pharmacyStore.get(size).getUuid());
-
-                    data.put(pharmacyStore.get(size).getDrugs().getName());
-
-                    data.put(pharmacyStore.get(size).getQuantity());
-
-                    data.put(pharmacyStore.get(size).getExpireDate().toString().substring(0, 10));
-
-                    data.put(pharmacyStore.get(size).getBatchNo());
-                    data.put(pharmacyStore.get(size).getDrugs().getDrugId());
-                    data.put(pharmacyStore.get(size).getUnitPrice());
-
-                    if (deletePharmacy) {
-                        data.put("void");
-                        deletePharmacy = false;
-                    } else
-                        data.put("");
-                    return data;
+            if (editPharmacy) {
+             data.put("edit");
+                editPharmacy = false;
+               } else
+               data.put("");
+               data.put(""+pharmacyStore.get(size).getUuid());
+               data.put(""+pharmacyStore.get(size).getDrugs().getName());
+               data.put(""+pharmacyStore.get(size).getQuantity());
+               data.put(""+pharmacyStore.get(size).getExpireDate().toString().substring(0, 10));
+               data.put(""+pharmacyStore.get(size).getBatchNo());
+               data.put(""+pharmacyStore.get(size).getDrugs().getDrugId());
+               data.put(""+pharmacyStore.get(size).getUnitPrice());
+                if(pharmacyStore.get(size).getDose() !=null) {
+               data.put(""+pharmacyStore.get(size).getDose().getName());
+                }else{
+                    data.put("Not set");
                 }
+             }
 
-
-            }
-        } else if (filter.length() > 2) {
-            if (uuidfilter.equalsIgnoreCase(pharmacyStore.get(size).getDrugs().getUuid())) {
-                if (service.getPharmacyLocationsByUuid(pharmacyStore.get(size).getLocation()).getName()
-                        .equalsIgnoreCase(location)) {
-
-                    data = new JSONArray();
-                    Collection<Role> xvc = userService.getAuthenticatedUser().getAllRoles();
-                    for (Role rl : xvc) {
-
-                        if ((rl.getRole().equals("Pharmacy Administrator")) || (rl.getRole().equals("Provider")) || (rl.getRole().equals("	Authenticated "))) {
-
-                            editPharmacy = true;
-                            deletePharmacy = true;
-                        }
-
-
-                        if (rl.hasPrivilege("Edit Pharmacy")) {
-                            editPharmacy = true;
-                        }
-
-                        if (rl.hasPrivilege("Delete Pharmacy")) {
-                            deletePharmacy = true;
-                        }
-
-                    }
-                    if (editPharmacy) {
-
-                        data.put("edit");
-                        editPharmacy = false;
-                    } else
-                        data.put("");
-                    data.put(pharmacyStore.get(size).getUuid());
-
-                    data.put(pharmacyStore.get(size).getDrugs().getName());
-
-                    data.put(pharmacyStore.get(size).getQuantity());
-
-                    data.put(pharmacyStore.get(size).getExpireDate().toString().substring(0, 10));
-
-                    data.put(pharmacyStore.get(size).getBatchNo());
-                    data.put(pharmacyStore.get(size).getDrugs().getDrugId());
-                    data.put(pharmacyStore.get(size).getUnitPrice());
-
-                    if (deletePharmacy) {
-                        data.put("void");
-                        deletePharmacy = false;
-                    } else
-                        data.put("");
-                    return data;
-                }
-            } else {
-                //exit=true;
-
-                return null;
-
-            }
-
-        } else {
-
-
-            if (service.getPharmacyLocationsByUuid(pharmacyStore.get(size).getLocation()).getName()
-                    .equalsIgnoreCase(location)) {
-                Collection<Role> xvc = userService.getAuthenticatedUser().getAllRoles();
-                for (Role rl : xvc) {
-
-                    if ((rl.getRole().equals("Pharmacy Administrator")) || (rl.getRole().equals("Provider")) || (rl.getRole().equals("	Authenticated "))) {
-
-                        editPharmacy = true;
-                        deletePharmacy = true;
-                    }
-
-
-                    if (rl.hasPrivilege("Edit Pharmacy")) {
-                        editPharmacy = true;
-                    }
-
-                    if (rl.hasPrivilege("Delete Pharmacy")) {
-                        deletePharmacy = true;
-                    }
-
-                }
-
-
-                data = new JSONArray();
-                if (editPharmacy) {
-
-                    data.put("edit");
-                    editPharmacy = false;
-                } else
-                    data.put("");
-                data.put(pharmacyStore.get(size).getUuid());
-
-                data.put(pharmacyStore.get(size).getDrugs().getName());
-
-                data.put(pharmacyStore.get(size).getQuantity());
-
-                data.put(pharmacyStore.get(size).getExpireDate().toString().substring(0, 10));
-
-                data.put(pharmacyStore.get(size).getBatchNo());
-                data.put(pharmacyStore.get(size).getDrugs().getDrugId());
-                data.put(pharmacyStore.get(size).getUnitPrice());
-
-                if (deletePharmacy) {
-                    data.put("void");
-                    deletePharmacy = false;
-                } else
-                    data.put("");
-                return data;
-            }
-
-        }
-        return null;
+        return data;
     }
 
     public synchronized JSONArray getArrayDialog(List<PharmacyStore> pharmacyStore, int size, String location) {
@@ -803,11 +282,14 @@ public class DrugBincardController {
         return m1 - m2 + 1;
     }
 
-    public synchronized String getDropDown(List<PharmacyStore> pharmacyStore, int size) {
+    public synchronized String getDropDown(List<PharmacyDose> pharmacyDose, int size) {
 
-        return pharmacyStore.get(size).getUuid();
+        return pharmacyDose.get(size).getName();
     }
+    public synchronized String getPharmacyDrugDropDown(List<PharmacyStore> pharmacyStore, int size) {
 
+        return pharmacyStore.get(size).getDrugs().getName();
+    }
     public synchronized boolean getCheck(List<PharmacyStore> pharmacyStore, int size, String name) {
 
         if (pharmacyStore.get(size).getDrugs().getName().equals(name)) {
@@ -843,8 +325,7 @@ public class DrugBincardController {
     public synchronized int months_betweens(Date date1, Date date2) {
         return date2.getMonth() - date1.getMonth() + (12 * (date2.getYear() - date1.getYear()));
     }
-    public boolean  updateInventory(int drugId,int Qnty,Double unitP,String val){
-
+    public boolean  updateInventory(int drugId,int Qnty,Double unitP,PharmacyDose dose,String val){
         DrugDispenseSettings dispenseSettings;
         Drug drug = new Drug(drugId);
         Date date = new Date();
@@ -856,7 +337,7 @@ public class DrugBincardController {
             //log.info("drug id++++++++++++++++++++++++++++++++"+pharmacyStore.getDrugs().getDrugId());
          if(pharmacyStore!=null ){
             if(pharmacyStore.getDrugs().getDrugId()==drugId && Qnty<=0 || Qnty>0){
-
+                pharmacyStore.setDose(dose);
                 pharmacyStore.setQuantity((Qnty));
                 pharmacyStore.setLastEditDate(date);
                 pharmacyStore.setUnitPrice(unitP);

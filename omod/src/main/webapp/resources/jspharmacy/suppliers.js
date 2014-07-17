@@ -140,7 +140,6 @@ $j("form#supplierform").submit(function () {
                 var oFormObject = document.forms['supplierform'];
 
                 oFormObject.elements["supplieredit"].value = 'false';
-
                 oFormObject.elements["suppliername"].value = "";
                 oFormObject.elements["description"].value = "";
 

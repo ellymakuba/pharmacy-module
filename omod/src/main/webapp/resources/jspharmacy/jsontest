@@ -1,0 +1,1431 @@
+{
+
+   "_83hasTable": {
+
+      "table": {
+
+         "_01row": {
+
+            "_30td": {
+
+               "_19div": {
+
+                  "id": "infodiv"
+
+               }
+
+            },
+
+            "_31td": {
+
+               "_12div": {
+
+                  "id": "errordiv"
+
+               }
+
+            }
+
+         },
+
+         "_02row": {
+
+            "_78td": {
+
+               "_20label": {
+
+                  "label": "TUBERCULOSIS PRESCRIPTION FORM"
+
+               }
+
+            },
+
+            "_88td": {
+
+               "_11label": {
+
+                  "label": "Patient name"
+
+               },
+
+               "_91text": {
+
+                  "id": "patientname",
+
+                  "name": "Enc1*patient|1#1",
+
+                  "value": "",
+
+                  "label": "Patient Name"
+
+               }
+
+            },
+
+            "_18td": {
+
+               "_37hidden": {
+
+                  "id": "patientid",
+
+                  "name": "Enc2*Patient_id|2#2",
+
+                  "value": "",
+
+                  "label": "Encounter date"
+
+               },
+
+               "_56hidden": {
+
+                  "id": "ADULTINITIAL",
+
+                  "name": "Enc3*ADULTINITIAL|1#6",
+
+                  "value": "ADULTINITIAL|1",
+
+                  "label": ""
+
+               },
+
+               "_11label": {
+
+                  "label": "Encounter date"
+
+               },
+
+               "_07text": {
+
+                  "id": "datePicker",
+
+                  "name": "Enc4*EncounterDate#3",
+
+                  "value": "",
+
+                  "label": "Encounter date"
+
+               }
+
+            },
+
+            "_52td": {
+
+               "_11label": {
+
+                  "label": "No of days"
+
+               },
+
+               "_98text": {
+
+                  "id": "noofmonths",
+
+                  "name": "Enc6*noOfMonths|6#6",
+
+                  "value": "",
+
+                  "label": "No of days"
+
+               },
+
+               "_87hidden": {
+
+                  "id": "ADULTINITIAL",
+
+                  "name": "Enc7*TUBERCULOSIS|0.1#1",
+
+                  "value": "TUBERCULOSIS",
+
+                  "label": ""
+
+               }
+
+            },
+
+            "_58td": {
+
+               "_11label": {
+
+                  "label": "Next visit  date"
+
+               },
+
+               "_97text": {
+
+                  "id": "nextvisit",
+
+                  "name": "Enc5*EncounterDate#3",
+
+                  "value": "",
+
+                  "label": "Next visit date"
+
+               }
+
+            }
+
+         },
+
+         "_03row": {
+
+            "_54td": {
+
+               "_47label": {
+
+                  "label": "Pulmonary Tuberculosis"
+
+               }
+
+            },
+
+            "_59td": {
+
+               "_53radio": {
+
+                  "id": "smearPositive",
+
+                  "name": "Obs*smear|1724#10",
+
+                  "value": "1360",
+
+                  "label": "Smear +ve"
+
+               }
+
+            },
+
+            "_58td": {
+
+               "_54radio": {
+
+                  "id": "smearNegative",
+
+                  "name": "Obs*smear|1724#10",
+
+                  "value": "432",
+
+                  "label": "Smear -ve"
+
+               }
+
+            },
+
+            "_60td": {
+
+               "_47label": {
+
+                  "label": "Extra-pulmonary"
+
+               }
+
+            }
+
+         },
+
+         "_07row": {
+
+            "_75th": {
+
+               "_80label": {
+
+                  "label": "Medications (Compulsory)"
+
+               }
+
+            },
+
+            "_15th": {
+
+               "_81label": {
+
+                  "label": "Dose (Compulsory)"
+
+               }
+
+            },
+
+            "_25th": {
+
+               "_82label": {
+
+                  "label": "Monthly supply (Prescribed) (Compulsory)"
+
+               }
+
+            },
+
+            "_35th": {
+
+               "_83label": {
+
+                  "label": "Other"
+
+               }
+
+            },
+
+            "_45th": {
+
+               "_84label": {
+
+                  "label": "Pill count"
+
+               }
+
+            },
+
+            "_55th": {
+
+               "_85label": {
+
+                  "label": "Dispensed supply(Compulsory)"
+
+               }
+
+            },
+
+            "_57th": {
+
+               "_83label": {
+
+                  "label": "Other"
+
+               }
+
+            }
+
+         },
+
+         "_25row": {
+
+            "_01td": {
+
+               "_02label": {
+
+                  "label": "First two months of treatment"
+
+               }
+
+            }
+
+         },
+
+         "_11row": {
+
+            "_01td": {
+
+               "_33checkbox": {
+
+                  "id": "drug1",
+
+                  "title": "drug",
+
+                  "name": "ObsDrug*1895#10",
+
+                  "value": "630|26",
+
+                  "label": "RHZE(150/75/400/275mg)"
+
+               },
+
+               "_28textStock": {
+
+                  "id": "quantityInStore4",
+
+                  "name": "quantityInStore",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+
+            "_30td": {
+
+               "_91select": {
+
+                  "id": "dose1",
+
+                  "name": "dose1",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },         
+
+            "_33td": {
+
+               "_96text": {
+
+                  "id": "",
+
+                  "name": "PillCount",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+            "_35td": {
+
+               "_75text": {
+
+                  "id": "other1d",
+
+                  "title": "Dispensed",
+
+                  "name": "otherd",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            }
+
+         },
+
+         "_12row": {
+
+            "_01td": {
+
+               "_33checkbox": {
+
+                  "id": "drug2",
+
+                  "title": "drug",
+
+                  "name": "ObsDrug*1895#10",
+
+                  "value": "1400|30",
+
+                  "label": "RHZ(150/75/400mg)"
+
+               },
+
+               "_28textStock": {
+
+                  "id": "quantityInStore2",
+
+                  "name": "quantityInStore",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+
+            "_30td": {
+
+               "_91select": {
+
+                  "id": "dose2",
+
+                  "name": "dose2",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+            "_33td": {
+
+               "_96text": {
+
+                  "id": "",
+
+                  "name": "PillCount",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+            "_35td": {
+
+               "_75text": {
+
+                  "id": "other2d",
+
+                  "title": "Dispensed",
+
+                  "name": "otherd",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            }
+
+         },
+
+         "_13row": {
+
+            "_01td": {
+
+               "_33checkbox": {
+
+                  "id": "drug3",
+
+                  "title": "drug",
+
+                  "name": "ObsDrug*1895#10",
+
+                  "value": "6965|39",
+
+                  "label": "Streptomycin"
+
+               },
+
+               "_28textStock": {
+
+                  "id": "quantityInStore3",
+
+                  "name": "quantityInStore",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+
+            "_30td": {
+
+               "_91select": {
+
+                  "id": "dose3",
+
+                  "name": "dose3",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+            "_33td": {
+
+               "_96text": {
+
+                  "id": "",
+
+                  "name": "PillCount",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+            "_35td": {
+
+               "_75text": {
+
+                  "id": "other3d",
+
+                  "title": "Dispensed",
+
+                  "name": "otherd",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            }
+
+         },
+
+         "_27row": {
+
+            "_01td": {
+
+               "_02label": {
+
+                  "label": "For children"
+
+               }
+
+            }
+
+         },
+
+         "_14row": {
+
+            "_01td": {
+
+               "_33checkbox": {
+
+                  "id": "drug4",
+
+                  "title": "drug",
+
+                  "name": "ObsDrug*1895#10",
+
+                  "value": "633|27",
+
+                  "label": "RHZ(60/30/150mg)"
+
+               },
+
+               "_28textStock": {
+
+                  "id": "quantityInStore4",
+
+                  "name": "quantityInStore",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+
+            "_30td": {
+
+               "_91select": {
+
+                  "id": "dose4",
+
+                  "name": "dose4",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+            "_33td": {
+
+               "_96text": {
+
+                  "id": "",
+
+                  "name": "PillCount",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+            "_35td": {
+
+               "_75text": {
+
+                  "id": "other4d",
+
+                  "title": "Dispensed",
+
+                  "name": "otherd",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            }
+
+         },
+
+         "_15row": {
+
+            "_01td": {
+
+               "_33checkbox": {
+
+                  "id": "drug12",
+
+                  "title": "drug",
+
+                  "name": "ObsDrug*1895#10",
+
+                  "value": "631|22",
+
+                  "label": "RH(60/30mg)"
+
+               },
+
+               "_28textStock": {
+
+                  "id": "quantityInStore12",
+
+                  "name": "quantityInStore",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+            "_30td": {
+
+               "_91select": {
+
+                  "id": "dose12",
+
+                  "name": "dose12",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+            "_33td": {
+
+               "_96text": {
+
+                  "id": "",
+
+                  "name": "PillCount",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+            "_35td": {
+
+               "_75text": {
+
+                  "id": "otherd",
+
+                  "title": "Dispensed",
+
+                  "name": "otherd",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            }
+
+         },
+
+         "_29row": {
+
+            "_01td": {
+
+               "_02label": {
+
+                  "label": "Continouation Phase New (month 3-6)"
+
+               }
+
+            }
+
+         },
+
+         "_16row": {
+
+            "_01td": {
+
+               "_33checkbox": {
+
+                  "id": "drug5",
+
+                  "title": "drug",
+
+                  "name": "ObsDrug*1895#10",
+
+                  "value": "814|28",
+
+                  "label": "RH(150/75 mg)"
+
+               },
+
+               "_28textStock": {
+
+                  "id": "quantityInStore5",
+
+                  "name": "quantityInStore",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+
+            "_30td": {
+
+               "_91select": {
+
+                  "id": "dose5",
+
+                  "name": "dose5",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+            "_33td": {
+
+               "_96text": {
+
+                  "id": "",
+
+                  "name": "PillCount",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+
+            "_35td": {
+
+               "_75text": {
+
+                  "id": "other5d",
+
+                  "title": "Dispensed",
+
+                  "name": "otherd",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            }
+
+         },
+
+         "_40row": {
+
+            "_01td": {
+
+               "_02label": {
+
+                  "label": "Retreatment (month 3)"
+
+               }
+
+            }
+
+         },
+
+         "_17row": {
+
+            "_01td": {
+
+               "_33checkbox": {
+
+                  "id": "drug6",
+
+                  "title": "drug",
+
+                  "name": "ObsDrug*1895#10",
+
+                  "value": "628|23",
+
+                  "label": "RH(150/75/400/275 mg)"
+
+               },
+
+               "_28textStock": {
+
+                  "id": "quantityInStore6",
+
+                  "name": "quantityInStore",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+
+            "_30td": {
+
+               "_91select": {
+
+                  "id": "dose6",
+
+                  "name": "dose6",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+
+            "_33td": {
+
+               "_96text": {
+
+                  "id": "",
+
+                  "name": "PillCount",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+            "_35td": {
+
+               "_75text": {
+
+                  "id": "other6d",
+
+                  "title": "Dispensed",
+
+                  "name": "otherd",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            }
+
+         },
+
+         "_41row": {
+
+            "_01td": {
+
+               "_02label": {
+
+                  "label": "Retreatment (month 4-8)"
+
+               }
+
+            }
+
+         },
+
+         "_18row": {
+
+            "_01td": {
+
+               "_33checkbox": {
+
+                  "id": "drug7",
+
+                  "title": "drug",
+
+                  "name": "ObsDrug*1895#10",
+
+                  "value": "797|24",
+
+                  "label": "RH(150/75 mg)"
+
+               },
+
+               "_28textStock": {
+
+                  "id": "quantityInStore7",
+
+                  "name": "quantityInStore",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+
+            "_30td": {
+
+               "_91select": {
+
+                  "id": "dose7",
+
+                  "name": "dose7",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+            "_33td": {
+
+               "_96text": {
+
+                  "id": "",
+
+                  "name": "PillCount",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+            "_35td": {
+
+               "_75text": {
+
+                  "id": "other7d",
+
+                  "title": "Dispensed",
+
+                  "name": "otherd",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            }
+
+         },
+
+         "_19row": {
+
+            "_01td": {
+
+               "_33checkbox": {
+
+                  "id": "drug8",
+
+                  "title": "drug",
+
+                  "name": "ObsDrug*1895#10",
+
+                  "value": "794|150",
+
+                  "label": "E(400mg)"
+
+               },
+
+               "_28textStock": {
+
+                  "id": "quantityInStore8",
+
+                  "name": "quantityInStore",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+
+            },
+
+            "_30td": {
+
+               "_91select": {
+
+                  "id": "dose8",
+
+                  "name": "dose8",
+
+                  "value": "",
+
+                  "label": ""
+
+               }
+            
+         },
+         "_33td": {
+
+            "_96text": {
+
+               "id": "",
+
+               "name": "PillCount",
+
+               "value": "",
+
+               "label": ""
+
+            }
+
+         },
+         "_35td": {
+
+            "_75text": {
+
+               "id": "other8d",
+
+               "title": "Dispensed",
+
+               "name": "otherd",
+
+               "value": "",
+
+               "label": ""
+
+            }
+
+         }
+
+      },
+
+      "_30row": {
+
+         "_01td": {
+
+            "_33checkbox": {
+
+               "id": "drug9",
+
+               "title": "drug",
+
+               "name": "ObsDrug*1895#10",
+
+               "value": "6156|36",
+
+               "label": "RHE (150/75/275 mg)"
+
+            },
+
+            "_28textStock": {
+
+               "id": "quantityInStore9",
+
+               "name": "quantityInStore",
+
+               "value": "",
+
+               "label": ""
+
+            }
+
+         },
+
+         "_30td": {
+
+            "_91select": {
+
+               "id": "dose9",
+
+               "name": "dose9",
+
+               "value": "",
+
+               "label": ""
+
+            }
+
+         },
+
+         "_33td": {
+
+            "_96text": {
+
+               "id": "",
+
+               "name": "PillCount",
+
+               "value": "",
+
+               "label": ""
+
+            }
+
+         },
+
+         "_35td": {
+
+            "_75text": {
+
+               "id": "other9d",
+
+               "title": "Dispensed",
+
+               "name": "otherd",
+
+               "value": "",
+
+               "label": ""
+
+            }
+
+         }
+
+      },
+
+      "_20row": {
+
+         "_01td": {
+
+            "_75text": {
+
+               "id": "drug10",
+
+               "title": "drug",
+
+               "name": "ObsDrug*1895#10",
+
+               "value": "",
+
+               "label": ""
+
+            },
+
+            "_28textStock": {
+
+               "id": "quantityInStore10",
+
+               "name": "quantityInStore",
+
+               "value": "",
+
+               "label": ""
+
+            }
+
+         },
+
+         "_30td": {
+
+            "_91select": {
+
+               "id": "dose10",
+
+               "name": "dose10",
+
+               "value": "",
+
+               "label": ""
+
+            }
+
+         },
+
+         "_33td": {
+
+            "_96text": {
+
+               "id": "",
+
+               "name": "PillCount",
+
+               "value": "",
+
+               "label": ""
+
+            }
+
+         },
+         "_35td": {
+
+            "_75text": {
+
+               "id": "",
+
+               "title": "otherd",
+
+               "name": "otherd",
+
+               "value": "",
+
+               "label": ""
+
+            }
+
+         }
+
+      },
+
+      "_21row": {
+
+         "_01td": {
+
+            "_75text": {
+
+               "id": "drug11",
+
+               "title": "drug",
+
+               "name": "ObsDrug*1895#10",
+
+               "value": "",
+
+               "label": ""
+
+            },
+
+            "_28textStock": {
+
+               "id": "quantityInStore11",
+
+               "name": "quantityInStore",
+
+               "value": "",
+
+               "label": ""
+
+            }
+
+         },
+
+         "_30td": {
+
+            "_91select": {
+
+               "id": "dose11",
+
+               "name": "dose11",
+
+               "value": "",
+
+               "label": ""
+
+            }
+
+         },
+
+         "_31td": {
+
+            "_75text": {
+
+               "id": "rowo11s",
+
+               "name": "Month",
+
+               "value": "",
+
+               "label": ""
+
+            }
+
+         },
+
+         "_33td": {
+
+            "_96text": {
+
+               "id": "",
+
+               "name": "PillCount",
+
+               "value": "",
+
+               "label": ""
+
+            }
+
+         },
+         "_35td": {
+
+            "_75text": {
+
+               "id": "",
+
+               "title": "otherd",
+
+               "name": "otherd",
+
+               "value": "",
+
+               "label": ""
+
+            }
+
+         }
+
+      },
+
+      "_22row": {
+
+         "_19td": {
+
+            "_32label": {
+
+               "label": "Prescribed by"
+
+            },
+
+            "_23text": {
+
+               "id": "prescriber",
+
+               "name": "Prescriber",
+
+               "value": "",
+
+               "label": ""
+
+            }
+
+         }
+
+      },
+
+      "_23row": {
+
+         "_21td": {
+
+            "_48submit": {
+
+               "value": "Save",
+
+               "id": "hiv",
+
+               "size": "30"
+
+            }
+
+         },
+
+         "_22td": {
+
+            "_49div": {
+
+               "id": "nextPage"
+
+            }
+
+         }
+
+      }
+      }
+}
+
+ }

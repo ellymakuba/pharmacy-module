@@ -107,7 +107,7 @@
 
 
 <%--<script type="text/javascript"--%>
-        <%--src="${pageContext.request.contextPath}/moduleResources/pharmacy/scripts/jquery.layout.resizePaneAccordions-1.0.js"></script>--%>
+<%--src="${pageContext.request.contextPath}/moduleResources/pharmacy/scripts/jquery.layout.resizePaneAccordions-1.0.js"></script>--%>
 
 <script type="text/javascript"
         src="${pageContext.request.contextPath}/moduleResources/pharmacy/scripts/debug.js"></script>
@@ -141,13 +141,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/moduleResources/pharmacy/scripts/jquery-jForm-plugin.js">  </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/moduleResources/pharmacy/scripts/Serialize.js">  </script>
 
-
-
-
 <script type="text/javascript">
-
-
-
     <c:if test="${empty DO_NOT_INCLUDE_JQUERY}">
         var $j = jQuery.noConflict();
     </c:if>
@@ -171,7 +165,6 @@
             var msgDiv = document.getElementById("openmrs_dwr_error_msg");
             msgDiv.innerHTML = '<spring:message code="error.dwr"/>' + " <b>" + msg + "</b>";
         }
-
     };
     dwr.engine.setErrorHandler(handler);
     dwr.engine.setWarningHandler(handler);
@@ -194,70 +187,44 @@
             var prov = provider.userId;
         }
         $j("#requisitiono").val(prov);
-
-
         $j("#requisitionp").val(prov);
-
-        $j("#requisition").val(prov);
-
+        $j("#requisition").val(prov)
     }
     function stopRKey(evt) {
         var evt = (evt) ? evt : ((event) ? event : null);
         var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
         if ((evt.keyCode == 13) && (node.type == "text")) {
-
-
             return false;
-
-
         }
     }
-
     document.onkeypress = stopRKey;
-
-
     function selectedChwProvider1(userId, provider) {
         if (provider != null) {
             var prov = provider.userId;
         }
-
         $j("#issuedo").val(prov);
-
         $j("#issuedp").val(prov);
-
         $j("#issued").val(prov);
-
-
     }
     function selectedChwProvider2(userId, provider) {
         if (provider != null) {
             var prov = provider.userId;
         }
-
         $j("#authorized").val(prov);
         $j("#authorizedo").val(prov);
         $j("#authorizedp").val(prov);
-
-
     }
-
-
     jQuery.Page = {
         context:path
     };
 </script>
-
-
-
 <script type="text/javascript"
         src="${pageContext.request.contextPath}/moduleResources/pharmacy/scripts/themeswitchertool.js"></script>
-
 <script type="text/javascript">
 
 var oCache = {
     iCacheLower:-1
 };
-
 function fnSetKey(aoData, sKey, mValue) {
     for (var i = 0, iLen = aoData.length; i < iLen; i++) {
         if (aoData[i].name == sKey) {
@@ -349,31 +316,14 @@ $j("#themeSwitcher").themeswitcher(
         });
 
 $j(document).ajaxError(function(e, xhr, settings, exception) {
-//    alert('error in: ' + settings.url + ' \n'+'error:\n' + xhr.responseText );
-
-
-
-
-
     $j("#errorDialog").empty();
-
     $j('<dl><dt></dt><dd >' + "Error: " +  'error in:' + settings.url + '-' + exception + '</dd></dl> ').appendTo('#errorDialog');
-
-
     $j("#errorDialog").dialog("open");
-
-
-
 });
-
-
 $j(document).ready(
-
-
-
         function() {
-
 //            Variables used in the module
+            var pageToDisplay;
             var patientID;
             var patientName;
             var url;
@@ -397,130 +347,98 @@ $j(document).ready(
                     ],
                     {
                         searchLabel: '<spring:message code="Patient.searchBox" javaScriptEscape="true"/>'
-                        <c:if test="${not empty param.phrase}">
-                        , searchPhrase: '<spring:message text="${ param.phrase }" javaScriptEscape="true"/>'
-                        </c:if>
-                    });
-
-                 /*
-                 * Check is the user has permissions to view all widgets in the screen
-                 *
-                 *
-                 * */
-$j.getJSON(
-        "locationSetter.form?drop=drop",
-        function (result) {
-
-
-            if (result == "null") {
-
-            <%
-
-
-        if (org.openmrs.api.context.Context.getAuthenticatedUser().hasRole("Pharmacy Administrator") ) {
-
-            %>
-
-
-                $j("#ui").show();
-                $j("#ui8").show();
-
-                $j("#ui1").show();
-                $j("#ui18").show();
-
-                $j("#ui2").show();
-                $j("#ui28").show();
-
-                $j("#ui3").show();
-                $j("#ui38").show();
-
-                $j("#ui4").show();
-                $j("#ui48").show();
-
-
-            <%
-        }
-        else {
-            %>
-
-
-                $j("#ui").hide();
-                $j("#ui8").hide();
-
-                $j("#ui1").hide();
-                $j("#ui18").hide();
-
-                $j("#ui2").hide();
-                $j("#ui28").hide();
-
-                $j("#ui3").hide();
-                $j("#ui38").hide();
-
-                $j("#ui4").hide();
-                $j("#ui48").hide();
-
-            <%
-            }
-            %>
-
-
-            }
-            else {
-                $j("#ui").show();
-                $j("#ui8").show();
-
-                $j("#ui1").show();
-                $j("#ui18").show();
-
-                $j("#ui2").show();
-                $j("#ui28").show();
-
-                $j("#ui3").show();
-                $j("#ui38").show();
-
-                $j("#ui4").show();
-                $j("#ui48").show();
-
-
-            }
+                                <c:if test="${not empty param.phrase}">
+                    , searchPhrase: '<spring:message text="${ param.phrase }" javaScriptEscape="true"/>'
+            </c:if>
         });
+$j.getJSON("locationSetter.form?drop=drop", function (result) {
+    if (result == "null") {
+        <%
+    if (org.openmrs.api.context.Context.getAuthenticatedUser().hasRole("Pharmacy Administrator") ) {
+        %>
+        $j("#ui").show();
+        $j("#ui8").show();
+
+        $j("#ui1").show();
+        $j("#ui18").show();
+
+        $j("#ui2").show();
+        $j("#ui28").show();
+
+        $j("#ui3").show();
+        $j("#ui38").show();
+
+        $j("#ui4").show();
+        $j("#ui48").show();
+
+
+        <%
+    }
+    else {
+        %>
+
+
+        $j("#ui").hide();
+        $j("#ui8").hide();
+
+        $j("#ui1").hide();
+        $j("#ui18").hide();
+
+        $j("#ui2").hide();
+        $j("#ui28").hide();
+
+        $j("#ui3").hide();
+        $j("#ui38").hide();
+
+        $j("#ui4").hide();
+        $j("#ui48").hide();
+
+        <%
+        }
+        %>
+
+
+    }
+    else {
+        $j("#ui").show();
+        $j("#ui8").show();
+
+        $j("#ui1").show();
+        $j("#ui18").show();
+
+        $j("#ui2").show();
+        $j("#ui28").show();
+
+        $j("#ui3").show();
+        $j("#ui38").show();
+
+        $j("#ui4").show();
+        $j("#ui48").show();
+
+
+    }
+});
 
 
 /*Generic datatable refresh function*/
 function RefreshTable(tableId) {
-
     table = $j(tableId).dataTable();
-
     table.fnDraw();
 }
-    /*Fucntion to be called when a patient is selected*/
+/*Fucntion to be called when a patient is selected*/
 function doSelectionHandler(index, data) {
     patientID = data.patientId;
-    $j.getJSON("dispense.form?Pid=" + patientID,
-            function (result) {
-
-                $j.each(
-                        result,
-                        function (index, value) {
-                            $j("#patientInfo").show("slow");//
-                            $j('#patientInfo .locc').replaceWith("<div id='red'>" + "Patient Name:" + value + "</div>");
-
-
-                        });
-
-            });
+    $j.getJSON("dispense.form?Pid=" + patientID,function (result) { $j.each(result,function (index, value) {
+        $j("#patientInfo").show("slow");//
+        $j('#patientInfo .locc').replaceWith("<div id='red'>" + "Patient Name:" + value + "</div>");
+    });
+    });
     url = data.patientId;
-
-
     $j("#patient").show();
-
-
     $j("#corn").hide();
     var oFormObject = document.forms['cornform'];
     oFormObject.reset();
-
     var path = ${pageContext.request.contextPath}/;
-
     jQuery.Pid = {
         id:url
     };
@@ -528,9 +446,6 @@ function doSelectionHandler(index, data) {
     jQuery.Page = {
         context:path
     };
-
-
-
     $j('#tab_1psychiatry').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/dispensePage.jsp #disp', function () {
 
         $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/dispensePage.js", function () {
@@ -607,17 +522,15 @@ $j("#dashboard").click(function () {
 $j("#store").hide();
 $j("#stock").hide();
 $j("#Barcode").hide();
-
 $j("#Batchsetter").hide();
+$j("#drugSetUp").hide();
 $j("#druglow").hide();
 $j("#drughigh").hide();
 $j("#errorDiv").hide();
 $j("#errorDivStore").hide();
 $j("#spinner").hide();
 $j("#incomingData").hide();
-
 $j("#incomingDatanew").hide();
-
 $j("#locationsetter").hide();//
 $j("#outgoing").hide();
 $j("#locationNames").hide();
@@ -625,14 +538,11 @@ $j("#locationUsers").hide();
 $j("#transactionsSetting").hide();
 $j("#supplierSettings").hide();
 $j("#settings").hide();
-
-$j("#regimen").hide();//
+$j("#dispenseContainer").hide();//
 $j("#maxmin").hide();//
-
-$j("#outgoingperm").hide();//
+// $j("#outgoingperm").hide();//
 $j("#approvedperm").hide();//
 $j("#incomingperm").hide();//
-
 $j("#drugusagepage").hide();//
 $j("#requestsumpage").hide();//
 $j("#rfpreportpage").hide();
@@ -653,7 +563,7 @@ $j("#strengthvoid").hide();//
 $j("#psychiatrysec").hide();
 $j("#locationError").hide();
 $j("#transactionsLogs").hide();
-
+$j("#doseManagement").hide();
 $j("#name").hide();//
 $j("#namevoid").hide();//
 
@@ -668,6 +578,7 @@ $j("#settings").tabs();
 $j("#store").tabs();
 $j("#stock").tabs();
 $j("#Batchsetter").tabs();
+$j("#drugSetUp").tabs();
 $j("#Barcode").tabs();
 $j("#druglow").tabs();
 $j("#drughigh").tabs();
@@ -677,7 +588,7 @@ $j("#incomingDatanew").tabs();
 $j("#outgoing").tabs();
 $j("#supplierSettings").tabs();
 $j("#transactionsSetting").tabs();
-$j("#regimen").tabs();
+$j("#dispenseContainer").tabs();
 $j("#psychiatrysec").tabs();
 $j("#locationsetter").tabs();//
 
@@ -804,14 +715,16 @@ $j("#DGeneral").click(function() {
     $j("#fmapreportpage").hide();
     $j("#spinner").hide();
     $j("#Batchsetter").hide();
+    $j("#drugSetUp").hide();
     $j("#Barcode").hide();
     $j("#druglow").hide();
     $j("#drughigh").hide();
-    $j("#regimen").hide();
+    $j("#dispenseContainer").hide();
     $j("#locationsetter").hide();
     $j("#psychiatrysec").hide();
     $j("#settings").hide();
     $j("#transactionsLogs").hide();
+    $j("#doseManagement").hide();
     $j("#store").hide();//
     $j("#stock").hide();
     $j("#dashboarddata").hide();//
@@ -850,14 +763,16 @@ $j("#DCategories").click(function () {
     $j("#General").hide();//
     $j("#spinner").hide();
     $j("#Batchsetter").hide();
+    $j("#drugSetUp").hide();
     $j("#Barcode").hide();
     $j("#druglow").hide();
     $j("#drughigh").hide();
-    $j("#regimen").hide();
+    $j("#dispenseContainer").hide();
     $j("#locationsetter").hide();
     $j("#psychiatrysec").hide();
     $j("#settings").hide();
     $j("#transactionsLogs").hide();
+    $j("#doseManagement").hide();
     $j("#store").hide();//
     $j("#stock").hide();
     $j("#dashboarddata").hide();//
@@ -875,11 +790,7 @@ $j("#DCategories").click(function () {
 });
 /*show Dispense Batch settings view*/
 $j("#DBatch").click(function () {
-
-
     $j("#parent_div_2").hide();
-
-
     $j("#parent_div_1").hide();
     $j("#spinner").show();
     /*Check if location has been set */
@@ -904,14 +815,16 @@ $j("#DBatch").click(function () {
             $j("#General").hide();//
             $j("#spinner").hide();
             $j("#Batchsetter").show();
+            $j("#drugSetUp").hide();
             $j("#Barcode").hide();
             $j("#druglow").hide();
             $j("#drughigh").hide();
-            $j("#regimen").hide();
+            $j("#dispenseContainer").hide();
             $j("#locationsetter").hide();
             $j("#psychiatrysec").hide();
             $j("#settings").hide();
             $j("#transactionsLogs").hide();
+            $j("#doseManagement").hide();
             $j("#store").hide();//
             $j("#stock").hide();
             $j("#dashboarddata").hide();//
@@ -931,7 +844,61 @@ $j("#DBatch").click(function () {
         }
     });
 });
+$j("#dSetUp").click(function () {
+    $j("#parent_div_2").hide();
+    $j("#parent_div_1").hide();
+    $j("#spinner").show();
+    /*Check if location has been set */
+    $j.getJSON("locationSetter.form", function (result) {
+        if (result == "none") {
+            $j("#errorDiv").show();
 
+            $j("#errorDiv").delay(5000).hide("slow");
+            $j("#spinner").delay(5000).hide("slow");
+        }
+        else {
+            $j('#tab_1drugSetUp').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/drugAdministration.JSP #dtab_1', function () {
+                $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/drugAdministration.js", function () {
+                });
+            });
+            CloseAll();
+
+            $j("#drugusagepage").hide();//
+            $j("#requestsumpage").hide();//
+            $j("#rfpreportpage").hide();
+            $j("#fmapreportpage").hide();
+            $j("#General").hide();//
+            $j("#spinner").hide();
+            $j("#Batchsetter").hide();
+            $j("#drugSetUp").show();
+            $j("#Barcode").hide();
+            $j("#druglow").hide();
+            $j("#drughigh").hide();
+            $j("#dispenseContainer").hide();
+            $j("#locationsetter").hide();
+            $j("#psychiatrysec").hide();
+            $j("#settings").hide();
+            $j("#transactionsLogs").hide();
+            $j("#doseManagement").hide();
+            $j("#store").hide();//
+            $j("#stock").hide();
+            $j("#dashboarddata").hide();//
+            $j("#incomingData").hide();
+            $j("#incomingDatanew").hide();
+
+            $j("#outgoing").hide();
+            $j("#transactionsSetting").hide();
+            $j("#supplierSettings").hide();
+            //	CloseDialog();
+            $j("#maxmin").hide();//
+            $j("#locationNames").hide();
+            $j("#locationUsers").hide();
+            $j("#DrugCategory").hide();//
+            $j("#approvedData").hide();//
+
+        }
+    });
+});
 /*show barcode generation page*/
 $j("#DBarcode").click(function () {
 
@@ -962,14 +929,16 @@ $j("#DBarcode").click(function () {
             $j("#General").hide();//
             $j("#spinner").hide();
             $j("#Batchsetter").hide();
+            $j("#drugSetUp").hide();
             $j("#Barcode").show();
             $j("#druglow").hide();
             $j("#drughigh").hide();
-            $j("#regimen").hide();
+            $j("#dispenseContainer").hide();
             $j("#locationsetter").hide();
             $j("#psychiatrysec").hide();
             $j("#settings").hide();
             $j("#transactionsLogs").hide();
+            $j("#doseManagement").hide();
             $j("#store").hide();//
             $j("#stock").hide();
             $j("#dashboarddata").hide();//
@@ -990,10 +959,10 @@ $j("#DBarcode").click(function () {
     });
 });
 
-  /*Shows regimens set view*/
+/*Shows regimens set view*/
 $j("#regimenlink").click(function () {
-    $j('#regimentab_1').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/regimenname.jsp #rnamediv', function () {
-        $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/regimennames.js", function () {
+    $j('#regimentab_1').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/dispenseForm.jsp #dtab_1', function () {
+        $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/dispenseForm.js", function () {
 
         });
     });
@@ -1004,14 +973,16 @@ $j("#regimenlink").click(function () {
     $j("#fmapreportpage").hide();
     $j("#General").hide();
     $j("#Batchsetter").hide();
+    $j("#drugSetUp").hide();
     $j("#Barcode").hide();
     $j("#druglow").hide();
     $j("#drughigh").hide();
-    $j("#regimen").show("slow");
+    $j("#dispenseContainer").show("slow");
     $j("#locationsetter").hide();
     $j("#psychiatrysec").hide();
     $j("#settings").hide();
     $j("#transactionsLogs").hide();
+    $j("#doseManagement").hide();
     $j("#store").hide();//
     $j("#stock").hide();
     $j("#dashboarddata").hide();//
@@ -1072,6 +1043,7 @@ $j("#dstock").click(function () {
             $j("#rfpreportpage").hide();
             $j("#fmapreportpage").hide();
             $j("#Batchsetter").hide();
+            $j("#drugSetUp").hide();
             $j("#Barcode").hide();
             $j("#spinner").hide();
             $j("#store").hide();
@@ -1082,11 +1054,12 @@ $j("#dstock").click(function () {
             $j("#psychiatrysec").hide();
             $j("#settings").hide();
             $j("#transactionsLogs").hide();
+            $j("#doseManagement").hide();
             $j("#dashboarddata").hide();//
             $j("#incomingData").hide();
             $j("#incomingDatanew").hide();
 
-            $j("#regimen").hide();//
+            $j("#dispenseContainer").hide();//
             $j("#outgoing").hide();
             $j("#DrugCategory").hide();//
             $j("#General").hide();//
@@ -1125,7 +1098,7 @@ $j("#dstore").click(function () {
             });
             //	$j('#storelocation #instorelocation').replaceWith("	Drug management: Location-"+result);
 
-            var data = '<strong>Drug management: Location-' + result + '</strong>';
+            var data = '<strong>Drug management: Location1-' + result + '</strong>';
             $j('#instorelocation').empty();
             $j(data).appendTo(' #instorelocation');
             $j("#drugusagepage").hide();//
@@ -1134,6 +1107,7 @@ $j("#dstore").click(function () {
             $j("#rfpreportpage").hide();
             $j("#fmapreportpage").hide();
             $j("#Batchsetter").hide();
+            $j("#drugSetUp").hide();
             $j("#Barcode").hide();
             $j("#spinner").hide();
             $j("#store").show("slow");
@@ -1144,11 +1118,12 @@ $j("#dstore").click(function () {
             $j("#psychiatrysec").hide();
             $j("#settings").hide();
             $j("#transactionsLogs").hide();
+            $j("#doseManagement").hide();
             $j("#dashboarddata").hide();//
             $j("#incomingData").hide();
             $j("#incomingDatanew").hide();
 
-            $j("#regimen").hide();//
+            $j("#dispenseContainer").hide();//
             $j("#outgoing").hide();
             $j("#DrugCategory").hide();//
             $j("#General").hide();//
@@ -1166,7 +1141,7 @@ $j("#dstore").click(function () {
 
 
 });
-   /*low stock view*/
+/*low stock view*/
 $j("#dlow").click(function () {
     $j("#spinner").show();
 
@@ -1191,7 +1166,7 @@ $j("#dlow").click(function () {
             });
             //	$j('#storelocation #instorelocation').replaceWith("	Drug management: Location-"+result);
 
-            var data = '<strong>Drug Low levels: Location-' + result + '</strong>';
+            var data = '<strong>Drug Low levels: Location2-' + result + '</strong>';
 
             $j("#drugusagepage").hide();//
             $j("#requestsumpage").hide();//
@@ -1201,6 +1176,7 @@ $j("#dlow").click(function () {
             $j('#inlowlocation').empty();
             $j(data).appendTo(' #inlowlocation');
             $j("#Batchsetter").hide();
+            $j("#drugSetUp").hide();
             $j("#Barcode").hide();
             $j("#spinner").hide();
             $j("#druglow").show("slow");
@@ -1211,11 +1187,12 @@ $j("#dlow").click(function () {
             $j("#psychiatrysec").hide();
             $j("#settings").hide();
             $j("#transactionsLogs").hide();
+            $j("#doseManagement").hide();
             $j("#dashboarddata").hide();//
             $j("#incomingData").hide();
             $j("#incomingDatanew").hide();
 
-            $j("#regimen").hide();//
+            $j("#dispenseContainer").hide();//
             $j("#DrugCategory").hide();//
             $j("#General").hide();//
             $j("#outgoing").hide();
@@ -1257,7 +1234,7 @@ $j("#dhigh").click(function () {
             });
             //	$j('#storelocation #instorelocation').replaceWith("	Drug management: Location-"+result);
 
-            var data = '<strong>Drug high levels: Location-' + result + '</strong>';
+            var data = '<strong>Drug high levels: Location3-' + result + '</strong>';
 
             $j("#drugusagepage").hide();//
             $j("#requestsumpage").hide();//
@@ -1270,6 +1247,7 @@ $j("#dhigh").click(function () {
             $j("#spinner").hide();
             $j("#druglow").hide();
             $j("#Batchsetter").hide();
+            $j("#drugSetUp").hide();
             $j("#Barcode").hide();
             $j("#store").hide();
             $j("#stock").hide();
@@ -1277,11 +1255,12 @@ $j("#dhigh").click(function () {
             $j("#psychiatrysec").hide();
             $j("#settings").hide();
             $j("#transactionsLogs").hide();
+            $j("#doseManagement").hide();
             $j("#dashboarddata").hide();//
             $j("#incomingData").hide();
             $j("#incomingDatanew").hide();
 
-            $j("#regimen").hide();//
+            $j("#dispenseContainer").hide();//
             $j("#outgoing").hide();
             $j("#DrugCategory").hide();//
             $j("#General").hide();//
@@ -1319,6 +1298,7 @@ $j("#locationsetterid").click(function () {
     $j("#druglow").hide();
     $j("#drughigh").hide();
     $j("#Batchsetter").hide();
+    $j("#drugSetUp").hide();
     $j("#Barcode").hide();
     $j("#locationsetter").show("slow");
     $j("#locationError").hide();//
@@ -1327,6 +1307,7 @@ $j("#locationsetterid").click(function () {
     $j("#psychiatrysec").hide();
     $j("#settings").hide();
     $j("#transactionsLogs").hide();
+    $j("#doseManagement").hide();
     $j("#dashboarddata").hide();//
     $j("#incomingData").hide();
     $j("#incomingDatanew").hide();
@@ -1335,7 +1316,7 @@ $j("#locationsetterid").click(function () {
     $j("#outgoing").hide();
     $j("#transactionsSetting").hide();
     $j("#supplierSettings").hide();
-    $j("#regimen").hide();
+    $j("#dispenseContainer").hide();
     $j("#DrugCategory").hide();//
     $j("#General").hide();//
     $j("#locationNames").hide();
@@ -1370,6 +1351,7 @@ $j("#requestsum").click(function () {
     $j("#druglow").hide();
     $j("#drughigh").hide();
     $j("#Batchsetter").hide();
+    $j("#drugSetUp").hide();
     $j("#Barcode").hide();
     $j("#locationsetter").hide();
     $j("#locationError").hide();//
@@ -1378,6 +1360,7 @@ $j("#requestsum").click(function () {
     $j("#psychiatrysec").hide();
     $j("#settings").hide();
     $j("#transactionsLogs").hide();
+    $j("#doseManagement").hide();
     $j("#dashboarddata").hide();//
     $j("#incomingData").hide();
     $j("#incomingDatanew").hide();
@@ -1386,7 +1369,7 @@ $j("#requestsum").click(function () {
     $j("#outgoing").hide();
     $j("#transactionsSetting").hide();
     $j("#supplierSettings").hide();
-    $j("#regimen").hide();
+    $j("#dispenseContainer").hide();
     $j("#DrugCategory").hide();//
     $j("#General").hide();//
     $j("#locationNames").hide();
@@ -1416,6 +1399,7 @@ $j("#rfpreport").click(function () {
     $j("#druglow").hide();
     $j("#drughigh").hide();
     $j("#Batchsetter").hide();
+    $j("#drugSetUp").hide();
     $j("#Barcode").hide();
     $j("#locationsetter").hide();
     $j("#locationError").hide();//
@@ -1424,6 +1408,7 @@ $j("#rfpreport").click(function () {
     $j("#psychiatrysec").hide();
     $j("#settings").hide();
     $j("#transactionsLogs").hide();
+    $j("#doseManagement").hide();
     $j("#dashboarddata").hide();//
     $j("#incomingData").hide();
     $j("#incomingDatanew").hide();
@@ -1432,7 +1417,7 @@ $j("#rfpreport").click(function () {
     $j("#outgoing").hide();
     $j("#transactionsSetting").hide();
     $j("#supplierSettings").hide();
-    $j("#regimen").hide();
+    $j("#dispenseContainer").hide();
     $j("#DrugCategory").hide();//
     $j("#General").hide();//
     $j("#locationNames").hide();
@@ -1466,6 +1451,7 @@ $j("#fmapreport").click(function () {
     $j("#druglow").hide();
     $j("#drughigh").hide();
     $j("#Batchsetter").hide();
+    $j("#drugSetUp").hide();
     $j("#Barcode").hide();
     $j("#locationsetter").hide();
     $j("#locationError").hide();//
@@ -1474,6 +1460,7 @@ $j("#fmapreport").click(function () {
     $j("#psychiatrysec").hide();
     $j("#settings").hide();
     $j("#transactionsLogs").hide();
+    $j("#doseManagement").hide();
     $j("#dashboarddata").hide();//
     $j("#incomingData").hide();
     $j("#incomingDatanew").hide();
@@ -1482,7 +1469,7 @@ $j("#fmapreport").click(function () {
     $j("#outgoing").hide();
     $j("#transactionsSetting").hide();
     $j("#supplierSettings").hide();
-    $j("#regimen").hide();
+    $j("#dispenseContainer").hide();
     $j("#DrugCategory").hide();//
     $j("#General").hide();//
     $j("#locationNames").hide();
@@ -1512,6 +1499,7 @@ $j("#drugusage").click(function () {
     $j("#druglow").hide();
     $j("#drughigh").hide();
     $j("#Batchsetter").hide();
+    $j("#drugSetUp").hide();
     $j("#Barcode").hide();
     $j("#locationsetter").hide();
     $j("#locationError").hide();//
@@ -1520,6 +1508,7 @@ $j("#drugusage").click(function () {
     $j("#psychiatrysec").hide();
     $j("#settings").hide();
     $j("#transactionsLogs").hide();
+    $j("#doseManagement").hide();
     $j("#dashboarddata").hide();//
     $j("#incomingData").hide();
     $j("#incomingDatanew").hide();
@@ -1528,7 +1517,7 @@ $j("#drugusage").click(function () {
     $j("#outgoing").hide();
     $j("#transactionsSetting").hide();
     $j("#supplierSettings").hide();
-    $j("#regimen").hide();
+    $j("#dispenseContainer").hide();
     $j("#DrugCategory").hide();//
     $j("#General").hide();//
     $j("#locationNames").hide();
@@ -1561,7 +1550,7 @@ $j("#dincoming").click(function () {
                 });
 
             });
-            var data = '<strong>Drug  requests: Location-' + result + '</strong>';
+            var data = '<strong>Drug  requests: Location4-' + result + '</strong>';
             $j('#inincominglocation').empty();
             $j("#drugusagepage").hide();//
             $j("#requestsumpage").hide();//
@@ -1569,6 +1558,7 @@ $j("#dincoming").click(function () {
 
             $j(data).appendTo(' #inincominglocation');
             $j("#Batchsetter").hide();
+            $j("#drugSetUp").hide();
             $j("#Barcode").hide();
             $j("#incomingData").show("slow");
             $j("#incomingDatanew").hide();
@@ -1578,7 +1568,7 @@ $j("#dincoming").click(function () {
             $j("#drughigh").hide();
             $j("#spinner").hide();
             $j("#locationsetter").hide();
-            $j("#regimen").hide();//
+            $j("#dispenseContainer").hide();//
             $j("#outgoing").hide();
             $j("#transactionsSetting").hide();
             $j("#supplierSettings").hide();
@@ -1589,20 +1579,17 @@ $j("#dincoming").click(function () {
             $j("#DrugCategory").hide();//
             $j("#General").hide();//
             $j("#transactionsLogs").hide();
+            $j("#doseManagement").hide();
             $j("#dashboarddata").hide();//
             $j("#maxmin").hide();//
             $j("#locationNames").hide();
             $j("#locationUsers").hide();
             $j("#approvedData").hide();//
-
-            //CloseDialog();
-
         }
     });
 
 });
 $j("#dincomingnew").click(function () {
-
     $j("#spinner").show();
 
 
@@ -1623,7 +1610,7 @@ $j("#dincomingnew").click(function () {
                 });
 
             });
-            var data = '<strong>Drug  requests: Location-' + result + '</strong>';
+            var data = '<strong>Drug  requests: Location5-' + result + '</strong>';
             $j('#inincominglocation').empty();
             $j("#drugusagepage").hide();//
             $j("#requestsumpage").hide();//
@@ -1632,6 +1619,7 @@ $j("#dincomingnew").click(function () {
             $j("#fmapreportpage").hide();
             $j(data).appendTo(' #inincominglocation');
             $j("#Batchsetter").hide();
+            $j("#drugSetUp").hide();
             $j("#Barcode").hide();
             $j("#incomingData").hide();
             $j("#incomingDatanew").show("slow");
@@ -1640,7 +1628,7 @@ $j("#dincomingnew").click(function () {
             $j("#drughigh").hide();
             $j("#spinner").hide();
             $j("#locationsetter").hide();
-            $j("#regimen").hide();//
+            $j("#dispenseContainer").hide();//
             $j("#outgoing").hide();
             $j("#transactionsSetting").hide();
             $j("#supplierSettings").hide();
@@ -1651,6 +1639,7 @@ $j("#dincomingnew").click(function () {
             $j("#DrugCategory").hide();//
             $j("#General").hide();//
             $j("#transactionsLogs").hide();
+            $j("#doseManagement").hide();
             $j("#dashboarddata").hide();//
             $j("#maxmin").hide();//
             $j("#locationNames").hide();
@@ -1692,7 +1681,7 @@ $j("#dapproved").click(function () {
 
             });
             // $j('#outgoinglocation #inoutgoinglocation').replaceWith(" Drug Outgoing requests: Location-"+result);
-            var data = '<strong>Drug approved requests: Location-' + result + '</strong>';
+            var data = '<strong>Drug approved requests: Location6-' + result + '</strong>';
             $j('#approvedlocation').empty();
             $j(data).appendTo(' #approvedlocation');
             $j("#drugusagepage").hide();//
@@ -1710,6 +1699,7 @@ $j("#dapproved").click(function () {
 
             $j("#locationsetter").hide();
             $j("#Batchsetter").hide();
+            $j("#drugSetUp").hide();
             $j("#Barcode").hide();
             $j("#store").hide();
             $j("#stock").hide();
@@ -1718,15 +1708,15 @@ $j("#dapproved").click(function () {
             $j("#psychiatrysec").hide();
             $j("#settings").hide();
             $j("#transactionsLogs").hide();
+            $j("#doseManagement").hide();
             $j("#dashboarddata").hide();//
-            $j("#regimen").hide();//
+            $j("#dispenseContainer").hide();//
             $j("#General").hide();//
             $j("#transactionsSetting").hide();
             $j("#supplierSettings").hide();
             $j("#locationNames").hide();
             $j("#locationUsers").hide();
             $j("#approvedData").show();//
-
             $j("#maxmin").hide();//
             //		CloseDialog();
         }
@@ -1757,7 +1747,7 @@ $j("#doutgoing").click(function () {
                 });
 
             });
-                var data = '<strong>Drug requests from other sites: Location-' + result + '</strong>';
+            var data = '<strong>Drug requests from other sites: Location7-' + result + '</strong>';
             $j('#inoutgoinglocation').empty();
             $j(data).appendTo(' #inoutgoinglocation');
 
@@ -1775,6 +1765,7 @@ $j("#doutgoing").click(function () {
 
             $j("#locationsetter").hide();
             $j("#Batchsetter").hide();
+            $j("#drugSetUp").hide();
             $j("#Barcode").hide();
             $j("#store").hide();
             $j("#stock").hide();
@@ -1783,8 +1774,9 @@ $j("#doutgoing").click(function () {
             $j("#psychiatrysec").hide();
             $j("#settings").hide();
             $j("#transactionsLogs").hide();
+            $j("#doseManagement").hide();
             $j("#dashboarddata").hide();//
-            $j("#regimen").hide();//
+            $j("#dispenseContainer").hide();//
             $j("#General").hide();//
             $j("#transactionsSetting").hide();
             $j("#supplierSettings").hide();
@@ -1801,17 +1793,10 @@ $j("#doutgoing").click(function () {
 
 /*view transaction logs*/
 $j("#dtransactions").click(function () {
-
     $j("#spinner").show();
-
-
     $j.getJSON("locationSetter.form", function (result) {
-
-
         if (result == "none") {
-
             $j("#errorDiv").show();
-
             $j("#errorDiv").delay(5000).hide("slow");
             $j("#spinner").delay(5000).hide("slow");
         }
@@ -1823,7 +1808,7 @@ $j("#dtransactions").click(function () {
                 });
             });
             //	 $j('#transactionslocation #intransactionslocation').replaceWith(" Drug transactions : Location-"+result);
-            var data = '<strong>Drug transactions: Location-' + result + '</strong>';
+            var data = '<strong>Drug transactions: Location8-' + result + '</strong>';
             $j('#intransactionslocation').empty();
             $j(data).appendTo(' #intransactionslocation');
 
@@ -1833,6 +1818,7 @@ $j("#dtransactions").click(function () {
             $j("#rfpreportpage").hide();
             $j("#fmapreportpage").hide();
             $j("#transactionsLogs").show("slow");
+            $j("#doseManagement").hide();
             $j("#druglow").hide();
             $j("#drughigh").hide();
             $j("#spinner").hide();
@@ -1845,9 +1831,10 @@ $j("#dtransactions").click(function () {
             $j("#stock").hide();
             $j("#settings").hide();
             $j("#dashboarddata").hide();//
-            $j("#regimen").hide();//
+            $j("#dispenseContainer").hide();//
             $j("#General").hide();//
             $j("#Batchsetter").hide();
+            $j("#drugSetUp").hide();
             $j("#Barcode").hide();
             $j("#outgoing").hide();
             $j("#DrugCategory").hide();//
@@ -1857,18 +1844,62 @@ $j("#dtransactions").click(function () {
             $j("#supplierSettings").hide();
             $j("#maxmin").hide();//
             $j("#approvedData").hide();//
-
-            ///	CloseDialog();
         }
-
     });
-
 });
-
-
+$j("#dmanager").click(function () {
+    $j("#spinner").show();
+    $j.getJSON("locationSetter.form", function (result) {
+        if (result == "none") {
+            $j("#errorDiv").show();
+            $j("#errorDiv").delay(5000).hide("slow");
+            $j("#spinner").delay(5000).hide("slow");
+        }
+        else {
+            $j('#doseManagerDisplay').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/doseForm.jsp #dnames', function () {
+                $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/doseForm.js", function () {
+                });
+            });
+            //	 $j('#transactionslocation #intransactionslocation').replaceWith(" Drug transactions : Location-"+result);
+            var data = '<strong>Drug transactions: Location9-' + result + '</strong>';
+            $j('#intransactionslocation').empty();
+            $j(data).appendTo(' #intransactionslocation');
+            $j("#drugusagepage").hide();//
+            $j("#requestsumpage").hide();//
+            CloseAll();
+            $j("#rfpreportpage").hide();
+            $j("#fmapreportpage").hide();
+            $j("#transactionsLogs").hide();
+            $j("#doseManagement").show();
+            $j("#druglow").hide();
+            $j("#drughigh").hide();
+            $j("#spinner").hide();
+            $j("#locationsetter").hide();
+            $j("#incomingData").hide();
+            $j("#incomingDatanew").hide();
+            $j("#psychiatrysec").hide();
+            $j("#store").hide();
+            $j("#stock").hide();
+            $j("#settings").hide();
+            $j("#dashboarddata").hide();//
+            $j("#dispenseContainer").hide();//
+            $j("#General").hide();//
+            $j("#Batchsetter").hide();
+            $j("#drugSetUp").hide();
+            $j("#Barcode").hide();
+            $j("#outgoing").hide();
+            $j("#DrugCategory").hide();//
+            $j("#locationNames").hide();
+            $j("#locationUsers").hide();
+            $j("#transactionsSetting").hide();
+            $j("#supplierSettings").hide();
+            $j("#maxmin").hide();//
+            $j("#approvedData").hide();//
+        }
+    });
+});
 $j("#patient").click(function () {
     $j("#patientInfo").hide();
-
     $j("#patient").hide();
     $j("#corn").show();
 });
@@ -1974,7 +2005,7 @@ $j("#cfrequency").click(function () {
 
 });
 
-   /*Drug settings*/
+/*Drug settings*/
 $j("#dsettings").click(function () {
     $j('#tab_1').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/drugformulation.jsp #dformulation', function () {
 
@@ -2000,10 +2031,12 @@ $j("#dsettings").click(function () {
     $j("#store").hide();
     $j("#stock").hide();
     $j("#transactionsLogs").hide();
-    $j("#regimen").hide();//
+    $j("#doseManagement").hide();
+    $j("#dispenseContainer").hide();//
     $j("#dashboarddata").hide();//
     $j("#incoming").hide();
     $j("#Batchsetter").hide();
+    $j("#drugSetUp").hide();
     $j("#Barcode").hide();
     $j("#outgoing").hide();
     $j("#locationsetter").hide();//
@@ -2037,6 +2070,7 @@ $j("#Asupplier").click(function () {
     $j("#locationUsers").hide();
     $j("#outgoing").hide();
     $j("#Batchsetter").hide();
+    $j("#drugSetUp").hide();
     $j("#Barcode").hide();
     $j("#supplierSettings").show("slow");
     $j("#locationsetter").hide();//
@@ -2045,7 +2079,8 @@ $j("#Asupplier").click(function () {
     $j("#store").hide();
     $j("#stock").hide();
     $j("#transactionsLogs").hide();
-    $j("#regimen").hide();//
+    $j("#doseManagement").hide();
+    $j("#dispenseContainer").hide();//
     $j("#dashboarddata").hide();//
     $j("#DrugCategory").hide();//
     $j("#maxmin").hide();//
@@ -2075,45 +2110,47 @@ $j("#tt").click(function () {
         }
         else {
 
-    $j('#tab_1transactions').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/transactiontypenames.jsp #dnames', function () {
+            $j('#tab_1transactions').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/transactiontypenames.jsp #dnames', function () {
 
 
-        $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/transactiontypes.js", function () {
-        });
-    });
-    $j("#drugusagepage").hide();//
-    $j("#requestsumpage").hide();//
+                $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/transactiontypes.js", function () {
+                });
+            });
+            $j("#drugusagepage").hide();//
+            $j("#requestsumpage").hide();//
 
-    $j("#druglow").hide();
-    $j("#drughigh").hide();
-    $j("#incomingData").hide();
+            $j("#druglow").hide();
+            $j("#drughigh").hide();
+            $j("#incomingData").hide();
             $j("#incomingDatanew").hide();
 
             $j("#incoming").hide();
-    $j("#Batchsetter").hide();
-    $j("#Barcode").hide();
-    $j("#outgoing").hide();
-    $j("#transactionsSetting").show("slow");
-    $j("#locationsetter").hide();//
-    $j("#supplierSettings").hide();
-    $j("#settings").hide();
-    $j("#psychiatrysec").hide();
-    $j("#store").hide();
-    $j("#stock").hide();
-    $j("#transactionsLogs").hide();
-    $j("#regimen").hide();//
-    $j("#dashboarddata").hide();//
-    $j("#DrugCategory").hide();//
-    $j("#locationNames").hide();
-    $j("#locationUsers").hide();
-    $j("#locationUsers").hide();
-    $j("#maxmin").hide();//
-    $j("#approvedData").hide();//
-    $j("#General").hide();//
-    //CloseDialog();
+            $j("#Batchsetter").hide();
+            $j("#drugSetUp").hide();
+            $j("#Barcode").hide();
+            $j("#outgoing").hide();
+            $j("#transactionsSetting").show("slow");
+            $j("#locationsetter").hide();//
+            $j("#supplierSettings").hide();
+            $j("#settings").hide();
+            $j("#psychiatrysec").hide();
+            $j("#store").hide();
+            $j("#stock").hide();
+            $j("#transactionsLogs").hide();
+            $j("#doseManagement").hide();
+            $j("#dispenseContainer").hide();//
+            $j("#dashboarddata").hide();//
+            $j("#DrugCategory").hide();//
+            $j("#locationNames").hide();
+            $j("#locationUsers").hide();
+            $j("#locationUsers").hide();
+            $j("#maxmin").hide();//
+            $j("#approvedData").hide();//
+            $j("#General").hide();//
+            //CloseDialog();
         }
-});
     });
+});
 /*View locations names*/
 $j("#locationName").click(function () {
     $j('#tab_1location').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/locationNames.jsp #dnames', function () {
@@ -2134,6 +2171,7 @@ $j("#locationName").click(function () {
 
     $j("#incoming").hide();
     $j("#Batchsetter").hide();
+    $j("#drugSetUp").hide();
     $j("#Barcode").hide();
     $j("#outgoing").hide();
     $j("#transactionsSetting").hide();
@@ -2144,7 +2182,8 @@ $j("#locationName").click(function () {
     $j("#store").hide();
     $j("#stock").hide();
     $j("#transactionsLogs").hide();
-    $j("#regimen").hide();//
+    $j("#doseManagement").hide();
+    $j("#dispenseContainer").hide();//
     $j("#dashboarddata").hide();//
     $j("#DrugCategory").hide();//
     $j("#maxmin").hide();//
@@ -2172,6 +2211,7 @@ $j("#locationUser").click(function () {
 
     $j("#incoming").hide();
     $j("#Batchsetter").hide();
+    $j("#drugSetUp").hide();
     $j("#Barcode").hide();
     $j("#outgoing").hide();
     $j("#transactionsSetting").hide();
@@ -2182,7 +2222,8 @@ $j("#locationUser").click(function () {
     $j("#store").hide();
     $j("#stock").hide();
     $j("#transactionsLogs").hide();
-    $j("#regimen").hide();//
+    $j("#doseManagement").hide();
+    $j("#dispenseContainer").hide();//
     $j("#dashboarddata").hide();//
     $j("#DrugCategory").hide();//
     $j("#maxmin").hide();//
@@ -2212,6 +2253,7 @@ $j("#Dmaxmin").click(function () {
 
     $j("#incoming").hide();
     $j("#Batchsetter").hide();
+    $j("#drugSetUp").hide();
     $j("#Barcode").hide();
     $j("#outgoing").hide();
     $j("#transactionsSetting").hide();
@@ -2222,7 +2264,8 @@ $j("#Dmaxmin").click(function () {
     $j("#store").hide();
     $j("#stock").hide();
     $j("#transactionsLogs").hide();
-    $j("#regimen").hide();//
+    $j("#doseManagement").hide();
+    $j("#dispenseContainer").hide();//
     $j("#dashboarddata").hide();//
     $j("#DrugCategory").hide();//
     $j("#approvedData").hide();//
@@ -2292,16 +2335,18 @@ $j("#psychiatry").click(function () {
 
             $j("#incoming").hide();
             $j("#Batchsetter").hide();
+            $j("#drugSetUp").hide();
             $j("#Barcode").hide();
             $j("#outgoing").hide();
             $j("#transactionsSetting").hide();
             $j("#locationNames").hide();
             $j("#locationUsers").hide();
             $j("#transactionsLogs").hide();
+            $j("#doseManagement").hide();
             $j("#store").hide();
             $j("#stock").hide();
             $j("#settings").hide();
-            $j("#regimen").hide();//
+            $j("#dispenseContainer").hide();//
             $j("#dashboarddata").hide();//
             $j("#supplierSettings").hide();
             $j("#DrugCategory").hide();//
@@ -2393,7 +2438,7 @@ $j("form#generalform").submit(function () {
 
                     $j("#info").text("Cannot dispense now you have not set batch no !!!!!");
 
-                      $j("#info").css("color", "red");
+                    $j("#info").css("color", "red");
                     setTimeout(function () {
                         $j("#info").css("color", "white");
                     }, 10000);
@@ -2409,7 +2454,7 @@ $j("form#generalform").submit(function () {
     else {
         $j("#info").text("You must add drugs ");
 
-          $j("#info").css("color", "red");
+        $j("#info").css("color", "red");
         setTimeout(function () {
             $j("#info").css("color", "white");
         }, 5000);
@@ -2451,36 +2496,22 @@ CloseDialog();
 ;
 </script>
 </head>
-
-
 <body>
-
-
 <DIV id="center" class="ui-layout-center">
-
-
 <DIV id="dashboarddata">
-
-
     <div id="dialog" title="Inventory">
         <table cellpadding="0" cellspacing="0" border="0" class="display"
                id="tdialog">
             <thead>
             <tr>
-
                 <th>Drug</th>
-
                 <th>Quantity</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-
                 <th></th>
-
                 <th></th>
-
-
             </tr>
             </tbody>
 
@@ -2488,123 +2519,65 @@ CloseDialog();
     </div>
     <div id="dialog1" title="Patient regimen use">Nevirapine : 5</div>
 </DIV>
-
-
 <div id="errorDialog" title="Error">
-
-
 </div>
-
-
 <DIV id="locationErrorb" class="header-footer ui-state-default ui-corner-all"
      style="padding: 3px 5px 5px; text-align: center; margin-bottom: 1ex;">
-
     <DIV id="inoutgoinglocationb">
-
     </DIV>
-
 </DIV>
 <DIV id="dataDiv" class="header-footer ui-state-default ui-corner-all"
      style="padding: 3px 5px 5px; text-align: center; margin-bottom: 1ex;">
-
-
-    <DIV class="loc">
-
-        test
-    </DIV>
-
+    <DIV class="loc"> test</DIV>
 </DIV>
-
 <div id="spinner">
     <img id="img-spinner" src="${pageContext.request.contextPath}/moduleResources/pharmacy/images/pharmacyloader.gif"
-         alt="Loading"/>
-</div>
+         alt="Loading"/></div>
 <DIV id="store">
-
     <DIV id="storelocation" class="header-footer ui-state-default ui-corner-all"
          style="padding: 3px 5px 5px; text-align: center; margin-bottom: 1ex;">
         <DIV id="instorelocation">
             Drug
             management
-
         </DIV>
     </DIV>
-    <UL
-            style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
-        <LI><A href="#tab_1storee" id="bincardlink"><SPAN>Bincard</SPAN>
-        </A>
-        </LI>
-
-        <LI><A href="#tab_1totaldrugs" id="bincardtotaldrugs"><SPAN>Bincard Totals</SPAN>
-        </A>
-        </LI>
-
+    <UL style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
+        <LI><A href="#tab_1storee" id="bincardlink"><SPAN>Bincard</SPAN> </A> </LI>
+        <LI><A href="#tab_1totaldrugs" id="bincardtotaldrugs"><SPAN>Bincard Totals</SPAN></A></LI>
     </UL>
     <DIV class="ui-layout-content ui-widget-content ui-corner-bottom"
          style="border-top: 0; padding-bottom: 1em;">
         <DIV id="tab_1storee"></DIV>
-
         <DIV id="tab_1totaldrugs"></DIV>
-
     </DIV>
 </DIV>
 <DIV id="stock">
-
     <DIV id="storelocation" class="header-footer ui-state-default ui-corner-all"
          style="padding: 3px 5px 5px; text-align: center; margin-bottom: 1ex;">
-        <DIV id="instorelocationstcok">
-            Stock take
-
-        </DIV>
+        <DIV id="instorelocationstcok">Stock take</DIV>
     </DIV>
-    <UL
-            style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
-        <LI><A href="#tab_1stock" id="bincardlink"><SPAN>Stock take</SPAN>
-        </A>
-        </LI>
-
-
+    <UL style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
+        <LI><A href="#tab_1stock" id="bincardlink"><SPAN>Stock take</SPAN></A> </LI>
     </UL>
-    <DIV class="ui-layout-content ui-widget-content ui-corner-bottom"
-         style="border-top: 0; padding-bottom: 1em;">
-        <DIV id="tab_1stock"></DIV>
-
-
-    </DIV>
+    <DIV class="ui-layout-content ui-widget-content ui-corner-bottom" style="border-top: 0; padding-bottom: 1em;">
+        <DIV id="tab_1stock"></DIV> </DIV>
 </DIV>
-<DIV id="druglow">
-
-    <DIV id="storelocation" class="header-footer ui-state-default ui-corner-all"
-         style="padding: 3px 5px 5px; text-align: center; margin-bottom: 1ex;">
-        <DIV id="inlowlocation">
-            Drug
-            Low level
-
-        </DIV>
-    </DIV>
-    <UL
-            style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
-        <LI><A href="#tab_1low" id="bincardlink"><SPAN>Low Levels</SPAN>
-        </A>
-        </LI>
-
+<DIV id="druglow"> <DIV id="storelocation" class="header-footer ui-state-default ui-corner-all"
+                        style="padding: 3px 5px 5px; text-align: center; margin-bottom: 1ex;">
+    <DIV id="inlowlocation">Drug Low level</DIV>
+</DIV>
+    <UL style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
+        <LI><A href="#tab_1low" id="bincardlink"><SPAN>Low Levels</SPAN></A></LI>
     </UL>
     <DIV class="ui-layout-content ui-widget-content ui-corner-bottom"
          style="border-top: 0; padding-bottom: 1em;">
         <DIV id="tab_1low"></DIV>
-
     </DIV>
 </DIV>
-
 <DIV id="drughigh">
-
     <DIV id="storelocation" class="header-footer ui-state-default ui-corner-all"
          style="padding: 3px 5px 5px; text-align: center; margin-bottom: 1ex;">
-        <DIV id="inhighlocation">
-            Drug
-            high levels
-
-        </DIV>
+        <DIV id="inhighlocation"> Drug high levels </DIV>
     </DIV>
     <UL
             style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
@@ -2895,41 +2868,27 @@ CloseDialog();
 
     <DIV id="transactionslocation" class="header-footer ui-state-default ui-corner-all"
          style="padding: 3px 5px 5px; text-align: center; margin-bottom: 1ex;">
-        <DIV id="intransactionslocation">
-            Drug
-            Outgoing requests
-
-        </DIV>
+        <DIV id="intransactionslocation">Drug Outgoing requests</DIV>
     </DIV>
-    <UL
-            style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
-        <LI><A href="#transactionstab_1"><SPAN>Drug
-								transactions </SPAN> </A>
-        </LI>
-
+    <UL style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
+        <LI><A href="#transactionstab_1"><SPAN>Drug transactions </SPAN> </A></LI>
     </UL>
     <DIV class="ui-layout-content ui-widget-content ui-corner-bottom"
          style="border-top: 0; padding-bottom: 1em;">
         <DIV id="transactionstab_1"></DIV>
-
     </DIV>
 </DIV>
-<DIV id="regimen">
+<DIV id="doseManagement">
+    <DIV  class="ui-layout-content ui-widget-content ui-corner-bottom" style="padding: 3px 5px 5px; text-align: center; margin-bottom: 1ex;">
+        <DIV id="doseManagerDisplay">Dose Management</DIV>
+    </DIV>
+</DIV>
+<DIV id="dispenseContainer">
 
     <DIV class="header-footer ui-state-default ui-corner-all"
          style="padding: 3px 5px 5px; text-align: center; margin-bottom: 1ex;">
-        Drug regimen
+        General Dispensing Form
     </DIV>
-    <UL
-            style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
-        <LI><A href="#regimentab_1" id="rnames"><SPAN>Regimen
-								Code </SPAN> </A>
-        </LI>
-        <LI><A href="#regimentab_2" id="combinationnames"><SPAN>Regimen
-								combinations </SPAN> </A>
-        </LI>
-
-    </UL>
     <DIV class="ui-layout-content ui-widget-content ui-corner-bottom"
          style="border-top: 0; padding-bottom: 1em;">
 
@@ -2953,37 +2912,27 @@ CloseDialog();
         </LI>
         <DIV id="patientInfo" class="header-footer ui-state-default ui-corner-all"
              style="padding: 3px 5px 5px; text-align: center; margin-bottom: 1ex;">
-
             <DIV class="locc">
-
                 test
             </DIV>
-
-
         </DIV>
     </UL>
-    <DIV class="ui-layout-content ui-widget-content ui-corner-bottom"
-         style="border-top: 0; padding-bottom: 1em;">
+    <DIV class="ui-layout-content ui-widget-content ui-corner-bottom" style="border-top: 0; padding-bottom: 1em;">
         <fieldset id="parent_field">
             <A href="#" class="top" id="patient"> Search patient</A>
-            <A href="#" class="top" id="edit_encounter"> Edit Encounters</A>
         </fieldset>
         <div id="corn">
             <form id="cornform">
-
                 <fieldset>
                     <legend>
                         <c:if test="${empty patient}">Enter and select the patient:</c:if>
                         <c:if test="${not empty patient}">Profile</c:if>
                     </legend>
                     <input id="hiddenfield" type="hidden" name="fieldCount"/>
-
                     <div>
                         <div>
-
                             <c:choose>
                                 <c:when test="${empty patient}">
-
                                     <style>
                                         #openmrsSearchTable_wrapper {
                                             /* Removes the empty space between the widget and the Create New Patient section if the table is short */
@@ -2992,16 +2941,10 @@ CloseDialog();
                                             height: auto !important;
                                         }
                                     </style>
-
                                     <script type="text/javascript">
-
-
                                     </script>
-
                                     <div>
-
                                         <div class="searchWidgetContainer" id="findPatients"></div>
-
                                     </div>
 
                                 </c:when>
@@ -3039,37 +2982,20 @@ CloseDialog();
                         </div>
                 </fieldset>
             </form>
-
         </div>
-
-
         <div id="dispenseform" title="Dispense to:">
             <form id="psychiatryform"></form>
             <form id="generalform"></form>
-
-        <div id="pregimen">
-            <form id="hivform">         </form>
-        </div>
-
-
+            <div id="pregimen"><form id="hivform"></form></div>
             <form id="hivAdultOiForm"></form>
             <form id="hivpedsform"></form>
             <form id="revolvingPedsform"></form>
             <form id="revolvingAdultform"></form>
             <form id="cadiovascularform"></form>
-
         </div>
-
-        <div id="encountform" title="Information">
-
-
-        </div>
+        <div id="encountform" title="Information"></div>
         <DIV id="tab_1psychiatry">
-
-
         </DIV>
-
-
     </DIV>
 </DIV>
 <DIV id="supplierSettings">
@@ -3171,7 +3097,7 @@ CloseDialog();
         Location Types
     </DIV>
 
-       <UL
+    <UL
             style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
         <LI><A href="#tab_1"><SPAN>Location </SPAN> </A>
         </LI>
@@ -3205,22 +3131,22 @@ CloseDialog();
 
 <DIV id="rfpreportpage">
 
-<DIV class="header-footer ui-state-default ui-corner-all"
-     style="padding: 3px 5px 5px; text-align: center; margin-bottom: 1ex;">
-    RFP General Report
-</DIV>
+    <DIV class="header-footer ui-state-default ui-corner-all"
+         style="padding: 3px 5px 5px; text-align: center; margin-bottom: 1ex;">
+        RFP General Report
+    </DIV>
 
-<UL
-        style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
-    <LI><A href="#tab_1"><SPAN>RFP General Report </SPAN> </A>
-    </LI>
-</UL>
-<DIV class="ui-layout-content ui-widget-content ui-corner-bottom"
-     style="border-top: 0; padding-bottom: 1em;">
-    <DIV id="tab_1rfpreport"></DIV>
+    <UL
+            style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
+        <LI><A href="#tab_1"><SPAN>RFP General Report </SPAN> </A>
+        </LI>
+    </UL>
+    <DIV class="ui-layout-content ui-widget-content ui-corner-bottom"
+         style="border-top: 0; padding-bottom: 1em;">
+        <DIV id="tab_1rfpreport"></DIV>
 
 
-</DIV>
+    </DIV>
 </DIV>
 
 <DIV id="fmapreportpage">
@@ -3279,6 +3205,24 @@ CloseDialog();
     <DIV class="ui-layout-content ui-widget-content ui-corner-bottom"
          style="border-top: 0; padding-bottom: 1em;">
         <DIV id="tab_1batch"></DIV>
+
+    </DIV>
+</DIV>
+<DIV id="drugSetUp">
+
+    <DIV class="header-footer ui-state-default ui-corner-all"
+         style="padding: 3px 5px 5px; text-align: center; margin-bottom: 1ex;">
+        Manage Drugs
+    </DIV>
+
+    <UL
+            style="-moz-border-radius-bottomleft: 0; -moz-border-radius-bottomright: 0;">
+        <LI><A href="#tab_1"><SPAN>Manage Drugs </SPAN> </A>
+        </LI>
+    </UL>
+    <DIV class="ui-layout-content ui-widget-content ui-corner-bottom"
+         style="border-top: 0; padding-bottom: 1em;">
+        <DIV id="tab_1drugSetUp"></DIV>
 
     </DIV>
 </DIV>
@@ -3453,24 +3397,15 @@ CloseDialog();
 
                     <LI><A href="#" id="dincoming">Add requests</A>
                     </LI>
-                    <LI><A href="#" id="doutgoing">Approve requests from other sites</A>
-                    </LI>
+                    <LI><A href="#" id="doutgoing">Approve requests from other sites</A></LI>
 
-                    <LI><A href="#" id="dapproved">Approved Requests</A>
-                    </LI>
-                    <LI><A href="#" id="dstore">Inventory</A>
-                    </LI>
-                    <LI><A href="#" id="dlow">Low stock</A>
-                    </LI>
-                    <LI><A href="#" id="dhigh">Short Expire Stock</A>
-                    </LI>
-                    <LI><A href="#" id="dstock">Stock take</A>
-                    </LI>
-                    <LI><A href="#" id="dtransactions">Transactions Logs</A>
-                    </LI>
-
-
-
+                    <LI><A href="#" id="dapproved">Approved Requests</A></LI>
+                    <LI><A href="#" id="dstore">Inventory</A></LI>
+                    <LI><A href="#" id="dlow">Low stock</A></LI>
+                    <LI><A href="#" id="dhigh">Short Expire Stock</A></LI>
+                    <LI><A href="#" id="dstock">Stock take</A></LI>
+                    <LI><A href="#" id="dtransactions">Transactions Logs</A></LI>
+                    <LI><A href="#" id="dmanager">Dose Management</A></LI>
                 </UL>
             </div>
         </div>
@@ -3492,14 +3427,14 @@ CloseDialog();
 
         <h3>
             <div id="ui1">
-                <a href="#">Regimen</a>
+                <a href="#">General Dispense Form</a>
             </div>
 
         </h3>
         <div class="ui-layout-content">
             <div id="ui18">
                 <UL>
-                    <LI><A href="#" id="regimenlink">Add/View</A>
+                    <LI><A href="#" id="regimenlink">Dispense Form</A>
                     </LI>
 
 
@@ -3583,6 +3518,7 @@ CloseDialog();
                     </LI>
 
                     <LI><A href="#" id="DBatch">Dispense Batch settings</A>
+                    <LI><A href="#" id="dSetUp">Drug admin settings</A>
                     </LI>
 
                 </div>

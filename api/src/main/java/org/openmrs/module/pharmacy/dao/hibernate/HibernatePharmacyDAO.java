@@ -8,19 +8,16 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
-import org.hibernate.classic.Session;
 import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.Drug;
 import org.openmrs.Person;
 import org.openmrs.module.pharmacy.dao.PharmacyDAO;
 import org.openmrs.module.pharmacy.model.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Ampath Developers
@@ -116,8 +113,9 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
     @SuppressWarnings("unchecked")
     public List<PharmacyEncounter> getPharmacyEncounter() {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PharmacyEncounter.class)
-                .add(Expression.eq("voided", false));
-
+                .add(Expression.eq("voided", false))
+                .add(Expression.eq("display", 0))
+                .addOrder(Order.desc("dateCreated"));
         return criteria.list();
     }
 
@@ -282,6 +280,14 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
         }
         return pharmacyStore.get(0);
     }
+    public List<PharmacyStore> getPharmacyInventoryByNameAndLocation(String name,String location) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PharmacyStore.class)
+                .createAlias("drugs","d")
+                .add(Restrictions.like("d.name",name+"%"))
+                .add(Restrictions.eq("location", location));
+
+        return criteria.list();
+    }
     /**
      * @see org.openmrs.module.pharmacy.dao.PharmacyDAO#getPharmacyInventoryByCategory(PharmacyCategory)
      *
@@ -295,13 +301,14 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
         return criteria.list();
     }
     /**
-     * @see org.openmrs.module.pharmacy.dao.PharmacyDAO#getPharmacyInventoryByDrugUuid(org.openmrs.Drug,String)
+     * @see org.openmrs.module.pharmacy.dao.PharmacyDAO#getPharmacyInventoryByDrugUuid(String, String)
      */
 
-    public PharmacyStore getPharmacyInventoryByDrugUuid(Drug uuid,String location) {
+    public PharmacyStore getPharmacyInventoryByDrugUuid(String uuid,String location) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PharmacyStore.class)
-                .add(Expression.eq("drugs", uuid))
-                .add(Expression.eq("location", location));
+                .createAlias("drugs","d")
+                .add(Restrictions.like("d.uuid",uuid))
+                .add(Restrictions.eq("location", location));
 
         @SuppressWarnings("unchecked")
         List<PharmacyStore> pharmacyStore = criteria.list();
@@ -564,10 +571,10 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
     /* @see org.openmrs.module.pharmacy.dao.PharmacyDAO#getDrugDispenseSettingsByUuid(java.lang.String)
     */
 
-    public DrugDispenseSettings getDrugDispenseSettingsByLocation(PharmacyLocations uuid) {
+    public DrugDispenseSettings getDrugDispenseSettingsByLocation(String name) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugDispenseSettings.class)
-                .add(Expression.eq("location", uuid));
-
+                .createAlias("location","loc")
+                .add(Restrictions.like("loc.name",name));
         @SuppressWarnings("unchecked")
         List<DrugDispenseSettings> drugDispenseSettings = criteria.list();
         if (null == drugDispenseSettings || drugDispenseSettings.isEmpty()) {
@@ -619,7 +626,10 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
 
         return pharmacySupplier;
     }
-
+    public PharmacyDose savePharmacyDose(PharmacyDose pharmacyDose) {
+        sessionFactory.getCurrentSession().saveOrUpdate(pharmacyDose);
+        return pharmacyDose;
+    }
     /**
      * @see org.openmrs.module.pharmacy.dao.PharmacyDAO#getPharmacySupplier()
      */
@@ -662,7 +672,32 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
         }
         return pharmacySupplier.get(0);
     }
+    public List<PharmacyDose> getPharmacyDose() {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PharmacyDose.class)
+                .add(Expression.eq("voided", false));
+        return criteria.list();
+    }
+    public PharmacyDose getPharmacyDoseByUuid(String uuid) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PharmacyDose.class)
+                .add(Expression.eq("uuid", uuid));
+        @SuppressWarnings("unchecked")
+        List<PharmacyDose> regimen = criteria.list();
+        if (null == regimen || regimen.isEmpty()) {
+            return null;
+        }
+        return regimen.get(0);
+    }
+    public PharmacyDose getPharmacyDoseByName(String name) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PharmacyDose.class)
+                .add(Expression.eq("name", name));
 
+        @SuppressWarnings("unchecked")
+        List<PharmacyDose> pharmacyDose = criteria.list();
+        if (null == pharmacyDose || pharmacyDose.isEmpty()) {
+            return null;
+        }
+        return pharmacyDose.get(0);
+    }
     /**
      * @see org.openmrs.module.pharmacy.dao.PharmacyDAO#savePharmacyTransactionTypes(org.openmrs.module.pharmacy.model.PharmacyTransactionTypes)
      */
@@ -1303,6 +1338,20 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
                 .add(Expression.isNotNull("receipt"));
                 return criteria.list();
     }
+    public List<DrugExtra> getUnprocessedReceiptsByEncounterUUID(String encounterUUID) {
+        /*Criteria criteria = sessionFactory.getCurrentSession().createCriteria(DrugExtra.class)
+                .createAlias("pharmacyEncounter", "pharmacyEncounter")
+                .add(Restrictions.like("pharmacyEncounter.uuid", encounterUUID))
+                .addOrder(Order.asc("dateCreated"));
+        return criteria.list(); */
+
+        String sql="SELECT pde.* FROM pharmacy_drug_extra pde  WHERE pde.encounter_uuid like :encounterUUID ";
+        SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);
+        query.addEntity(DrugExtra.class);
+        query.setParameter("encounterUUID",encounterUUID);
+        List results = query.list();
+        return results;
+    }
     /**
      * @see org.openmrs.module.pharmacy.dao.PharmacyDAO#getDrugExtraRange(Date minDate, Date maxDate)
      */
@@ -1358,6 +1407,13 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
        return ((Number) query.uniqueResult()).intValue();
 
    }
+    public String  getPatientByIdentifier(String identifier){
+        String sql="SELECT patient_id FROM patient_identifier WHERE identifier LIKE :patient_identifier ";
+        SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);
+        query.setParameter("patient_identifier",identifier);
+        return query.uniqueResult().toString();
+
+    }
     public List<PharmacyStoreIncoming> getDrugQuantityAfterLastStockTake(Date minDate, Date maxDate,String uuid) {
         String sql = "SELECT SUM(quantity_in) FROM pharmacy_inventory_incoming where pharmacy_drug_uuid like :'uid' AND dateCreated BETWEEN :sDate AND :eDate";
         SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);

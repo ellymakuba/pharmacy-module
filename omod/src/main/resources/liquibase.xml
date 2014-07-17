@@ -9,101 +9,70 @@
          for a list of supported elements and attributes -->
 
 
-    <changeSet
-            id="pharmacy-2012-12-12-8:00"
-            author="nbore">
-
+    <changeSet id="pharmacy-2012-12-12-8:00" author="nbore">
         <preConditions onFail="MARK_RAN">
-
             <not>
-
                 <tableExists tableName="pharmacy_supplier"/>
             </not>
-
             <dbms type="mysql"/>
         </preConditions>
-
         <comment>
             Creating the pharmacy_supplier table
-
-
         </comment>
-
         <createTable tableName="pharmacy_supplier">
-
             <column
                     name="pharmacy_supplier_id"
                     type="int(11)">
-
                 <constraints
                         nullable="false"
                         primaryKey="true"/>
-            </column>
-
-            <column
+            </column>            <column
                     name="name"
                     type="char(38)"/>
-
             <column
                     name="description"
                     type="char(38)"/>
-
             <column
                     name="creator"
                     defaultValue="0"
                     type="int(11)">
-
                 <constraints nullable="false"/>
             </column>
-
             <column
                     name="datecreated"
                     type="datetime">
-
                 <constraints nullable="true"/>
             </column>
-
             <column
                     name="voided"
                     defaultValue="0"
                     type="smallint(6)">
-
                 <constraints nullable="false"/>
             </column>
-
             <column
                     name="voided_by"
                     type="int(11)">
-
                 <constraints nullable="true"/>
             </column>
-
             <column
                     name="date_voided"
                     type="datetime">
-
                 <constraints nullable="true"/>
             </column>
-
             <column
                     name="void_reason"
                     type="varchar(255)">
-
                 <constraints nullable="true"/>
             </column>
-
             <column
                     name="uuid"
                     type="char(38)">
-
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
         <createIndex
                 indexName="uuid"
                 tableName="pharmacy_supplier">
-
             <column name="uuid"/>
         </createIndex>
 
@@ -1064,228 +1033,168 @@
                     with="UUID()"/>
         </modifySql>
     </changeSet>
-
     <changeSet
             id="pharmacy-2012-12-12-8:06"
             author="nbore">
 
         <preConditions onFail="MARK_RAN">
-
             <not>
-
                 <tableExists tableName="pharmacy_inventory"/>
-
-
             </not>
-
             <dbms type="mysql"/>
         </preConditions>
-
         <comment>
             Creating the pharmacy_inventory table
-
-
         </comment>
-
-
         <createTable tableName="pharmacy_inventory">
-
             <column
                     name="pharmacy_inventory_id"
                     type="int(11)">
-
                 <constraints
                         nullable="false"
                         primaryKey="true"/>
             </column>
-
             <column
                     name="pharmacy_drug_uuid"
                     type="char(38)">
-
                 <constraints nullable="false"/>
             </column>
-
             <column
                     name="quantity"
                     type="int(11)"/>
-
             <column
                     name="quantity_in"
                     type="int(11)"/>
-
             <column
                     name="quantity_out"
                     type="int(11)"/>
-
             <column
                     name="maxlevel"
                     type="int(11)"/>
-
             <column
                     name="minlevel"
                     type="int(11)"/>
-
             <column
                     name="change_reason"
                     type="text"/>
-
             <column
                     name="location_uuid"
                     type="char(38)">
-
                 <constraints nullable="true"/>
             </column>
-
             <column
                     name="batch_no"
                     type="int(11)">
             </column>
-
             <column
                     name="s11_no"
                     type="int(11)">
             </column>
-
             <column
                     name="supplier_uuid"
                     type="char(38)">
-
                 <constraints nullable="true"/>
             </column>
-
             <column
                     name="transaction_uuid"
                     type="char(38)">
-
                 <constraints nullable="true"/>
             </column>
-
             <column
                     name="delivery_no"
                     type="int(11)">
             </column>
-
             <column
                     name="expiredate"
                     type="datetime">
-
                 <constraints nullable="true"/>
             </column>
-
             <column
                     name="stock_reason"
                     type="text">
-
                 <constraints nullable="true"/>
             </column>
-
             <column
                     name="pharmacy_category_uuid"
                     type="char(38)">
-
                 <constraints nullable="true"/>
             </column>
 
             <column
                     name="pharmacy_inventory_outgoing_uuid"
                     type="char(38)">
-
                 <constraints nullable="true"/>
             </column>
-
             <column
                     name="pharmacy_inventory_incoming_uuid"
                     type="char(38)">
-
                 <constraints nullable="true"/>
             </column>
-
             <column
                     name="creator"
                     defaultValue="0"
                     type="int(11)">
-
                 <constraints nullable="false"/>
             </column>
-
             <column
                     name="datecreated"
                     type="datetime">
-
                 <constraints nullable="true"/>
             </column>
-
             <column
                     name="voided"
                     defaultValue="0"
                     type="smallint(6)">
-
                 <constraints nullable="false"/>
             </column>
-
             <column
                     name="voided_by"
                     type="int(11)">
-
                 <constraints nullable="true"/>
             </column>
-
             <column
                     name="date_voided"
                     type="datetime">
-
                 <constraints nullable="true"/>
             </column>
-
             <column
                     name="void_reason"
                     type="varchar(255)">
-
                 <constraints nullable="true"/>
             </column>
-
             <column
                     name="uuid"
                     type="char(38)">
-
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
         <createIndex
                 indexName="uuid"
                 tableName="pharmacy_inventory">
-
             <column name="uuid"/>
         </createIndex>
-
         <addAutoIncrement
                 columnDataType="int"
                 columnName="pharmacy_inventory_id"
                 tableName="pharmacy_inventory"/>
-
         <addForeignKeyConstraint
                 baseColumnNames="pharmacy_inventory_outgoing_uuid"
                 baseTableName="pharmacy_inventory"
                 constraintName="pharmacy_inventory_outgoing__fk"
                 referencedColumnNames="uuid"
                 referencedTableName="pharmacy_inventory_outgoing"/>
-
         <addForeignKeyConstraint
                 baseColumnNames="pharmacy_inventory_incoming_uuid"
                 baseTableName="pharmacy_inventory"
                 constraintName="pharmacy_inventory_incoming_two__fk"
                 referencedColumnNames="uuid"
                 referencedTableName="pharmacy_inventory_incoming"/>
-
         <addForeignKeyConstraint
                 baseColumnNames="supplier_uuid"
                 baseTableName="pharmacy_inventory"
                 constraintName="pharmacy_inventory_supplier__fk"
                 referencedColumnNames="uuid"
                 referencedTableName="pharmacy_supplier"/>
-
         <addForeignKeyConstraint
                 baseColumnNames="transaction_uuid"
                 baseTableName="pharmacy_inventory"
@@ -3727,6 +3636,62 @@
     <changeSet author="ellymakuba" id="2014-05-22-02:18pm">
         <addColumn tableName="pharmacy_encounter">
             <column name="regimenName" type="VARCHAR(38)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2014-07-22-04:26pm">
+        <addColumn tableName="pharmacy_drug_extra">
+            <column name="encounter_uuid" type="CHAR(38)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="pharmacy-2014-07-07-7:30" author="ellymakuba">
+    <preConditions onFail="MARK_RAN"> <not> <tableExists tableName="pharmacy_dose"/></not>
+    <dbms type="mysql"/></preConditions>
+    <comment> Creating the pharmacy_dose table</comment>
+    <createTable tableName="pharmacy_dose">
+        <column name="pharmacy_dose_id"  type="int(11)">
+            <constraints  nullable="false"  primaryKey="true"/>
+        </column>
+        <column name="doseName"  type="char(38)"><constraints nullable="false"/></column>
+        <column name="creator" defaultValue="0"  type="int(11)">
+            <constraints nullable="false"/>
+        </column>
+        <column name="datecreated"  type="datetime">
+            <constraints nullable="true"/>
+        </column>
+        <column  name="voided" defaultValue="0" type="smallint(6)">
+            <constraints nullable="false"/>
+        </column>
+        <column name="voided_by" type="int(11)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="date_voided"  type="datetime">
+            <constraints nullable="true"/>
+        </column>
+        <column name="void_reason"  type="varchar(255)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="uuid" type="char(38)">
+            <constraints nullable="false"/>
+        </column>
+    </createTable>
+        <createIndex indexName="uuid" tableName="pharmacy_dose">
+            <column name="uuid"/>
+        </createIndex>
+    <addAutoIncrement columnDataType="int" columnName="pharmacy_dose_id" tableName="pharmacy_dose"/>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2014-08-12-43:26pm">
+        <addColumn tableName="pharmacy_inventory">
+            <column name="dose" type="VARCHAR(38)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2014-07-13-11:30pm">
+        <addColumn tableName="pharmacy_drug_extra">
+            <column name="display" type="int(11)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2014-07-13-11:41pm">
+        <addColumn tableName="pharmacy_encounter">
+            <column name="display" type="int(11)" defaultValue="0"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>

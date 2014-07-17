@@ -345,7 +345,7 @@ public class DrugIncomingController {
                     for (int y = 0; y < incomingdrugArray.length; y++) {
                         drugTransactions = new DrugTransactions();
                         int drugValue=serviceDrugs.getDrug(incomingdrugArray[y]).getDrugId();
-                        if(drugValue==156){
+                        /*if(drugValue==156){
                             drugValue=21;
                         }
                         if(drugValue==18){
@@ -359,7 +359,7 @@ public class DrugIncomingController {
                         }
                         if(drugValue==129){
                             drugValue=27;
-                        }
+                        }  */
                         drugTransactions.setDrugs(serviceDrugs.getDrug(drugValue));
                         drugTransactions.setQuantityOut(0);
                         drugTransactions.setQuantityIn(Integer.parseInt(incomingquantityinArray[y]));

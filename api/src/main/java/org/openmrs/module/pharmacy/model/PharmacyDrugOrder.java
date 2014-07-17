@@ -2,17 +2,11 @@ package org.openmrs.module.pharmacy.model;
 
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Patient;
-
 import java.util.Date;
 
-
-/**
- * @author Ampath Developers PharmacyOrders
- */
 public class PharmacyDrugOrder extends BaseOpenmrsData {
-
-     private Integer id;
-     private Date expected_next_visit_date;
+    private Integer id;
+    private Date expected_next_visit_date;
     private PharmacyOrders orderUuid;
     private PharmacyStore drugInventoryUuid;
     private DrugExtra drugUuid;
@@ -23,6 +17,7 @@ public class PharmacyDrugOrder extends BaseOpenmrsData {
     private Integer quantityGiven,quantityPrescribed;
     private Patient person;
     private String formName;
+
     public int getQuantityGiven() {
         return quantityGiven;
     }

@@ -29,10 +29,10 @@
 
                 <label for="engine">supplier name</label> <input type="text"  name="suppliername" id="suppliername"  class="required"/><br/>
 
-                 <label for="engine">description</label> <input type="text" name="description" id="description"/> <input
-                    type="hidden" name="supplieredit" id="supplieredit" value="false"/> <input
-                    type="hidden" name="supplieruuid" id="supplieruuid"/> <input
-                    class="submit" type="submit" value="Submit"/>
+                 <label for="engine">description</label> <input type="text" name="description" id="description"/>
+                <input type="hidden" name="supplieredit" id="supplieredit" value="false"/>
+                <input type="hidden" name="supplieruuid" id="supplieruuid"/>
+                <input class="submit" type="submit" value="Submit"/>
             </fieldset>
         </form>
     </DIV>

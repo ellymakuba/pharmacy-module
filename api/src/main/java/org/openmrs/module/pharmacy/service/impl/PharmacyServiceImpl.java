@@ -80,7 +80,9 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public List<PharmacyEncounter> getPharmacyEncounter() {
         return pharmacyDAO.getPharmacyEncounter();
     }
-
+    public List<DrugExtra> getUnprocessedReceiptsByEncounterUUID(String encounterUUID){
+        return pharmacyDAO.getUnprocessedReceiptsByEncounterUUID(encounterUUID);
+    }
     /**
      * @see org.openmrs.module.pharmacy.service.PharmacyService#getPharmacyEncounterByUuid(java.lang.String)
      */
@@ -184,9 +186,9 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
         return pharmacyDAO.getPharmacyInventoryByCategory(uuid);
     }
     /**
-     * @see org.openmrs.module.pharmacy.service.PharmacyService#getPharmacyInventoryByDrugUuid(org.openmrs.Drug,String)      */
+     * @see org.openmrs.module.pharmacy.service.PharmacyService#getPharmacyInventoryByDrugUuid(String, String)      */
 
-    public PharmacyStore getPharmacyInventoryByDrugUuid(Drug uuid,String location) {
+    public PharmacyStore getPharmacyInventoryByDrugUuid(String uuid,String location) {
         return pharmacyDAO.getPharmacyInventoryByDrugUuid(uuid,location);
     }
 
@@ -197,7 +199,9 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public List<PharmacyStore> getPharmacyInventoryListByUuid(String uuid) {
         return pharmacyDAO.getPharmacyInventoryListByUuid(uuid);
     }
-
+    public List<PharmacyStore> getPharmacyInventoryByNameAndLocation(String name,String location){
+        return pharmacyDAO.getPharmacyInventoryByNameAndLocation(name,location);
+    }
     /**
      * @see org.openmrs.module.pharmacy.service.PharmacyService#saveDrugTransactions(org.openmrs.module.pharmacy.model.DrugTransactions)
      */
@@ -331,19 +335,15 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public List<PharmacyOrders> getPharmacyOrdersByEncounterId(PharmacyEncounter uuid) {
         return pharmacyDAO.getPharmacyOrdersByEncounterId(uuid);
     }
-
-
-
-
-
-
     /**
      * @see org.openmrs.module.pharmacy.dao.PharmacyDAO#savePharmacySupplier(org.openmrs.module.pharmacy.model.PharmacySupplier)
      */
     public PharmacySupplier savePharmacySupplier(PharmacySupplier pharmacySupplier) {
         return pharmacyDAO.savePharmacySupplier(pharmacySupplier);
     }
-
+    public PharmacyDose savePharmacyDose(PharmacyDose pharmacyDose) {
+        return pharmacyDAO.savePharmacyDose(pharmacyDose);
+    }
     /**
      * @see org.openmrs.module.pharmacy.dao.PharmacyDAO#getPharmacySupplier()
      */
@@ -364,7 +364,15 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public PharmacySupplier getPharmacySupplierByName(String name) {
         return pharmacyDAO.getPharmacySupplierByName(name);
     }
-
+    public List<PharmacyDose> getPharmacyDose() {
+        return pharmacyDAO.getPharmacyDose();
+    }
+    public PharmacyDose getPharmacyDoseByUuid(String uuid) {
+        return pharmacyDAO.getPharmacyDoseByUuid(uuid);
+    }
+    public PharmacyDose getPharmacyDoseByName(String name) {
+        return pharmacyDAO.getPharmacyDoseByName(name);
+    }
     /**
      * @see org.openmrs.module.pharmacy.dao.PharmacyDAO#savePharmacyTransactionTypes(org.openmrs.module.pharmacy.model.PharmacyTransactionTypes)
      */
@@ -531,6 +539,9 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public Integer getNumberOfPatientsOnRegimen(Date startDate,Date endDate,String regimenCode){
         return pharmacyDAO.getNumberOfPatientsOnRegimen(startDate,endDate,regimenCode);
     }
+    public String  getPatientByIdentifier(String identifier){
+        return pharmacyDAO.getPatientByIdentifier(identifier);
+    }
     public List<PharmacyStoreIncoming> getDrugQuantityAfterLastStockTake(Date minDate, Date maxDate,String uuid){
         return pharmacyDAO.getDrugQuantityAfterLastStockTake(minDate,maxDate,uuid);
     }
@@ -550,10 +561,11 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
         return pharmacyDAO.getDrugDispenseSettingsByDrugId(id);
     }
     /**
-     * @see org.openmrs.module.pharmacy.service.PharmacyService#getDrugDispenseSettingsByLocation(org.openmrs.module.pharmacy.model.PharmacyLocations) (Drug)
+     * @see org.openmrs.module.pharmacy.service.PharmacyService#getDrugDispenseSettingsByLocation(String) (Drug)
+     * @param id
      */
 
-    public DrugDispenseSettings getDrugDispenseSettingsByLocation(PharmacyLocations id) {
+    public DrugDispenseSettings getDrugDispenseSettingsByLocation(String id) {
         return pharmacyDAO.getDrugDispenseSettingsByLocation(id);
     }
     /**

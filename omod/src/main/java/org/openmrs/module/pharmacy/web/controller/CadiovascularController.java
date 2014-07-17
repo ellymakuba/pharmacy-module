@@ -337,12 +337,10 @@ public class CadiovascularController {
                 }
             }
             PharmacyEncounter pharmacyEncounter = new PharmacyEncounter();
-//            pharmacyEncounter.setEncounter(service.getPharmacyEncounterTypeByName(encounterProcessor.getEncounterType()));
+//          pharmacyEncounter.setEncounter(service.getPharmacyEncounterTypeByName(encounterProcessor.getEncounterType()));
             pharmacyEncounter.setFormName(encounterProcessor.getForm());
             try {
-
                 encDate = new SimpleDateFormat("MM/dd/yyyy").parse(encounterProcessor.getEncounterDate());
-
                 endDate = new SimpleDateFormat("MM/dd/yyyy").parse(encounterProcessor.getNextVisitDate());
                 pharmacyEncounter.setDateTime(encDate);
             } catch (Exception e) {

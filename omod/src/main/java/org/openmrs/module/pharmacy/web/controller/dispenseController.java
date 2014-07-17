@@ -195,7 +195,6 @@ public class dispenseController {
                 list = null;
                 size = 0;
             } else if (drugID != null) {         // this check if there is enough drugs in store to dispense
-
                 jsonObject1 = new JSONObject(drugID); // this parses the jsonObject
                 iterator = jsonObject1.keys(); //gets all the keys
                 boolean booleanCheck =false;
@@ -229,7 +228,8 @@ public class dispenseController {
                     }
                 }
                 response.getWriter().print("" + booleanCheck);
-            } else if (age != null) {
+            }
+             else if (age != null) {
                 jsonArray = new JSONArray();
                 jsonArray.put(Context.getPatientService().getPatient(Integer.parseInt(age)).getAge());
                 response.getWriter().print(jsonArray);
@@ -252,13 +252,11 @@ public class dispenseController {
                          if (listDrugs.get(j).getConcept() != null) {
                              listObsConcepts =service.getPharmacyObsByPharmacyOrder(listDrugs.get(j));
                              for (int y = 0; y < listObsConcepts.size(); y++) {
-                                 log.info("listobsconcept++++++++++++++++++++++++++++++++++++++++++++++++"+listObsConcepts.get(y).getValue_drug().getName());
                                  drugsIssuedToPatient=drugsIssuedToPatient +listObsConcepts.get(y).getValue_drug().getName().toString() ;
-                                 //jsonObject1.append("" + y,Context.getConceptService().getConcept(listObsConcepts.get(y).getValueCoded()).getDisplayString());
-                                 //jsonObject1.append("" + y, listObsConcepts.get(y).getValue_drug().getDrugId());
                              }
                          }
                      }
+                     jsonArray.put("Edit");
                      jsonArray.put(list.get(i).getDateTime());
                      jsonArray.put(list.get(i).getFormName());
                      jsonArray.put(drugsIssuedToPatient);
@@ -268,6 +266,7 @@ public class dispenseController {
                  }
                  else{
                      jsonArray=new JSONArray();
+                     jsonArray.put("None");
                      jsonArray.put("None");
                      jsonArray.put("None");
                      jsonArray.put("None");
@@ -289,46 +288,6 @@ public class dispenseController {
                      jsonObject.accumulate("aaData",list.get(0).getRegimenName());
                  }
                  response.getWriter().print(jsonObject);
-                /* list = Context.getService(PharmacyService.class).getPharmacyEncounterListByPatientId(person);
-                sizeList = list.size();
-                 Map<Object, Long> mp = new HashMap<Object, Long>();
-                for (int i = 0; i < sizeList; i++) {
-                    if(list.get(i).getFormName().equalsIgnoreCase(formtype))  {
-                        Calendar cal1 = Calendar.getInstance();
-                        Calendar cal2 = Calendar.getInstance();
-                        cal1.setTime(list.get(i).getDateCreated());
-                        cal2.setTime(new Date());
-                        long milis1 = cal1.getTimeInMillis();
-                        long milis2 = cal2.getTimeInMillis();
-                        long diff = milis2 - milis1;
-                        long diffMinutes = diff / (60 * 1000);
-                        mp.put(list.get(i).getUuid(), diffMinutes);
-                    }
-                }  */
-                /* if (!list.isEmpty() && !mp.isEmpty()) {
-                    Long min = Collections.min(mp.values());
-                    Set s = mp.entrySet();
-                    Iterator it = s.iterator();
-                    while (it.hasNext()) {
-                        Map.Entry m = (Map.Entry) it.next();
-                        String key = (String) m.getKey();
-                        if (m.getValue().equals(min)) {
-                            listDrugs = service.getPharmacyOrdersByEncounterId(service.getPharmacyEncounterByUuid(key));
-                            break;
-                        }
-                    }
-                    listDrugsSize = listDrugs.size();
-                    jsonObject = new JSONObject();
-                    for (int i = 0; i < listDrugsSize; i++) {//
-                        if (listDrugs.get(i).getConcept() != null) {
-                            listObsConcepts =service.getPharmacyObsByPharmacyOrder(listDrugs.get(i));
-                            for (int y = 0; y < listObsConcepts.size(); y++) {
-                                jsonObject.append("" + y,Context.getConceptService().getConcept(listObsConcepts.get(y).getValueCoded()).getDisplayString());
-                                jsonObject.append("" + y, listObsConcepts.get(y).getValue_drug().getDrugId());
-                            }
-                        }
-                    }
-                } */
 
             } else if (passUserId != null) {
                 jsonArray = new JSONArray();

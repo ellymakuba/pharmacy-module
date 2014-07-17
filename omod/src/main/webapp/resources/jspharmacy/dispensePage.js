@@ -88,11 +88,15 @@ var methodOne;
 var id = jQuery.Pid.id;
 var url = 'dispense.form?patientID=' + id+"&form=xxxx";
 var urljson = '' + jQuery.Page.context + 'module/jforms/view.form?id=' + id;
-$j.getJSON("dispense.form?age=" + id, function (result)
-{
-    $j.each(result, function (key, val){jQuery.Age = {age:val};
+function getPatientAge(){
+ var patientAge =$j.getJSON("dispense.form?age=" + id, function (result)
+    {
+        $j.each(result, function (key, val){
+            jQuery.Age = {age:val};
+        });
     });
-});
+    return patientAge;
+}
 var patienteEncounters = $j('#pencounters').dataTable({
     bJQueryUI:true,
     bRetrieve:true,
@@ -180,7 +184,6 @@ $j('#proceed').live('click',function()
     fnGetSelectedVal();
     return false;
 });
-
 function fnGetSelectedVal()
 {
     arrayOne=new Array();
@@ -204,7 +207,6 @@ function fnGetSelectedVal()
     countGlobal=0;
     fnShow();
 }
-
 function fnShow() {
     if(countGlobal<=counter)
     {
@@ -963,14 +965,107 @@ $j("form#psychiatryform").unbind('submit').submit(function () {
 
         $j("#errorDialog").dialog("open")
     }
-
-
-
-
-
     return false;
+});
+$j("form#tuberculosisform").unbind('submit').submit(function ()
+{     var v= validateTBCard();
+    if(v==2)
+    {
+        $j("#errorDialog").empty();
+        $j('<dl><dt></dt><dd >' + "Info: " + "No drug selected for dispensing \n"+ '</dd></dl> ').appendTo('#errorDialog');
+        $j('<dl><dt></dt><dd >' + "Info: "  +message+ '</dd></dl> ').appendTo('#errorDialog');
+        $j("#errorDialog").dialog("open")
+    }
+    else  if(v==0)
+    {
+        $j("#errorDialog").empty();
+        $j('<dl><dt></dt><dd >' + "Info: " + "Please check all elements for the drug checked all Compulsory columns \n" +'</dd></dl> ').appendTo('#errorDialog');
+        $j('<dl><dt></dt><dd >' + "Info: "  +message+ '</dd></dl> ').appendTo('#errorDialog');
+        $j("#errorDialog").dialog("open")
+    }
+    else if(message.length>0)
+    {
+        $j("#errorDialog").empty();
+        $j('<dl><dt></dt><dd >' + "Info: " + " \n" +message+ '</dd></dl> ').appendTo('#errorDialog');
+        $j("#errorDialog").dialog("open")
+    }
+    else  if(v==1)
+    {
+        //
+        var numbers="";
+        var values = $j("input[title='drug']").map(function ()
+        {
+            if ($j(this).is(':checked')){
+                numbers+= $j(this).val().substring($j(this).val().indexOf('|')+1)+",";
+                return $j(this).val().substring($j(this).val().indexOf('|')+1);
+            }
+        }).get();
+        var drugid = $j("input[title='drug']").map(function ()
+        {
+            if ($j(this).is(':checked')) {
+                return $j(this).val().substring(0,$j(this).val().indexOf('|'));
+            }
+        }).get();
+        var values2 = $j("input[title='Dispensed']").map(
+            function () {
+                if($j(this).is(':checked'))
+                {
+                    return $j(this).val();
+                }
+                else if($j(this).val()!="" && ($j(this).attr("name")=="otherd") )
+                {
+                    return $j(this).val();
+                }
+            }).get();
+        var vals = values.toString().split(",");
+        var vals2 = values2.toString().split(",");
+        var drugs = drugid.toString().split(",");
+        var qnty = vals2.toString().split(",");
+        var ids = vals.toString().split(",");
+        var size = vals.length;
+        var json = {};
+                for (i = 0; i < size; i++)
+                {
+                    json[ids[i]] = qnty[i];
+                }
+                $j.ajax({
+                    type:"GET",
+                    url:"dispense.form",
+                    data:{drugCheck:JSON.stringify(json) },
+                    dataType:"json",
+                    success:function (result){
+                        if (result.toString() == 'true'){
+                            var fields = $j("#tuberculosisform").serializeArray();
+                            $j.ajax({
+                                type:"POST",
+                                url:"tuberculosisProcessor.form?",
+                                data:{values:JSON.stringify(fields) },
+                                dataType:"json",
+                                beforeSend:function (x) {
+                                    if (x && x.overrideMimeType) {
+                                        x.overrideMimeType("application/j-son;charset=UTF-8");
+                                    }
+                                },
+                                success:function () {
+                                    fnShow();
+                                    $j("#dispenseform").dialog("close");
+                                    RefreshTable("#tunits");
+                                    $j('#dataDiv .loc').replaceWith("<div id='red'>Data saved<div>");
+                                    $j("#dataDiv").show("slow");//
+                                    $j("#dataDiv").delay(5000).hide("slow");
+                                }
+                            });
+                        }
+                        else {
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
+                        }
 
-
+                    }
+                });
+    }
+    return false;
 });
 
 //$j('#tunits').delegate('tbody td a','click', function () {
@@ -1069,6 +1164,7 @@ function getDataDispense(data, pid, formid) {
         $j('#hivAdultOiForm').empty();
         $j("#dispenseform").dialog("open");
         $j("#hivform").empty();
+        $j('#tuberculosisform').empty();
         $j("#psychiatryform").empty();
         $j("#psychiatryform").empty();
         $j("#hivpedsform").empty();
@@ -1097,6 +1193,7 @@ function getDataDispense(data, pid, formid) {
     else if (formid.substring(0, 7) == "Barcode") {
         $j("#dispenseform").dialog("open");
         $j("#psychiatryform").empty();
+        $j('#tuberculosisform').empty();
         $j("#psychiatryform").buildForm(JSON.parse(data));
         $j.getScript("" + jQuery.Page.context+ "moduleResources/pharmacy/jspharmacy/barcodeFormScript.js",function(){});
         $j.getJSON("dispense.form?Pid=" + pid, function (result)
@@ -1113,6 +1210,7 @@ function getDataDispense(data, pid, formid) {
         eval('var obj=' + data);
         formType="CADIOVASCULAR";
         $j('#hivAdultOiForm').empty();
+        $j('#tuberculosisform').empty();
         $j('#cadiovascularform').empty();
         $j("#dispenseform").dialog("open");
         $j("#psychiatryform").empty();
@@ -1132,10 +1230,35 @@ function getDataDispense(data, pid, formid) {
         var oFormObject = document.forms['cadiovascularform'];
         oFormObject.elements["Enc2*Patient_id|2#2"].value = pid;
     }
+    else if (formid.substring(0, 7) == "Tubercu") {
+        eval('var obj=' + data);
+        formType="tuberculosisform";
+        $j('#tuberculosisform').empty();
+        $j('#hivAdultOiForm').empty();
+        $j('#cadiovascularform').empty();
+        $j("#dispenseform").dialog("open");
+        $j("#psychiatryform").empty();
+        $j("#hivform").empty();
+        $j("#hivpedsform").empty();
+        $j("#revolvingPedsform").empty();
+        $j("#revolvingAdultform").empty();
+        $j("#hivform").empty();
+        $j('#tuberculosisform').jForm(obj);
+        $j.getScript("" + jQuery.Page.context+ "moduleResources/pharmacy/jspharmacy/tuberculosis.js",function () {});
+        $j.getJSON("dispense.form?Pid=" + pid, function (result)         {
+            $j.each(result, function (index, value) {
+                oFormObject = document.forms['tuberculosisform'];
+                oFormObject.elements["Enc1*patient|1#1"].value = value;
+            });
+        });
+        var oFormObject = document.forms['tuberculosisform'];
+        oFormObject.elements["Enc2*Patient_id|2#2"].value = pid;
+    }
     else if (formid.substring(0, 7) == "AdultHi"){
         eval('var obj=' + data);
         formType="ADULTHIV";
         $j('#hivAdultOiForm').empty();
+        $j('#tuberculosisform').empty();
         $j("#cadiovascularform").empty();
         $j("#dispenseform").dialog("open");
         $j("#psychiatryform").empty();
@@ -1158,6 +1281,7 @@ function getDataDispense(data, pid, formid) {
     else if (formid.substring(0, 7) == "AdultOi") {
         eval('var obj=' + data);
         $j("#dispenseform").dialog("open");
+        $j('#tuberculosisform').empty();
         $j("#psychiatryform").empty();
         $j("#hivAdultOiForm").empty();
         $j("#hivform").empty();
@@ -1181,6 +1305,7 @@ function getDataDispense(data, pid, formid) {
         formType="PEDIATRICARV";
         $j("#dispenseform").dialog("open");
         $j("#psychiatryform").empty();
+        $j('#tuberculosisform').empty();
         $j("#hivpedsform").empty();
         $j("#cadiovascularform").empty();
         $j("#psychiatryform").empty();
@@ -1205,6 +1330,7 @@ function getDataDispense(data, pid, formid) {
         eval('var obj=' + data);
         $j("#dispenseform").dialog("open");
         $j("#psychiatryform").empty();
+        $j('#tuberculosisform').empty();
         $j("#hivpedsform").empty();
         $j("#cadiovascularform").empty();
         $j("#psychiatryform").empty();
@@ -1236,6 +1362,7 @@ function getDataDispense(data, pid, formid) {
         eval('var obj=' + data);
         $j("#dispenseform").dialog("open");
         $j("#psychiatryform").empty();
+        $j('#tuberculosisform').empty();
         $j("#hivpedsform").empty();
         $j("#cadiovascularform").empty();
         $j("#psychiatryform").empty();

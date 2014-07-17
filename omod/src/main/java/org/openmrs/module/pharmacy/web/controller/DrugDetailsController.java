@@ -14,6 +14,7 @@ import org.openmrs.api.context.UserContext;
 import org.openmrs.module.pharmacy.model.PharmacyEncounter;
 import org.openmrs.module.pharmacy.model.PharmacyLocationUsers;
 import org.openmrs.module.pharmacy.model.PharmacyLocations;
+import org.openmrs.module.pharmacy.model.PharmacyStore;
 import org.openmrs.module.pharmacy.service.PharmacyService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,16 +49,23 @@ public class DrugDetailsController {
     private JSONArray jsonArray;
     private List<Drug> listDrugs;
     private Drug drugByNameOrId;
+    private PharmacyStore pharmacyStore;
     private List<PharmacyEncounter> pharmacyFormsSaved;
+    private List<PharmacyStore> pharmacyStoreList;
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/drugDetails")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) {
         String uuid = request.getParameter("uuid");
+        String patientToDispenseTo = request.getParameter("searchPatient");
+        String patientToFind=request.getParameter("patientToFind");
+        String patientT=request.getParameter("patient");
         String drop = request.getParameter("drop");
         String form = request.getParameter("forms");
         bar = request.getParameter("bar");
         String searchDrug = request.getParameter("searchDrug");
         drug = request.getParameter("drug");
         id = request.getParameter("id");
+
+
         service = Context.getService(PharmacyService.class);
         serviceDrugs = Context.getConceptService();
         userService = Context.getUserContext();
@@ -69,10 +77,31 @@ public class DrugDetailsController {
         size = allDrugs.size();
         size2 = pharmacyLocations.size();
         size1 = pharmacyLocationUsers.size();
+       /* String locationVal = null;
+        service = Context.getService(PharmacyService.class);
+        List<PharmacyLocationUsers> listUsers = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
+        int sizeUsers = listUsers.size();
+        if (sizeUsers > 1) {
+            locationVal = request.getSession().getAttribute("location").toString();
+
+        } else if (sizeUsers == 1) {
+            locationVal = listUsers.get(0).getLocation();
+        }     */
+
         jsonObject = new JSONObject();
         jsonArray = new JSONArray();
         try {
             if (drop != null) {
+                if(drop.equalsIgnoreCase("patientSearch")){
+                    String  patient= service.getPatientByIdentifier(patientToDispenseTo);
+                    jsonArray.put(Context.getPatientService().getPatient(Integer.parseInt(patient)).getPatientIdentifier());
+                    response.getWriter().print(jsonArray);
+                }
+                if(drop.equalsIgnoreCase("patientLastName")){
+                    String  patient= service.getPatientByIdentifier(patientToFind);
+                    jsonArray.put(Context.getPatientService().getPatient(Integer.parseInt(patient)).getNames());
+                    response.getWriter().print(jsonArray);
+                }
                 if (drop.equalsIgnoreCase("drug")) {
                     drugByNameOrId = Context.getConceptService().getDrugByNameOrId(id);
                     jsonArray.put("" + drugByNameOrId.getName());
@@ -93,6 +122,16 @@ public class DrugDetailsController {
                     }
                     response.getWriter().print(jsonArray);
                 }
+                /* else if (drop.equalsIgnoreCase("dispenseDrug")) {
+                    pharmacyStoreList = service.getPharmacyInventoryByNameAndLocation(searchDrug,locationVal);
+                    int sizeD = pharmacyStoreList.size();
+                        for (int i = 0; i < sizeD; i++) {
+                            jsonArray.put("" + pharmacyStoreList.get(i).getDrugs().getName());
+                            log.info(" drug dispense drug++++++++++++++++++++++++++++++++++++"+pharmacyStoreList.get(i).getDrugs().getName()+" and search term "+searchDrug);
+                        }
+
+                    response.getWriter().print(jsonArray);
+                } */
                 else if (drop.equalsIgnoreCase("forms")) {
     for (int ii = 0; ii < pharmacyFormsSaved.size(); ii++) {
         String val = pharmacyFormsSaved.get(ii).getFormName();

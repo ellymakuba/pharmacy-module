@@ -10,21 +10,14 @@ import java.util.Date;
  * @author Ampath Developers Pharmacy drug formulation
  */
 public class DrugExtra extends BaseOpenmrsData {
-
     private Integer id;
-
     private Integer pill;
-
     private double amount;
-
     private Integer receipt;
-
     private PharmacyGeneralVariables option;
-
     private Integer waiverNo;
     private double Amountw;
     private Integer invoice;
-
     private String drugChange;
     private String chosenValue;
     private String dosingCalculation;
@@ -36,6 +29,23 @@ public class DrugExtra extends BaseOpenmrsData {
     private double total_amount;
     private double expected_amount;
     private double total_waived;
+    private Integer display;
+    private PharmacyEncounter pharmacyEncounter;
+    public PharmacyEncounter getPharmacyEncounter() {
+        return pharmacyEncounter;
+    }
+
+    public void setPharmacyEncounter(PharmacyEncounter pharmacyEncounter) {
+        this.pharmacyEncounter = pharmacyEncounter;
+    }
+
+    public Integer getDisplay() {
+        return display;
+    }
+
+    public void setDisplay(Integer display) {
+        this.display = display;
+    }
 
     /** default constructor */
     public DrugExtra() {
