@@ -11,10 +11,7 @@ import org.openmrs.api.ConceptService;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.UserContext;
-import org.openmrs.module.pharmacy.model.PharmacyEncounter;
-import org.openmrs.module.pharmacy.model.PharmacyLocationUsers;
-import org.openmrs.module.pharmacy.model.PharmacyLocations;
-import org.openmrs.module.pharmacy.model.PharmacyStore;
+import org.openmrs.module.pharmacy.model.*;
 import org.openmrs.module.pharmacy.service.PharmacyService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -42,6 +40,7 @@ public class DrugDetailsController {
     private String drug = null;
     private String id;
     private List<Drug> allDrugs;
+    private Drug drugObject;
     private List<PharmacyLocations> pharmacyLocations;
     private List<PharmacyLocationUsers> pharmacyLocationUsers;
     private int size, size1, size2;
@@ -52,6 +51,43 @@ public class DrugDetailsController {
     private PharmacyStore pharmacyStore;
     private List<PharmacyEncounter> pharmacyFormsSaved;
     private List<PharmacyStore> pharmacyStoreList;
+    @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/pharmacyDrugsRequest")
+    public synchronized void getDrugsFromPharmacy(HttpServletRequest request, HttpServletResponse response) {
+        String searchDrug = request.getParameter("searchDrug");
+        jsonObject = new JSONObject();
+        jsonArray = new JSONArray();
+        service = Context.getService(PharmacyService.class);
+
+        try {
+            listDrugs = Context.getConceptService().getDrugs(searchDrug);
+            int sizeD = listDrugs.size();
+
+            for (int i = 0; i < sizeD; i++) {
+                jsonArray.put("" + listDrugs.get(i).getName());
+            }
+            response.getWriter().print(jsonArray);
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+    }
+    @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/pharmacyDrugIDRequest")
+    public synchronized void getPharmacyDrugID(HttpServletRequest request, HttpServletResponse response) {
+        String drugName = request.getParameter("drugName");
+        jsonObject = new JSONObject();
+        jsonArray = new JSONArray();
+        service = Context.getService(PharmacyService.class);
+
+        try {
+            drugObject = Context.getConceptService().getDrugByNameOrId(drugName);
+            log.info("pharmacyDrugIDRequest drug+++++++++++++++++++++++++++++++++++++++++"+drugObject.getDrugId());
+            jsonArray.put("" + drugObject.getDrugId());
+            response.getWriter().print(jsonArray);
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+    }
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/drugDetails")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) {
         String uuid = request.getParameter("uuid");
@@ -133,17 +169,17 @@ public class DrugDetailsController {
                     response.getWriter().print(jsonArray);
                 } */
                 else if (drop.equalsIgnoreCase("forms")) {
-    for (int ii = 0; ii < pharmacyFormsSaved.size(); ii++) {
-        String val = pharmacyFormsSaved.get(ii).getFormName();
-        if (!val.contentEquals("null"))
-            jsonArray.put("" + val);
-        else {
-            jsonArray.put("");
-        }
+                    for (int ii = 0; ii < pharmacyFormsSaved.size(); ii++) {
+                        String val = pharmacyFormsSaved.get(ii).getFormName();
+                        if (!val.contentEquals("null"))
+                            jsonArray.put("" + val);
+                        else {
+                            jsonArray.put("");
+                        }
 
-    }
-    jsonObject.accumulate("", jsonArray);
-    response.getWriter().print(jsonArray);
+                    }
+                    jsonObject.accumulate("", jsonArray);
+                    response.getWriter().print(jsonArray);
                 }
                 else if (drop.equalsIgnoreCase("location")) {
                     String name = Context.getAuthenticatedUser().getUsername();

@@ -60,7 +60,7 @@ public interface PharmacyDAO {
      */
 
     public boolean savePharmacyStoreIncoming(List<PharmacyStoreIncoming> pharmacySupplier);
-
+    public DrugDispenseSettings getDrugDispenseSettingsByDrugIdAndLocation(Drug id,String locationUUID);
     /**
      * @return all the PharmacyStoreIncoming
      */
@@ -403,7 +403,7 @@ public interface PharmacyDAO {
      */
 
     public PharmacyEncounter savePharmacyEncounter(PharmacyEncounter pharmacyEncounter);
-
+    public DrugExtra saveDrugExtraObject(DrugExtra drugExtra);
     /**
      * @return all the pharmacyEncounter
      */
@@ -414,6 +414,7 @@ public interface PharmacyDAO {
      *
      */
     public PharmacyEncounter getPharmacyEncounterByUuid(String uuid);
+    public Integer  getDrugsDispensedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID);
 
     /**
      * @return list pharmacyEncounter object by uuid
@@ -430,7 +431,8 @@ public interface PharmacyDAO {
      */
 
     public PharmacyEncounterType savePharmacyEncounterType(PharmacyEncounterType pharmacyEncounterType);
-
+    public Integer  getAmountWaivedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID);
+    public Integer  getNumberOfTimesDrugWaivedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID);
     /**
      * @return all the pharmacyEncounterType
      */
@@ -691,5 +693,7 @@ public interface PharmacyDAO {
     public DrugExtra getDrugExtraByBatch(int id);
 
     public PharmacyStore getBatchNoByNo(int batchno);
+    public PharmacyTemporaryInventory saveTemporaryInventory(PharmacyTemporaryInventory pharmacyTemporaryInventory);
+    public List<PharmacyEncounter> getPharmacyEncounterListByLocationUUID(String locationUUID);
 
 }

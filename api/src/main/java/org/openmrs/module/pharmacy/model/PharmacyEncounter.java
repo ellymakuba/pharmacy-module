@@ -22,6 +22,15 @@ public class PharmacyEncounter extends BaseOpenmrsData {
     private String regimenCode;
     private String regimenName;
     private Integer display;
+    private Double totalAmount;
+
+    public Double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
 
     public Integer getDisplay() {
         return display;

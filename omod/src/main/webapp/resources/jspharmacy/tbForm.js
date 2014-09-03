@@ -10,6 +10,7 @@ var oCache = {
     iCacheLower:-1
 };
 var rowCounter = 0 ;
+var patientEncountersDatatable;
 function fnDataTablesPipeline2(sSource, aoData, fnCallback) {
     var iPipe = 5;
     var bNeedServer = false;
@@ -74,20 +75,20 @@ function addRow(tableID) {
         switch(newcell.childNodes[0].type) {
             case "text":
                 newcell.childNodes[0].value = "";
-                if(newcell.childNodes[0].name=="dispenseFormDrug"){
-                    newcell.childNodes[0].id="dispenseFormDrug_" + rowCounter;
+                if(newcell.childNodes[0].name=="tbdrugdispense"){
+                    newcell.childNodes[0].id="tbdrugdispense_" + rowCounter;
                 }
-                if(newcell.childNodes[0].name=="quantity"){
-                    newcell.childNodes[0].id="quantity_" + rowCounter;
+                if(newcell.childNodes[0].name=="tbquantity"){
+                    newcell.childNodes[0].id="tbquantity_" + rowCounter;
                 }
-                if(newcell.childNodes[0].name=="unitPrice"){
-                    newcell.childNodes[0].id="unitPrice_" + rowCounter;
+                if(newcell.childNodes[0].name=="tbunitPrice"){
+                    newcell.childNodes[0].id="tbunitPrice_" + rowCounter;
                 }
-                if(newcell.childNodes[0].name=="amount"){
-                    newcell.childNodes[0].id="amount_" + rowCounter;
+                if(newcell.childNodes[0].name=="tbamount"){
+                    newcell.childNodes[0].id="tbamount_" + rowCounter;
                 }
-                if(newcell.childNodes[0].name=="quantityInStock"){
-                    newcell.childNodes[0].id="quantityInStock_" + rowCounter;
+                if(newcell.childNodes[0].name=="tbquantityInStock"){
+                    newcell.childNodes[0].id="tbquantityInStock_" + rowCounter;
                 }
                 break;
             case "checkbox":
@@ -119,92 +120,25 @@ function deleteRow(tableID) {
     }
 }
 function removeRows() {
-    $j('#tableDispense tr:not(.newRowClass)').remove();
+    $j('#tbTableDispense tr:not(.newRowClass)').remove();
 }
-$j('#tableDispense').hide();
+$j('#tbTableDispense').hide();
 $j.getJSON("drugBincard.form?selectDose=doseSelect",function (result) {
-    $j("#dosage").get(0).options.length = 0;
-    $j("#dosage").get(0).options[0] = new Option("Select","-1");
+    $j("#tbdosage").get(0).options.length = 0;
+    $j("#tbdosage").get(0).options[0] = new Option("Select","-1");
     $j.each(result,function (index, value) {
-        $j("#dosage").get(0).options[$j("#dosage").get(0).options.length] = new Option(value,value);
+        $j("#tbdosage").get(0).options[$j("#tbdosage").get(0).options.length] = new Option(value,value);
     });
 });
-$j("#dispensingForm").validate();
-$j("#receiptDIV").hide();
-unClearedReceiptsTable=$j("#unClearedReceipts").dataTable({
-    bJQueryUI:true,
-    bRetrieve:true,
-    bServerSide:true,
-    bProcessing:true,
-    "bAutoWidth": false,
-    sAjaxSource:"unProcessedReceipts.form?drop=displayUnclearedReceipts" ,
-    "fnServerData":fnDataTablesPipeline2,
-    "aoColumnDefs":[
-        {
-            "bVisible":false,
-            "aTargets":[ 0 ]
-        }
-    ]
-});
-$j('#unClearedReceipts tbody').delegate("tr","click", function () {
-    editTr = this;
-    aData = unClearedReceiptsTable.fnGetData(editTr);
-    fnFormatDetails(editTr);
-    $j("#queueFormDIV").hide();
-    $j("#receiptToComplete TBODY tr").remove();
-    $j("#receiptDIV").show();
-    var vals=[];
-    var a={};
-
-    $j.getJSON('unProcessedReceipts.form?encounterUUID='+aData[0], function (data) {
-        $j.each(data.aaData, function(idx, elem){
-            vals= elem.toString().split(",");
-            $j('table#receiptToComplete TBODY').append('<tr><td><input name="drugReceipt" id="drugReceipt_'+idx+'"  style="width:350px;"  readonly value="'
-                +vals[0]+'" /></td><td><input name="quantityToSubtract" id="quantityToSubtract_'+idx+'" style="width:100px;"  value="' +vals[1]+'"/>' +'</td>' +
-                '<td><input type="text" name="unitP" id="unitP_'+idx+'"  readonly value="'+vals[4]+'"/></td>'+
-                '<td style="width:100px;"><input type="text" name="itemAmount" id="itemAmount_'+idx+'" readonly value="'+vals[2]+'" /></td><td><input type="hidden" name="drugExtraUUID" value="'+vals[3]+'"</td></tr>');
-
-        });
-    });
-})
+$j("#tbdispensingForm").validate();
 function RefreshTable(tableId, urlData) {
     table = $j(tableId).dataTable();
     oCache.iCacheLower = -1;
     table.fnDraw();
 }
-$j("#amountPaid,#amountWaived").live("blur",function(){
-    var cumilativePaid=parseFloat($j("#receiptTotal").val())-parseFloat($j("#amountWaived").val())
-    document.getElementById("balance").value= parseFloat($j("#amountPaid").val())-parseFloat(cumilativePaid);
-})
-$j("INPUT[NAME='quantityToSubtract']").live("blur",function(){
-    var id=$j(this).attr('id');
-    var idExtract=id.substring(id.indexOf("_")+1);
-    document.getElementById("itemAmount_"+idExtract).value = parseInt(document.getElementById("quantityToSubtract_"+idExtract).value)
-        * parseInt(document.getElementById("unitP_"+idExtract).value);
-    var sumpaid=0;
-    $j("INPUT[name='itemAmount']").each(function() {
-        sumpaid += Number($j(this).val());
-    });
-    document.getElementById("receiptTotal").value=Number(sumpaid);
-})
-function AutoReload() {
-    unClearedReceiptsTable=$j("#unClearedReceipts").dataTable({
-        bJQueryUI:true,
-        bRetrieve:true,
-        bServerSide:true,
-        bProcessing:true,
-        sAjaxSource:"unProcessedReceipts.form?drop=displayUnclearedReceipts" ,
-        "fnServerData":fnDataTablesPipeline2
-    })}
-function fnFormatDetails(nTr) {
-    var oFormObject = document.forms['completeReceipt'];
-    oFormObject.elements["patient"].value = aData[1];
 
-    var oFormObject1 = document.forms['completeReceipt'];
-    oFormObject1.elements["receiptTotal"].value = aData[2];
-}
 
-$j("input[name=dispenseFormDrug]").live("focus", function () {
+$j("input[name=tbdrugdispense]").live("focus", function () {
     $j(this).autocomplete({
         search:function () {
             $j(this).addClass('working');
@@ -212,7 +146,7 @@ $j("input[name=dispenseFormDrug]").live("focus", function () {
         source:function (request, response) {
             dataString = "searchDrug=" + request.term;
             $j.getJSON("drugBincard.form?drop=dispenseDrug&" + dataString, function (result) {
-                $j("#dispenseFormDrug").removeClass('working');
+                $j("#drugdispense").removeClass('working');
                 response($j.each(result, function (index, item) {
                     return {
                         label:item,
@@ -235,11 +169,11 @@ $j("input[name=dispenseFormDrug]").live("focus", function () {
                 data: { "jsonDrugObject" :JSON.stringify(json) },
                 dataType:"json",
                 success:function (result) {
-                    if(idExtract =="dispenseFormDrug") {
-                        document.getElementById("quantityInStock").value=result;
+                    if(idExtract =="tbdrugdispense") {
+                        document.getElementById("tbquantityInStock").value=result;
                     }
                     else{
-                        document.getElementById("quantityInStock_"+idExtract).value=result;
+                        document.getElementById("tbquantityInStock_"+idExtract).value=result;
                     }
                 }
             })
@@ -249,11 +183,11 @@ $j("input[name=dispenseFormDrug]").live("focus", function () {
                 data: { "jsonDrugObject" :JSON.stringify(json) },
                 dataType:"json",
                 success:function (result) {
-                    if(idExtract =="dispenseFormDrug") {
-                        document.getElementById("unitPrice").value=result;
+                    if(idExtract =="tbdrugdispense") {
+                        document.getElementById("tbunitPrice").value=result;
                     }
                     else{
-                        document.getElementById("unitPrice_"+idExtract).value=result;
+                        document.getElementById("tbunitPrice_"+idExtract).value=result;
                     }
                 }
             })
@@ -281,7 +215,7 @@ $j("input[name=dispenseFormDrug]").live("focus", function () {
 
 
 });
-$j("input[name=patientId]").live("focus", function () {
+$j("input[name=tbPatientID]").live("focus", function () {
     $j(this).autocomplete({
         search:function () {
             $j(this).addClass('working');
@@ -289,7 +223,7 @@ $j("input[name=patientId]").live("focus", function () {
         source:function (request, response) {
             dataString = "searchPatient=" + request.term;
             $j.getJSON("drugDetails.form?drop=patientSearch&" + dataString, function (result) {
-                $j("#dispenseFormDrug").removeClass('working');
+                $j("#drugdispense").removeClass('working');
                 response($j.each(result, function (index, item) {
                     return {
                         label:item,
@@ -300,7 +234,6 @@ $j("input[name=patientId]").live("focus", function () {
         },
         minLength:3,
         select:function (event, ui) {
-            $j("#tableDispense").show();
             var patient=ui.item.value;
             $j.ajax({
                 type:"GET",
@@ -308,10 +241,20 @@ $j("input[name=patientId]").live("focus", function () {
                 data:patient,
                 dataType:"json",
                 success:function (result) {
-                    document.getElementById("patientName").value=result;
+                    document.getElementById("tbPatientName").value=result;
 
                 }
             })
+            $j('#tbTableDispense').show();
+            patientEncountersDatatable=$j('#patientEncounters').dataTable({
+                bJQueryUI:true,
+                bRetrieve:true,
+                bServerSide:true,
+                bProcessing:true,
+                sAjaxSource:"patientEncountersByIdentifier.form?identifier=" + $j('#tbPatientID').val(),
+                "fnServerData":fnDataTablesPipeline2
+            });
+            patientEncountersDatatable.fnDraw();
         },
         open:function () {
             $j(this).removeClass("ui-corner-all").addClass("ui-corner-top");
@@ -322,29 +265,32 @@ $j("input[name=patientId]").live("focus", function () {
     });
 });
 
-$j("input[name='quantity']").live("blur", function () {
+$j("input[name='tbquantity']").live("blur", function () {
     var id=$j(this).attr('id');
     var idExtract=id.substring(id.indexOf("_")+1);
-    if(idExtract=="quantity"){
-        document.getElementById("amount").value = parseInt($j("input[id='quantity']").val())
-            * parseInt($j("input[id='unitPrice']").val());
+    if(idExtract=="tbquantity"){
+        document.getElementById("tbamount").value = parseInt($j("input[id='tbquantity']").val())
+            * parseInt($j("input[id='tbunitPrice']").val());
     }  else{
-        document.getElementById("amount_"+idExtract).value = parseInt(document.getElementById("quantity_"+idExtract).value)
-            * parseInt(document.getElementById("unitPrice_"+idExtract).value);
+        document.getElementById("tbamount_"+idExtract).value = parseInt(document.getElementById("tbquantity_"+idExtract).value)
+            * parseInt(document.getElementById("tbunitPrice_"+idExtract).value);
     }
 });
 
-$j("input[name='amount']").live("blur",function () {
+//$j("input[name='drugdispense']").live('blur',function(){
+
+//}) ;
+$j("input[name='tbamount']").live("blur",function () {
     var sumpaid = 0;
-    $j("input[name='amount']").each(function() {
+    $j("input[name='tbamount']").each(function() {
         sumpaid += Number($j(this).val());
     });
-    document.getElementById("totalAmount").value=Number(sumpaid);
+    document.getElementById("tbtotalAmount").value=Number(sumpaid);
 });
-$j("form#dispensingForm").unbind('submit').submit(function(){
-    var dataString = $j("#dispensingForm").serializeArray();
+$j("form#tbForm").unbind('submit').submit(function(){
+    if (confirm('Do you want to proceed with dispensing?')) {
     var json = [];
-    $j('#queueFormDIV').find('tr').each(function(){
+    $j('#tbFormDIV').find('tr').each(function(){
         var rowObject=[];
         $j(this).find('td').each(function(){
             var obj = {}
@@ -359,19 +305,17 @@ $j("form#dispensingForm").unbind('submit').submit(function(){
     });
     $j.ajax({
         type:"POST",
-        url:"rfpDispenseFormProcessor.form?checkBoolean=checkBoolean",
+        url:"tbFormDrugsAvailability.form",
         data:{values:JSON.stringify(json) },
         success:function (result) {
             if(result.toString()=='true') {
                 $j.ajax({
                     type:"POST",
-                    url:"rfpDispenseFormProcessor.form",
+                    url:"tbFormProcessor.form",
                     data:{values:JSON.stringify(json) },
                     success:function () {
-                        document.getElementById("dispensingForm").reset();
                         removeRows();
-                        unClearedReceiptsTable.fnDraw();
-                        aData="";
+                        document.getElementById("tbForm").reset();
                     }
                 });
             }
@@ -382,43 +326,6 @@ $j("form#dispensingForm").unbind('submit').submit(function(){
             }
         }
     });
-    return false;
-})
-
-$j("form#completeReceipt").unbind('submit').submit(function(){
-    if($j("#balance").val() < 0){
-        $j("#errorDialog").empty();
-        $j('<dl><dt></dt><dd >' + "Info: " + "Amount paid cannot clear receipt amount" + '</dd></dl> ').appendTo('#errorDialog');
-        $j("#errorDialog").dialog("open");
-    }
-    else{
-        var jsonReceiptData = [];
-        $j('#receiptDIV').find('tr').each(function(){
-            var rowObject=[];
-            $j(this).find('td').each(function(){
-                var obj = {}
-                var  td = $j(this).find('input');
-
-                var key = td.attr('name');
-                var val = td.val();
-                obj[key] = val;
-                rowObject.push(obj);
-            });
-            jsonReceiptData.push(rowObject);
-        });
-        //alert("json is"+JSON.stringify(jsonReceiptData));
-        $j.ajax({
-            type:"POST",
-            url:"rfpDispenseFormProcessor.form?receipt="+aData[0],
-            data:{values:JSON.stringify(jsonReceiptData) },
-            success:function () {
-                $j('#receiptDIV').hide();
-                $j('#receiptDIV').innerHTML="";
-                document.getElementById("completeReceipt").reset();
-                $j('#queueFormDIV').show();
-                unClearedReceiptsTable.fnDraw();
-            }
-        });
     }
     return false;
 })

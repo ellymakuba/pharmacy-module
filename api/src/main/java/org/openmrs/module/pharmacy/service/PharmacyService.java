@@ -60,7 +60,7 @@ public interface PharmacyService extends OpenmrsService {
       */
 
     public PharmacyStoreApproved savePharmacyStoreApproved(PharmacyStoreApproved pharmacySupplier);
-
+    public DrugDispenseSettings getDrugDispenseSettingsByDrugIdAndLocation(Drug id,String locationUUID);
     /* save PharmacyStoreApproved
     *
     * @param PharmacyStoreApproved to be saved
@@ -234,7 +234,7 @@ public interface PharmacyService extends OpenmrsService {
      */
 
     public PharmacyEncounter savePharmacyEncounter(PharmacyEncounter pharmacyEncounter);
-
+    public DrugExtra saveDrugExtraObject(DrugExtra drugExtra);
     /**
      * @return all the pharmacyEncounter
      */
@@ -246,6 +246,7 @@ public interface PharmacyService extends OpenmrsService {
      */
     @Transactional(readOnly=true)
     public PharmacyEncounter getPharmacyEncounterByUuid(String uuid);
+    public Integer  getDrugsDispensedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID);
 
     /**
      * @return list pharmacyEncounter object by uuid
@@ -263,7 +264,8 @@ public interface PharmacyService extends OpenmrsService {
      */
 
     public PharmacyEncounterType savePharmacyEncounterType(PharmacyEncounterType pharmacyEncounterType);
-
+    public Integer  getAmountWaivedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID);
+    public Integer  getNumberOfTimesDrugWaivedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID);
     /**
      * @return all the pharmacyEncounterType
      */
@@ -755,5 +757,7 @@ public interface PharmacyService extends OpenmrsService {
     public PharmacyDrugOrderExtra getPharmacyDrugOrderExtraByUuid(String uuid);
 
     public PharmacyStore getBatchNoByNo(int batchno);
+    public PharmacyTemporaryInventory saveTemporaryInventory(PharmacyTemporaryInventory pharmacyTemporaryInventory);
+    public List<PharmacyEncounter> getPharmacyEncounterListByLocationUUID(String locationUUID);
 
 }

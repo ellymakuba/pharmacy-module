@@ -8,21 +8,17 @@
             border:1px solid black;
         }
     </style>
-
 </head>
 <body>
 <DIV id="dtab_1">
     <form id="drugAdministrationForm" name="drugAdministrationForm">
         <fieldset>
             <table id="tabledrugAdministration">
-                <tr><th>Drug </th><th>Dose </th><th>UnitPrice</th></tr>
-                <tr>
+                <tr class="newRowClass"><th>Drug </th><th>Dose </th><th>UnitPrice</th></tr>
+                <tr class="newRowClass">
                     <td style="border:1px solid black" ><input type="text" name="drug" id="drug" style="width: 350px; "/></td>
-                    <td class="newRowClass">
-                        <select id="dosage"  name="dosage" >
-                            <option value="1">1 tab BD</option>
-                            <option value="2">2 tabs BD</option>
-                        </select>
+                    <td>
+                        <select id="dosage"  name="dosage" ></select>
                     </td>
                     <td class="newRowClass"><input type="text" name="unitPrice" id="unitPrice" style="width:100px;"/></td>
                 </tr>

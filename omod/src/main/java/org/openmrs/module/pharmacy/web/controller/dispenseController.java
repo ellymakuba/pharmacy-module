@@ -1,9 +1,11 @@
 package org.openmrs.module.pharmacy.web.controller;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
@@ -64,6 +66,61 @@ public class dispenseController {
     private boolean addMiddle;
     private PharmacyDrugOrder pharmacyDrugOrder;
     private List<PharmacyStore> drugsInInventory;
+    @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/patientEncountersByIdentifier")
+    public synchronized void DisplaypatientEncountersByIdentifier(HttpServletRequest request,HttpServletResponse response) throws JSONException, IOException {
+        service = Context.getService(PharmacyService.class);
+        patientService = Context.getEncounterService();
+        usersService = Context.getUserService();
+        userService = Context.getUserContext();
+
+
+        String patientIdentifier=request.getParameter("identifier");
+        String patient=service.getPatientByIdentifier(patientIdentifier) ;
+
+        person=Context.getPatientService().getPatient(Integer.parseInt(patient));
+        list = Context.getService(PharmacyService.class).getPharmacyEncounterListByPatientId(person);
+        sizeList = list.size();
+        jsonObject= new JSONObject();
+        if(sizeList >0){
+            for (int i = 0; i < sizeList; i++) {
+                jsonArray=new JSONArray();
+                listDrugs = service.getPharmacyOrdersByEncounterId(list.get(i));
+                listDrugsSize = listDrugs.size();
+                jsonObject1 = new JSONObject();
+                String drugsIssuedToPatient="";
+                String locationName=service.getPharmacyLocationsByUuid(list.get(i).getLocation().getUuid()).getName();
+                for (int j = 0; j < listDrugsSize; j++) {//
+                    if (listDrugs.get(j).getConcept() != null) {
+                        listObsConcepts =service.getPharmacyObsByPharmacyOrder(listDrugs.get(j));
+                        for (int y = 0; y < listObsConcepts.size(); y++) {
+                            drugsIssuedToPatient=drugsIssuedToPatient +listObsConcepts.get(y).getValue_drug().getName().toString() ;
+                        }
+                    }
+                }
+                jsonArray.put("Edit");
+                jsonArray.put(list.get(i).getDateTime());
+                jsonArray.put(list.get(i).getFormName());
+                jsonArray.put(drugsIssuedToPatient);
+                jsonArray.put(locationName);
+                jsonArray.put(list.get(i).getCreator());
+                jsonObject.accumulate("aaData",jsonArray);
+            }
+        }
+        else{
+            jsonArray=new JSONArray();
+            jsonArray.put("None");
+            jsonArray.put("None");
+            jsonArray.put("None");
+            jsonArray.put("None");
+            jsonArray.put("None");
+            jsonObject.accumulate("aaData",jsonArray);
+        }
+        jsonObject.accumulate("iTotalRecords", jsonObject.getJSONArray("aaData").length());
+        jsonObject.accumulate("iTotalDisplayRecords", jsonObject.getJSONArray("aaData").length());
+        jsonObject.accumulate("iDisplayStart", 0);
+        jsonObject.accumulate("iDisplayLength", 10);
+        response.getWriter().print(jsonObject);
+    }
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/dispense")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) {
         String locationVal = null;
@@ -91,7 +148,6 @@ public class dispenseController {
         service = Context.getService(PharmacyService.class);
         patientService = Context.getEncounterService();
         usersService = Context.getUserService();
-        service = Context.getService(PharmacyService.class);
         userService = Context.getUserContext();
         pharmacyLocationUsersByUserName = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         sizePharmacyLocationUsers = pharmacyLocationUsersByUserName.size();

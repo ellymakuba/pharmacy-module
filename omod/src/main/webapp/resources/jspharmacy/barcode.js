@@ -14,24 +14,14 @@ function showPrint() {
         pwin.close();
     }, 1000);
 }
-
-
 getDrugFilter();
-
 $j("form#barcodeform").submit(function () {
     if ($j("#barcodeform").valid()) {
-
         var oFormObject = document.forms['barcodeform'];
-
-
         var drug = oFormObject.elements["barcodedrug"].value;
-
         var drugId = drug.substr(drug.indexOf('|') + 1);
-
         var frequency = oFormObject.elements["frequency"].value;
-
         var duration = oFormObject.elements["duration"].value;
-
         var quantity = oFormObject.elements["quantity"].value;
         var msg = drugId + "0" + frequency + "0" + duration + "0" + quantity;
         var type = "code39";
@@ -39,7 +29,6 @@ $j("form#barcodeform").submit(function () {
         var moduleWidth = "0.12mm";
         var wideFactor = "2.5";
         var format = "png";
-
         var qz = "10mw";
         var hrp = "none";
         var url = jQuery.Page.context;
@@ -59,20 +48,14 @@ function loadImage(url, type, msg, height, moduleWidth, wideFactor, format, qz, 
 }
 
 function showImage(src) {
-
     $j("#barcodeImg").empty();
     $j("#cmdDownDiv").empty();
     $j("#barcodeImg").append("<img id='theImg' src='" + src + "'/>");
-
-
     $j("#spinner").hide();
     $j("#parent_div_2").show();
-
 }
 function getDrugFilter() {
-
-    $j
-        .getJSON(
+    $j.getJSON(
         "drugDetails.form?drop=drop&bar=bar",
         function (result) {
 

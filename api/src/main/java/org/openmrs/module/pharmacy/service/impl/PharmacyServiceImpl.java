@@ -48,7 +48,9 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public List<Indicators> getIndicators() {
         return pharmacyDAO.getIndicators();
     }
-
+    public DrugDispenseSettings getDrugDispenseSettingsByDrugIdAndLocation(Drug id,String locationUUID){
+        return pharmacyDAO.getDrugDispenseSettingsByDrugIdAndLocation(id,locationUUID);
+    }
     /**
      * @see org.openmrs.module.pharmacy.service.PharmacyService#getIndicatorsByUuid(java.lang.String)
      */
@@ -72,7 +74,9 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public PharmacyEncounter savePharmacyEncounter(PharmacyEncounter pharmacyEncounter) {
         return pharmacyDAO.savePharmacyEncounter(pharmacyEncounter);
     }
-
+     public DrugExtra saveDrugExtraObject(DrugExtra drugExtra){
+         return pharmacyDAO.saveDrugExtraObject(drugExtra);
+     }
     /**
      * @see org.openmrs.module.pharmacy.service.PharmacyService#getPharmacyEncounter()
      */
@@ -90,7 +94,9 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public PharmacyEncounter getPharmacyEncounterByUuid(String uuid) {
         return pharmacyDAO.getPharmacyEncounterByUuid(uuid);
     }
-
+    public Integer  getDrugsDispensedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID){
+        return pharmacyDAO.getDrugsDispensedWithinPeriodRange(startDate, endDate, drugID, locationUUID);
+    }
     /**
      * @see org.openmrs.module.pharmacy.service.PharmacyService#getPharmacyEncounterListByUuid(java.lang.String)
      */
@@ -106,6 +112,12 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public List<PharmacyEncounter> getPharmacyEncounterListByPatientId(Person id) {
         return pharmacyDAO.getPharmacyEncounterListByPatientId(id);
 
+    }
+    public Integer  getAmountWaivedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID){
+        return pharmacyDAO.getAmountWaivedWithinPeriodRange(startDate,endDate,drugID,locationUUID);
+    }
+    public Integer  getNumberOfTimesDrugWaivedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID){
+        return pharmacyDAO.getNumberOfTimesDrugWaivedWithinPeriodRange(startDate,endDate,drugID,locationUUID);
     }
     /**
      * @see org.openmrs.module.pharmacy.service.PharmacyService#savePharmacyEncounterType(org.openmrs.module.pharmacy.model.PharmacyEncounterType)
@@ -801,5 +813,11 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     }
     public PharmacyStore getBatchNoByNo(int batchno){
         return pharmacyDAO.getBatchNoByNo(batchno);
+    }
+    public PharmacyTemporaryInventory saveTemporaryInventory(PharmacyTemporaryInventory pharmacyTemporaryInventory){
+        return pharmacyDAO.saveTemporaryInventory(pharmacyTemporaryInventory);
+    }
+    public List<PharmacyEncounter> getPharmacyEncounterListByLocationUUID(String locationUUID){
+        return pharmacyDAO.getPharmacyEncounterListByLocationUUID(locationUUID);
     }
 }

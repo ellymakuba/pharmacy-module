@@ -20,23 +20,14 @@ import java.util.List;
 
 @Controller
 public class SupplierNamesController {
-
     private static final Log log = LogFactory.getLog(SupplierNamesController.class);
-
     private JSONArray drugStrengthA;
-
     public PharmacyService service;
-
     private boolean found = false;
-
     private JSONArray supplierNames;
-
     private UserContext userService;
-
     private boolean editPharmacy = false;
-
     private boolean deletePharmacy = false;
-
     private JSONArray datad2;
     private JSONObject jsonObject;
     private List<PharmacySupplier> pharmacySupplier;
@@ -53,9 +44,7 @@ public class SupplierNamesController {
         pharmacySupplier = service.getPharmacySupplier();
         size = pharmacySupplier.size();
         jsonObject = new JSONObject();
-
         jsonArray = new JSONArray();
-
         try {
 
             if (drop != null) {

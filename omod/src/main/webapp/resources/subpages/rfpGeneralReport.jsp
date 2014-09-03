@@ -9,14 +9,10 @@
 <body>
 
 <DIV id="report">
-
     <DIV id="incss">
-
         <form id="reportform" action="#">
             <fieldset>
-
                 <legend>Name</legend>
-
                 <label for="engine">Date From</label> <input type="text"  name="datefrom" id="datef" class="required"/><br/>
                 <label for="engine">Date To</label> <input type="text" name="dateto" id="datet"/>
                 <input class="submit" type="submit" value="Click To View Reports"/>
@@ -41,7 +37,6 @@
             <th>#Drug Dispensed</th>
             <th>cash expected</th>
             <th>Cash Less Amount Waived</th>
-
         </tr>
         </thead>
         <tbody>

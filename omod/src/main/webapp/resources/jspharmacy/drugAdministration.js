@@ -86,70 +86,42 @@ function RefreshTable(tableId, urlData) {
     oCache.iCacheLower = -1;
     table.fnDraw();
 }
-
-$j("input[name=drug]").live("focus", function () {
-    $j(this).autocomplete({
-        search:function () {
-            $j(this).addClass('working');
-        },
-        source:function (request, response) {
-            dataString = "searchDrug=" + request.term;
-            $j.getJSON("drugDetails.form?drop=drop&" + dataString, function (result) {
-                $j("#drugdispense").removeClass('working');
-                response($j.each(result, function (index, item) {
-                    return {
-                        label:item,
-                        value:item
-                    }
-                }));
-
-            });
-
-        },
-        minLength:3,
-        select:function (event, ui) {
-        },
-        open:function () {
-            $j(this).removeClass("ui-corner-all").addClass("ui-corner-top");
-        },
-        close:function () {
-            $j(this).removeClass("ui-corner-top").addClass("ui-corner-all");
-        }
-    });
-
-
-});
-$j("input[name=patientId]").live("focus", function () {
-    $j(this).autocomplete({
-        search:function () {
-            $j(this).addClass('working');
-        },
-        source:function (request, response) {
-            dataString = "searchPatient=" + request.term;
-            $j.getJSON("drugDetails.form?drop=patientSearch&" + dataString, function (result) {
-                $j("#drugdispense").removeClass('working');
-                response($j.each(result, function (index, item) {
-                    return {
-                        label:item,
-                        value:item
-                    }
-                }));
-            });
-        },
-        minLength:3,
-        select:function (event, ui) {
-        },
-        open:function () {
-            $j(this).removeClass("ui-corner-all").addClass("ui-corner-top");
-        },
-        close:function () {
-            $j(this).removeClass("ui-corner-top").addClass("ui-corner-all");
-        }
+function removeRows() {
+    $j('#tabledrugAdministration tr:not(.newRowClass)').remove();
+}
+$j.getJSON("drugBincard.form?selectDose=doseSelect",function (result) {
+    $j("#dosage").get(0).options.length = 0;
+    $j("#dosage").get(0).options[0] = new Option("Select","-1");
+    $j.each(result,function (index, value) {
+        $j("#dosage").get(0).options[$j("#dosage").get(0).options.length] = new Option(value,value);
     });
 });
-
-
 $j("form#drugAdministrationForm").unbind('submit').submit(function(){
+    var proceed = confirm("Are you sure you want to complete this transaction");
+    if(proceed==true){
+    var json = [];
+    $j('#dtab_1').find('tr').each(function(){
+        var rowObject=[];
+        $j(this).find('td').each(function(){
+            var obj = {}
+            var  td = $j(this).find('input');
+            var key = td.attr('name');
+            var val = td.val();
+            obj[key] = val;
+            rowObject.push(obj);
+        });
+        json.push(rowObject);
+    });
+    $j.ajax ({
+       type:"POST",
+        url:"addTemporaryInventory.form",
+        data:{values:JSON.stringify(json) },
+        success:function(){
+            removeRows();
+            document.getElementById("drugAdministrationForm").reset();
+        }
 
+    })
+    }
     return false;
 })

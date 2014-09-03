@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.text.DecimalFormat;
+
 @Controller
-@RequestMapping("module/pharmacy/printInvoice.print")
 public class PrintInvoiceController {
 
     private Log log = LogFactory.getLog(this.getClass());
 
-    @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/printInvoice.print")
+    @RequestMapping(method = RequestMethod.POST, value = "/module/pharmacy/printInvoice.form")
     public void printReceipt( HttpServletResponse response) throws IOException, DocumentException {
         // creation of the document with a certain size and certain margins
         // may want to use PageSize.LETTER instead
         // Document document = new Document(PageSize.A4, 50, 50, 50, 50);
 
-        log.info("++++++++++++++++++++++++++++++++ +++++++++++++++++++++++===== this is crazy");
+        //log.info("++++++++++++++++++++++++++++++++ +++++++++++++++++++++++===== this is crazy");
 
         Document doc = new Document();
         PdfWriter docWriter = null;

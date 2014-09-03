@@ -340,18 +340,12 @@ public class HivProcessorController {
                     {
 
                         medicationProcessor = new MedicationProcessor();
-
-
-
                         medicationProcessor.setquantity(value.substring(value.indexOf("@")+1,(value.length()-1)));
-                        listMedicationProcessors.add(medicationProcessor);
-
-//
+                        listMedicationProcessors.add(medicationProcessor);//
 
                     }
                     else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Month16"))
                     {
-
                         medicationProcessor = new MedicationProcessor();
                         medicationProcessor.setquantity(value.substring(value.indexOf("@")+1,(value.length()-1)));
                         listMedicationProcessors.add(medicationProcessor);//
@@ -359,49 +353,28 @@ public class HivProcessorController {
                     }
                     else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Month17"))
                     {
-
                         medicationProcessor = new MedicationProcessor();
-
-
-
                         medicationProcessor.setquantity(value.substring(value.indexOf("@")+1,(value.length()-1)));
-                        listMedicationProcessors.add(medicationProcessor);
-
-//
+                        listMedicationProcessors.add(medicationProcessor);//
 
                     }
                     else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Month18"))
                     {
-
                         medicationProcessor = new MedicationProcessor();
-
-
-
                         medicationProcessor.setquantity(value.substring(value.indexOf("@")+1,(value.length()-1)));
-                        listMedicationProcessors.add(medicationProcessor);
-
-//
+                        listMedicationProcessors.add(medicationProcessor);//
 
                     }
                     else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Month19"))
                     {
-
                         medicationProcessor = new MedicationProcessor();
-
-
-
                         medicationProcessor.setquantity(value.substring(value.indexOf("@")+1,(value.length()-1)));
-                        listMedicationProcessors.add(medicationProcessor);
-
-//
+                        listMedicationProcessors.add(medicationProcessor);//
 
                     }
-
-
                     else   if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Other"))
                         {
                             RequestedFirstPass = false;
-
                             if(value.substring(value.indexOf("@")+1,(value.length()-1)).length()>0) {
                                 medicationProcessor = new MedicationProcessor();
                                 medicationProcessor.setquantity(value.substring(value.indexOf("@")+1,(value.length()-1)));

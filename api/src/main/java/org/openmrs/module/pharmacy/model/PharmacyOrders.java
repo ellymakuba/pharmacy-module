@@ -8,38 +8,16 @@ import java.util.Date;
  * @author Ampath Developers PharmacyOrders
  */
 public class PharmacyOrders extends BaseOpenmrsData {
-
-
-
-
     private Integer id;
-
     private String concept;
-
     private PharmacyEncounter pharmacyEncounter;
-
-
-
-
-
-
-
     private String instructions;
-
     private Date startDate;
-
     private Date autoEndDate;
-
     private boolean discontinued;
-
     private Date discontinuedDate;
-
     private String discontinuedReason;
-
-
     private boolean dispensed;
-
-
     /** default constructor */
     public PharmacyOrders() {
     }

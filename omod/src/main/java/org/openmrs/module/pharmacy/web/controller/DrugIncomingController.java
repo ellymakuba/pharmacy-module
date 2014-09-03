@@ -406,16 +406,17 @@ public class DrugIncomingController {
                             }
                         }
                         PharmacyLocations pharmacyLocations= service.getPharmacyLocationsByName(locationVal);
-
                         List<PharmacyStore> pharmacyStore1 = service.getPharmacyInventory();
                         int inventorySize=pharmacyStore1.size();
                         inventoryExists=false;
                         for (int j=0; j<inventorySize; j++){
+                            if(pharmacyStore1.get(j).getDrugs() != null) {
                             if (pharmacyStore1.get(j).getDrugs().getName().equalsIgnoreCase(incomingdrugArray[y]) && pharmacyLocations.getUuid().equalsIgnoreCase(pharmacyStore1.get(j).getLocation()) && pharmacyLocations.getBatchSetting()==0) {
                                 inventoryExists=true;
                                 pharmacyStore1.get(j).setQuantity(pharmacyStore1.get(j).getQuantity()+Integer.parseInt(incomingquantityinArray[y]));
                                 service.savePharmacyInventory(pharmacyStore1.get(j));
 
+                            }
                             }
 
                         }

@@ -17,7 +17,7 @@ function addRow(tableID) {
     var colCount = table.rows[0].cells.length;
     for(var i=0; i<colCount; i++) {
         var newcell = row.insertCell(i);
-        newcell.innerHTML = table.rows[0].cells[i].innerHTML;
+        newcell.innerHTML = table.rows[1].cells[i].innerHTML;
         //alert(newcell.childNodes);
         switch(newcell.childNodes[0].type) {
             case "text":
@@ -54,15 +54,13 @@ $j("#transactions").change(function (){
      $j(".hidable").show();
     }
     else{
-        $j(".hidable").hide();
+      $j(".hidable").hide();
     }
 })
 $j("#incomingperm").hide();//
 $j("popIncoming").hide();
 $j("#incoming").hide();   //incoming
-$j("#s11").hide();
 $j("#incomingvoid").hide();
-$j("#filterincoming").validate();
 $j("#incomingextrain").validate({
     rules:{
         supplier:{
@@ -70,8 +68,10 @@ $j("#incomingextrain").validate({
         }
     }
 });
+getDataCategory();
+getDataLocation();
+getDataTransactionType();
 $j("#date").datepicker();
-
 $j('#btnAdd').click(function () {
     var num = $j('.clonedInput').length;
     var newNum = new Number(num + 1);
@@ -105,8 +105,6 @@ $j("#incoming").validate({
     }
 });
 $j("#incomingextrain").hide();
-$j("#hideincomingform").hide();
-
 function RefreshTable(tableId, urlData) {
     table = $j(tableId).dataTable(
     );
@@ -269,9 +267,7 @@ $j("#approveincoming").live('click', function () {
     var oFormObject = document.forms['incomingextrain'];
     oFormObject.elements["incominguuidextra"].value = aData[2];
     oFormObject.elements["incomingdrugg"].value = aData[3];
-    $j("#hideincomingform").show();
     $j("#incomingextrain").show();
-    $j("#incomingformshow").hide();
 
 });
 $j("#voidincoming").live('click', function () {
@@ -364,16 +360,10 @@ $j('#detailsincoming').live('click', function () {
     $j("#encountformDet").dialog("open");
 });
 
-$j("form#filterincoming").submit(function () {
-    if ($j("#filterincoming").valid()) {
-        AutoReload();
-        return false;
-    }
-});
 $j("#detailsformValin").dialog({
     autoOpen:false,
-    height:500,
-    width:600,
+    height:200,
+    width:400,
     cache:false,
     modal:true,
     buttons:{
@@ -463,13 +453,10 @@ function close() {
     $j("#incoming").hide();
     clear_form_elements("#s11");
     clear_form_elements("#incoming");
-    $j("#s11").hide();
-    $j("#hideincomingform").hide();
     $j("#incomingform").show();
     $j("#incoming").hide();
     $j("#tincoming").show();//
     $j("#incomingextrain").hide();
-    $j("#incomingformshow").show()
     AutoReload();
 
 }
@@ -582,9 +569,6 @@ function closeExtra() {
 
     clear_form_elements("#incomingextrain");
     clear_form_elements("#Permissionincoming");
-
-
-    $j("#hideincomingform").hide();
     $j("#incomingform").show();
     $j("#incoming").hide();
     $j("#tincoming").show();//
@@ -664,32 +648,6 @@ $j("form#incomingvoid").submit(function () {
         });
         return false;
     }
-});
-$j("#hideincomingform").live('click', function () {
-    $j("#hideincomingform").hide();
-    $j("#incomingformshow").show();
-    $j("#incoming").hide();
-    $j("#s11").hide();
-    $j("#tincoming").show();//
-    $j("#incomingextrain").hide();
-});
-
-
-$j('#incomingformshow').live('click', function () {
-    $j("#hideincomingform").show();
-
-    $j("#s11").show();
-    $j("#incomingformshow").hide();
-    $j("#tincoming").hide();//
-    getDataLocation();
-    getDataDrug();
-
-
-    getDataSupplier();
-    getDataCategory();
-    getDataTransactionType();
-    getDataLocationTwo();
-    show();
 });
 function change() {
 

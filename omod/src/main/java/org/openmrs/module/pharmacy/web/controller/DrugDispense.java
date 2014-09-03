@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -39,85 +40,101 @@ import java.util.*;
  */
 @Controller
 public class DrugDispense {
-
     private static final Log log = LogFactory.getLog(DrugDispenseSettings.class);
-
     private String dialogShow;
-
     private PharmacyService service;
-
     private int size;
-
     private LocationService serviceLocation;
-
     private JSONArray datad2;
-
     JSONObject json;
-
     private JSONArray datadFrm;
-
     private String dialog;
-
     private Calendar currentDate;
-
     private Calendar readDate;
-
     private Date dateC;
-
     private GregorianCalendar gregorianCalendar;
-
     private GregorianCalendar calendar;
-
     private String batchNo;
-
     private String batchName;
-
     private String drugName;
-
     private String delivery;
-
     private int sizeDrug;
-
     private String inventoryNo;
-
     private String voiduuid;
-
     private String voidreason;
-
     private String uuidedit;
-
     private String dispenseedit;
-
     private UserContext userService;
-
     private boolean editPharmacy = false;
-
     private boolean deletePharmacy = false;
-
     private String days;
-
     private String amount;
-
     private String dose = null;
-
     private String option;
-
     private Integer b;
-
     private String quantity;
-
     private String form;
-
     private String front;
-
     private String back;
     private boolean found;
     private List<PharmacyLocationUsers> pharmacyLocationUserses;
     private int sizeUsers;
     private List<DrugDispenseSettings> drugDispenseSettings;
     private DrugDispenseSettings drugDispense;
+    @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/listOfDrugsToSetBatch")
+    public synchronized void displayDrugsToSetBatch(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
+        String locationVal = null;
+        service = Context.getService(PharmacyService.class);
+        pharmacyLocationUserses = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
+        sizeUsers = pharmacyLocationUserses.size();
+        drugName = request.getParameter("drug");
+
+        if (sizeUsers > 1) {
+            locationVal = request.getSession().getAttribute("location").toString();
+
+        } else if (sizeUsers == 1) {
+            locationVal = pharmacyLocationUserses.get(0).getLocation();
 
 
+        }
+        userService = Context.getUserContext();
+        service = Context.getService(PharmacyService.class);
+        serviceLocation = Context.getLocationService();
+        datadFrm = new JSONArray();
+        drugDispenseSettings = service.getDrugDispenseSettings();
+        size = drugDispenseSettings.size();
+        currentDate = Calendar.getInstance();
+        readDate = Calendar.getInstance();
+        dateC = new Date();
+        currentDate.setTime(dateC);
+        gregorianCalendar = new GregorianCalendar();
+        calendar = new GregorianCalendar();
+        gregorianCalendar.set(currentDate.get(currentDate.YEAR), currentDate.get(currentDate.MONTH),
+        currentDate.get(currentDate.DAY_OF_MONTH));
+        json = new JSONObject();
+        if (!json.has("aaData")) {
+            datad2 = new JSONArray();
+            datad2.put("None");
+            datad2.put("None");
+            datad2.put("None");
+            datad2.put("None");
+            datad2.put("None");
+            datad2.put("None");
+            datad2.put("None");
+            datad2.put("None");
+            datad2.put("None");
+            datad2.put("None");
+            datad2.put("");
+            json.accumulate("aaData", datad2);
+        }
+        drugName = null;
+        json.accumulate("iTotalRecords", json.getJSONArray("aaData").length());
+        json.accumulate("iTotalDisplayRecords", json.getJSONArray("aaData").length());
+        json.accumulate("iDisplayStart", 0);
+        json.accumulate("iDisplayLength", 10);
+        response.getWriter().print(json);
+        response.flushBuffer();
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/drugDispense")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) {
@@ -125,10 +142,9 @@ public class DrugDispense {
         service = Context.getService(PharmacyService.class);
         pharmacyLocationUserses = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         sizeUsers = pharmacyLocationUserses.size();
-        dialogShow = request.getParameter("drugID");
+        drugName = request.getParameter("drug");
         dialog = request.getParameter("uuid");
         dose = request.getParameter("dose");
-
         if (sizeUsers > 1) {
             locationVal = request.getSession().getAttribute("location").toString();
 
@@ -157,33 +173,23 @@ public class DrugDispense {
         calendar = new GregorianCalendar();
 
         gregorianCalendar.set(currentDate.get(currentDate.YEAR), currentDate.get(currentDate.MONTH),
-                currentDate.get(currentDate.DAY_OF_MONTH));
-
+        currentDate.get(currentDate.DAY_OF_MONTH));
         try {
-
             json = new JSONObject();
             if (dialogShow != null && dialog == null) {
-
-
                 if (size != 0) {
-
-
                     for (int i = 0; i < size; i++) {
-
+                        if(drugDispenseSettings.get(i).getLocation() !=null){
                         if (service.getPharmacyLocationsByUuid(drugDispenseSettings.get(i).getLocation().getUuid()).getName().equalsIgnoreCase(locationVal)) {
                             datadFrm = new JSONArray();
-
                             datadFrm = getArrayDialog(drugDispenseSettings, i, dialogShow, locationVal);
-
                             if (datadFrm != null)
-                                json.accumulate("aaData", datadFrm);
+                             json.accumulate("aaData", datadFrm);
                         }
-
+                        }
                     }
-
                 }
                 if (!json.has("aaData")) {
-
                     datad2 = new JSONArray();
                     datad2.put("None");
                     datad2.put("None");
@@ -196,22 +202,16 @@ public class DrugDispense {
                     datad2.put("None");
                     datad2.put("None");
                     datad2.put("");
-
                     json.accumulate("aaData", datad2);
-
                 }
                 dialogShow = null;
-
                 json.accumulate("iTotalRecords", json.getJSONArray("aaData").length());
                 json.accumulate("iTotalDisplayRecords", json.getJSONArray("aaData").length());
                 json.accumulate("iDisplayStart", 0);
                 json.accumulate("iDisplayLength", 10);
-
                 response.getWriter().print(json);
-
                 response.flushBuffer();
             } else if (dialog != null && dialogShow == null) {
-
                 List<PharmacyStore> listStore = service.getPharmacyInventory();
                 int sizeStore = listStore.size();
 
@@ -291,124 +291,68 @@ public class DrugDispense {
 
     @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/drugDispense")
     public synchronized void pageLoadd(HttpServletRequest request, HttpServletResponse response) {
-
-
         inventoryNo = request.getParameter("inventoryNo"); //inventory
-
         drugName = request.getParameter("dispensedrug"); //from the drop down
-
         option = request.getParameter("optionval"); //from the drop down
-
         dispenseedit = request.getParameter("dispenseedit"); //from the drop down
-
         uuidedit = request.getParameter("dispenseuuid"); //from the drop down
-
         days = request.getParameter("value"); //from the drop down
-
         amount = request.getParameter("price");
-
         quantity = request.getParameter("quantity");
-
-
         form = request.getParameter("form");
-
-
         front = request.getParameter("front");
-
-
         back = request.getParameter("back");
-
-
-        //void
-
         voidreason = request.getParameter("dispensereason");
         voiduuid = request.getParameter("dispenseuuidvoid");
         String locationVal = null;
         service = Context.getService(PharmacyService.class);
         List<PharmacyLocationUsers> listUsers = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         int sizeUsers = listUsers.size();
-
-
         if (sizeUsers > 1) {
             locationVal = request.getSession().getAttribute("location").toString();
 
         } else if (sizeUsers == 1) {
             locationVal = listUsers.get(0).getLocation();
-
-
         }
-
-
-
-
-//        System.out.println("------------------------------"+service.getPharmacyLocationsByName(locationVal));
-//        System.out.println("------------------------------"+locationVal);
-//        System.out.println("------------------------------"+service.getPharmacyLocationsByName(locationVal).getName());
-
-
-
         currentDate = Calendar.getInstance();
         readDate = Calendar.getInstance();
-
         dateC = new Date();
-
         currentDate.setTime(dateC);
-
         gregorianCalendar = new GregorianCalendar();
         calendar = new GregorianCalendar();
-
         gregorianCalendar.set(currentDate.get(currentDate.YEAR), currentDate.get(currentDate.MONTH),
                 currentDate.get(currentDate.DAY_OF_MONTH));
-
         service = Context.getService(PharmacyService.class);
-
-
         drugDispenseSettings = service.getDrugDispenseSettings();
-
         sizeDrug = drugDispenseSettings.size();
-   drugName=      drugName.substring(0,drugName.indexOf(">"));
         if (sizeDrug == 0) {
-            //save a new copy
-
             drugDispense = new DrugDispenseSettings();
-
             drugDispense.setBatchId(service.getPharmacyInventoryByUuid(inventoryNo).getBatchNo());
             drugDispense.setInventoryId(service.getPharmacyInventoryByUuid(inventoryNo));
             drugDispense.setDrugId(Context.getConceptService().getDrugByNameOrId(drugName));
             drugDispense.setLocation(service.getPharmacyLocationsByName(locationVal));
             drugDispense.setOption(service.getPharmacyGeneralVariablesByName(option));
-
             drugDispense.setValue(Integer.parseInt(days));
             drugDispense.setAmount(Double.parseDouble(amount));
-
             drugDispense.setQuantity(Integer.parseInt(quantity));
             drugDispense.setForm(form);
             drugDispense.setBack(back);
             drugDispense.setFront(front);
-
             service.saveDrugDispenseSettings(drugDispense);
-
         }
-
-
         for (int i = 0; i < size; i++) {
             found = getCheck(drugDispenseSettings, i, locationVal, drugName);
             if (found){
                 break;
-
             }
         }
-
-
         if (!found) {
-
             if (voiduuid != null) {
                 drugDispense = new DrugDispenseSettings();
                 drugDispense = service.getDrugDispenseSettingsByUuid(voiduuid);
                 drugDispense.setVoided(true);
                 drugDispense.setVoidReason(voidreason);
                 service.saveDrugDispenseSettings(drugDispense);
-                log.info("void is null++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             }
             else {
                 drugDispense = new DrugDispenseSettings();
@@ -424,118 +368,77 @@ public class DrugDispense {
                 drugDispense.setBack(back);
                 drugDispense.setFront(front);
                 service.saveDrugDispenseSettings(drugDispense);
-                log.info("voiduuid is null+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             }
-
 
         }
 
-
     }
 
-    public synchronized JSONArray getArrayDialog(List<DrugDispenseSettings> drugDispenseSettings, int size, String dialogShow, String location) {
+    public synchronized JSONArray getArrayDialog(List<DrugDispenseSettings> drugDispenseSettings, int size, String drugIdString, String location) {
+        datad2 = new JSONArray();
+         if (service.getPharmacyLocationsByUuid(drugDispenseSettings.get(size).getLocation().getUuid()).getName().equalsIgnoreCase(location)) {
+        if (drugIdString != null && drugDispenseSettings !=null && drugDispenseSettings.get(size).getDrugId().getName().equalsIgnoreCase(drugIdString)) {
 
-        if (service.getPharmacyLocationsByUuid(drugDispenseSettings.get(size).getLocation().getUuid()).getName()
-                .equalsIgnoreCase(location)) {
-
-            if (dialogShow != null) {
-      if (drugDispenseSettings.get(size).getDrugId().getName().equalsIgnoreCase(dialogShow.substring(0,dialogShow.indexOf(">")))) {
-                    datad2 = new JSONArray();
-
-                    Collection<Role> xvc = userService.getAuthenticatedUser().getAllRoles();
-                    for (Role rl : xvc) {
-
-                        if ((rl.getRole().equals("Pharmacy Administrator")) || (rl.getRole().equals("Provider")) || (rl.getRole().equals("	Authenticated "))) {
+           Collection<Role> xvc = userService.getAuthenticatedUser().getAllRoles();
+           for (Role rl : xvc) {
+               if ((rl.getRole().equals("Pharmacy Administrator")) || (rl.getRole().equals("Provider")) || (rl.getRole().equals("	Authenticated "))) {
 
                             editPharmacy = true;
                             deletePharmacy = true;
                         }
-
-
                         if (rl.hasPrivilege("Edit Pharmacy")) {
                             editPharmacy = true;
                         }
-
                         if (rl.hasPrivilege("Delete Pharmacy")) {
                             deletePharmacy = true;
                         }
 
                     }
-
                     if (editPharmacy) {
-
                         datad2.put("edit");
                         editPharmacy = false;
                     } else
                         datad2.put("");
-
-
                     datad2.put("");
                     datad2.put(drugDispenseSettings.get(size).getUuid());
                     datad2.put(drugDispenseSettings.get(size).getDrugId().getName());
                     datad2.put(drugDispenseSettings.get(size).getDrugId().getDrugId());
-
                     datad2.put(drugDispenseSettings.get(size).getOption().getName());
-
                     datad2.put(drugDispenseSettings.get(size).getValue());
                     try {
                         datad2.put(drugDispenseSettings.get(size).getAmount());
                     } catch (JSONException e) {
-                        // TODO Auto-generated catch block
                         log.error("Error generated", e);
                     }
-
                     datad2.put(drugDispenseSettings.get(size).getBatchId());
-
                     datad2.put(drugDispenseSettings.get(size).getInventoryId().getExpireDate().toString().substring(0, 10));
-
                     if (deletePharmacy) {
                         datad2.put("void");
                         deletePharmacy = false;
                     } else
                         datad2.put("");
+                }
 
-                    return datad2;
-                } else
-                    return null;
-
-            } else
-                return null;
-
-        } else {
-
-            return null;
-        }
+    }
+        return datad2;
     }
 
     public synchronized JSONArray getArray(List<PharmacyStore> pharmacyStore, int size, String id, String location) {
-
         if (service.getPharmacyLocationsByUuid(pharmacyStore.get(size).getLocation()).getName()
                 .equalsIgnoreCase(location)) {
-
             if (dialog != null) {
-
                 if (pharmacyStore.get(size).getDrugs().getName().equalsIgnoreCase(id)) {
-
                     readDate.setTime(pharmacyStore.get(size).getExpireDate());
-
                     calendar.set(readDate.get(readDate.YEAR), readDate.get(readDate.MONTH), readDate.get(readDate.DAY_OF_MONTH));
-
                     int num = daysBetween(calendar.getTime(), gregorianCalendar.getTime());
-
                     datad2 = new JSONArray();
-
                     datad2.put(pharmacyStore.get(size).getUuid());
                     datad2.put(pharmacyStore.get(size).getDrugs().getName());
                     datad2.put(pharmacyStore.get(size).getQuantity());
-
                     datad2.put(pharmacyStore.get(size).getBatchNo());
-
                     datad2.put(num);
                     datad2.put("<input type='checkbox' id='check1' />");
-
                     return datad2;
-
                 } else
                     return null;
 

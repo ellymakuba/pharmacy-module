@@ -111,7 +111,9 @@ $j('#drug1').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -156,7 +158,9 @@ $j('#drug2').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -201,7 +205,9 @@ $j('#drug3').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -246,7 +252,9 @@ $j('#drug4').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -291,7 +299,9 @@ $j('#drug5').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -336,7 +346,9 @@ $j('#drug6').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -381,7 +393,9 @@ $j('#drug7').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -426,7 +440,9 @@ $j('#drug8').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -471,7 +487,9 @@ $j('#drug9').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -516,7 +534,9 @@ $j('#drug10').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -561,7 +581,9 @@ $j('#drug11').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -606,7 +628,9 @@ $j('#drug12').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -651,7 +675,9 @@ $j('#drug13').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -696,7 +722,9 @@ $j('#drug14').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -741,7 +769,9 @@ $j('#drug13').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -786,7 +816,9 @@ $j('#drug14').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -831,7 +863,9 @@ $j('#drug15').blur( function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -876,7 +910,9 @@ $j('#drug16').blur( function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -921,7 +957,9 @@ $j('#drug17').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -966,7 +1004,9 @@ $j('#drug18').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })
@@ -1011,7 +1051,9 @@ $j('#drug19').live('click',function(){
                     dataType:"json",
                     success:function (result){
                         if (result.toString() == 'false'){
-                            alert("Ensure batch and quantity are set for this drug");
+                            $j("#errorDialog").empty();
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j("#errorDialog").dialog("open");
                         }
                     }
                 })

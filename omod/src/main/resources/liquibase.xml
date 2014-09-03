@@ -3694,4 +3694,58 @@
             <column name="display" type="int(11)" defaultValue="0"/>
         </addColumn>
     </changeSet>
+    <changeSet author="ellymakuba" id="2014-07-16-8:03pm">
+        <addColumn tableName="pharmacy_encounter">
+            <column name="totalAmount" type="double" defaultValue="0.0"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="pharmacy-2014-08-13-4:30" author="ellymakuba">
+        <preConditions onFail="MARK_RAN"> <not> <tableExists tableName="pharmacy_temporary_inventory"/></not>
+            <dbms type="mysql"/></preConditions>
+        <comment> Creating the pharmacy_temporary_inventory table</comment>
+        <createTable tableName="pharmacy_temporary_inventory">
+            <column name="pharmacy_inventory_id"  type="int(11)">
+                <constraints  nullable="false"  primaryKey="true"/>
+            </column>
+            <column name="uuid"  type="char(38)"><constraints nullable="false"/></column>
+            <column name="drugName"  type="char(38)"><constraints nullable="false"/></column>
+            <column name="creator" defaultValue="0"  type="int(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datecreated"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column  name="voided" defaultValue="0" type="smallint(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voided_by" type="int(11)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date_voided"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="void_reason"  type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <createIndex indexName="uuid" tableName="pharmacy_temporary_inventory">
+            <column name="uuid"/>
+        </createIndex>
+        <addAutoIncrement columnDataType="int" columnName="pharmacy_inventory_id" tableName="pharmacy_temporary_inventory"/>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2014-08-14-2:59pm">
+        <addColumn tableName="pharmacy_temporary_inventory">
+            <column name="dose" type="VARCHAR(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2014-08-14-3:00pm">
+        <addColumn tableName="pharmacy_temporary_inventory">
+            <column name="unitPrice" type="double"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2014-08-15-11:07pm">
+        <addColumn tableName="pharmacy_temporary_inventory">
+            <column name="locationUUID" type="VARCHAR(50)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

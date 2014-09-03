@@ -118,6 +118,23 @@ public class InventoryStockController {
             }
             response.getWriter().print("" + allowDispense);
         }
+        else{
+            iterator2 = jsonObject2.keys();
+            while (iterator2.hasNext()) {
+                drugsQuantityInStore=0;
+                String key2 = iterator2.next().toString(); // get key
+                drugsInInventory=service.getPharmacyInventory();
+                int drugsInInventorySize=drugsInInventory.size();
+                for(int inInventory=0; inInventory<drugsInInventorySize; inInventory++){
+                    if(drugsInInventory.get(inInventory).getLocation().equals(service.getPharmacyLocationsByName(locationVal).getUuid())){
+                        if(drugsInInventory.get(inInventory).getDrugs().getUuid().equals(Context.getConceptService().getDrugByNameOrId(drugName).getUuid())){
+                            drugsQuantityInStore=drugsQuantityInStore+drugsInInventory.get(inInventory).getQuantity();
+                        }
+                    }
+                }
+            }
+            response.getWriter().print("" + drugsQuantityInStore);
+        }
     }
     public synchronized String[] exractKeyAndValue(String jsonText) {
         String value = "";

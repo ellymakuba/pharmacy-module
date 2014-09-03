@@ -11,7 +11,7 @@
                     class="org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator"/>
         </id>
         <discriminator column="pharmacy_drug_extra_id" insert="false"/>
-        <many-to-one name="pharmacyEncounter" class="org.openmrs.module.pharmacy.model.PharmacyEncounter" property-ref="uuid" column="encounter_uuid" not-null="true"/>
+        <many-to-one name="pharmacyEncounter" class="org.openmrs.module.pharmacy.model.PharmacyEncounter" property-ref="uuid" column="encounter_uuid" />
         <many-to-one name="option" property-ref="uuid" column="variable"/>
         <property name="pill" type="java.lang.Integer" column="pill" length="255"/>
         <many-to-one name="pharmacyLocations" property-ref="uuid" column="location_uuid"/>

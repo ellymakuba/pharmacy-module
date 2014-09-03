@@ -25,13 +25,13 @@ import java.util.*;
 
 @Controller
 public class UnclearedReceiptsProcessor {
-    private static final Log log = LogFactory.getLog(UnclearedReceiptsProcessor.class);
-    public PharmacyService service;
-    private List<PharmacyEncounter> pharmacyEncounters,unclearedReceipts;
-    private List<DrugExtra> receiptToProcess;
-    private JSONArray jsonArray;
-    private JSONObject jsonObject;
-    private JSONArray datad2;
+private static final Log log = LogFactory.getLog(UnclearedReceiptsProcessor.class);
+public PharmacyService service;
+private List<PharmacyEncounter> pharmacyEncounters,unclearedReceipts;
+private List<DrugExtra> receiptToProcess;
+private JSONArray jsonArray;
+private JSONObject jsonObject;
+private JSONArray datad2;
 
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/unProcessedReceipts")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) throws ParseException {
@@ -47,17 +47,20 @@ public class UnclearedReceiptsProcessor {
         } else if (sizeUsers == 1) {
             locationVal = listUsers.get(0).getLocation();
         }
+        String locationUUID=service.getPharmacyLocationsByName(locationVal).getUuid();
         jsonArray = new JSONArray();
          jsonObject=new JSONObject();
 
             try {
                 if (drop != null) {
-                unclearedReceipts=service.getPharmacyEncounter();
+                unclearedReceipts=service.getPharmacyEncounterListByLocationUUID(locationUUID);
+                    log.info("locationUUID++++++++++++++++++++++++++++++++++++++++++"+locationUUID);
                 int unclearedReceiptsSize=unclearedReceipts.size();
                 for(int i=0; i<unclearedReceiptsSize; i++){
                     jsonArray = new JSONArray();
                     jsonArray.put(""+unclearedReceipts.get(i).getUuid());
                     jsonArray.put(""+unclearedReceipts.get(i).getPerson().getPatientIdentifier());
+                    jsonArray.put(""+unclearedReceipts.get(i).getTotalAmount());
                     jsonArray.put(""+unclearedReceipts.get(i).getPerson().getGivenName()+" "+unclearedReceipts.get(i).getPerson().getFamilyName());
                     jsonArray.put(""+unclearedReceipts.get(i).getDateCreated());
 
@@ -83,10 +86,13 @@ public class UnclearedReceiptsProcessor {
                     jsonObject=new JSONObject();
                     int itemSize=receiptToProcess.size();
                     for(int i=0; i<itemSize; i++){
+                        PharmacyStore pharmacyStore=service.getPharmacyInventoryByDrugUuid(receiptToProcess.get(i).getDrug().getUuid(),locationUUID);
                         jsonArray=new JSONArray();
                         jsonArray.put(""+receiptToProcess.get(i).getDrug().getName());
                         jsonArray.put(""+receiptToProcess.get(i).getQuantitysold());
                         jsonArray.put(""+receiptToProcess.get(i).getAmount());
+                        jsonArray.put(""+receiptToProcess.get(i).getUuid());
+                        jsonArray.put(""+pharmacyStore.getUnitPrice());
                         jsonObject.accumulate("aaData", jsonArray);
                     }
                     response.getWriter().print(jsonObject);

@@ -7,48 +7,25 @@ import  org.openmrs.Drug;
 import java.util.Date;
 
 public class PharmacyObs extends BaseOpenmrsData {
-
     private Integer id;
-
     protected Patient person;
-
     protected PharmacyEncounter pharmacyEncounter;
-
-
-
     protected PharmacyLocations location;
-
     protected String concept;
-
     protected int valueCoded;
-
     protected ConceptName valueCodedName;
-
     protected Integer valueGroupId;
-
     protected Date valueDatetime;
-
     protected Double valueNumeric;
-
     protected boolean valueBoolen;
     protected String valueModifier;
-
     protected String valueText;
-
     protected String comment;
-
     protected Date dateStarted;
-
     protected Date dateStopped;
-
     protected String prescriberId;
-
     private PharmacyOrders pharmacyOrder;
-
-
-
     private Drug value_drug;
-
     public PharmacyOrders getPharmacyOrder() {
         return pharmacyOrder;
     }
@@ -78,10 +55,6 @@ public class PharmacyObs extends BaseOpenmrsData {
         this.id = id;
 
     }
-
-
-
-
     /**
      * @return  valueBoolen
      */
@@ -95,7 +68,6 @@ public class PharmacyObs extends BaseOpenmrsData {
      */
 
     public void setValueBoolen(boolean valueBoolen) {
-
         this.valueBoolen = valueBoolen;
 
     }
@@ -103,16 +75,13 @@ public class PharmacyObs extends BaseOpenmrsData {
      * @return  prescriberId
      */
     public String getPrescriberId() {
-
         return prescriberId;
     }
-
     /**
      * @param  prescriberId
      */
 
     public void setPrescriberId(String prescriberId) {
-
         this.prescriberId = prescriberId;
 
     }
@@ -120,7 +89,6 @@ public class PharmacyObs extends BaseOpenmrsData {
      * @return person
      */
     public Patient getPerson() {
-
         return person;
     }
 
@@ -129,16 +97,13 @@ public class PharmacyObs extends BaseOpenmrsData {
      */
 
     public void setPerson(Patient person) {
-
         this.person = person;
-
     }
 
     /**
      * @return encounter
      */
     public PharmacyEncounter getPharmacyEncounter() {
-
         return pharmacyEncounter;
     }
 
@@ -147,34 +112,27 @@ public class PharmacyObs extends BaseOpenmrsData {
      */
 
     public void setPharmacyEncounter(PharmacyEncounter pharmacyEcounter) {
-
         this.pharmacyEncounter = pharmacyEcounter;
 
     }
-
     /**
      * @return location
      */
     public PharmacyLocations getLocation() {
-
         return location;
     }
-
     /**
      * @param location
      */
 
     public void setLocation(PharmacyLocations location) {
-
         this.location = location;
-
     }
 
     /**
      * @return concept
      */
     public String getConcept() {
-
         return concept;
     }
 
@@ -183,7 +141,6 @@ public class PharmacyObs extends BaseOpenmrsData {
      */
 
     public void setConcept(String concept) {
-
         this.concept = concept;
 
     }
@@ -192,7 +149,6 @@ public class PharmacyObs extends BaseOpenmrsData {
      * @return valuecoded
      */
     public int getValueCoded() {
-
         return valueCoded;
     }
 
@@ -201,7 +157,6 @@ public class PharmacyObs extends BaseOpenmrsData {
      */
 
     public void setValueCoded(int valuecoded) {
-
         this.valueCoded = valuecoded;
 
     }
@@ -210,7 +165,6 @@ public class PharmacyObs extends BaseOpenmrsData {
      * @return valueCodedName
      */
     public ConceptName getValueCodedName() {
-
         return valueCodedName;
     }
 
@@ -219,16 +173,9 @@ public class PharmacyObs extends BaseOpenmrsData {
      */
 
     public void setValueCodedName(ConceptName valueCodedName) {
-
         this.valueCodedName = valueCodedName;
 
     }
-
-    /**
-     * This converts  value_numeric to a value_boolean, essentially
-     *
-     * @return Boolean of  obs value
-     */
     public Boolean getValueAsBoolean() {
         return (getValueNumeric() == null ? null : getValueNumeric() != 0);
     }

@@ -47,12 +47,12 @@ $j('#tstockcard tbody tr').live('click', function () {
     // ... do something with the array / object of data for the row
 });
 $j.getJSON("drugBincard.form?selectDose=doseSelect",function (result) {
-        $j("#dose").get(0).options.length = 0;
-        $j("#dose").get(0).options[0] = new Option("Select","-1");
-        $j.each(result,function (index, value) {
-            $j("#dose").get(0).options[$j("#dose").get(0).options.length] = new Option(value,value);
-        });
+    $j("#dose").get(0).options.length = 0;
+    $j("#dose").get(0).options[0] = new Option("Select","-1");
+    $j.each(result,function (index, value) {
+        $j("#dose").get(0).options[$j("#dose").get(0).options.length] = new Option(value,value);
     });
+});
 var currentTime = new Date();
 var month = currentTime.getMonth() + 1;
 var day = currentTime.getDate();
@@ -114,8 +114,8 @@ function getDrugCategory() {
             $j("#filterstock").get(0).options.length = 0;
             $j("#filterstock").get(0).options[0] = new Option("Select","-1");
             $j.each(result,function (index, value) { //bincard"stateList
-                    $j("#filterstock").get(0).options[$j("#filterstock").get(0).options.length] = new Option(value, value);
-                });
+                $j("#filterstock").get(0).options[$j("#filterstock").get(0).options.length] = new Option(value, value);
+            });
         });
 }
 $j("#filterdrugstock").autocomplete({

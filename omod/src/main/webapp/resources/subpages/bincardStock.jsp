@@ -8,7 +8,7 @@
         <form id="bincardform" action="#">
             <fieldset>
                 <legend>Name</legend>
-                 <input type="hidden"  name="drug_id" id="drug_id" />
+                <input type="hidden"  name="drug_id" id="drug_id" />
                 <input type="hidden"  name="uuid" id="uuid" />
                 <label for="engine">Drug Name</label> <input type="text" name="drugname" id="drugname" readonly=""/><br/>
                 <label for="engine">Quantity</label> <input type="text"  name="cQuantity" id="cQuantity" readonly=""/><br/>

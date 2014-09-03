@@ -7,25 +7,14 @@ import org.openmrs.Drug;
  * //TODO: please write something about this class
  */
 public class DrugDispenseSettings extends BaseOpenmrsData {
-
-
-
     private Integer id;
-
-
     private Drug drugId;
-
     private Integer value;
-
     private double amount;
-
     private Integer batchId;
     private PharmacyGeneralVariables option;
-
     private PharmacyLocations location;
-
     private PharmacyStore inventoryId;
-
     private Integer quantity;
     private String form;
     private String front;

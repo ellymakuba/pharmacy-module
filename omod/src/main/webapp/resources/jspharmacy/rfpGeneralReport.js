@@ -1,7 +1,6 @@
 var oCache = {
     iCacheLower:-1
 };
-
 var ooTable;
 var editTr;
 var link;
@@ -9,9 +8,7 @@ var aData;
 $j("#reportform").validate(); //
 $j("#datef").datepicker();
 $j("#datet").datepicker();
-
 $j("form#reportform").submit(function () {
-
     if ($j("#reportform").valid()) {
         ooTable = $j('#treport').dataTable({
             bJQueryUI:true,
