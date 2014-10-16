@@ -789,6 +789,17 @@ $j("#fmapreport").click(function () {
     $j("#fmapreportpage").show();
 });
 
+$j("#dsdr").click(function () {
+    $j("#spinner").show();
+    $j('#west_panel_content').empty();
+    $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/dsdr.jsp #report', function () {
+        $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/dsdr.js", function () {
+        });
+    });
+    hideInactiveDivElements();
+    $j("#dsdrpage").show();
+});
+
 /*View to choose location*/
 $j("#drugusage").click(function () {
     $j("#spinner").show();
@@ -1377,6 +1388,7 @@ CloseDialog();
                 <LI><A href="#" id="requestsum">Detailed Dispensed Drugs Report</A></LI>
                 <LI><A href="#" id="rfpreport">General RFP Report</A></LI>
                 <LI><A href="#" id="fmapreport">F-map Report</A></LI>
+                <LI><A href="#" id="dsdr">DSDR Report</A></LI>
             </UL>
         </div>
         <h3>

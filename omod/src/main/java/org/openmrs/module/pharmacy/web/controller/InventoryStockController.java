@@ -70,11 +70,8 @@ public class InventoryStockController {
 
         pharmacyLocationUsersByUserName = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         sizePharmacyLocationUsers = pharmacyLocationUsersByUserName.size();
-        if (sizePharmacyLocationUsers > 1) {
-            locationVal = request.getSession().getAttribute("location").toString();
-        } else if (sizePharmacyLocationUsers == 1) {
-            locationVal = pharmacyLocationUsersByUserName.get(0).getLocation();
-        }
+        locationVal = request.getSession().getAttribute("location").toString();
+        String locationUUID=service.getPharmacyLocationsByName(locationVal).getUuid();
         int drugsQuantityInStore=0;
         jsonObject2 = new JSONObject(drugID); // this parses the jsonObject
         String myVals[]=exractKeyAndValue(drugID);
@@ -108,7 +105,7 @@ public class InventoryStockController {
         else if(checkBoolean !=null){
             allowDispense=false;
             if(Context.getConceptService().getDrugByNameOrId(drugName) !=null){
-                DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugId(Context.getConceptService().getDrugByNameOrId(drugName));
+                DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(Context.getConceptService().getDrugByNameOrId(drugName).getDrugId(),locationUUID);
                 if(drugDispenseSettings !=null){
                     PharmacyStore pharmacyStore = drugDispenseSettings.getInventoryId();
                     if(pharmacyStore !=null) {

@@ -18,12 +18,16 @@ import org.apache.commons.logging.LogFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.simple.parser.ContainerFactory;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.openmrs.Role;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.UserContext;
 import org.openmrs.module.pharmacy.model.DrugDispenseSettings;
 import org.openmrs.module.pharmacy.model.PharmacyLocationUsers;
+import org.openmrs.module.pharmacy.model.PharmacyLocations;
 import org.openmrs.module.pharmacy.model.PharmacyStore;
 import org.openmrs.module.pharmacy.service.PharmacyService;
 import org.springframework.stereotype.Controller;
@@ -47,6 +51,7 @@ public class DrugDispense {
     private LocationService serviceLocation;
     private JSONArray datad2;
     JSONObject json;
+    private ContainerFactory containerFactory;
     private JSONArray datadFrm;
     private String dialog;
     private Calendar currentDate;
@@ -77,6 +82,7 @@ public class DrugDispense {
     private String front;
     private String back;
     private boolean found;
+    private String drugID;
     private List<PharmacyLocationUsers> pharmacyLocationUserses;
     private int sizeUsers;
     private List<DrugDispenseSettings> drugDispenseSettings;
@@ -154,24 +160,16 @@ public class DrugDispense {
 
         }
         userService = Context.getUserContext();
-
-        service = Context.getService(PharmacyService.class);
         serviceLocation = Context.getLocationService();
         datadFrm = new JSONArray();
-
         drugDispenseSettings = service.getDrugDispenseSettings();
-
         size = drugDispenseSettings.size();
         currentDate = Calendar.getInstance();
         readDate = Calendar.getInstance();
-
         dateC = new Date();
-
         currentDate.setTime(dateC);
-
         gregorianCalendar = new GregorianCalendar();
         calendar = new GregorianCalendar();
-
         gregorianCalendar.set(currentDate.get(currentDate.YEAR), currentDate.get(currentDate.MONTH),
         currentDate.get(currentDate.DAY_OF_MONTH));
         try {
@@ -290,22 +288,68 @@ public class DrugDispense {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/drugDispense")
-    public synchronized void pageLoadd(HttpServletRequest request, HttpServletResponse response) {
-        inventoryNo = request.getParameter("inventoryNo"); //inventory
-        drugName = request.getParameter("dispensedrug"); //from the drop down
-        option = request.getParameter("optionval"); //from the drop down
-        dispenseedit = request.getParameter("dispenseedit"); //from the drop down
-        uuidedit = request.getParameter("dispenseuuid"); //from the drop down
-        days = request.getParameter("value"); //from the drop down
-        amount = request.getParameter("price");
-        quantity = request.getParameter("quantity");
-        form = request.getParameter("form");
-        front = request.getParameter("front");
-        back = request.getParameter("back");
-        voidreason = request.getParameter("dispensereason");
-        voiduuid = request.getParameter("dispenseuuidvoid");
-        String locationVal = null;
+    public synchronized void pageLoadd(HttpServletRequest request, HttpServletResponse response) throws JSONException {
         service = Context.getService(PharmacyService.class);
+        String data = request.getParameter("datas"); //inventory
+        JSONParser passedJSON=new JSONParser();
+        Object obj = null;
+        try {
+            obj=passedJSON.parse(data);
+            JSONArray jsonArray=(JSONArray) obj;
+            for(int i=0; i<jsonArray.length(); i++){
+                String myValues[]= exractKeyAndValue(jsonArray.get(i).toString());
+                String key = myValues[0];
+                String value=myValues[1];
+                log.info("key is+++++++++++++++++++++++++++++++++++++"+key);
+                log.info("value is+++++++++++++++++++++++++++++++++++++"+value);
+                if(key.equalsIgnoreCase("inventoryNo")){
+                    inventoryNo =value;
+                }
+                else if(key.equalsIgnoreCase("dispensedrug")){
+                    drugName =value;
+                }
+                else if(key.equalsIgnoreCase("optionval")){
+                    option =value;
+                }
+                else if(key.equalsIgnoreCase("dispenseedit")){
+                    dispenseedit =value;
+                }
+                else if(key.equalsIgnoreCase("dispenseuuid")){
+                    uuidedit =value;
+                }
+                else if(key.equalsIgnoreCase("value")){
+                    days =value;
+                }
+                else if(key.equalsIgnoreCase("price")){
+                    amount =value;
+                }
+                else if(key.equalsIgnoreCase("quantity")){
+                    quantity =value;
+                }
+                else if(key.equalsIgnoreCase("form")){
+                    form =value;
+                }
+                else if(key.equalsIgnoreCase("front")){
+                    front =value;
+                }
+                else if(key.equalsIgnoreCase("back")){
+                    back =value;
+                }
+                else if(key.equalsIgnoreCase("dispensereason")){
+                    voidreason =value;
+                }
+                else if(key.equalsIgnoreCase("dispenseuuidvoid")){
+                    voiduuid =value;
+                }
+                else if(key.equalsIgnoreCase("drugID")){
+                    drugID =value;
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+        String locationVal = null;
         List<PharmacyLocationUsers> listUsers = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         int sizeUsers = listUsers.size();
         if (sizeUsers > 1) {
@@ -314,6 +358,7 @@ public class DrugDispense {
         } else if (sizeUsers == 1) {
             locationVal = listUsers.get(0).getLocation();
         }
+        PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
         currentDate = Calendar.getInstance();
         readDate = Calendar.getInstance();
         dateC = new Date();
@@ -321,11 +366,9 @@ public class DrugDispense {
         gregorianCalendar = new GregorianCalendar();
         calendar = new GregorianCalendar();
         gregorianCalendar.set(currentDate.get(currentDate.YEAR), currentDate.get(currentDate.MONTH),
-                currentDate.get(currentDate.DAY_OF_MONTH));
-        service = Context.getService(PharmacyService.class);
-        drugDispenseSettings = service.getDrugDispenseSettings();
-        sizeDrug = drugDispenseSettings.size();
-        if (sizeDrug == 0) {
+        currentDate.get(currentDate.DAY_OF_MONTH));
+        DrugDispenseSettings drugDispenseSettings1 = service.getDrugDispenseSettingsByDrugIdAndLocation(Integer.valueOf(drugID),pharmacyLocations.getUuid());
+        if (drugDispenseSettings1 ==null) {
             drugDispense = new DrugDispenseSettings();
             drugDispense.setBatchId(service.getPharmacyInventoryByUuid(inventoryNo).getBatchNo());
             drugDispense.setInventoryId(service.getPharmacyInventoryByUuid(inventoryNo));
@@ -339,36 +382,20 @@ public class DrugDispense {
             drugDispense.setBack(back);
             drugDispense.setFront(front);
             service.saveDrugDispenseSettings(drugDispense);
-        }
-        for (int i = 0; i < size; i++) {
-            found = getCheck(drugDispenseSettings, i, locationVal, drugName);
-            if (found){
-                break;
-            }
-        }
-        if (!found) {
-            if (voiduuid != null) {
-                drugDispense = new DrugDispenseSettings();
-                drugDispense = service.getDrugDispenseSettingsByUuid(voiduuid);
-                drugDispense.setVoided(true);
-                drugDispense.setVoidReason(voidreason);
-                service.saveDrugDispenseSettings(drugDispense);
-            }
-            else {
-                drugDispense = new DrugDispenseSettings();
-                drugDispense.setBatchId(service.getPharmacyInventoryByUuid(inventoryNo).getBatchNo());
-                drugDispense.setInventoryId(service.getPharmacyInventoryByUuid(inventoryNo));
-                drugDispense.setDrugId(Context.getConceptService().getDrugByNameOrId(drugName));
-                drugDispense.setLocation(service.getPharmacyLocationsByName(locationVal));
-                drugDispense.setOption(service.getPharmacyGeneralVariablesByName(option));
-                drugDispense.setValue(Integer.parseInt(days));
-                drugDispense.setAmount(Double.parseDouble(amount));
-                drugDispense.setQuantity(Integer.parseInt(quantity));
-                drugDispense.setForm(form);
-                drugDispense.setBack(back);
-                drugDispense.setFront(front);
-                service.saveDrugDispenseSettings(drugDispense);
-            }
+        } else{
+            drugDispense =drugDispenseSettings1;
+            drugDispense.setBatchId(service.getPharmacyInventoryByUuid(inventoryNo).getBatchNo());
+            drugDispense.setInventoryId(service.getPharmacyInventoryByUuid(inventoryNo));
+            drugDispense.setDrugId(Context.getConceptService().getDrugByNameOrId(drugName));
+            drugDispense.setLocation(service.getPharmacyLocationsByName(locationVal));
+            drugDispense.setOption(service.getPharmacyGeneralVariablesByName(option));
+            drugDispense.setValue(Integer.parseInt(days));
+            drugDispense.setAmount(Double.parseDouble(amount));
+            drugDispense.setQuantity(Integer.parseInt(quantity));
+            drugDispense.setForm(form);
+            drugDispense.setBack(back);
+            drugDispense.setFront(front);
+            service.saveDrugDispenseSettings(drugDispense);
 
         }
 
@@ -465,6 +492,25 @@ public class DrugDispense {
         } else
             return false;
 
+    }
+    public synchronized String[] exractKeyAndValue(String jsonText) {
+        String value = "";
+        String key="";
+        JSONParser parser = new JSONParser();
+        try {
+            Map json = (Map) parser.parse(jsonText, containerFactory);
+            Iterator iter = json.entrySet().iterator();
+
+            while (iter.hasNext()) {
+                Map.Entry entry = (Map.Entry) iter.next();
+                key+=entry.getKey();
+                value+=entry.getValue();
+            }
+        } catch (Exception pe) {
+            log.info(pe);
+        }
+        String myvals[]={key,value};
+        return myvals;
     }
 
 }

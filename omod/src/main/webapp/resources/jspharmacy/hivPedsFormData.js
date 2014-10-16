@@ -3,21 +3,15 @@ $j("#datePicker").datepicker().datepicker('setDate',new Date());
 $j("#nextvisit").datepicker();
 var pRegimen;
 var cRegimen;
-$j('#drug1').live('click',function(){
-    if($j('#drug1').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug1"){
+$j("input[title='drug']").live('click',function(){
+    if($j(this).attr('checked')==true){
+        var drugIndex=$j(this).attr('name').substring($j(this).attr('name').indexOf('#')+1);
+        var values = $j(this).map(function () {
                     return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
 
             }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug1"){
+        var values2 =$j(this).map(function () {
                     return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
             }).get();
         var vals = values.toString().split(",");
         var drugQ = values2.toString().split(",");
@@ -32,7 +26,7 @@ $j('#drug1').live('click',function(){
             data: { "jsonDrugObject" :JSON.stringify(json) },
             dataType:"json",
             success:function (result) {
-                document.getElementById("quantityInStore1").value=result;
+                document.getElementById("quantityInStore"+drugIndex).value=result;
                 $j.ajax({
                     type:"GET",
                     url:"dispense.form",
@@ -50,1181 +44,7 @@ $j('#drug1').live('click',function(){
         })
     }
 });
-$j('#drug2').live('click',function(){
-    if($j('#drug2').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug2"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
 
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug2"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore2").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-}) ;
-$j('#drug3').live('click',function(){
-    if($j('#drug3').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug3"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug3"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore3").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-}) ;
-$j('#drug4').live('click',function(){
-    if($j('#drug4').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug4"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug4"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore4").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-}) ;
-$j('#drug5').live('click',function(){
-    if($j('#drug5').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug5"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug5"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore5").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-}) ;
-$j('#drug6').live('click',function(){
-    if($j('#drug6').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug6"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug6"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore6").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug7').live('click',function(){
-    if($j('#drug7').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug7"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug7"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore7").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug8').live('click',function(){
-    if($j('#drug8').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug8"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug8"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore8").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug9').live('click',function(){
-    if($j('#drug9').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug9"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug9"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore9").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug10').live('click',function(){
-    if($j('#drug10').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug10"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug10"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore10").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug11').live('click',function(){
-    if($j('#drug11').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug11"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug11"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore11").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug12').live('click',function(){
-    if($j('#drug12').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug12"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug12"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore12").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug13').live('click',function(){
-    if($j('#drug13').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug13"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug13"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore13").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug14').live('click',function(){
-    if($j('#drug14').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug14"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug14"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore14").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug15').live('click',function(){
-    if($j('#drug15').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug15"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug15"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore15").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug16').live('click',function(){
-    if($j('#drug16').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug16"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug16"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore16").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug17').live('click',function(){
-    if($j('#drug17').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug17"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug17"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore17").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug18').live('click',function(){
-    if($j('#drug18').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug18"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug18"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore18").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug17').live('click',function(){
-    if($j('#drug17').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug17"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug17"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore17").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug18').live('click',function(){
-    if($j('#drug18').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug18"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug18"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore18").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug19').live('click',function(){
-    if($j('#drug19').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug19"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug19"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore19").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug20').live('click',function(){
-    if($j('#drug20').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug20"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug20"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore20").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug21').live('click',function(){
-    if($j('#drug21').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug21"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug21"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore21").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug22').live('click',function(){
-    if($j('#drug22').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug22"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug22"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore22").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug23').live('click',function(){
-    if($j('#drug23').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug23"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug23"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore23").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
-$j('#drug24').live('click',function(){
-    if($j('#drug24').attr('checked')==true){
-        var values = $j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug24"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var values2 =$j("input[title='drug']").map(
-            function () {
-                if(this.id=="drug24"){
-                    return $j(this).val().substring($j(this).val().indexOf('|')+1);
-                }
-
-            }).get();
-        var vals = values.toString().split(",");
-        var drugQ = values2.toString().split(",");
-        var size = vals.length;
-        var json = {};
-        for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore24").value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
-                    data:{drugCheck:JSON.stringify(json) },
-                    dataType:"json",
-                    success:function (result){
-                        if (result.toString() == 'false'){
-                            $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
-                            $j("#errorDialog").dialog("open");
-                        }
-                    }
-                })
-            }
-        })
-    }
-});
 $j("input[type='radio']").click(function()
 {
     var previousValue = $j(this).attr('previousValue');
@@ -5181,7 +4001,13 @@ function validateHivPedsForm(){
                 num=0;
                 return num;
             }
-            else {num=1;  }
+            else {
+                num=1;
+            }
+            if($j("input#Other1").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#1ma").is(':checked'))&&(!$j("#1mb").is(':checked'))&&(!$j("#1mc").is(':checked'))))
             {
                 num=0;
@@ -5201,6 +4027,10 @@ function validateHivPedsForm(){
                 return num;
             }
             else{num=1;}
+            if($j("input#Other1").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#2ma").is(':checked'))&&(!$j("#2mb").is(':checked'))&&(!$j("#2mc").is(':checked'))))
             {
                 num=0;
@@ -5214,6 +4044,10 @@ function validateHivPedsForm(){
                 num=0;
                 return num;
             }else{num=1;}
+            if($j("input#Other1").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#3ma").is(':checked'))&&(!$j("#3mb").is(':checked'))&&(!$j("#3mc").is(':checked'))))
             {
                 num=0;
@@ -5228,6 +4062,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other1").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#4ma").is(':checked'))&&(!$j("#4mb").is(':checked'))&&(!$j("#4mc").is(':checked'))))
                 {
                     num=0;
@@ -5260,6 +4098,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other1").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#5ma").is(':checked'))&&(!$j("#5mb").is(':checked'))&&(!$j("#5mc").is(':checked'))))
                 {
                     num=0;
@@ -5292,6 +4134,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other1").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#6ma").is(':checked'))&&(!$j("#6mb").is(':checked'))&&(!$j("#6mc").is(':checked'))))
             {
                 num=0;
@@ -5309,6 +4155,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other2").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#11ma").is(':checked'))&&(!$j("#11mb").is(':checked'))&&(!$j("#11mc").is(':checked'))))
             {
                 num=0;
@@ -5326,6 +4176,11 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            num=1;
+            if($j("input#Other2").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#12ma").is(':checked'))&&(!$j("#12mb").is(':checked'))&&(!$j("#12mc").is(':checked'))))
             {
                 num=0;
@@ -5341,6 +4196,11 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            num=1;
+            if($j("input#Other2").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#13ma").is(':checked'))&&(!$j("#13mb").is(':checked'))&&(!$j("#13mc").is(':checked'))))
             {
                 num=0;
@@ -5357,6 +4217,11 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                num=1;
+                if($j("input#Other2").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#14ma").is(':checked'))&&(!$j("#14mb").is(':checked'))&&(!$j("#14mc").is(':checked'))))
                 {
                     num=0;
@@ -5372,6 +4237,11 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                num=1;
+                if($j("input#Other2").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#14ma1").is(':checked'))&&(!$j("#14mb2").is(':checked'))&&(!$j("#14mc3").is(':checked'))))
                 {
                     num=0;
@@ -5390,6 +4260,11 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                num=1;
+                if($j("input#Other2").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#15ma").is(':checked'))&&(!$j("#15mb").is(':checked'))&&(!$j("#15mc").is(':checked'))))
                 {
                     num=0;
@@ -5405,6 +4280,11 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                num=1;
+                if($j("input#Other2").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#15ma1").is(':checked'))&&(!$j("#15mb2").is(':checked'))&&(!$j("#15mc3").is(':checked'))))
                 {
                     num=0;
@@ -5422,6 +4302,11 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            num=1;
+            if($j("input#Other2").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#16ma").is(':checked'))&&(!$j("#16mb").is(':checked'))&&(!$j("#16mc").is(':checked'))))
             {
                 num=0;
@@ -5439,6 +4324,11 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            num=1;
+            if($j("input#Other3").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#21ma").is(':checked'))&&(!$j("#21mb").is(':checked'))&&(!$j("#21mc").is(':checked'))))
             {
                 num=0;
@@ -5456,6 +4346,11 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            num=1;
+            if($j("input#Other3").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#22ma").is(':checked'))&&(!$j("#22mb").is(':checked'))&&(!$j("#22mc").is(':checked'))))
             {
                 num=0;
@@ -5471,6 +4366,11 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            num=1;
+            if($j("input#Other3").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#23ma").is(':checked'))&&(!$j("#23mb").is(':checked'))&&(!$j("#23mc").is(':checked'))))
             {
                 num=0;
@@ -5487,6 +4387,11 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                num=1;
+                if($j("input#Other3").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#24ma").is(':checked'))&&(!$j("#24mb").is(':checked'))&&(!$j("#24mc").is(':checked'))))
                 {
                     num=0;
@@ -5503,6 +4408,11 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                num=1;
+                if($j("input#Other3").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#24ma1").is(':checked'))&&(!$j("#24mb2").is(':checked'))&&(!$j("#24mc3").is(':checked'))))
                 {
                     num=0;
@@ -5520,6 +4430,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other3").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#25ma1").is(':checked'))&&(!$j("#25mb2").is(':checked'))&&(!$j("#25mc3").is(':checked'))))
                 {
                     num=0;
@@ -5536,6 +4450,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other3").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#26ma").is(':checked'))&&(!$j("#26mb").is(':checked'))&&(!$j("#26mc").is(':checked'))))
             {
                 num=0;
@@ -5547,6 +4465,10 @@ function validateHivPedsForm(){
 
     }    if ($j("#drug4").is(':checked')) {
         if(($j("input#a1").val()!="")){
+            if($j("input#Other4").val() !="") {
+                num=1;
+                return num;
+            }
             if ((!$j("#a2").is(':checked')||($j("input#a3").val()=="")||($j("input#qnty4").val()=="")    )){
                 num=0;
                 return num;
@@ -5559,6 +4481,10 @@ function validateHivPedsForm(){
 
     }  if ($j("#drug5").is(':checked')) {
         if(($j("input#b1").val()!="")){
+            if($j("input#Other5").val() !="") {
+                num=1;
+                return num;
+            }
             if ((!$j("#b2").is(':checked')||($j("input#b3").val()=="")||($j("input#qnty5").val()=="")    )){
                 num=0;
                 return num;
@@ -5579,9 +4505,12 @@ function validateHivPedsForm(){
                     return num;
                 }
                 else  num=1;
+                if($j("input#Other6").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (!$j("#31ma1").is(':checked') && !$j("#31ma2").is(':checked'))
                 {
-                    alert("ma1 is "+$j("#31ma1").is(':checked')+" and ma2 is "+$j("#31ma2").is(':checked'));
                     num=0;
                     return num;
                 }
@@ -5594,6 +4523,10 @@ function validateHivPedsForm(){
                     return num;
                 }
                 else  num=1;
+                if($j("input#Other6").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (!$j("#31ma1").is(':checked') && !$j("#31ma2").is(':checked'))
                 {
                     num=0;
@@ -5613,7 +4546,11 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
-                if (((!$j("#32ma").is(':checked'))))
+                if($j("input#Other6").val() !="") {
+                    num=1;
+                    return num;
+                }
+                if (!$j("#32ma1").is(':checked') && !$j("#32ma2").is(':checked'))
                 {
                     num=0;
                     return num;
@@ -5628,7 +4565,11 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
-                if (((!$j("#32ma1").is(':checked'))))
+                if($j("input#Other6").val() !="") {
+                    num=1;
+                    return num;
+                }
+                if (!$j("#32ma1").is(':checked') && !$j("#32ma2").is(':checked'))
                 {
                     num=0;
                     return num;
@@ -5640,14 +4581,17 @@ function validateHivPedsForm(){
         }
         if(($j("#33").is(':checked'))){
             if($j("#33fa").is(':checked')&& !$j("#33fb").is(':checked')){
-                if ((!$j("#33fa").is(':checked')||($j("input#qnty6").val()=="")   )){
+                if (($j("input#qnty6").val()=="")){
                     num=0;
-                    ;
                     return num;
                 }
                 else
                     num=1;
-                if (((!$j("#33ma").is(':checked'))))
+                if($j("input#Other6").val() !="") {
+                    num=1;
+                    return num;
+                }
+                if (!$j("#33ma1").is(':checked') && !$j("#33ma2").is(':checked'))
                 {
                     num=0;
                     return num;
@@ -5656,13 +4600,17 @@ function validateHivPedsForm(){
                     num=1;
             }
             if(!$j("#33fa").is(':checked')&& $j("#33fb").is(':checked')){
-                if ((!$j("#33fb").is(':checked')||($j("input#qnty6").val()==""))){
+                if (($j("input#qnty6").val()=="")){
                     num=0;
                     return num;
                 }
                 else
                     num=1;
-                if (((!$j("#33ma1").is(':checked'))))
+                if($j("input#Other6").val() !="") {
+                    num=1;
+                    return num;
+                }
+                if (!$j("#33ma1").is(':checked') && !$j("#33ma2").is(':checked'))
                 {
                     num=0;
                     return num;
@@ -5680,7 +4628,11 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
-                if (((!$j("#34ma").is(':checked'))))
+                if($j("input#Other6").val() !="") {
+                    num=1;
+                    return num;
+                }
+                if (!$j("#34ma1").is(':checked') && !$j("#34ma").is(':checked'))
                 {
                     num=0;
                     return num;
@@ -5696,7 +4648,11 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
-                if (((!$j("#34ma1").is(':checked'))))
+                if($j("input#Other6").val() !="") {
+                    num=1;
+                    return num;
+                }
+                if (!$j("#34ma1").is(':checked') && !$j("#34ma").is(':checked'))
                 {
                     num=0;
                     return num;
@@ -5712,6 +4668,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other6").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#35ma").is(':checked'))))
                 {
                     num=0;
@@ -5728,6 +4688,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other6").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#36ma").is(':checked'))))
             {
                 num=0;
@@ -5746,7 +4710,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
-
+                if($j("input#Other7").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#41ma1").is(':checked'))&&(!$j("#41mb1").is(':checked'))&&(!$j("#41mc1").is(':checked'))))
 
                 {
@@ -5762,7 +4729,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
-
+                if($j("input#Other7").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#41ma2").is(':checked'))&&(!$j("#41mb2").is(':checked'))&&(!$j("#41mc2").is(':checked'))))
 
                 {
@@ -5783,6 +4753,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other7").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#42ma1").is(':checked'))&&(!$j("#42mb1").is(':checked'))&&(!$j("#42mc1").is(':checked'))))
 
                 {
@@ -5800,6 +4774,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other7").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#42ma2").is(':checked'))&&(!$j("#42mb2").is(':checked'))&&(!$j("#42mc2").is(':checked'))))
                 {
                     num=0;
@@ -5817,6 +4795,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other7").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#43ma1").is(':checked'))&&(!$j("#43mb1").is(':checked'))&&(!$j("#43mc1").is(':checked'))))
                 {
                     num=0;
@@ -5832,6 +4814,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other7").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#43ma2").is(':checked'))&&(!$j("#43mb2").is(':checked'))&&(!$j("#43mc2").is(':checked'))))
                 {
                     num=0;
@@ -5850,6 +4836,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other7").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#44ma1").is(':checked'))&&(!$j("#44mb1").is(':checked'))&&(!$j("#44mc1").is(':checked'))))
 
                 {
@@ -5866,6 +4856,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other7").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#44ma2").is(':checked'))&&(!$j("#44mb2").is(':checked'))&&(!$j("#44mc2").is(':checked'))))
                 {
                     num=0;
@@ -5883,6 +4877,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other7").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#45ma").is(':checked'))&&(!$j("#45mb").is(':checked'))&&(!$j("#45mc").is(':checked'))))
                 {
                     num=0;
@@ -5899,6 +4897,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other7").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#46ma").is(':checked'))&&(!$j("#46mb").is(':checked'))&&(!$j("#46mc").is(':checked'))))
             {
                 num=0;
@@ -5918,6 +4920,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other8").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#50ma").is(':checked'))&&(!$j("#50mb").is(':checked'))&&(!$j("#50mc").is(':checked'))))
             {
                 num=0;
@@ -5933,6 +4939,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other8").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#51ma").is(':checked'))&&(!$j("#51mb").is(':checked'))&&(!$j("#51mc").is(':checked'))))
             {
                 num=0;
@@ -5948,6 +4958,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other8").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#52ma").is(':checked'))&&(!$j("#52mb").is(':checked'))&&(!$j("#52mc").is(':checked'))))
             {
                 num=0;
@@ -5964,6 +4978,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+                if($j("input#Other8").val() !="") {
+                    num=1;
+                    return num;
+                }
             if (((!$j("#53ma1").is(':checked'))&&(!$j("#53ma2").is(':checked'))&&(!$j("#53ma3").is(':checked'))))
             {
                 num=0;
@@ -5979,6 +4997,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other8").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#53mb1").is(':checked'))&&(!$j("#53mb2").is(':checked'))&&(!$j("#53mb3").is(':checked'))))
                 {
                     num=0;
@@ -5996,6 +5018,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other8").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#54ma1").is(':checked'))&&(!$j("#54ma2").is(':checked'))&&(!$j("#54ma3").is(':checked'))))
                 {
                     num=0;
@@ -6011,6 +5037,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other8").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#54mb1").is(':checked'))&&(!$j("#54mb2").is(':checked'))&&(!$j("#54mb3").is(':checked'))))
                 {
                     num=0;
@@ -6028,6 +5058,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other8").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#55ma1").is(':checked'))&&(!$j("#55mb1").is(':checked'))&&(!$j("#55mc1").is(':checked'))))
                 {
                     num=0;
@@ -6043,6 +5077,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other8").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#55ma2").is(':checked'))&&(!$j("#55mb2").is(':checked'))&&(!$j("#55mc2").is(':checked'))))
                 {
                     num=0;
@@ -6058,6 +5096,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+            if($j("input#Other8").val() !="") {
+                num=1;
+                return num;
+            }
                 if (((!$j("#56ma").is(':checked'))&&(!$j("#56mb").is(':checked'))&&(!$j("#56mc").is(':checked'))))
                 {
                     num=0;
@@ -6073,6 +5115,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+            if($j("input#Other8").val() !="") {
+                num=1;
+                return num;
+            }
                 if (((!$j("#57ma").is(':checked'))&&(!$j("#57mb").is(':checked'))&&(!$j("#57mc").is(':checked'))))
                 {
                     num=0;
@@ -6088,6 +5134,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other8").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#58ma").is(':checked'))&&(!$j("#58mb").is(':checked'))&&(!$j("#58mc").is(':checked'))))
             {
                 num=0;
@@ -6105,6 +5155,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other9").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#61ma").is(':checked'))&&(!$j("#61mb").is(':checked'))&&(!$j("#61mc").is(':checked'))))
             {
                 num=0;
@@ -6122,6 +5176,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other9").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#62ma").is(':checked'))&&(!$j("#62mb").is(':checked'))&&(!$j("#62mc").is(':checked'))))
             {
                 num=0;
@@ -6137,6 +5195,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other9").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#63ma").is(':checked'))&&(!$j("#63mb").is(':checked'))&&(!$j("#63mc").is(':checked'))))
             {
                 num=0;
@@ -6153,6 +5215,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other9").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#64ma").is(':checked'))&&(!$j("#64mb").is(':checked'))&&(!$j("#64mc").is(':checked'))))
                 {
                     num=0;
@@ -6169,6 +5235,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other9").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#65ma").is(':checked'))&&(!$j("#65mb").is(':checked'))&&(!$j("#65mc").is(':checked'))))
             {
                 num=0;
@@ -6186,6 +5256,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other10").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#71ma").is(':checked'))&&(!$j("#71mb").is(':checked'))&&(!$j("#71mc").is(':checked'))))
             {
                 num=0;
@@ -6203,6 +5277,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other10").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#72ma").is(':checked'))&&(!$j("#72mb").is(':checked'))&&(!$j("#72mc").is(':checked'))))
             {
                 num=0;
@@ -6218,6 +5296,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other10").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#73ma").is(':checked'))&&(!$j("#73mb").is(':checked'))&&(!$j("#73mc").is(':checked'))))
             {
                 num=0;
@@ -6234,6 +5316,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other10").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#74ma").is(':checked'))&&(!$j("#74mb").is(':checked'))&&(!$j("#74mc").is(':checked'))))
                 {
                     num=0;
@@ -6250,6 +5336,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other10").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#75ma").is(':checked'))&&(!$j("#75mb").is(':checked'))&&(!$j("#75mc").is(':checked'))))
             {
                 num=0;
@@ -6267,6 +5357,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other11").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#81ma").is(':checked'))&&(!$j("#81mb").is(':checked'))&&(!$j("#81mc").is(':checked'))))
             {
                 num=0;
@@ -6284,6 +5378,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other11").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#82ma").is(':checked'))&&(!$j("#82mb").is(':checked'))&&(!$j("#82mc").is(':checked'))))
             {
                 num=0;
@@ -6299,6 +5397,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other11").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#83ma").is(':checked'))&&(!$j("#83mb").is(':checked'))&&(!$j("#83mc").is(':checked'))))
             {
                 num=0;
@@ -6314,6 +5416,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+            if($j("input#Other11").val() !="") {
+                num=1;
+                return num;
+            }
                 if (((!$j("#84ma").is(':checked'))&&(!$j("#84mb").is(':checked'))&&(!$j("#84mc").is(':checked'))))
                 {
                     num=0;
@@ -6329,6 +5435,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other11").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#85ma").is(':checked'))&&(!$j("#85mb").is(':checked'))&&(!$j("#85mc").is(':checked'))))
             {
                 num=0;
@@ -6346,6 +5456,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other12").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#91ma").is(':checked'))&&(!$j("#91mb").is(':checked'))&&(!$j("#91mc").is(':checked'))))
             {
                 num=0;
@@ -6363,6 +5477,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other12").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#92ma").is(':checked'))&&(!$j("#92mb").is(':checked'))&&(!$j("#92mc").is(':checked'))))
             {
                 num=0;
@@ -6378,6 +5496,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other12").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#93ma").is(':checked'))&&(!$j("#93mb").is(':checked'))&&(!$j("#93mc").is(':checked'))))
             {
                 num=0;
@@ -6394,6 +5516,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other12").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#94ma").is(':checked'))&&(!$j("#94mb").is(':checked'))&&(!$j("#94mc").is(':checked'))))
                 {
                     num=0;
@@ -6410,6 +5536,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other12").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#95ma").is(':checked'))&&(!$j("#95mb").is(':checked'))&&(!$j("#95mc").is(':checked'))))
             {
                 num=0;
@@ -6427,6 +5557,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other13").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#111ma").is(':checked'))&&(!$j("#111mb").is(':checked'))&&(!$j("#111mc").is(':checked'))))
             {
                 num=0;
@@ -6444,6 +5578,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other13").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#112ma").is(':checked'))&&(!$j("#112mb").is(':checked'))&&(!$j("#112mc").is(':checked'))))
             {
                 num=0;
@@ -6460,6 +5598,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other13").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#113ma1").is(':checked'))&&(!$j("#113mb1").is(':checked'))&&(!$j("#113mc1").is(':checked'))))
                 {
                     num=0;
@@ -6475,6 +5617,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other13").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#113ma2").is(':checked'))&&(!$j("#113mb2").is(':checked'))&&(!$j("#113mc2").is(':checked'))))
                 {
                     num=0;
@@ -6492,6 +5638,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other13").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#114ma1").is(':checked'))&&(!$j("#114mb1").is(':checked'))&&(!$j("#114mc1").is(':checked'))))
                 {
                     num=0;
@@ -6508,6 +5658,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other13").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#114ma2").is(':checked'))&&(!$j("#114mb2").is(':checked'))&&(!$j("#114mc2").is(':checked'))))
                 {
                     num=0;
@@ -6524,6 +5678,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other13").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#112ma1").is(':checked'))&&(!$j("#112mb1").is(':checked'))&&(!$j("#112mb1").is(':checked'))))
             {
                 num=0;
@@ -6542,6 +5700,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other13").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#113ma11").is(':checked'))&&(!$j("#113mb11").is(':checked'))&&(!$j("#113mc11").is(':checked'))))
                 {
                     num=0;
@@ -6549,6 +5711,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other13").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#113ma21").is(':checked'))&&(!$j("#113mb21").is(':checked'))&&(!$j("#113mc21").is(':checked'))))
                 {
                     num=0;
@@ -6565,6 +5731,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other13").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#113ma22").is(':checked'))&&(!$j("#113ma22").is(':checked'))&&(!$j("#113ma22").is(':checked'))))
                 {
                     num=0;
@@ -6581,6 +5751,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other13").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#114ma11").is(':checked'))&&(!$j("#114mb11").is(':checked'))&&(!$j("#114mc11").is(':checked'))))
                 {
                     num=0;
@@ -6596,6 +5770,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other13").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#114ma21").is(':checked'))&&(!$j("#114mb21").is(':checked'))&&(!$j("#114mc21").is(':checked'))))
                 {
                     num=0;
@@ -6614,6 +5792,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other14").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#120ma").is(':checked'))&&(!$j("#120mb").is(':checked'))&&(!$j("#120mc").is(':checked'))))
             {
                 num=0;
@@ -6632,6 +5814,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other14").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#121ma").is(':checked'))&&(!$j("#121mb").is(':checked'))&&(!$j("#121mc").is(':checked'))))
             {
                 num=0;
@@ -6647,6 +5833,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other14").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#122ma").is(':checked'))&&(!$j("#122mb").is(':checked'))&&(!$j("#122mc").is(':checked'))))
             {
                 num=0;
@@ -6663,6 +5853,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other14").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#123ma1").is(':checked'))&&(!$j("#123mb1").is(':checked'))&&(!$j("#123mc1").is(':checked'))))
                 {
                     num=0;
@@ -6678,6 +5872,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other14").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#123ma2").is(':checked'))&&(!$j("#123mb2").is(':checked'))&&(!$j("#123mc2").is(':checked'))))
 
                 {
@@ -6696,6 +5894,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other14").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#124ma1").is(':checked'))&&(!$j("#124mb1").is(':checked'))&&(!$j("#124mc1").is(':checked'))))
                 {
                     num=0;
@@ -6711,6 +5913,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other14").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#124ma2").is(':checked'))&&(!$j("#124mb2").is(':checked'))&&(!$j("#124mc2").is(':checked'))))
 
                 {
@@ -6729,6 +5935,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other14").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#125ma1").is(':checked'))&&(!$j("#125mb1").is(':checked'))&&(!$j("#125mc1").is(':checked'))))
                 {
                     num=0;
@@ -6744,6 +5954,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other14").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#125ma2").is(':checked'))&&(!$j("#125mb2").is(':checked'))&&(!$j("#125mc2").is(':checked'))))
 
                 {
@@ -6761,6 +5975,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other14").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#126ma").is(':checked'))&&(!$j("#126mb").is(':checked'))&&(!$j("#126mc").is(':checked'))))
             {
                 num=0;
@@ -6777,6 +5995,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+        if($j("input#Other15").val() !="") {
+            num=1;
+            return num;
+        }
 
         if (((!$j("#136ma").is(':checked'))&&(!$j("#136mb").is(':checked'))&&(!$j("#136mc").is(':checked'))))
         {
@@ -6787,8 +6009,13 @@ function validateHivPedsForm(){
             num=1;
     }
     if ($j("#drug16").is(':checked')) {
-        if(($j("#146").is(':checked')))
-            if ((!$j("#146f").is(':checked')||($j("input#qnty16").val()=="")    )){                num=0;
+        if(($j("#146").is(':checked'))){
+            if($j("input#Other16").val() !="") {
+                num=1;
+                return num;
+            }
+            if ((!$j("#146f").is(':checked')||($j("input#qnty16").val()=="")    )){
+                num=0;
                 return num;
             }
             else
@@ -6800,6 +6027,8 @@ function validateHivPedsForm(){
         }
         else
             num=1;
+        }
+
     }
 
     if ($j("#drug17").is(':checked')) {
@@ -6810,7 +6039,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
-
+        if($j("input#Other17").val() !="") {
+            num=1;
+            return num;
+        }
         if (((!$j("#156ma").is(':checked'))&&(!$j("#156mb").is(':checked'))&&(!$j("#156mc").is(':checked'))))
         {
             num=0;
@@ -6827,6 +6059,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+        if($j("input#Other18").val() !="") {
+            num=1;
+            return num;
+        }
         if (((!$j("#166ma").is(':checked'))&&(!$j("#166mb").is(':checked'))&&(!$j("#166mc").is(':checked'))))
         {
             num=0;
@@ -6844,6 +6080,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+        if($j("input#Other19").val() !="") {
+            num=1;
+            return num;
+        }
         if (((!$j("#176ma").is(':checked'))&&(!$j("#176mb").is(':checked'))&&(!$j("#176mc").is(':checked'))))
         {
             num=0;
@@ -6860,6 +6100,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+        if($j("input#Other20").val() !="") {
+            num=1;
+            return num;
+        }
         if (((!$j("#186ma").is(':checked'))&&(!$j("#186mb").is(':checked'))&&(!$j("#186mc").is(':checked'))))
         {
             num=0;
@@ -6877,6 +6121,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+        if($j("input#Other21").val() !="") {
+            num=1;
+            return num;
+        }
         if (((!$j("#196ma").is(':checked'))&&(!$j("#196mb").is(':checked'))&&(!$j("#196mc").is(':checked'))))
         {
             num=0;
@@ -6895,6 +6143,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other22").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#201ma1").is(':checked'))&&(!$j("#201ma2").is(':checked'))&&(!$j("#201mb1").is(':checked'))))
 
                 {
@@ -6911,6 +6163,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other22").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#201mb2").is(':checked'))&&(!$j("#201mc1").is(':checked'))&&(!$j("#201mc2").is(':checked'))))
 
                 {
@@ -6931,6 +6187,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other22").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#202ma1").is(':checked'))&&(!$j("#202mb1").is(':checked'))&&(!$j("#202mc1").is(':checked'))))
                 {
                     num=0;
@@ -6946,6 +6206,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other22").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#202ma2").is(':checked'))&&(!$j("#202mb2").is(':checked'))&&(!$j("#202mc2").is(':checked'))))
                 {
                     num=0;
@@ -6963,6 +6227,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other22").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#203ma1").is(':checked'))&&(!$j("#203ma2").is(':checked'))&&(!$j("#203mb1").is(':checked'))))
                 {
                     num=0;
@@ -6979,6 +6247,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other22").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#203mb2").is(':checked'))&&(!$j("#203mc1").is(':checked'))&&(!$j("#203mc2").is(':checked'))))
                 {
                     num=0;
@@ -6996,6 +6268,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other22").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#204ma1").is(':checked'))&&(!$j("#204ma2").is(':checked'))&&(!$j("#204mc1").is(':checked'))))
 
                 {
@@ -7013,6 +6289,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other22").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#204mb1").is(':checked'))&&(!$j("#204mb2").is(':checked'))&&(!$j("#204mc2").is(':checked'))))
 
                 {
@@ -7031,6 +6311,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other22").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#205ma").is(':checked'))&&(!$j("#205mb").is(':checked'))&&(!$j("#205mc").is(':checked'))))
                 {
                     num=0;
@@ -7049,6 +6333,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other23").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#211ma").is(':checked'))&&(!$j("#211mb").is(':checked'))&&(!$j("#211mc").is(':checked'))))
             {
                 num=0;
@@ -7066,6 +6354,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other23").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#212ma").is(':checked'))&&(!$j("#212mb").is(':checked'))&&(!$j("#212mc").is(':checked'))))
             {
                 num=0;
@@ -7081,6 +6373,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other23").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#213ma").is(':checked'))&&(!$j("#213mb").is(':checked'))&&(!$j("#213mc").is(':checked'))))
             {
                 num=0;
@@ -7098,6 +6394,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other24").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#221ma").is(':checked'))&&(!$j("#221mb").is(':checked'))&&(!$j("#221mc").is(':checked'))))
             {
                 num=0;
@@ -7113,6 +6413,10 @@ function validateHivPedsForm(){
             }
             else
                 num=1;
+            if($j("input#Other24").val() !="") {
+                num=1;
+                return num;
+            }
             if (((!$j("#222ma").is(':checked'))&&(!$j("#222mb").is(':checked'))&&(!$j("#222mc").is(':checked'))))
             {
                 num=0;
@@ -7129,6 +6433,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other24").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#223ma1").is(':checked'))&&(!$j("#223mb1").is(':checked'))))
                 {
                     num=0;
@@ -7144,6 +6452,10 @@ function validateHivPedsForm(){
                 }
                 else
                     num=1;
+                if($j("input#Other24`").val() !="") {
+                    num=1;
+                    return num;
+                }
                 if (((!$j("#223ma2").is(':checked'))&&(!$j("#223mb2").is(':checked'))))
                 {
                     num=0;
@@ -7187,7 +6499,8 @@ var numbers = [
     [625,628],
     [802,628],
     [1400],
-    [628,814,631]
+    [628,814,631],
+    [631,6679]
 ];
 var regimen ='';
 var splicedRegimen=''
@@ -7399,7 +6712,7 @@ function regimenFilter(val){
         regimenName='TDF/3TC';
         regimenCode='CA3A'
     }
-    else if(positionOfEquity==24){
+    else if(positionOfEquity==24 || positionOfEquity==25){
         regimenName='ABC/3TC/NVP';
         regimenCode='CF2A'
     }

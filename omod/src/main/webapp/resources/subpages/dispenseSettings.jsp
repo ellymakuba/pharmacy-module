@@ -14,7 +14,6 @@
                 <legend>Dispense name</legend>
                 <input type="hidden" name="dispenseedit" id="dispenseedit" value="false"/>
                 <input type="hidden" name="dispenseuuid" id="dispenseuuid"/>
-                <input type="hidden" name="inventoryNo" id="inventoryNo"/> </br >
                 <label>Drug</label>
                 <input type="text" name="dispensedrug" id="dispensedrug"/>
                 <br/>
@@ -65,30 +64,30 @@
                 <fieldset>
                     <legend>Extra information</legend>
                     <label>inventory No</label>
-                    <input type="text" name="inventoryNo" id="inventoryNo" class="required"/> </br >
+                    <input type="text" name="inventoryNo" id="inventoryNo" value="" class="required"/> </br >
                     <label>Option</label>
-                    <select id="option" class="required">
+                    <select name="option" id="option" class="required">
                         <option value="Days">Days</option>
                         <option value="Tablets">Tablets</option>
                         <option value="Bottle">Bottle</option>
                     </select>  </br >
                     <label>Number</label>
-                    <input type="text" name="value" id="value" class="required"/> </br >
+                    <input type="text" name="value" id="value" value="" class="required"/> </br >
                     <label>Value</label>
-                    <input type="text" name="price" id="price" class="required"/> </br >
+                    <input type="text" name="price" id="price" value="" class="required"/> </br >
                     <label>Quantity to dispense </label>
-                    <input type="text" name="quantity" id="quantity" class="required"/> </br >
+                    <input type="text" name="quantity" id="quantity" value="" class="required"/> </br >
                     <label>Form</label>
-                    <select id="form" class="required">
+                    <select name="form" id="form" class="required">
                         <option value="syrup">Syrup</option>
                         <option value="Tablets">Tablets</option>
                     </select></br >
                     <label>Front inscription</label>
-                    <input type="text" name="front" id="front" class="required"/> </br >
+                    <input type="text" name="front" id="front" value="" class="required"/> </br >
                     <label>Back inscription</label>
-                    <input type="text" name="back" id="back" class="required"/> </br >
-                    <input type="hidden" name="dispenseedit" id="dispenseedit" value="false"/>
-                    <input type="hidden" name="dispenseuuid" id="dispenseuuid"/>
+                    <input type="text" name="back" id="back" value="" class="required"/> </br >
+                    <input type="hidden" name="dispenseedit" value="" id="dispenseedit" value="false"/>
+                    <input type="hidden" name="dispenseuuid" value="" id="dispenseuuid"/>
                     <input class="submit" type="submit" value="Submit & Create barcode"/>
                 </fieldset>
             </form>

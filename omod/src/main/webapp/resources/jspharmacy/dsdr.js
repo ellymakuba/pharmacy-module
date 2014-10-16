@@ -8,48 +8,49 @@ var aData;
 $j("#reportform").validate(); //
 $j("#datef").datepicker();
 $j("#datet").datepicker();
-$j("form#reportform").submit(function () {
-    if ($j("#reportform").valid()) {
-        ooTable = $j('#treport').dataTable({
+$j("form#dsdrform").submit(function () {
+    if ($j("#dsdrform").valid()) {
+        ooTable = $j('#dsdrTable').dataTable({
             bJQueryUI:true,
             bRetrieve:true,
             bServerSide:true,
             bAutoWidth:false,
             bProcessing:true,
-            sAjaxSource: "displayRFPReport.form?" + "datef=" + $j('#datef').val() + "&datet=" + $j('#datet').val(),
+            sAjaxSource: "displaydsdrReport.form?" + "datef=" + $j('#datef').val() + "&datet=" + $j('#datet').val(),
             "fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay) {
                 var iTotal =[0,0,0,0,0,0,0];
                 for (var i = 0; i < aaData.length; i++) {
-                    iTotal[0] += Number(aaData[i][5]);
-                    iTotal[1] += Number(aaData[i][7]);
-                    iTotal[2] += Number(aaData[i][8]);
-                    iTotal[3] += Number(aaData[i][9]);
-                    iTotal[4] += Number(aaData[i][10]);
-                    iTotal[5] += Number(aaData[i][11]);
-                    iTotal[6] += Number(aaData[i][12]);
+                    iTotal[0] += Number(aaData[i][1]);
+                    iTotal[1] += Number(aaData[i][1]);
+                    iTotal[2] += Number(aaData[i][1]);
+                    iTotal[3] += Number(aaData[i][1]);
+                    iTotal[4] += Number(aaData[i][1]);
+                    iTotal[5] += Number(aaData[i][1]);
+                    iTotal[6] += Number(aaData[i][1]);
                 }
 
                 /* Modify the footer row to match what we want */
                 var nCells = nRow.getElementsByTagName('th');
                 nCells[0].innerHTML="Totals";
-                nCells[5].innerHTML = iTotal[0];
-                nCells[7].innerHTML = iTotal[1];
-                nCells[8].innerHTML = iTotal[2];
-                nCells[9].innerHTML = iTotal[3];
-                nCells[10].innerHTML = iTotal[4];
-                nCells[11].innerHTML = iTotal[5];
-                nCells[12].innerHTML = iTotal[6];
+                nCells[1].innerHTML = iTotal[0];
+                nCells[2].innerHTML = iTotal[1];
+                nCells[3].innerHTML = iTotal[2];
+                nCells[4].innerHTML = iTotal[3];
+                nCells[5].innerHTML = iTotal[4];
+                nCells[6].innerHTML = iTotal[5];
             },
-            //sAjaxSource: "revolveAdult.form",
-           "fnServerData":fnDataTablesPipeline
+            "columnDefs": [
+                { "width": "20%", "targets": 0 }
+            ],
+            "fnServerData":fnDataTablesPipeline
 
 
         });
 
-                return false;
+        return false;
     }
 
-    });
+});
 (function(){
     var cache = {};
 
@@ -106,5 +107,5 @@ function expTable(tbl)
     tableToExcel(tables,"one");
 }
 $j("#export").click(function () {
-    expTable(document.getElementById("treport"));
+    expTable(document.getElementById("dsdrTable"));
 });

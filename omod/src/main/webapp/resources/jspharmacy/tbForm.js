@@ -252,7 +252,22 @@ $j("input[name=tbPatientID]").live("focus", function () {
                 bServerSide:true,
                 bProcessing:true,
                 sAjaxSource:"patientEncountersByIdentifier.form?identifier=" + $j('#tbPatientID').val(),
-                "fnServerData":fnDataTablesPipeline2
+                "fnServerData":fnDataTablesPipeline2,
+                "fnRowCallback":function (nRow, aData, iDisplayIndex) {
+                    var htm="<ul>";
+                    if(aData[0]=="Edit"){
+                        htm += '<li> <a href="#"  id="editS">Edit</a></li>';
+                    }
+                    htm += '</ul>';
+                    $j('td:eq(0)', nRow).html(htm);
+                    return nRow;
+                } ,
+                "aoColumnDefs":[
+                    {
+                        "bVisible":false,
+                        "aTargets":[ 6 ]
+                    }
+                ]
             });
             patientEncountersDatatable.fnDraw();
         },
@@ -277,9 +292,6 @@ $j("input[name='tbquantity']").live("blur", function () {
     }
 });
 
-//$j("input[name='drugdispense']").live('blur',function(){
-
-//}) ;
 $j("input[name='tbamount']").live("blur",function () {
     var sumpaid = 0;
     $j("input[name='tbamount']").each(function() {
@@ -295,7 +307,6 @@ $j("form#tbForm").unbind('submit').submit(function(){
         $j(this).find('td').each(function(){
             var obj = {}
             var  td = $j(this).find('input');
-
             var key = td.attr('name');
             var val = td.val();
             obj[key] = val;
@@ -328,4 +339,23 @@ $j("form#tbForm").unbind('submit').submit(function(){
     });
     }
     return false;
+})
+$j('#patientEncounters tbody').delegate("tr","click", function () {
+    var vals=[];
+    var myWindow = window.open("", "Edit Pharmacy Encounter", "width=1000, height=1000");
+    myWindow.document.write("<table id='patientEncounterDetails'>" +
+        "<thead><tr><td>Drug</td><td>Quantity Dispensed</td><td>Dose</td></tr></thead>" +
+        "<tbody></tbody>" +
+        "</table>");
+    var tableRowData=patientEncountersDatatable.fnGetData(this);
+    $j.getJSON("encounterFormToView.form?encounterUUID="+tableRowData[6],function(data){
+        $j.each(data.aaData,function(index,elem){
+            vals= elem.toString().split(",");
+            $j('table#patientEncounterDetails tbody').append('<tr><td><input name="drugName" id="drugName_'+index+'" ' +
+                ' style="width:350px;"  readonly value="'
+                +vals[0]+'" /></td><td><input name="quantityThatWasDispensed" id="quantityThatWasDispensed_'+index+'" ' +
+                'style="width:100px;"  value="' +vals[1]+'"/>' +'</td>' +
+                '<td style="width:100px;"><input type="text" name="itemAmountDispensed" id="itemAmountDispensed_'+index+'" readonly value="'+vals[2]+'" /></td>');
+        })
+    })
 })

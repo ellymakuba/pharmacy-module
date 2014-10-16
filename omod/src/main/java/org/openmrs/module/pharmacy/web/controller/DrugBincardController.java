@@ -143,6 +143,7 @@ public class DrugBincardController {
             }
             else{
                 jsonArray =new JSONArray();
+                json = new JSONObject();
                 for (int i = 0; i < size; i++) {
                     if(pharmacyStores.get(i).getLocation() !=null){
                     if(service.getPharmacyLocationsByUuid(pharmacyStores.get(i).getLocation()).getName().equalsIgnoreCase(locationVal))
@@ -152,6 +153,10 @@ public class DrugBincardController {
                     }
                     }
                 }
+                json.accumulate("iTotalRecords", json.getJSONArray("aaData").length());
+                json.accumulate("iTotalDisplayRecords", json.getJSONArray("aaData").length());
+                json.accumulate("iDisplayStart", 0);
+                json.accumulate("iDisplayLength", 10);
                 response.getWriter().print(json);
             }
         } catch (Exception e) {
@@ -180,8 +185,9 @@ public class DrugBincardController {
         } else if (sizeUsers == 1) {
             locationVal = listUsers.get(0).getLocation();
         }
+        PharmacyLocations location=service.getPharmacyLocationsByName(locationVal);
         doseInstance=service.getPharmacyDoseByName(doseUUID);
-        updateInventory(drugId,quantity,unitPrice,doseInstance,locationVal);
+        updateInventory(drugId,quantity,unitPrice,doseInstance,location.getUuid());
     }
     public synchronized JSONArray getArray(List<PharmacyStore> pharmacyStore, int size, String location) {
         if (service.getPharmacyLocationsByUuid(pharmacyStore.get(size).getLocation()).getName().equalsIgnoreCase(location)) {
@@ -205,7 +211,7 @@ public class DrugBincardController {
             } else
                 data.put("");
             data.put(""+pharmacyStore.get(size).getUuid());
-            data.put(""+pharmacyStore.get(size).getDrugs().getName());
+            data.put(""+pharmacyStore.get(size).getDrugs().getName()+" - "+pharmacyStore.get(size).getDrugs().getDrugId());
             data.put(""+pharmacyStore.get(size).getQuantity());
             data.put(""+pharmacyStore.get(size).getExpireDate().toString().substring(0, 10));
             data.put(""+pharmacyStore.get(size).getBatchNo());
@@ -327,17 +333,13 @@ public class DrugBincardController {
     public synchronized int months_betweens(Date date1, Date date2) {
         return date2.getMonth() - date1.getMonth() + (12 * (date2.getYear() - date1.getYear()));
     }
-    public boolean  updateInventory(int drugId,int Qnty,Double unitP,PharmacyDose dose,String val){
+    public boolean  updateInventory(Integer drugId,int Qnty,Double unitP,PharmacyDose dose,String val){
         DrugDispenseSettings dispenseSettings;
         Drug drug = new Drug(drugId);
         Date date = new Date();
-        dispenseSettings= service.getDrugDispenseSettingsByDrugId(drug);
-        // log.info("the date now is++++++++++++++++++++++++++++++++"+date);
-
-        if(dispenseSettings.getLocation().getName().equalsIgnoreCase(val)){
+        dispenseSettings= service.getDrugDispenseSettingsByDrugIdAndLocation(drugId,val);
+        if(dispenseSettings !=null){
             PharmacyStore pharmacyStore = dispenseSettings.getInventoryId();
-            //log.info("drug id++++++++++++++++++++++++++++++++"+pharmacyStore.getDrugs().getDrugId());
-            if(pharmacyStore!=null ){
                 if(pharmacyStore.getDrugs().getDrugId()==drugId && Qnty<=0 || Qnty>0){
                     pharmacyStore.setDose(dose);
                     pharmacyStore.setQuantity((Qnty));
@@ -345,12 +347,7 @@ public class DrugBincardController {
                     pharmacyStore.setUnitPrice(unitP);
                     service.savePharmacyInventory(pharmacyStore);
                 }
-
-            }
-
         }
-
-
         return true;
     }
 }

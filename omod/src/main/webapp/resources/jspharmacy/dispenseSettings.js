@@ -196,36 +196,9 @@ function voidData(nTr) {
 }
 $j('#tinventoryset').delegate(' tbody td  input', 'click', function () {
     nTrIn = this.parentNode.parentNode;
-    var aData2 = binTable2.fnGetData(nTrIn);
-    var oFormObject = document.forms['dispenseextra'];
-    var myCars = new Array();
-    myCars[0] = oFormObject.elements["inventoryNo"].value;
-    var myBoolean = new Boolean();
-    myBoolean = false;
-    var myBooleanTwo = new Boolean();
-    myBooleanTwo = false;
-    oFormObjectForm = document.forms['dispenseextra'];
-    var val = oFormObjectForm.elements['inventoryNo'].value;
-    if (val.length == 0) {
-    }
-    else {
-    }
-    for (var i = 0; i < myCars.length; i++) {
-        if (myCars[i] == aData2[0]) {
-            myBoolean = true;
-            break;
-        }
-    }
-    if (!myBoolean) {
-        var batchaData = binTable2.fnGetData(nTrIn);
-        oFormObjectForm = document.forms['dispenseextra'];
-        oFormObjectForm.elements['inventoryNo'].value = batchaData[0];
-    }
-    else {
-        var batchaData = binTable2.fnGetData(nTrIn);
-        oFormObjectForm = document.forms['dispenseextra'];
-        oFormObjectForm.elements['inventoryNo'].value = "";
-    }
+    var oFormObjectForm = document.forms['dispenseextra'];
+    var batchaData = binTable2.fnGetData(nTrIn);
+    oFormObjectForm.elements['inventoryNo'].value = batchaData[0];
 });
 $j("form#dispensevoid").submit(function () {
     if ($j("#dispensevoid").valid()) {
@@ -250,10 +223,11 @@ $j("form#dispensevoid").submit(function () {
 });
 $j("form#dispenseextra").submit(function () {
     var drugId;
+    var inventoryNO=$j("#inventoryNo").val();
     if ($j("#dispenseextra").valid()) {
         $j.getJSON("pharmacyDrugIDRequest.form?drugName="+$j("#dispensedrug").val(),function(result) {
             drugId = result;
-            dataString = $j("#dispenseextra").serialize();
+            dataString = $j("#dispenseextra").serializeArray();
             var oFormObject = document.forms['dispenseextra'];
             var drug = $j("#dispensedrug").val();
             var quantity = oFormObject.elements["quantity"].value;
@@ -268,11 +242,12 @@ $j("form#dispenseextra").submit(function () {
             var url = jQuery.Page.context;
             loadImage(url, type, msg, height, moduleWidth, wideFactor, format, qz,hrp);
             var optionVal = $j("#option option:selected").text();
-            dataString += "&dispensedrug=" + drug + "&optionval=" + optionVal;
+            dataString += "&dispensedrug=" + drug + "&optionval=" + optionVal+"&drugID="+drugId;
             $j.ajax({
                 type:"POST",
-                url:"drugDispense.form",
-                data:dataString,
+                url:"drugDispenseRequest.form?inventoryNo="+inventoryNO+"&dispensedrug=" + drug+"&drugID="+drugId+ "&optionval=" + optionVal+"&value="+$j("#value").val()+"&form="+$j("#form").val(),
+                data:{datas:JSON.stringify(dataString) },
+                dataType:"json",
                 success:function () {
                     SetDispenseTable(drug);
                     var oFormObject = document.forms['dispenseextra'];

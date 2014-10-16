@@ -84,20 +84,11 @@ public class DrugExtraController {
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-
         pharmacySupplier = service.getDrugExtraRange(minDate,maxDate);
-
-        /*ensure the list is not empty*/
-
         size = pharmacySupplier.size();
-
-
         jsonObject = new JSONObject();
-
         jsonArray = new JSONArray();
-
         try {
-
             if (drop != null) {
                 if (drop.equalsIgnoreCase("drop")) {
                     if (size != 0) {
@@ -106,43 +97,31 @@ public class DrugExtraController {
                         }
                     } else {
                         jsonArray.put("" + null);
-
                     }
                     response.getWriter().print(jsonArray);
                 }
 
             } else {
-
                 if (size != 0) {
-
-
                     for (int i = 0; i < size; i++) {
-
                         jsonObject.accumulate("aaData", getArray(pharmacySupplier, i,locationVal));
-
                     }
-
                 }
                 if (!jsonObject.has("aaData")) {
-
                     datad2 = new JSONArray();
                     datad2.put("None");
                     datad2.put("None");
                     datad2.put("None");
                     datad2.put("None");
-
                     datad2.put("None");
                     datad2.put("None");
-
                     jsonObject.accumulate("aaData", datad2);
 
                 }
-
                 jsonObject.accumulate("iTotalRecords", jsonObject.getJSONArray("aaData").length());
                 jsonObject.accumulate("iTotalDisplayRecords", jsonObject.getJSONArray("aaData").length());
                 jsonObject.accumulate("iDisplayStart", 0);
                 jsonObject.accumulate("iDisplayLength", 10);
-
                 response.getWriter().print(jsonObject);
             }
             response.flushBuffer();

@@ -21,11 +21,9 @@ $j("#stockcard").validate({
 stockTable=$j('#tstockcard').dataTable({
     bJQueryUI:true,
     bRetrieve:true,
-    bAutoWidth:false,
     bServerSide:true,
+    bAutoWidth:false,
     bProcessing:true,
-    bLengthChange:false,
-    bPaginate:true,
     "fnRowCallback":function (nRow, aData, iDisplayIndex) {
         var htm = '<ul class="popSupplier">	<li> <img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/items.png" alt="" /><ul class="popSupplier" id=' + "popSupplier" + aData[1] + '>';
         htm += '<li> <a href="#"  id="editS"><img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/edit2.png" />Edit</a></li>';

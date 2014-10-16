@@ -60,7 +60,7 @@ public interface PharmacyDAO {
      */
 
     public boolean savePharmacyStoreIncoming(List<PharmacyStoreIncoming> pharmacySupplier);
-    public DrugDispenseSettings getDrugDispenseSettingsByDrugIdAndLocation(Drug id,String locationUUID);
+    public DrugDispenseSettings getDrugDispenseSettingsByDrugIdAndLocation(Integer id,String locationUUID);
     /**
      * @return all the PharmacyStoreIncoming
      */
@@ -669,7 +669,7 @@ public interface PharmacyDAO {
      * @return all the DrugDispenseSettings
      */
     @Transactional(readOnly=true)
-    public List<DrugExtra> getDrugRange(Date from, Date to);
+    public List<DrugExtra> getDrugRange(Date minDate, Date maxDate,String locationUUID);
     public List<PharmacyStoreIncoming> getDrugQuantityAfterLastStockTake(Date minDate, Date maxDate,String uuid);
 
     /**
@@ -695,5 +695,5 @@ public interface PharmacyDAO {
     public PharmacyStore getBatchNoByNo(int batchno);
     public PharmacyTemporaryInventory saveTemporaryInventory(PharmacyTemporaryInventory pharmacyTemporaryInventory);
     public List<PharmacyEncounter> getPharmacyEncounterListByLocationUUID(String locationUUID);
-
+    public List<PharmacyStore> getPharmacyStoreByLocation(String locationUUID);
 }

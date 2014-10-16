@@ -54,7 +54,6 @@ private JSONArray datad2;
             try {
                 if (drop != null) {
                 unclearedReceipts=service.getPharmacyEncounterListByLocationUUID(locationUUID);
-                    log.info("locationUUID++++++++++++++++++++++++++++++++++++++++++"+locationUUID);
                 int unclearedReceiptsSize=unclearedReceipts.size();
                 for(int i=0; i<unclearedReceiptsSize; i++){
                     jsonArray = new JSONArray();
@@ -63,11 +62,13 @@ private JSONArray datad2;
                     jsonArray.put(""+unclearedReceipts.get(i).getTotalAmount());
                     jsonArray.put(""+unclearedReceipts.get(i).getPerson().getGivenName()+" "+unclearedReceipts.get(i).getPerson().getFamilyName());
                     jsonArray.put(""+unclearedReceipts.get(i).getDateCreated());
-
+                    jsonArray.put("<input type='radio'/>");
                     jsonObject.accumulate("aaData", jsonArray);
                 }
                     if (!jsonObject.has("aaData")) {
                         datad2 = new JSONArray();
+                        datad2.put("None");
+                        datad2.put("None");
                         datad2.put("None");
                         datad2.put("None");
                         datad2.put("None");

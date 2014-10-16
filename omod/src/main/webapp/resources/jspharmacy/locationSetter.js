@@ -48,8 +48,8 @@ $j("form#locationForm").submit(function () {
                     var dat = data;
                     var path = dataString.substring(dataString.indexOf("=") + 1);
                     var locationURL = path;
-                    $j('#current_location').empty();
-                    $j(path).appendTo('#current_location');
+                    $j("#current_location").empty();
+                    $j(path).appendTo("#current_location");
                     $j("#ui").show();
                     $j("#ui8").show();
                     $j("#ui1").show();

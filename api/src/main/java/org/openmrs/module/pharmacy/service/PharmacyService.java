@@ -60,7 +60,7 @@ public interface PharmacyService extends OpenmrsService {
       */
 
     public PharmacyStoreApproved savePharmacyStoreApproved(PharmacyStoreApproved pharmacySupplier);
-    public DrugDispenseSettings getDrugDispenseSettingsByDrugIdAndLocation(Drug id,String locationUUID);
+    public DrugDispenseSettings getDrugDispenseSettingsByDrugIdAndLocation(Integer id,String locationUUID);
     /* save PharmacyStoreApproved
     *
     * @param PharmacyStoreApproved to be saved
@@ -474,7 +474,7 @@ public interface PharmacyService extends OpenmrsService {
      * @return all the DrugDispenseSettings
      */
     @Transactional(readOnly=true)
-    public List<DrugExtra> getDrugRange(Date from, Date to);
+    public List<DrugExtra> getDrugRange(Date minDate, Date maxDate,String locationUUID);
     public List<PharmacyEncounter> getEncountersRange(Date f,Date t,String loc);
     public List<PharmacyEncounter>  getCurrentPatientRegimen(String patientUUID);
     public Integer getNumberOfPatientsOnRegimen(Date startDate,Date endDate,String regimenCode);
@@ -759,5 +759,5 @@ public interface PharmacyService extends OpenmrsService {
     public PharmacyStore getBatchNoByNo(int batchno);
     public PharmacyTemporaryInventory saveTemporaryInventory(PharmacyTemporaryInventory pharmacyTemporaryInventory);
     public List<PharmacyEncounter> getPharmacyEncounterListByLocationUUID(String locationUUID);
-
+    public List<PharmacyStore> getPharmacyStoreByLocation(String locationUUID);
 }

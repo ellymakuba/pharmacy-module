@@ -24,29 +24,80 @@ import java.util.*;
 
 @Controller
 public class RfpGeneralReportController {
-
     private static final Log log = LogFactory.getLog(RfpGeneralReportController.class);
-
     private JSONArray drugStrengthA;
-
     public PharmacyService service;
-
     private boolean found = false;
-
     private JSONArray supplierNames;
-
     private UserContext userService;
-
     private boolean editPharmacy = false;
-
     private boolean deletePharmacy = false;
-
     private JSONArray datad2;
     private JSONObject jsonObject;
     private List<DrugExtra> items;
     private int size;
     private JSONArray jsonArray;
+    @RequestMapping(method=RequestMethod.GET, value = "module/pharmacy/displayRFPReport")
+    public synchronized  void displayRFPGeneralReport(HttpServletRequest request, HttpServletResponse response) throws ParseException{
+        String sDate  = request.getParameter("datef");
+        String eDate = request.getParameter("datet");
 
+        userService = Context.getUserContext();
+        service = Context.getService(PharmacyService.class);
+
+        String locationVal = null;
+        List<PharmacyLocationUsers> listUsers = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
+        int sizeUsers = listUsers.size();
+        if (sizeUsers > 1) {
+            locationVal = request.getSession().getAttribute("location").toString();
+
+        } else if (sizeUsers == 1) {
+            locationVal = listUsers.get(0).getLocation();
+
+        }
+        PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        Date minDate = null;
+        Date maxDate=null;
+        try {
+            minDate = formatter.parse(sDate);
+            maxDate = formatter.parse(eDate);
+        } catch (ParseException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        items = service.getDrugRange(minDate, maxDate,pharmacyLocations.getUuid());
+        size = items.size();
+        jsonObject = new JSONObject();
+        jsonArray = new JSONArray();
+
+        try{
+        if (size != 0) {
+            for (int i = 0; i < size; i++) {
+                jsonObject.accumulate("aaData", getArray(items, i,locationVal,minDate,maxDate));
+            }
+        }
+        else{
+            datad2 = new JSONArray();
+            datad2.put("None");
+            datad2.put("None");
+            datad2.put("None");
+            datad2.put("None");
+            datad2.put("None");
+            datad2.put("None");
+            jsonObject.accumulate("aaData", datad2);
+        }
+        jsonObject.accumulate("iTotalRecords", jsonObject.getJSONArray("aaData").length());
+        jsonObject.accumulate("iTotalDisplayRecords", jsonObject.getJSONArray("aaData").length());
+        jsonObject.accumulate("iDisplayStart", 0);
+        jsonObject.accumulate("iDisplayLength", 10);
+        response.getWriter().print(jsonObject);
+
+            response.flushBuffer();
+        }
+        catch (Exception e){
+            log.error("Error generated", e);
+        }
+    }
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/rfpGeneral")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) throws ParseException {
         userService = Context.getUserContext();
@@ -66,6 +117,7 @@ public class RfpGeneralReportController {
             locationVal = listUsers.get(0).getLocation();
 
         }
+        PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         Date minDate = null;
         Date maxDate=null;
@@ -75,7 +127,7 @@ public class RfpGeneralReportController {
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        items = service.getDrugRange(minDate, maxDate);
+        items = service.getDrugRange(minDate, maxDate,pharmacyLocations.getUuid());
         size = items.size();
         jsonObject = new JSONObject();
         jsonArray = new JSONArray();
@@ -93,27 +145,6 @@ public class RfpGeneralReportController {
                     response.getWriter().print(jsonArray);
                 }
 
-            } else {
-                if (size != 0) {
-                    for (int i = 0; i < size; i++) {
-                        jsonObject.accumulate("aaData", getArray(items, i,locationVal,minDate,maxDate));
-                    }
-                }
-                if (!jsonObject.has("aaData")) {
-                    datad2 = new JSONArray();
-                    datad2.put("None");
-                    datad2.put("None");
-                    datad2.put("None");
-                    datad2.put("None");
-                    datad2.put("None");
-                    datad2.put("None");
-                    jsonObject.accumulate("aaData", datad2);
-                }
-                jsonObject.accumulate("iTotalRecords", jsonObject.getJSONArray("aaData").length());
-                jsonObject.accumulate("iTotalDisplayRecords", jsonObject.getJSONArray("aaData").length());
-                jsonObject.accumulate("iDisplayStart", 0);
-                jsonObject.accumulate("iDisplayLength", 10);
-                response.getWriter().print(jsonObject);
             }
             response.flushBuffer();
 
@@ -188,7 +219,7 @@ public class RfpGeneralReportController {
     public Double []findDrugQuantity(Integer drugId,String val,Date startDate,Date endDate){
         String locationUUID=service.getPharmacyLocationsByName(val).getUuid();
         Drug drug = Context.getConceptService().getDrugByNameOrId(drugId.toString());
-        DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugId(drug);
+        DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(drugId,locationUUID);
         Double quantity= Double.valueOf(0);
         double unitPrice=0;
         Date date1=null;
@@ -213,28 +244,20 @@ public class RfpGeneralReportController {
                }
             }
         }
-        log.info("startdate+++++++++++++++++++++++"+startDate);
-        log.info("enddate++++++++++++++++++++++++"+endDate);
-        log.info("drugID+++++++++++++++++++++++++"+drugId);
-        log.info("locationUUID+++++++++++++++++++"+locationUUID);
         Integer productsSold= service.getDrugsDispensedWithinPeriodRange(startDate,endDate,drugId,locationUUID);
-
-        Double quantitySold= Double.valueOf(productsSold);
-        double amountWaived=Double.valueOf(service.getAmountWaivedWithinPeriodRange(startDate,endDate,drugId,locationUUID));
+        Double quantitySold=0.0;
+        if(productsSold !=null){
+        quantitySold= Double.valueOf(productsSold);
+        }
+        double amountWaived=0.0;
+        if(service.getAmountWaivedWithinPeriodRange(startDate,endDate,drugId,locationUUID) !=null){
+        amountWaived=Double.valueOf(service.getAmountWaivedWithinPeriodRange(startDate,endDate,drugId,locationUUID));
+        }
         double countDispensed=0;
         Double cashExpected=quantitySold*unitPrice;
         Double cashExpectedLessW=(quantitySold*unitPrice)-amountWaived;
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date2 = new Date();
-        /*log.info("locationUUID+++++++++++++++++++++++++++++++++++++++"+locationUUID);
-        log.info("quantity+++++++++++++++++++++++++++++++++++++++++++++++++"+quantity);
-        log.info("quantityFrom++++++++++++++++++++++"+quantityFromStore);
-        log.info("unitprice+++++++++++++++++++++++++"+quantitySold);
-        log.info("amountwaived6+++++++++++++++++++++++"+amountWaived);
-        log.info("count++++++++++++++++++++++++++++"+count);
-        log.info("countdispensed++++++++++++++++++++++++++"+countDispensed);
-        log.info("cashexpexted+++++++++++++++++++++++++++"+cashExpected);
-        log.info("cashexpextedlesswaiver+++++++++++++"+cashExpectedLessW);  */
         Double myVals[] = {quantity,quantityFromStore,unitPrice,quantitySold,amountWaived,count,countDispensed,cashExpected,cashExpectedLessW};
 
         return myVals;

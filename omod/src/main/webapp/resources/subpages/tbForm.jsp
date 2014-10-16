@@ -12,6 +12,7 @@
 <body>
 <DIV id="tbJSPDIV">
     <div id="tbFormDIV">
+        <h3>TB Dispensing Form</h3>
         <form id="tbForm" name="tbForm">
             <fieldset>
                 <table>
@@ -51,10 +52,12 @@
             <th>Issued Medication</th>
             <th>Location</th>
             <th>User</th>
+            <th>UUID</th>
         </tr>
         </thead>
         <tbody>
         <tr>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>

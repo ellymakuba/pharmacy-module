@@ -14,15 +14,16 @@ public class PharmacyDrugOrder extends BaseOpenmrsData {
     private double equivalentDailyDose;
     private String units;
     private String frequency;
-    private Integer quantityGiven,quantityPrescribed;
+    private Integer quantityGiven;
+    private Integer quantityPrescribed;
     private Patient person;
     private String formName;
 
-    public int getQuantityGiven() {
+    public Integer getQuantityGiven() {
         return quantityGiven;
     }
 
-    public void setQuantityGiven(int quantityGiven) {
+    public void setQuantityGiven(Integer quantityGiven) {
         this.quantityGiven = quantityGiven;
     }
 

@@ -103,11 +103,14 @@ public class dispenseController {
                 jsonArray.put(drugsIssuedToPatient);
                 jsonArray.put(locationName);
                 jsonArray.put(list.get(i).getCreator());
+                jsonArray.put(list.get(i).getUuid());
                 jsonObject.accumulate("aaData",jsonArray);
             }
         }
         else{
             jsonArray=new JSONArray();
+            jsonArray.put("None");
+            jsonArray.put("None");
             jsonArray.put("None");
             jsonArray.put("None");
             jsonArray.put("None");
@@ -250,38 +253,22 @@ public class dispenseController {
                 response.getWriter().print(jsonArray);
                 list = null;
                 size = 0;
-            } else if (drugID != null) {         // this check if there is enough drugs in store to dispense
+            } else if (drugID != null) {
                 jsonObject1 = new JSONObject(drugID); // this parses the jsonObject
                 iterator = jsonObject1.keys(); //gets all the keys
                 boolean booleanCheck =false;
                  while (iterator.hasNext()) {
                     String key = iterator.next().toString(); // get key
                     Object on = jsonObject1.get(key); // get value
-                    List<DrugDispenseSettings> list = service.getDrugDispenseSettings();
-                    int size = list.size();
-                    for (int i = 0; i < size; i++) {
-                        if(list.get(i).getLocation().getName().equalsIgnoreCase(locationVal)){
-                            if (service.getDrugDispenseSettingsByDrugId(Context.getConceptService().getDrug(Integer.parseInt(key))) == null) {
-                                booleanCheck = false;
-                                break;
-                            } else {
-                                System.out.println("---"+locationVal);
-                                System.out.println("--1-"+list.get(i).getDrugId().getId());
-                                System.out.println("--2-"+Integer.parseInt(key) );
-                                if(list.get(i).getDrugId().getId()==Integer.parseInt(key)  ){
-                                   // System.out.println("--11-"+list.get(i).getInventoryId().getQuantity() );
-                                    //System.out.println("--22-"+Integer.parseInt(on.toString()));
-                                    if (list.get(i).getInventoryId().getQuantity() < Integer.parseInt(on.toString())) {
-                                        booleanCheck = false;
-                                        break;
-                                    } else {
-                                        booleanCheck = true;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                     PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
+                    DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(Context.getConceptService().getDrug(Integer.parseInt(key)).getDrugId(),pharmacyLocations.getUuid());
+                     if(drugDispenseSettings==null){
+                         booleanCheck = false;
+                     }
+                     else{
+                         booleanCheck = true;
+                     }
+
                 }
                 response.getWriter().print("" + booleanCheck);
             }

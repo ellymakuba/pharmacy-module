@@ -54,12 +54,7 @@ public class HivPedsProcessorController {
     private PharmacyObs ppharmacyObs;
     private Date endDate;
     private List<PharmacyObs> listAnotherPharmacyObs;
-    private List<DrugExtra> listPharmacyDrugOrderExtra2;
     private ArrayList<MedicationProcessor> listMedicationProcessors;
-    private boolean addToBigList=false;
-    private boolean RequestedFirstPass=false;
-    private DrugExtra drugExtra;
-    private boolean DispensedFirstPass=false;
     private boolean savedOrders=false,savedObs=false;
     private     int numbersInventtory[][];
     private PharmacyDrugOrder drugOrder;
@@ -89,12 +84,12 @@ public class HivPedsProcessorController {
         } else if (sizeUsers == 1) {
             locationVal = listUsers.get(0).getLocation();
         }
+        String locationUUID=service.getPharmacyLocationsByName(locationVal).getUuid();
         List<ObsProcessor> listObsProcessor = new ArrayList<ObsProcessor>();
         List<NonObsProcessor> listNonObsProcessor = new ArrayList<NonObsProcessor>();
         //List<MedicationProcessor> listMedicationProcessors=  new ArrayList<MedicationProcessor>();
         List<  ArrayList<MedicationProcessor>> bigListMedicationProcessors   =   new ArrayList<ArrayList<MedicationProcessor>>();
         List<PharmacyObs> listPharmacyObs= new ArrayList<PharmacyObs>();
-        List<DrugExtra> listPharmacyDrugOrderExtra= new ArrayList<DrugExtra>();
         List<PharmacyDrugOrder> listPharmacyDrugOrders = new ArrayList<PharmacyDrugOrder>();
         List<PharmacyOrders> listPharmacyOrders = new ArrayList<PharmacyOrders>();
         listAnotherPharmacyObs     = new  ArrayList<PharmacyObs>();
@@ -103,103 +98,76 @@ public class HivPedsProcessorController {
         Object obj = null;
         try {
             obj = parser.parse(jsonText);
-            JSONArray array = (JSONArray) obj;
-            for (int i = 0; i < array.size(); i++) {
-                String value = ArrayDataOne(array.get(i).toString());
-                if(value.contains("*") ){
-                    if(value.substring(0,value.indexOf("*")).equalsIgnoreCase("Enc2"))   {
-                        encounterProcessor.setPatientId(value.substring(value.indexOf("@")+1,value.length()-1));
+            JSONArray dispenseInstanceArray = (JSONArray)obj;
+            obsProcessor = new ObsProcessor();
+            int dispenseInstanceArraySize=dispenseInstanceArray.size();
+            for(int i=0; i<dispenseInstanceArraySize; i++){
+                medicationProcessor = new MedicationProcessor();
+                JSONArray rowInstance=(JSONArray)dispenseInstanceArray.get(i);
+                for(int j=0; j<rowInstance.size(); j++){
+                    String myValues[]= exractKeyAndValue(rowInstance.get(j).toString());
+                    String key = myValues[0];
+                    String value=myValues[1];
+                    if(key.equalsIgnoreCase("Enc2*Patient_id|2#2")){
+                        encounterProcessor.setPatientId(value);
                     }
-                    else if(value.substring(0,value.indexOf("*")).equalsIgnoreCase("Enc3"))   {
-                        encounterProcessor.setEncounterType(value.substring(value.indexOf("*")+1,value.indexOf("|")));
+                    if(key.equalsIgnoreCase("Enc3*ADULTINITIAL|1#6")){
+                        encounterProcessor.setEncounterType(value);
                     }
-                    else if(value.substring(0,value.indexOf("*")).equalsIgnoreCase("Enc4")){
-                        encounterProcessor.setEncounterDate(value.substring(value.indexOf("@")+1,value.length()-1));
+                    if(key.equalsIgnoreCase("Enc4*EncounterDate#3")){
+                        encounterProcessor.setEncounterDate(value);
                     }
-                    else if(value.substring(0,value.indexOf("*")).equalsIgnoreCase("Enc5"))   {
-                        encounterProcessor.setNextVisitDate(value.substring(value.indexOf("@")+1,value.length()-1));
+                    if(key.equalsIgnoreCase("Enc5*EncounterDate#3")){
+                        encounterProcessor.setNextVisitDate(value);
                     }
-                    else if(value.substring(0,value.indexOf("*")).equalsIgnoreCase("Enc6"))   {
-
-                        encounterProcessor.setDuration(value.substring(value.indexOf("@")+1,value.length()-1));
-
+                    if(key.equalsIgnoreCase("Enc6*noOfMonths|6#6")){
+                        encounterProcessor.setDuration(value);
                     }
-                    else if(value.substring(0,value.indexOf("*")).equalsIgnoreCase("Enc7"))   {
-                        encounterProcessor.setForm(value.substring(value.indexOf("@")+1,value.length()-1));
+                    if(key.equalsIgnoreCase("Enc7*PEDIATRICARV |0.1#1")){
+                        encounterProcessor.setForm(value);
                     }
-                    else if(value.substring(0,value.indexOf("*")).equalsIgnoreCase("Obs"))   {
-                        obsProcessor = new ObsProcessor();
-                        if((value.substring(value.indexOf("@") + 1, (value.length() - 1)).substring(value.substring(value.indexOf("@") + 1, (value.length() - 1)).indexOf("|")+1)).length()!=0)
+                    if(key.equalsIgnoreCase("Obs")){
+                        if(value.contains("|"))
                         {
-                            obsProcessor.setConcept(value.substring(value.indexOf("|")+1,(value.indexOf("#"))));
-                            obsProcessor.setConceptAnswer(value.substring(value.indexOf("@") + 1, (value.length() - 1)).substring(value.substring(value.indexOf("@") + 1, (value.length() - 1)).indexOf("|")+1));
-
+                            obsProcessor.setConcept(key.substring(key.indexOf("|")+1,(key.indexOf("#"))));
+                            obsProcessor.setConceptAnswer(value.substring(value.indexOf("|") + 1));
                             listObsProcessor.add(obsProcessor);
-                        }                     }
-                    else if(value.substring(0,value.indexOf("*")).equalsIgnoreCase("ObsDrug"))   {
-                        listMedicationProcessors= new ArrayList<MedicationProcessor>();
-                        medicationProcessor = new MedicationProcessor();
-                        medicationProcessor.setConcept(value.substring(value.indexOf("*")+1,(value.indexOf("#"))));
-                        Integer drugId = Integer.valueOf(value.substring(value.indexOf("|")+1,((value.length()-1))));
-                        Drug drug = new Drug(drugId);
+                        }
+                    }
+                    if(key.contains("ObsForm")){
+                        String obsFormVal = value;
+                        medicationProcessor.setConcept(key.substring(key.indexOf("|")+1,(key.indexOf("#"))));
+                        medicationProcessor.setDose(key.substring(key.indexOf("|")+1,(key.indexOf("#"))));
+                        medicationProcessor.setFrequency(key.substring(key.indexOf("|")+1,(key.indexOf("#"))));
+                        String drugExtract= obsFormVal.substring(obsFormVal.indexOf("|")+1);
+                        Drug drug = Context.getConceptService().getDrugByNameOrId(drugExtract);
                         medicationProcessor.setDrug(drug);
-                        addToBigList=true;
-                        DispensedFirstPass=false;
-                        listMedicationProcessors.add(medicationProcessor);
                     }
-                    else if(value.substring(0,value.indexOf("*")).equalsIgnoreCase("ObsForm"))   {
-                            String obsFormVal = value.substring(value.indexOf("@")+1);
-                            medicationProcessor = new MedicationProcessor();
-                            medicationProcessor.setDose(obsFormVal.substring(0,(obsFormVal.indexOf("|"))));
-                            medicationProcessor.setFrequency(obsFormVal.substring(obsFormVal.indexOf("|")+1,obsFormVal.indexOf("@")));
-                            listMedicationProcessors.set(2, medicationProcessor);
-                    }
-                }
-                else
-                {
 
-                    if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Other"))
+                    if(key.equalsIgnoreCase("PillCount"))
                     {
-                        RequestedFirstPass = false;
-
-                        if(value.substring(value.indexOf("@")+1,(value.length()-1)).length()>0) {
-                            medicationProcessor = new MedicationProcessor();
-                            medicationProcessor.setquantity(value.substring(value.indexOf("@")+1,(value.length()-1)));
-                            listMedicationProcessors.set(2, medicationProcessor);
+                        medicationProcessor.setPillcount(value);
+                    }
+                    if(key.equalsIgnoreCase("Requested"))
+                    {
+                        medicationProcessor.setquantity(value);
+                    }
+                    if(key.equalsIgnoreCase("Other"))
+                    {
+                        if(value !=null) {
+                            medicationProcessor.setquantity(value);
                         }
                     }
-                    else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("PillCount"))
+                    if(key.equalsIgnoreCase("Quantity"))
                     {
-                        medicationProcessor = new MedicationProcessor();
-                        medicationProcessor.setPillcount(value.substring(value.indexOf("@")+1,(value.length()-1)));
-                        listMedicationProcessors.set(3,medicationProcessor);
+                        medicationProcessor.setDispensed(value);
                     }
-                    else   if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Quantity"))
+                   if(key.equalsIgnoreCase("Prescriber"))
                     {
-
-                        if(value.substring(value.indexOf("@")+1,(value.length()-1)).length()>0) {
-                            medicationProcessor = new MedicationProcessor();
-                            medicationProcessor.setDispensed(value.substring(value.indexOf("@")+1,(value.length()-1)));
-                            listMedicationProcessors.set(4, medicationProcessor);
-                        }
-                    }
-
-                    else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Prescriber"))
-                    {
-                        encounterProcessor.setPrescriber(value.substring(value.indexOf("@") + 1, value.length() - 1));
-
-                    }
-                    else
-                    {
-                        medicationProcessor = new MedicationProcessor();
-                        listMedicationProcessors.add(medicationProcessor);
+                        encounterProcessor.setPrescriber(value);
                     }
                 }
-                if(addToBigList) {
-                    bigListMedicationProcessors.add(listMedicationProcessors);
-                    addToBigList=false;
-                }
-
+                listMedicationProcessors.add(medicationProcessor);
             }
             PharmacyEncounter pharmacyEncounter = new PharmacyEncounter();
             pharmacyEncounter.setEncounter(service.getPharmacyEncounterTypeByName(encounterProcessor.getEncounterType()));
@@ -228,8 +196,6 @@ public class HivPedsProcessorController {
                 }
                 ppharmacyObs.setLocation(service.getPharmacyLocationsByName(locationVal));
                 ppharmacyObs.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));
-
-
                 ppharmacyObs.setPharmacyEncounter(pharmacyEncounter);
                 ppharmacyObs.setValueDatetime(null);
                 ppharmacyObs.setValueNumeric(CheckIfDoubleNull(listObsProcessor.get(y).getConceptAnswer()));
@@ -245,29 +211,18 @@ public class HivPedsProcessorController {
                 listPharmacyObs.add(ppharmacyObs) ;
             }
             service.savePharmacyObs(listPharmacyObs);
-            Iterator<ArrayList<MedicationProcessor>> v = bigListMedicationProcessors.iterator();
-            numbersInventtory= new int[bigListMedicationProcessors.size()][2];
+            numbersInventtory= new int[listMedicationProcessors.size()][2];
             int position=0;
-            while(v.hasNext())
+            List<Integer> dispensedDrugsId=new ArrayList<Integer>();
+            List<String> drugsDispensedQuantities=new ArrayList<String>();
+            for(int i=0; i<listMedicationProcessors.size(); i++)
             {
-                ArrayList<MedicationProcessor> c= v.next();
-//                  if(c.get(4).getPillcount().length()!=0){
-                if(c.get(4).getPillcount()!=null){
-                    drugExtra = new DrugExtra();
-                    drugExtra.setOption(null);
-                    drugExtra.setChosenValue(null);
-                    drugExtra.setReceipt(null);
-                    drugExtra.setAmount(0.0);
-                    drugExtra.setAmountw(0.0);
-                    drugExtra.setDrugChange(null);
-                    drugExtra.setInvoice(null);
-                    drugExtra.setPill(CheckIfIntNull(c.get(4).getPillcount()));
-                    drugExtra.setWaiverNo(null);
-                    listPharmacyDrugOrderExtra.add(drugExtra);
-                }
+                if(listMedicationProcessors.get(i) !=null){
                 PharmacyOrders pharmacyOrders = new PharmacyOrders();
                 pharmacyOrders.setAutoEndDate(null);
-                pharmacyOrders.setConcept(CheckIfStringNull(c.get(0).getConcept()));
+                if(listMedicationProcessors.get(i).getConcept() !=null ) {
+                pharmacyOrders.setConcept(CheckIfStringNull(listMedicationProcessors.get(i).getConcept()));
+                }
                 pharmacyOrders.setDiscontinued(false);
                 pharmacyOrders.setDiscontinuedDate(null);
                 pharmacyOrders.setDispensed(true);
@@ -275,18 +230,17 @@ public class HivPedsProcessorController {
                 pharmacyOrders.setStartDate(encDate);
                 pharmacyOrders.setPharmacyEncounter(pharmacyEncounter);
                 listPharmacyOrders.add(pharmacyOrders);
+                if(listMedicationProcessors.get(i).getDrug() !=null){
                 PharmacyDrugOrder pharmacyDrugOrder = new PharmacyDrugOrder();
-                pharmacyDrugOrder.setDose(CheckIfDoubleNull(c.get(2).getDose()));
-                pharmacyDrugOrder.setDrugUuid(drugExtra);
-                pharmacyDrugOrder.setDrugInventoryUuid(service.getDrugDispenseSettingsByDrugId(c.get(0).getDrug()).getInventoryId());
+                pharmacyDrugOrder.setDose(CheckIfDoubleNull(listMedicationProcessors.get(i).getDose()));
+                pharmacyDrugOrder.setDrugInventoryUuid(service.getDrugDispenseSettingsByDrugIdAndLocation(listMedicationProcessors.get(i).getDrug().getDrugId(),locationUUID).getInventoryId());
                 pharmacyDrugOrder.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));
                 pharmacyDrugOrder.setEquivalentDailyDose(0);
                 pharmacyDrugOrder.setFormName(encounterProcessor.getForm());
-                pharmacyDrugOrder.setFrequency(CheckIfStringNull(c.get(2).getFrequency()));
+                pharmacyDrugOrder.setFrequency(CheckIfStringNull(listMedicationProcessors.get(i).getFrequency()));
                 pharmacyDrugOrder.setOrderUuid(pharmacyOrders);
-                pharmacyDrugOrder.setQuantityPrescribed(CheckIfIntNull(c.get(2).getQuantity()));
-                pharmacyDrugOrder.setQuantityGiven(CheckIfIntNull(c.get(4).getDispensed()));
-                //pharmacyDrugOrder.setUnits(CheckIfStringNull(c.get(1).getUnits()));
+                pharmacyDrugOrder.setQuantityPrescribed(CheckIfIntNull(listMedicationProcessors.get(i).getQuantity()));
+                pharmacyDrugOrder.setQuantityGiven(Integer.valueOf(listMedicationProcessors.get(i).getDispensed()));
                 String date_s = "2000-01-18 00:00:00.0";
                 SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 Date date1 = null;
@@ -333,7 +287,7 @@ public class HivPedsProcessorController {
                     today=actualDate.getTime()/DaysInMillSec;
                     DiffInDays=daysToNextVisit-today;
                 }
-                int no_of_days_to_last= CheckIfIntNull(c.get(4).getDispensed())/2+(int) DiffInDays;
+                int no_of_days_to_last= CheckIfIntNull(listMedicationProcessors.get(i).getDispensed())/2+(int) DiffInDays;
                 Calendar cal=new GregorianCalendar();
                 cal.add(Calendar.DAY_OF_MONTH, no_of_days_to_last);
                 SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -346,24 +300,26 @@ public class HivPedsProcessorController {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 pharmacyDrugOrder.setExpected_next_visit_date(expNextDateOfVisit);
-                numbersInventtory[position][0]= c.get(0).getDrug().getDrugId();
-                numbersInventtory[position][1]= CheckIfIntNull(c.get(4).getDispensed());
-                listPharmacyDrugOrders.add(pharmacyDrugOrder);//
-                listAnotherPharmacyObs.add(createPharmacyObs("1896",c.get(1).getFrequency(),"",c.get(0).getDrug().getDrugId().toString(),encounterProcessor.getPrescriber(),locationVal,encounterProcessor.getPatientId(),pharmacyEncounter,null));
+                listPharmacyDrugOrders.add(pharmacyDrugOrder);
+                    dispensedDrugsId.add(listMedicationProcessors.get(i).getDrug().getDrugId());
+                    log.info("numbersInventtory[position][0]++++++++++++++++++++++++++++++++++++++"+numbersInventtory[position][0]);
+                    drugsDispensedQuantities.add(listMedicationProcessors.get(i).getDispensed());
+                    listAnotherPharmacyObs.add(createPharmacyObs("1896",listMedicationProcessors.get(i).getFrequency(),"",listMedicationProcessors.get(i).getDrug().getDrugId().toString(),encounterProcessor.getPrescriber(),locationVal,encounterProcessor.getPatientId(),pharmacyEncounter,null));
+                    listAnotherPharmacyObs.add(createPharmacyObs(listMedicationProcessors.get(i).getConcept(),listMedicationProcessors.get(i).getConceptAnswer(),"",listMedicationProcessors.get(i).getDrug().getDrugId().toString(),encounterProcessor.getPrescriber(),locationVal,encounterProcessor.getPatientId(),pharmacyEncounter,pharmacyOrders));
+                    position++;
+                }
 
-                listAnotherPharmacyObs.add(createPharmacyObs(c.get(0).getConcept(),c.get(0).getConceptAnswer(),"",c.get(0).getDrug().getDrugId().toString(),encounterProcessor.getPrescriber(),locationVal,encounterProcessor.getPatientId(),pharmacyEncounter,pharmacyOrders));
-                position++;
-//
             }
-            service.saveDrugExtra(listPharmacyDrugOrderExtra);
+        }
             service.savePharmacyOrders(listPharmacyOrders);
             savedOrders=service.savePharmacyDrugOrders(listPharmacyDrugOrders);
             savedObs= service.savePharmacyObs(listAnotherPharmacyObs);
             if( savedObs && savedOrders){
-                for(int y=0;y<numbersInventtory.length;y++){
-                    substractFromInventory(numbersInventtory[y][0],numbersInventtory[y][1],locationVal);
+                for(int y=0;y<dispensedDrugsId.size();y++){
+                    substractFromInventory(dispensedDrugsId.get(y), Integer.valueOf(drugsDispensedQuantities.get(y)), locationVal);
                 }
             }
+
         } catch (org.json.simple.parser.ParseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -386,20 +342,6 @@ public class HivPedsProcessorController {
         }
         return value;
 
-    }
-    public DrugExtra createDrug(String val1,String val){
-        DrugExtra drugExtra = new DrugExtra();
-        drugExtra.setOption(service.getPharmacyGeneralVariablesByName(val1));
-        drugExtra.setReceipt(Integer.parseInt("0"));
-        drugExtra.setAmount(Double.parseDouble("0"));
-        drugExtra.setPill(Integer.parseInt("0"));
-        drugExtra.setAmountw(Double.parseDouble("0"));
-        drugExtra.setDrugChange("");
-        drugExtra.setInvoice(Integer.parseInt("0"));
-        drugExtra.setPill(Integer.parseInt("0"));
-        drugExtra.setChosenValue(val);
-        drugExtra.setWaiverNo(Integer.parseInt("0"));
-        return  drugExtra;
     }
     public PharmacyObs createPharmacyObs(String concept,String valueCoded,String valueNumeric,String valueDrug,String prescriber, String locationVal,String patientID, PharmacyEncounter pharmacyEncounter, PharmacyOrders  pharmacyOrders){
         PharmacyObs pharmacyObs = new PharmacyObs();
@@ -468,31 +410,41 @@ public class HivPedsProcessorController {
         return object;
 
     }
-    public boolean  substractFromInventory(int drugId,int Qnty,String val){
-        List<DrugDispenseSettings> list = service.getDrugDispenseSettings();
-        int size = list.size();
-        for (int i = 0; i < size; i++) {
-            if(list.get(i).getLocation().getName().equalsIgnoreCase(val)){
-//                PharmacyStore pharmacyStore=   service.getDrugDispenseSettingsByDrugId(Context.getConceptService().getDrugByNameOrId(""+drugId)).getInventoryId();
-                PharmacyStore pharmacyStore=   list.get(i).getInventoryId();
-                //log.info("druuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuug id is"+drugId+"quantity "+Qnty);
-
-                if(pharmacyStore!=null ){
-
-                    if(pharmacyStore.getDrugs().getDrugId()==drugId && pharmacyStore.getQuantity() > Qnty ){
-                        // log.info("druuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuug id is true");
-
-                        pharmacyStore.setQuantity( (pharmacyStore.getQuantity()-Qnty));
-                        service.savePharmacyInventory(pharmacyStore);
-
-
-                    }
+    public boolean  substractFromInventory(Integer drugId,int Qnty,String val){
+        Drug drug = Context.getConceptService().getDrugByNameOrId(drugId.toString());
+        String locationUUID=service.getPharmacyLocationsByName(val).getUuid();
+        log.info("drug is++++++++++++++++++++++++++++++++++++++++++++++++++++"+drug.getName());
+        DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(drug.getDrugId(),locationUUID);
+        if(drugDispenseSettings !=null){
+            log.info("drugDispenseSettings++++++++++++++++++++"+drugDispenseSettings.getInventoryId());
+            PharmacyStore pharmacyStore = drugDispenseSettings.getInventoryId();
+            if(pharmacyStore!=null ){
+                if(pharmacyStore.getQuantity() > Qnty ){
+                    pharmacyStore.setQuantity(pharmacyStore.getQuantity()-Qnty);
+                    service.savePharmacyInventory(pharmacyStore);
                 }
             }
         }
-
         return true;
     }
 
+    public synchronized String[] exractKeyAndValue(String jsonText) {
+        String value = "";
+        String key="";
+        JSONParser parser = new JSONParser();
+        try {
+            Map json = (Map) parser.parse(jsonText, containerFactory);
+            Iterator iter = json.entrySet().iterator();
 
+            while (iter.hasNext()) {
+                Map.Entry entry = (Map.Entry) iter.next();
+                key+=entry.getKey();
+                value+=entry.getValue();
+            }
+        } catch (Exception pe) {
+            log.info(pe);
+        }
+        String myvals[]={key,value};
+        return myvals;
+    }
 }

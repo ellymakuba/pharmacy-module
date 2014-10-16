@@ -113,7 +113,7 @@ public class DrugDispenseStore {
                     int num = d.getMonths();
                     datad2 = new JSONArray();
                     datad2.put(pharmacyStoreList.get(i).getUuid());
-                    datad2.put(pharmacyStoreList.get(i).getDrugs().getName());
+                    datad2.put(pharmacyStoreList.get(i).getDrugs().getName()+" - "+pharmacyStoreList.get(i).getDrugs().getDrugId());
                     datad2.put(pharmacyStoreList.get(i).getQuantity());
                     datad2.put(pharmacyStoreList.get(i).getBatchNo());
                     datad2.put(num);

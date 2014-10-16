@@ -65,6 +65,7 @@ public class RfpDispenseController {
     private  Set<Privilege> userPrivileges;
     private Date encDate;
     private String prescriber = null;
+    private String encounterUUID=null;
 
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/printReceipt")
     public void pageLoad(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException {
@@ -217,6 +218,7 @@ public class RfpDispenseController {
         } else if (sizeUsers == 1) {
             locationVal = listUsers.get(0).getLocation();
         }
+        String locationUUID=service.getPharmacyLocationsByName(locationVal).getUuid();
         Collection<Role> userContextCollection = userService.getAuthenticatedUser().getAllRoles();
         for(Role roleWithPrivileges: userContextCollection ){
          userPrivileges=roleWithPrivileges.getPrivileges();
@@ -261,8 +263,9 @@ public class RfpDispenseController {
                              waiverNo= Integer.valueOf(value);
                             }
                         }
-                        if(key.equalsIgnoreCase("amountWaived")){
+                        if(key.equalsIgnoreCase("itemAmountWaived")){
                             amountWaived=Double.valueOf(value);
+                            drugExtra.setAmountw(amountWaived);
                         }
                     }
                     dispensedModel.add(drugExtra);
@@ -275,7 +278,7 @@ public class RfpDispenseController {
                         if(waiverNo !=0){
                         drugExtraToUpdate.setWaiverNo(waiverNo);
                         }
-                        drugExtraToUpdate.setAmountw(amountWaived);
+                        drugExtraToUpdate.setAmountw(dispensedModel.get(i).getAmountw());
                         service.saveDrugExtraObject(drugExtraToUpdate);
                       substractFromInventory(dispensedModel.get(i).getDrug().getDrugId(),dispensedModel.get(i).getQuantitysold(),locationVal);
                     }
@@ -326,7 +329,7 @@ public class RfpDispenseController {
                 }
                 for(int i=0; i<dispensedModel.size(); i++){
                     if(dispensedModel.get(i).getDrug() !=null) {
-                        DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugId(dispensedModel.get(i).getDrug());
+                        DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(dispensedModel.get(i).getDrug().getDrugId(),locationUUID);
                         if(drugDispenseSettings !=null){
                         PharmacyStore pharmacyStore = drugDispenseSettings.getInventoryId();
                         if(pharmacyStore.getQuantity() > dispensedModel.get(i).getQuantitysold()) {
@@ -479,6 +482,9 @@ public class RfpDispenseController {
             service.savePharmacyOrders(listPharmacyOrders);
             service.savePharmacyDrugOrders(listPharmacyDrugOrders);
             service.savePharmacyObs(listAnotherPharmacyObs);
+            encounterUUID=pharmacyEncounter.getUuid();
+            log.info("RFPdispenseController+++++++++++++++++++++++++++++++++"+encounterUUID);
+            response.getWriter().print("" + encounterUUID);
         }
         catch (org.json.simple.parser.ParseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -525,7 +531,7 @@ public class RfpDispenseController {
     public boolean  substractFromInventory(Integer drugId,int Qnty,String val){
         Drug drug = Context.getConceptService().getDrugByNameOrId(drugId.toString());
         String locationUUID=service.getPharmacyLocationsByName(val).getUuid();
-        DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(drug,locationUUID);
+        DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(drugId,locationUUID);
         if(drugDispenseSettings !=null){
         PharmacyStore pharmacyStore = drugDispenseSettings.getInventoryId();
         if(pharmacyStore!=null ){

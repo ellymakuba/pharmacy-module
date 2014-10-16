@@ -48,7 +48,7 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public List<Indicators> getIndicators() {
         return pharmacyDAO.getIndicators();
     }
-    public DrugDispenseSettings getDrugDispenseSettingsByDrugIdAndLocation(Drug id,String locationUUID){
+    public DrugDispenseSettings getDrugDispenseSettingsByDrugIdAndLocation(Integer id,String locationUUID){
         return pharmacyDAO.getDrugDispenseSettingsByDrugIdAndLocation(id,locationUUID);
     }
     /**
@@ -539,8 +539,8 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public List<DrugExtra> getDrugExtraRange(Date from, Date to) {
         return pharmacyDAO.getDrugExtraRange(from,to);
     }
-    public List<DrugExtra> getDrugRange(Date from, Date to) {
-        return pharmacyDAO.getDrugRange(from,to);
+    public List<DrugExtra> getDrugRange(Date from, Date to,String locationUUID){
+        return pharmacyDAO.getDrugRange(from,to,locationUUID);
     }
     public List<PharmacyEncounter> getEncountersRange(Date from, Date to,String location) {
         return pharmacyDAO.getEncountersRange(from,to,location);
@@ -819,5 +819,8 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     }
     public List<PharmacyEncounter> getPharmacyEncounterListByLocationUUID(String locationUUID){
         return pharmacyDAO.getPharmacyEncounterListByLocationUUID(locationUUID);
+    }
+    public List<PharmacyStore> getPharmacyStoreByLocation(String locationUUID){
+        return pharmacyDAO.getPharmacyStoreByLocation(locationUUID);
     }
 }

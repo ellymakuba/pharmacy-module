@@ -166,8 +166,7 @@ binTable = $j('#tforms').dataTable(
         bFilter:false,
         bInfo:false,
         "fnRowCallback":function (nRow, aData, iDisplayIndex) {
-            $j('td:eq(0)', nRow)
-                .html('<img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/edit2.png" />');
+            $j('td:eq(0)', nRow).html('<img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/edit2.png" />');
             $j('td:eq(5)', nRow).html(aData[4]);
             return nRow;
         },
@@ -753,6 +752,47 @@ $j("form#revolvingAdultform").unbind('submit').submit(function () {
 });
 
 $j("form#hivpedsform").unbind('submit').submit(function () {
+    var hivPedsData = [];
+    var addRow=0;
+    $j('#hivpedsform').find('tr').each(function(){
+        addRow=0;
+        var rowObject=[];
+        var rowIsDrug=0;
+        var firtsTDItem=$j(this).find('td:first-child').find('input').attr('name');
+        if(firtsTDItem=="ObsDrug*1895#10"){
+            if($j(this).find('td:first-child').find('input[type=checkbox]').is(':checked')){
+                rowIsDrug=1;
+            }
+
+        }
+        else{
+            addRow=1;
+        }
+        $j(this).find('td').each(function(){
+            $j(this).find('input').each(function(){
+            var obj = {}
+            if($j(this).is(':checkbox') || $j(this).is(':radio')){
+                if($j(this).is(':checked')){
+                    var  input = $j(this);
+                    var key = input.attr('name');
+                    var val = input.val();
+                    obj[key] = val;
+                    rowObject.push(obj);
+                }
+            }
+            else{
+            var  input = $j(this);
+            var key = input.attr('name');
+            var val = input.val();
+            obj[key] = val;
+            rowObject.push(obj);
+            }
+            })
+        });
+        if(rowIsDrug==1 || addRow==1){
+            hivPedsData.push(rowObject);
+        }
+    });
     var v= validateHivPedsForm();
     if(v==0){
         $j("#errorDialog").empty();
@@ -791,6 +831,7 @@ $j("form#hivpedsform").unbind('submit').submit(function () {
         var drugs = (drugid).toString().split(",");
         var ans=checkHivRegimen(drugid);
         if(ans==true)  {
+
             var regimens=regimenFilter(drugid);
             var regimenCode= regimens[0];
             var regimenName=regimens[1];
@@ -808,11 +849,10 @@ $j("form#hivpedsform").unbind('submit').submit(function () {
                     dataType:"json",
                     success:function (result) {
                         if (result.toString() == 'true') {
-                            var fields = $j("#hivpedsform").serializeArray();
                             $j.ajax({
                                 type:"POST",
                                 url:"hivPedsProcessor.form?"+ "regimenCode=" + regimenCode+"&regimenName="+regimenName,
-                                data:{values:JSON.stringify(fields) },
+                                data:{values:JSON.stringify(hivPedsData) },
                                 dataType:"json",
                                 beforeSend:function (x) {
                                     if (x && x.overrideMimeType) {
@@ -1433,3 +1473,37 @@ $j("#row1ma").live('click', function () {
     }
 
 });
+$j('#pencounters tbody').delegate("tr","click", function () {
+    rowData=this;
+    var form=patienteEncounters.fnGetData(rowData);;
+    alert("formname "+form[2]);
+    $j.getJSON("" + jQuery.Page.context+ "module/jforms/editForm.form?form=" +form,
+        function (result) {
+            editForm(result,id);
+        });
+});
+function editForm(structure,PatientID){
+    eval('var obj=' + structure);
+    $j("#dispenseform").dialog("open");
+    $j("#psychiatryform").empty();
+    $j('#tuberculosisform').empty();
+    $j("#hivpedsform").empty();
+    $j("#cadiovascularform").empty();
+    $j("#psychiatryform").empty();
+    $j('#hivform').empty();
+    $j('#hivAdultOiForm').empty();
+    $j("#revolvingPedsform").empty();
+    $j("#revolvingAdultform").empty();
+    $j('#hivpedsform').jForm(obj);
+    $j.getScript("" + jQuery.Page.context+ "moduleResources/pharmacy/jspharmacy/hivPedsFormData.js",function(){});
+    $j.getJSON("dispense.form?Pid=" + PatientID,function(result)
+    { $j.each(result, function (index, value)
+    {
+        oFormObject = document.forms['hivpedsform'];
+        oFormObject.elements["Enc1*patient|1#1"].value = value;
+    });
+
+    });
+    var oFormObject = document.forms['hivpedsform'];
+    oFormObject.elements["Enc2*Patient_id|2#2"].value = PatientID;
+}

@@ -323,7 +323,7 @@ public class TBFormController {
     public boolean  substractFromInventory(Integer drugId,int Qnty,String val){
         Drug drug = Context.getConceptService().getDrugByNameOrId(drugId.toString());
         String locationUUID=service.getPharmacyLocationsByName(val).getUuid();
-        DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(drug,locationUUID);
+        DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(drugId,locationUUID);
         if(drugDispenseSettings !=null){
             PharmacyStore pharmacyStore = drugDispenseSettings.getInventoryId();
             if(pharmacyStore!=null ){

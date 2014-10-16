@@ -70,7 +70,6 @@ function addRow(tableID) {
     for(var i=0; i<colCount; i++) {
         var newcell = row.insertCell(i);
         newcell.innerHTML = table.rows[1].cells[i].innerHTML;
-        //alert(newcell.childNodes);
         switch(newcell.childNodes[0].type) {
             case "text":
                 newcell.childNodes[0].value = "";
@@ -146,6 +145,7 @@ unClearedReceiptsTable=$j("#unClearedReceipts").dataTable({
         }
     ]
 });
+
 $j('#unClearedReceipts tbody').delegate("tr","click", function () {
     editTr = this;
     aData = unClearedReceiptsTable.fnGetData(editTr);
@@ -161,18 +161,26 @@ $j('#unClearedReceipts tbody').delegate("tr","click", function () {
             vals= elem.toString().split(",");
             $j('table#receiptToComplete TBODY').append('<tr><td><input name="drugReceipt" id="drugReceipt_'+idx+'"  style="width:350px;"  readonly value="'
                 +vals[0]+'" /></td><td><input name="quantityToSubtract" id="quantityToSubtract_'+idx+'" style="width:100px;"  value="' +vals[1]+'"/>' +'</td>' +
-                '<td><input type="text" name="unitP" id="unitP_'+idx+'"  readonly value="'+vals[4]+'"/></td>'+
-                '<td style="width:100px;"><input type="text" name="itemAmount" id="itemAmount_'+idx+'" readonly value="'+vals[2]+'" /></td><td><input type="hidden" name="drugExtraUUID" value="'+vals[3]+'"</td></tr>');
+                '<td><input type="text" name="unitP" id="unitP_'+idx+'" style="width:100px" readonly value="'+vals[4]+'"/></td>'+
+                '<td><input type="text" name="itemAmount" id="itemAmount_'+idx+'" style="width:150px" readonly value="'+vals[2]+'" /></td>' +
+                '<td><input type="text" name="itemAmountWaived" style="width:150px" id="itemAmountWaived_'+idx+'"  value="0" /></td> '+
+                '<td><input type="hidden" name="drugExtraUUID" value="'+vals[3]+'"</td></tr>');
 
         });
     });
+})
+$j('#unClearedReceipts').delegate(' tbody td  input', 'click', function () {
+    editTr=this.parentNode.parentNode;
+    aData = unClearedReceiptsTable.fnGetData(editTr);
+    var printingURL="printInvoice.form?encounterUUID="+aData[0];
+    window.location=printingURL;
 })
 function RefreshTable(tableId, urlData) {
     table = $j(tableId).dataTable();
     oCache.iCacheLower = -1;
     table.fnDraw();
 }
-$j("#amountPaid,#amountWaived").live("blur",function(){
+$j("#amountPaid").live("blur",function(){
     var cumilativePaid=parseFloat($j("#receiptTotal").val())-parseFloat($j("#amountWaived").val())
     document.getElementById("balance").value= parseFloat($j("#amountPaid").val())-parseFloat(cumilativePaid);
 })
@@ -182,11 +190,21 @@ $j("INPUT[NAME='quantityToSubtract']").live("blur",function(){
     document.getElementById("itemAmount_"+idExtract).value = parseInt(document.getElementById("quantityToSubtract_"+idExtract).value)
         * parseInt(document.getElementById("unitP_"+idExtract).value);
     var sumpaid=0;
+
     $j("INPUT[name='itemAmount']").each(function() {
         sumpaid += Number($j(this).val());
     });
+
     document.getElementById("receiptTotal").value=Number(sumpaid);
+
 })
+var waivedSum=0;
+    $j("INPUT[name='itemAmountWaived']").live("blur",function(){
+    $j("INPUT[name='itemAmountWaived']").each(function() {
+        waivedSum += Number($j(this).val());
+    });
+    document.getElementById("amountWaived").value=Number(waivedSum);
+});
 function AutoReload() {
     unClearedReceiptsTable=$j("#unClearedReceipts").dataTable({
         bJQueryUI:true,
@@ -323,15 +341,20 @@ $j("input[name=patientId]").live("focus", function () {
 });
 
 $j("input[name='quantity']").live("blur", function () {
+    var sumpaid = 0;
     var id=$j(this).attr('id');
     var idExtract=id.substring(id.indexOf("_")+1);
     if(idExtract=="quantity"){
         document.getElementById("amount").value = parseInt($j("input[id='quantity']").val())
-            * parseInt($j("input[id='unitPrice']").val());
+            * parseFloat($j("input[id='unitPrice']").val());
     }  else{
         document.getElementById("amount_"+idExtract).value = parseInt(document.getElementById("quantity_"+idExtract).value)
-            * parseInt(document.getElementById("unitPrice_"+idExtract).value);
+            * parseFloat(document.getElementById("unitPrice_"+idExtract).value);
     }
+    $j("input[name='amount']").each(function() {
+        sumpaid += Number($j(this).val());
+    });
+    document.getElementById("totalAmount").value=Number(sumpaid);
 });
 
 $j("input[name='amount']").live("blur",function () {
@@ -367,7 +390,9 @@ $j("form#dispensingForm").unbind('submit').submit(function(){
                     type:"POST",
                     url:"rfpDispenseFormProcessor.form",
                     data:{values:JSON.stringify(json) },
-                    success:function () {
+                    success:function (result) {
+                        var printingURL="printInvoice.form?encounterUUID="+result.toString();
+                        window.location=printingURL;
                         document.getElementById("dispensingForm").reset();
                         removeRows();
                         unClearedReceiptsTable.fnDraw();
@@ -386,7 +411,7 @@ $j("form#dispensingForm").unbind('submit').submit(function(){
 })
 
 $j("form#completeReceipt").unbind('submit').submit(function(){
-    if($j("#balance").val() < 0){
+        if($j("#balance").val() !=0 || $j("#balance").val()=="" ||  $j("#amountPaid").val()==""){
         $j("#errorDialog").empty();
         $j('<dl><dt></dt><dd >' + "Info: " + "Amount paid cannot clear receipt amount" + '</dd></dl> ').appendTo('#errorDialog');
         $j("#errorDialog").dialog("open");
@@ -406,7 +431,6 @@ $j("form#completeReceipt").unbind('submit').submit(function(){
             });
             jsonReceiptData.push(rowObject);
         });
-        //alert("json is"+JSON.stringify(jsonReceiptData));
         $j.ajax({
             type:"POST",
             url:"rfpDispenseFormProcessor.form?receipt="+aData[0],
@@ -422,3 +446,8 @@ $j("form#completeReceipt").unbind('submit').submit(function(){
     }
     return false;
 })
+// $j(".myBox").click(function(){
+    //window.location=$j(this).find("a").attr("href");
+   // window.location="printInvoice.form";
+    //return false;
+//});

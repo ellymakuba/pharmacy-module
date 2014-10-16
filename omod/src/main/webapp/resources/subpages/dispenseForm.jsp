@@ -13,6 +13,7 @@
 <body>
 <DIV id="dtab_1">
     <div id="queueFormDIV">
+        <h3>RFP Drug Dispensing Form</h3>
         <form id="dispensingForm" name="dispensingForm">
             <fieldset>
                 <table>
@@ -56,7 +57,7 @@
                     </tr>
                 </table>
                 <table id="receiptToComplete">
-                    <thead><tr><th>Drug</th><th>Quantity</th><th>Unit Price</th><th>Amount</th></tr></thead>
+                    <thead><tr><th>Drug</th><th>Quantity</th><th>Unit Price</th><th>Amount</th><th>Amount waived</th></tr></thead>
                     <tbody></tbody>
                 </table>
             </fieldset>
@@ -72,7 +73,7 @@
                         <td><input type="text" name="receiptTotal" id="receiptTotal" readonly></td>
                         <td><input type="text" name="amountPaid" id="amountPaid" ></td>
                         <td><input type="text" name="amountWaived" id="amountWaived" value="0"></td>
-                        <td><input type="text" name="balance" id="balance"></td>
+                        <td><input type="text" name="balance" id="balance" value="0"></td>
                     </tr>
                 </table>
                 <input class="submit" type="submit" value="Complete Transaction"/>
@@ -86,8 +87,10 @@
         <th>Total</th>
         <th>Patient Name</th>
         <Th>Time</Th>
+        <Th>Print</Th>
         </thead>
         <tbody>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>
