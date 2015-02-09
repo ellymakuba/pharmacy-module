@@ -14,9 +14,10 @@ $j("#dispensevoid").hide();
 $j("#parent_div_2").hide();
 $j("#parent_div_1").hide();
 $j("#lower").hide();
-$j("#dispenseextra").validate();
+//$j("#dispenseextra").validate();
 $j("#dispensevoid").validate();
 $j("#dispenseVal").validate();
+$j("#batchSetterDIV").hide();
 function RefreshTable(tableId, urlData) {
     table = $j(tableId).dataTable();
     oCache.iCacheLower = -1;
@@ -71,37 +72,10 @@ function SetDispenseTable(id) {
             bProcessing:true,
             sAjaxSource:url,
             "fnServerData":fnDataTablesPipeline,
-            "fnRowCallback":function (nRow, batchaData, iDisplayIndex) {
-                var htm = '<ul class="popSet">	<li> <img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/items.png" alt="" /><ul class="popSet" id=' + "popSet" + batchaData[2] + '>';
-
-
-                if (batchaData[10] == "void") {
-                    htm += '<li> <a href="#" id="deleteBatch" ><img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/delete.png" />Void</a></li>';
-                }
-
-
-                htm += '<li> <a href="#" id="cancelBatch"><img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/cancel.png" />Back</a></li>';
-
-
-                htm += '</ul></li></ul>';
-
-
-                $j('td:eq(0)', nRow).html(htm);
-
-                return nRow;
-            },
             "aoColumnDefs":[
                 {
                     "bVisible":false,
                     "aTargets":[ 0 ]
-                },
-                {
-                    "bVisible":false,
-                    "aTargets":[ 2 ]
-                },
-                {
-                    "bVisible":false,
-                    "aTargets":[ 10 ]
                 }
             ]
         });
@@ -395,3 +369,25 @@ function getDrugFilter() {
 function show() {
     $j("#outgoingVal").show("slow");
 }
+$j('#tinventoryset').delegate('tbody tr', 'click', function (){
+    var clickedRow=this;
+    var batchaData = binTable2.fnGetData(clickedRow);
+    var drugId;
+    var inventoryNO=batchaData[0];
+    var newQuantity=$j("input[name='newQuantity']").val();
+
+    $j.getJSON("pharmacyDrugIDRequest.form?drugName="+$j("#dispensedrug").val(),function(result) {
+        drugId = result;
+        var drug = $j("#dispensedrug").val();
+        dataString = "&dispensedrug=" + drug +"&drugID="+drugId;
+        $j.ajax({
+            type:"POST",
+            url:"drugDispenseRequest.form?inventoryNo="+inventoryNO+"&dispensedrug=" + drug+"&drugID="+drugId+"&newQuantity="+newQuantity,
+            data:{datas:JSON.stringify(dataString) },
+            dataType:"json",
+            success:function () {
+                SetDispenseTable(drug);
+            }
+        });
+    });
+});

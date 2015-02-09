@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.print.PrinterJob;
 import java.io.*;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -53,7 +54,6 @@ public class PrintInvoiceController {
         PdfWriter docWriter = null;
 
         PharmacyEncounter pharmacyEncounter=service.getPharmacyEncounterByUuid(encounter);
-        ;
         String patient=service.getPatientByIdentifier(pharmacyEncounter.getPerson().getPatientIdentifier().getIdentifier()) ;
         Person person=Context.getPatientService().getPatient(Integer.parseInt(patient));
 
@@ -69,53 +69,53 @@ public class PrintInvoiceController {
             doc.addCreationDate();
             doc.addProducer();
             doc.addCreator("RFP");
-            doc.addTitle("RFP INVOICE");
+            doc.addTitle("RFP RECEIPT");
             doc.setPageSize(PageSize.B7);
+            doc.setMargins(5,5,5,5);
             //open document
             doc.open();
-            //create a paragraph
-            Paragraph paragraph = new Paragraph("RFP PHARMACY INVOICE");
+            //Image image1 = Image.getInstance("ampath.jpeg");
 
             //specify column widths
-            float[] columnWidths = {5f, 1.5f, 2f, 2f};
+            float[] columnWidths = {5f, 1.5f, 2f, 2f,2f};
             //create PDF table with the given widths
             PdfPTable table = new PdfPTable(columnWidths);
             // set table width a percentage of the page width
             table.setWidthPercentage(90f);
 
             //insert column headings
-            insertCell(table, "Patient Identifier", Element.ALIGN_RIGHT, 2, bfBold12);
-            insertCell(table, pharmacyEncounter.getPerson().getPatientIdentifier().getIdentifier(), Element.ALIGN_LEFT, 2, bfBold12);
-            insertCell(table, "Patient Name", Element.ALIGN_RIGHT, 2, bfBold12);
-            insertCell(table,person.getGivenName()+" "+ person.getFamilyName(), Element.ALIGN_LEFT, 2, bfBold12);
+            insertCell(table, "Patient ID", Element.ALIGN_RIGHT, 1, bfBold12);
+            insertCell(table, pharmacyEncounter.getPerson().getPatientIdentifier().getIdentifier(), Element.ALIGN_LEFT, 4, bfBold12);
+            insertCell(table, "Name", Element.ALIGN_RIGHT, 1, bfBold12);
+            insertCell(table,person.getGivenName()+" "+ person.getFamilyName(), Element.ALIGN_LEFT, 4, bfBold12);
             insertCell(table, "Medication Name", Element.ALIGN_RIGHT, 1, bfBold12);
-            insertCell(table, "Unit Price", Element.ALIGN_LEFT, 1, bfBold12);
-            insertCell(table, "Quantity", Element.ALIGN_LEFT, 1, bfBold12);
-            insertCell(table, "Amount", Element.ALIGN_RIGHT, 1, bfBold12);
+            insertCell(table, "Prc", Element.ALIGN_LEFT, 1, bfBold12);
+            insertCell(table, "Qty", Element.ALIGN_LEFT, 1, bfBold12);
+            insertCell(table, "Disc", Element.ALIGN_LEFT, 1,bfBold12);
+            insertCell(table, "Amt", Element.ALIGN_RIGHT, 1,bfBold12);
             table.setHeaderRows(1);
 
-            //insert an empty row
-            //insertCell(table, "", Element.ALIGN_LEFT, 4, bfBold12);
-            //create section heading by cell merging
-
+            //insertImage(table,image1,Element.ALIGN_RIGHT, 1,bfBold12);
+            //insertCell(table, "elly", Element.ALIGN_RIGHT, 5, bf12);
             receiptToProcess=service.getUnprocessedReceiptsByEncounterUUID(encounter);
             int itemSize=receiptToProcess.size();
             Double receiptTotal=0.0;
             for(int x=0; x<itemSize; x++){
+                Double amountLessDiscount=receiptToProcess.get(x).getAmount()-receiptToProcess.get(x).getDiscount();
                 PharmacyStore pharmacyStore=service.getPharmacyInventoryByDrugUuid(receiptToProcess.get(x).getDrug().getUuid(),locationUUID);
                 insertCell(table, receiptToProcess.get(x).getDrug().getName(), Element.ALIGN_RIGHT, 1, bf12);
                 insertCell(table, ""+pharmacyStore.getUnitPrice(), Element.ALIGN_RIGHT, 1, bf12);
                 insertCell(table, ""+receiptToProcess.get(x).getQuantitysold(), Element.ALIGN_RIGHT, 1, bf12);
-                insertCell(table, ""+receiptToProcess.get(x).getAmount(), Element.ALIGN_RIGHT, 1, bf12);
-                receiptTotal = receiptTotal + receiptToProcess.get(x).getAmount();
+                insertCell(table, ""+receiptToProcess.get(x).getDiscount(), Element.ALIGN_RIGHT, 1, bf12);
+                insertCell(table, ""+amountLessDiscount, Element.ALIGN_RIGHT, 1, bf12);
+                receiptTotal = receiptTotal + amountLessDiscount;
             }
             insertCell(table, "Total:", Element.ALIGN_LEFT, 2, bfBold12);
-            insertCell(table, df.format(receiptTotal), Element.ALIGN_LEFT, 2, bfBold12);
+            insertCell(table, df.format(receiptTotal), Element.ALIGN_LEFT, 3, bfBold12);
             insertCell(table, "We Treat God Heals ...", Element.ALIGN_LEFT, 4, bfBold12);
-            //add the PDF table to the paragraph
-            paragraph.add(table);
-            // add the paragraph to the document
-            doc.add(paragraph);
+            doc.add(table);
+
+
         }
         catch (DocumentException dex)
         {
@@ -138,7 +138,7 @@ public class PrintInvoiceController {
                 docWriter.close();
             }
 
-            response.setHeader("Content-disposition", "attachment; filename=" + "RFPReceipt" + ".pdf");
+            response.setHeader("Content-disposition", "inline; filename=" + "RFPReceipt" + ".pdf");
             response.setContentType("application/pdf");
             OutputStream outputStream = response.getOutputStream();
             FileInputStream fileInputStream = new FileInputStream(tmpFile);
@@ -166,6 +166,11 @@ public class PrintInvoiceController {
         table.addCell(cell);
 
     }
-
+    private void insertImage(PdfPTable table, Image img, int align, int colspan, Font font){
+        PdfPCell cell = new PdfPCell(img);
+        cell.setHorizontalAlignment(align);
+        cell.setColspan(colspan);
+        table.addCell(cell);
+    }
 
 }

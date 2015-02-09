@@ -17,6 +17,7 @@ public class DrugExtra extends BaseOpenmrsData {
     private PharmacyGeneralVariables option;
     private Integer waiverNo;
     private double Amountw;
+    private double discount;
     private Integer invoice;
     private String drugChange;
     private String chosenValue;
@@ -31,12 +32,29 @@ public class DrugExtra extends BaseOpenmrsData {
     private double total_waived;
     private Integer display;
     private PharmacyEncounter pharmacyEncounter;
+    private Integer previouslySoldQuantity;
     public PharmacyEncounter getPharmacyEncounter() {
         return pharmacyEncounter;
     }
 
     public void setPharmacyEncounter(PharmacyEncounter pharmacyEncounter) {
         this.pharmacyEncounter = pharmacyEncounter;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public Integer getPreviouslySoldQuantity() {
+        return previouslySoldQuantity;
+    }
+
+    public void setPreviouslySoldQuantity(Integer previouslySoldQuantity) {
+        this.previouslySoldQuantity = previouslySoldQuantity;
     }
 
     public Integer getDisplay() {

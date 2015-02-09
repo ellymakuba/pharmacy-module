@@ -74,9 +74,9 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public PharmacyEncounter savePharmacyEncounter(PharmacyEncounter pharmacyEncounter) {
         return pharmacyDAO.savePharmacyEncounter(pharmacyEncounter);
     }
-     public DrugExtra saveDrugExtraObject(DrugExtra drugExtra){
-         return pharmacyDAO.saveDrugExtraObject(drugExtra);
-     }
+    public DrugExtra saveDrugExtraObject(DrugExtra drugExtra){
+        return pharmacyDAO.saveDrugExtraObject(drugExtra);
+    }
     /**
      * @see org.openmrs.module.pharmacy.service.PharmacyService#getPharmacyEncounter()
      */
@@ -211,7 +211,7 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public List<PharmacyStore> getPharmacyInventoryListByUuid(String uuid) {
         return pharmacyDAO.getPharmacyInventoryListByUuid(uuid);
     }
-    public List<PharmacyStore> getPharmacyInventoryByNameAndLocation(String name,String location){
+    public List<Drug> getPharmacyInventoryByNameAndLocation(String name,String location){
         return pharmacyDAO.getPharmacyInventoryByNameAndLocation(name,location);
     }
     /**
@@ -762,11 +762,11 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     }
 
     public List<PharmacyDrugOrderExtra> getPharmacyDrugOrderExtra() {
-       return pharmacyDAO.getPharmacyDrugOrderExtra();
+        return pharmacyDAO.getPharmacyDrugOrderExtra();
     }
 
     public PharmacyDrugOrderExtra getPharmacyDrugOrderExtraByUuid(String uuid) {
-       return pharmacyDAO.getPharmacyDrugOrderExtraByUuid(uuid);
+        return pharmacyDAO.getPharmacyDrugOrderExtraByUuid(uuid);
     }
 
 
@@ -822,5 +822,20 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     }
     public List<PharmacyStore> getPharmacyStoreByLocation(String locationUUID){
         return pharmacyDAO.getPharmacyStoreByLocation(locationUUID);
+    }
+    public PharmacyOrders getPharmacyOrderByEncounter(PharmacyEncounter uuid){
+        return pharmacyDAO.getPharmacyOrderByEncounter(uuid);
+    }
+    public PharmacyObs getPharmacyObservationByPharmacyOrder(PharmacyOrders uuid){
+        return  pharmacyDAO.getPharmacyObservationByPharmacyOrder(uuid);
+    }
+    public PharmacyDrugOrder getPharmacyDrugOrdersByDrugExtraUUID(DrugExtra uuid){
+        return  pharmacyDAO.getPharmacyDrugOrdersByDrugExtraUUID(uuid);
+    }
+    public List<PharmacyStore> getPharmacyStoreByNameAndLocation(String name,String location){
+        return pharmacyDAO.getPharmacyStoreByNameAndLocation(name,location);
+    }
+    public Double  getDiscountOnDrugsWithinPeriodRange(Date startDate,Date endDate,String encounterUUID,String location){
+        return pharmacyDAO.getDiscountOnDrugsWithinPeriodRange(startDate,endDate,encounterUUID,location);
     }
 }

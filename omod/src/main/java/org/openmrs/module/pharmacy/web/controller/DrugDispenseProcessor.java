@@ -60,14 +60,14 @@ public class DrugDispenseProcessor {
     @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/drugDispenseRequest")
     public synchronized void drugExtraFormProcessor(HttpServletRequest request, HttpServletResponse response) {
         service = Context.getService(PharmacyService.class);
-        days= request.getParameter("value"); //inventory
+        days= "2"; //inventory
         drugID=request.getParameter("drugID");
         inventoryNo=request.getParameter("inventoryNo");
         drugName=request.getParameter("dispensedrug");
-        option=request.getParameter("optionval");
+        option="tablets";
         amount="1";
         quantity="1";
-        form=request.getParameter("form");
+        form="Tablets";
         back="a";
         front="a";
          log.info("inventotryNO is+++++++++++++++++++++++++++++++++++++++++++++++"+inventoryNo);

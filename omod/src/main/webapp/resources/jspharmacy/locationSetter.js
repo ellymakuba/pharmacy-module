@@ -32,45 +32,16 @@ $j("#hidelocation").click(function () {
     $j("#locationForm").hide();
 });
 $j("form#locationForm").submit(function () {
-    // we want to store the values from the form input box, then send via ajax below
-    if ($j("form#locationForm").valid()) {
         dataString = $j("#locationForm").serialize();
         var e = document.getElementById("locationsVal");
         var strUser = e.options[e.selectedIndex].value;
-        if (strUser == "No permission") {
-        }
-        else {
             $j.ajax({
                 type:"POST",
                 url:"locationSetter.form",
                 data:dataString,
                 success:function (data) {
-                    var dat = data;
-                    var path = dataString.substring(dataString.indexOf("=") + 1);
-                    var locationURL = path;
-                    $j("#current_location").empty();
-                    $j(path).appendTo("#current_location");
-                    $j("#ui").show();
-                    $j("#ui8").show();
-                    $j("#ui1").show();
-                    $j("#ui18").show();
-                    $j("#ui2").show();
-                    $j("#ui28").show();
-                    $j("#ui3").show();
-                    $j("#ui38").show();
-                    $j("#ui4").show();
-                    $j("#ui48").show();
-                    $j("#hidelocation").hide();
-                    $j("#showlocation").show();
-                    $j("#location").hide();
-                    $j("#locationError").show("slow");//
-                    $j('#locationError .loc').replaceWith("<div id='red'>Location Set<div>");
-                    $j("#locationError").delay(5000).hide("slow");
                 }
             });
-        }
-
-    }
     return true;
 });
 function getDataLocation() {

@@ -105,7 +105,7 @@ public class DrugDispenseStore {
                 json = new JSONObject();
                 Drug drugToSelect=Context.getConceptService().getDrugByNameOrId(dialog);
                 PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
-                pharmacyStoreList = service.getPharmacyInventoryByNameAndLocation(drugToSelect.getName(),pharmacyLocations.getUuid());
+                pharmacyStoreList = service.getPharmacyStoreByNameAndLocation(drugToSelect.getName(),pharmacyLocations.getUuid());
                 size2 = pharmacyStoreList.size();
                 for (int i = 0; i < size2; i++) {
                     DateTime x = new DateTime(pharmacyStoreList.get(i).getExpireDate());

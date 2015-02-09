@@ -5,11 +5,11 @@ var editTr;
 var dataString;
 var link;
 var unClearedReceiptsTable;
+var patienteEncounters;
 var myResult;
 var oCache = {
     iCacheLower:-1
 };
-var rowCounter = 0 ;
 function fnDataTablesPipeline2(sSource, aoData, fnCallback) {
     var iPipe = 5;
     var bNeedServer = false;
@@ -62,8 +62,15 @@ function fnDataTablesPipeline2(sSource, aoData, fnCallback) {
         return;
     }
 }
-function addRow(tableID) {
-    var table = document.getElementById(tableID);
+function countR(){
+    var tableLength=document.getElementById("tableDispense").rows.length;
+    alert(tableLength);
+}
+var rowCounter = document.getElementById("tableDispense").rows.length+1;
+$j("#unClearedReceiptsDIV").show();
+$j("#allPatientEncountersDIV").hide();
+function addRow() {
+    var table = document.getElementById("tableDispense");
     var rowCount = table.rows.length;
     var row = table.insertRow(rowCount);
     var colCount = table.rows[0].cells.length;
@@ -88,6 +95,17 @@ function addRow(tableID) {
                 if(newcell.childNodes[0].name=="quantityInStock"){
                     newcell.childNodes[0].id="quantityInStock_" + rowCounter;
                 }
+                if(newcell.childNodes[0].name=="itemAmountWaived"){
+                    newcell.childNodes[0].id="itemAmountWaived_" + rowCounter;
+                    newcell.childNodes[0].value=0;
+                }
+                if(newcell.childNodes[0].name=="discount"){
+                    newcell.childNodes[0].id="discount_" + rowCounter;
+                    newcell.childNodes[0].value=0;
+                }
+                if(newcell.childNodes[0].name=="dosage"){
+                    newcell.childNodes[0].id="dosage_" + rowCounter;
+                }
                 break;
             case "checkbox":
                 newcell.childNodes[0].checked = false;
@@ -100,17 +118,17 @@ function addRow(tableID) {
 
     rowCounter ++ ;
 }
-
-function deleteRow(tableID) {
+$j("#tableDispense").hide();
+function deleteRow() {
     try {
-        var table = document.getElementById(tableID);
+        var table = document.getElementById("tableDispense");
         var rowCount = table.rows.length;
         if(rowCount <= 2) {
             alert("Cannot delete all the rows.");
             //break;
         }
         else{
-            table.deleteRow(rowCount -1);
+            table.deleteRow($j(this));
         }
 
     }catch(e) {
@@ -129,7 +147,6 @@ $j.getJSON("drugBincard.form?selectDose=doseSelect",function (result) {
     });
 });
 $j("#dispensingForm").validate();
-$j("#receiptDIV").hide();
 unClearedReceiptsTable=$j("#unClearedReceipts").dataTable({
     bJQueryUI:true,
     bRetrieve:true,
@@ -149,25 +166,57 @@ unClearedReceiptsTable=$j("#unClearedReceipts").dataTable({
 $j('#unClearedReceipts tbody').delegate("tr","click", function () {
     editTr = this;
     aData = unClearedReceiptsTable.fnGetData(editTr);
-    fnFormatDetails(editTr);
-    $j("#queueFormDIV").hide();
-    $j("#receiptToComplete TBODY tr").remove();
-    $j("#receiptDIV").show();
+    $j("#queueFormDIV").show();
+    $j("#tableDispense TBODY tr").remove();
+    document.getElementById("patientId").value=aData[1];
+    document.getElementById("patientName").value=aData[3];
     var vals=[];
     var a={};
-
-    $j.getJSON('unProcessedReceipts.form?encounterUUID='+aData[0], function (data) {
+    var totalAmount=0;
+    var totalAmountWaived=0;
+    var totalDiscount=0;
+    document.getElementById("amountPaid").value='';
+    $j.getJSON('unProcessedReceipts.form?encounterUUID='+aData[0]+'&paymentStatus='+aData[5], function (data) {
         $j.each(data.aaData, function(idx, elem){
             vals= elem.toString().split(",");
-            $j('table#receiptToComplete TBODY').append('<tr><td><input name="drugReceipt" id="drugReceipt_'+idx+'"  style="width:350px;"  readonly value="'
-                +vals[0]+'" /></td><td><input name="quantityToSubtract" id="quantityToSubtract_'+idx+'" style="width:100px;"  value="' +vals[1]+'"/>' +'</td>' +
-                '<td><input type="text" name="unitP" id="unitP_'+idx+'" style="width:100px" readonly value="'+vals[4]+'"/></td>'+
-                '<td><input type="text" name="itemAmount" id="itemAmount_'+idx+'" style="width:150px" readonly value="'+vals[2]+'" /></td>' +
-                '<td><input type="text" name="itemAmountWaived" style="width:150px" id="itemAmountWaived_'+idx+'"  value="0" /></td> '+
-                '<td><input type="hidden" name="drugExtraUUID" value="'+vals[3]+'"</td></tr>');
-
+            $j('table#tableDispense TBODY').append('<tr><td><input name="dispenseFormDrug" id="dispenseFormDrug_'+idx+'"  style="width:350px;" value="'
+                +vals[0]+'" /></td><td><input name="quantityInStock" style="width:50px;" id="quantityInStock_'+idx+'" readonly  value="' +vals[5]+'"/>' +'</td>' +
+                '<td><select id="dosage_'+idx+'"  name="dosage" ></select> </td>'+
+                '<td><input type="text" name="unitPrice" id="unitPrice_'+idx+'" style="width:50px" value="'+vals[4]+'"/></td>'+
+                '<td><input type="text"  name="quantity" style="width:80px;" id="quantity_'+idx+'" value="'+vals[1]+'" /></td>'+
+                '<td><input type="text" name="amount" id="amount_'+idx+'" style="width:80px;"  value="'+vals[2]+'" /></td>' +
+                '<td><input type="text" name="discount" style="width:50px;" value="'+vals[8]+'" id="discount_'+idx+'"/></td> '+
+                '<td><input type="text" name="itemAmountWaived" style="width:50px;" value="'+vals[7]+'" id="itemAmountWaived_'+idx+'"/></td> '+
+                '<td><a href="#">del</a></td>'+
+                '<td><input type="hidden" name="drugExtraUUID" value="'+vals[3]+'"</td>'+
+                '<td><input type="hidden" name="previouslySoldQuantity" value="'+vals[6]+'"</td></tr>');
+            totalAmount=Number(totalAmount)+Number(vals[2]);
+            totalAmountWaived=Number(totalAmountWaived)+Number(vals[7]);
+            totalDiscount=Number(totalDiscount)+Number(vals[8]);
+            $j.getJSON("drugBincard.form?selectDose=doseSelect",function (result) {
+                $j.each(result,function (index, value) {
+                    $j("#dosage_"+idx).append($j("<option></option>").attr("value",index).text(value));
+                });
+            });
         });
+        $j('table#tableDispense TBODY').append('<input type="hidden" name="previousEncounter" id="previousEncounter" value="'+aData[0]+'">');
+        document.getElementById("totalAmount").value=totalAmount;
+        document.getElementById("amountWaived").value=totalAmountWaived;
+        document.getElementById("totalDiscount").value=totalDiscount;
+        var amount=0;
+        if(aData[5]=="Paid"){
+            $j.ajax({
+                type:"GET",
+                url:"amountAlreadyPaidForInvoice.form?encounterUUID="+aData[0],
+                data:amount,
+                success:function (result) {
+                    document.getElementById("amountPaid").value=result;
+                }
+            });
+        }
     });
+
+    $j("#tableDispense").show();
 })
 $j('#unClearedReceipts').delegate(' tbody td  input', 'click', function () {
     editTr=this.parentNode.parentNode;
@@ -175,35 +224,33 @@ $j('#unClearedReceipts').delegate(' tbody td  input', 'click', function () {
     var printingURL="printInvoice.form?encounterUUID="+aData[0];
     window.location=printingURL;
 })
+$j('#tableDispense').delegate(' tr td a', 'click', function(e){
+    e.preventDefault();
+    $j(this).closest('tr').remove();
+});
 function RefreshTable(tableId, urlData) {
     table = $j(tableId).dataTable();
     oCache.iCacheLower = -1;
     table.fnDraw();
 }
 $j("#amountPaid").live("blur",function(){
-    var cumilativePaid=parseFloat($j("#receiptTotal").val())-parseFloat($j("#amountWaived").val())
+    var cumilativePaid=parseFloat($j("#amountWaived").val())+parseFloat($j("#totalDiscount").val());
+    cumilativePaid=parseFloat($j("#totalAmount").val())-cumilativePaid;
     document.getElementById("balance").value= parseFloat($j("#amountPaid").val())-parseFloat(cumilativePaid);
 })
-$j("INPUT[NAME='quantityToSubtract']").live("blur",function(){
-    var id=$j(this).attr('id');
-    var idExtract=id.substring(id.indexOf("_")+1);
-    document.getElementById("itemAmount_"+idExtract).value = parseInt(document.getElementById("quantityToSubtract_"+idExtract).value)
-        * parseInt(document.getElementById("unitP_"+idExtract).value);
-    var sumpaid=0;
-
-    $j("INPUT[name='itemAmount']").each(function() {
-        sumpaid += Number($j(this).val());
-    });
-
-    document.getElementById("receiptTotal").value=Number(sumpaid);
-
-})
-var waivedSum=0;
-    $j("INPUT[name='itemAmountWaived']").live("blur",function(){
+$j("INPUT[NAME='itemAmountWaived']").live("blur",function(){
+    var waivedSumAmount=0;
     $j("INPUT[name='itemAmountWaived']").each(function() {
-        waivedSum += Number($j(this).val());
+        waivedSumAmount += Number($j(this).val());
     });
-    document.getElementById("amountWaived").value=Number(waivedSum);
+    document.getElementById("amountWaived").value=Number(waivedSumAmount);
+});
+$j("INPUT[NAME='discount']").live("blur",function(){
+    var discountAmount=0;
+    $j("INPUT[name='discount']").each(function() {
+        discountAmount += Number($j(this).val());
+    });
+    document.getElementById("totalDiscount").value=Number(discountAmount);
 });
 function AutoReload() {
     unClearedReceiptsTable=$j("#unClearedReceipts").dataTable({
@@ -215,13 +262,9 @@ function AutoReload() {
         "fnServerData":fnDataTablesPipeline2
     })}
 function fnFormatDetails(nTr) {
-    var oFormObject = document.forms['completeReceipt'];
-    oFormObject.elements["patient"].value = aData[1];
-
-    var oFormObject1 = document.forms['completeReceipt'];
-    oFormObject1.elements["receiptTotal"].value = aData[2];
+    document.forms['dispensingForm'].elements["patientId"].value = aData[1];
+    document.forms['dispensingForm'].elements["totalAmount"].value = aData[2];
 }
-
 $j("input[name=dispenseFormDrug]").live("focus", function () {
     $j(this).autocomplete({
         search:function () {
@@ -319,7 +362,23 @@ $j("input[name=patientId]").live("focus", function () {
         minLength:3,
         select:function (event, ui) {
             $j("#tableDispense").show();
+            $j("#unClearedReceiptsDIV").hide();
+            $j("#allPatientEncountersDIV").show();
             var patient=ui.item.value;
+            patienteEncounters = $j('#allPatientEncounters').dataTable({
+                bJQueryUI:true,
+                bRetrieve:true,
+                bServerSide:true,
+                bProcessing:true,
+                sAjaxSource:"patientEncountersByIdentifier.form?identifier=" + $j('#patientId').val(),
+                "fnServerData":fnDataTablesPipeline2,
+                "aoColumnDefs":[
+                    {
+                        "bVisible":false,
+                        "aTargets":[ 0 ]
+                    }
+                ]
+            });
             $j.ajax({
                 type:"GET",
                 url:"drugDetails.form?drop=patientLastName&patientToFind="+patient,
@@ -327,9 +386,10 @@ $j("input[name=patientId]").live("focus", function () {
                 dataType:"json",
                 success:function (result) {
                     document.getElementById("patientName").value=result;
-
+                    patienteEncounters.fnDraw();
                 }
-            })
+            });
+
         },
         open:function () {
             $j(this).removeClass("ui-corner-all").addClass("ui-corner-top");
@@ -364,7 +424,7 @@ $j("input[name='amount']").live("blur",function () {
     });
     document.getElementById("totalAmount").value=Number(sumpaid);
 });
-$j("form#dispensingForm").unbind('submit').submit(function(){
+function addNewInvoiceOnQueue(){
     var dataString = $j("#dispensingForm").serializeArray();
     var json = [];
     $j('#queueFormDIV').find('tr').each(function(){
@@ -388,15 +448,13 @@ $j("form#dispensingForm").unbind('submit').submit(function(){
             if(result.toString()=='true') {
                 $j.ajax({
                     type:"POST",
-                    url:"rfpDispenseFormProcessor.form",
+                    url:"rfpDispenseFormProcessor.form?previousEncounter="+$j("#previousEncounter").val(),
                     data:{values:JSON.stringify(json) },
                     success:function (result) {
-                        var printingURL="printInvoice.form?encounterUUID="+result.toString();
-                        window.location=printingURL;
+                        aData="";
                         document.getElementById("dispensingForm").reset();
                         removeRows();
                         unClearedReceiptsTable.fnDraw();
-                        aData="";
                     }
                 });
             }
@@ -408,17 +466,17 @@ $j("form#dispensingForm").unbind('submit').submit(function(){
         }
     });
     return false;
-})
+}
 
-$j("form#completeReceipt").unbind('submit').submit(function(){
-        if($j("#balance").val() !=0 || $j("#balance").val()=="" ||  $j("#amountPaid").val()==""){
+function processInvoicePayment(){
+    if(parseFloat($j("#amountPaid").val()).toString() =="NaN" || parseFloat($j("#balance").val()).toString() =="NaN" || parseFloat($j("#balance").val())< 0){
         $j("#errorDialog").empty();
         $j('<dl><dt></dt><dd >' + "Info: " + "Amount paid cannot clear receipt amount" + '</dd></dl> ').appendTo('#errorDialog');
         $j("#errorDialog").dialog("open");
     }
     else{
         var jsonReceiptData = [];
-        $j('#receiptDIV').find('tr').each(function(){
+        $j('#queueFormDIV').find('tr').each(function(){
             var rowObject=[];
             $j(this).find('td').each(function(){
                 var obj = {}
@@ -435,19 +493,88 @@ $j("form#completeReceipt").unbind('submit').submit(function(){
             type:"POST",
             url:"rfpDispenseFormProcessor.form?receipt="+aData[0],
             data:{values:JSON.stringify(jsonReceiptData) },
-            success:function () {
-                $j('#receiptDIV').hide();
-                $j('#receiptDIV').innerHTML="";
-                document.getElementById("completeReceipt").reset();
-                $j('#queueFormDIV').show();
+            success:function (result) {
+                var printingURL="printInvoice.form?encounterUUID="+result.toString();
+                window.location=printingURL;
+                document.getElementById("dispensingForm").reset();
+                removeRows();
                 unClearedReceiptsTable.fnDraw();
+
             }
         });
     }
     return false;
-})
+}
+function confirmInvoiceAndIssueDrugs(){
+    if((parseFloat($j("#amountPaid").val()) < parseFloat($j("#totalAmount").val())) || parseFloat($j("#amountPaid").val()).toString() =="NaN"){
+        $j("#errorDialog").empty();
+        $j('<dl><dt></dt><dd >' + "Info: " + "Cannot close Invoice before payment is done" + '</dd></dl> ').appendTo('#errorDialog');
+        $j("#errorDialog").dialog("open");
+    }
+    else{
+        var jsonReceiptData = [];
+        $j('#queueFormDIV').find('tr').each(function(){
+            var rowObject=[];
+            $j(this).find('td').each(function(){
+                var obj = {}
+                var  td = $j(this).find('input');
+
+                var key = td.attr('name');
+                var val = td.val();
+                obj[key] = val;
+                rowObject.push(obj);
+            });
+            jsonReceiptData.push(rowObject);
+        });
+        $j.ajax({
+            type:"POST",
+            url:"checkIfPaymentHasBeenMade.form?encounterToCheck="+aData[0],
+            data:{values:JSON.stringify(jsonReceiptData) },
+            success:function (result) {
+                if(result==1){
+                    $j.ajax({
+                        type:"POST",
+                        url:"closePatientEncounter.form?receipt="+aData[0]+"&patientID="+$j('#patientId').val(),
+                        data:{values:JSON.stringify(jsonReceiptData) },
+                        success:function () {
+                            document.getElementById("dispensingForm").reset();
+                            removeRows();
+                            unClearedReceiptsTable.fnDraw();
+                        }
+                    });
+                }
+                else{
+                    $j("#errorDialog").empty();
+                    $j('<dl><dt></dt><dd >' + "Info: " + "Please process Payment before you close form" + '</dd></dl> ').appendTo('#errorDialog');
+                    $j("#errorDialog").dialog("open");
+                }
+            }
+
+        })
+
+    }
+    return false;
+}
 // $j(".myBox").click(function(){
-    //window.location=$j(this).find("a").attr("href");
-   // window.location="printInvoice.form";
-    //return false;
+//window.location=$j(this).find("a").attr("href");
+// window.location="printInvoice.form";
+//return false;
 //});
+$j("table").delegate("#allPatientEncounters tbody tr :last-child","click",function(){
+    var TableRow = this.parentNode;
+    aData =patienteEncounters.fnGetData(TableRow);
+    var amount;
+    $j.ajax({
+        type:"GET",
+        url:"reprocessEncounter.form?encounterUUID="+aData[0],
+        data:amount,
+        success:function () {
+            unClearedReceiptsTable.fnDraw();
+            $j("#unClearedReceiptsDIV").show();
+        }
+    });
+})
+
+setInterval(function(){
+    unClearedReceiptsTable.fnDraw();
+}, 10000);

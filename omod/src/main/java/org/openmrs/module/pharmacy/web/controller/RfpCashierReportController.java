@@ -23,8 +23,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
-public class RfpGeneralReportController {
-    private static final Log log = LogFactory.getLog(RfpGeneralReportController.class);
+public class RfpCashierReportController {
+    private static final Log log = LogFactory.getLog(RfpCashierReportController.class);
     private JSONArray drugStrengthA;
     public PharmacyService service;
     private boolean found = false;
@@ -37,7 +37,7 @@ public class RfpGeneralReportController {
     private List<DrugExtra> items;
     private int size;
     private JSONArray jsonArray;
-    @RequestMapping(method=RequestMethod.GET, value = "module/pharmacy/displayRFPReport")
+    @RequestMapping(method=RequestMethod.GET, value = "module/pharmacy/rfpCashierReportControllerRequest")
     public synchronized  void displayRFPGeneralReport(HttpServletRequest request, HttpServletResponse response) throws ParseException{
         String sDate  = request.getParameter("datef");
         String eDate = request.getParameter("datet");
@@ -84,14 +84,6 @@ public class RfpGeneralReportController {
                 datad2.put("None");
                 datad2.put("None");
                 datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
                 jsonObject.accumulate("aaData", datad2);
             }
             jsonObject.accumulate("iTotalRecords", jsonObject.getJSONArray("aaData").length());
@@ -106,81 +98,7 @@ public class RfpGeneralReportController {
             log.error("Error generated", e);
         }
     }
-    @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/rfpGeneral")
-    public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) throws ParseException {
-        userService = Context.getUserContext();
-        String sDate  = request.getParameter("datef");
-        String eDate = request.getParameter("datet");
-        String uuid = request.getParameter("nameuuid");
-        String drop = request.getParameter("drop");
-        service = Context.getService(PharmacyService.class);
 
-        String locationVal = null;
-        List<PharmacyLocationUsers> listUsers = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
-        int sizeUsers = listUsers.size();
-        if (sizeUsers > 1) {
-            locationVal = request.getSession().getAttribute("location").toString();
-
-        } else if (sizeUsers == 1) {
-            locationVal = listUsers.get(0).getLocation();
-
-        }
-        PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        Date minDate = null;
-        Date maxDate=null;
-        try {
-            minDate = formatter.parse(sDate);
-            maxDate = formatter.parse(eDate);
-        } catch (ParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        items = service.getDrugRange(minDate, maxDate,pharmacyLocations.getUuid());
-        size = items.size();
-        jsonObject = new JSONObject();
-        jsonArray = new JSONArray();
-        try {
-            if (drop != null) {
-                if (drop.equalsIgnoreCase("drop")) {
-                    if (size != 0) {
-                        for (int i = 0; i < size; i++) {
-                            jsonArray.put("" + getDropDown(items, i));
-                        }
-                    } else {
-                        jsonArray.put("" + null);
-
-                    }
-                    response.getWriter().print(jsonArray);
-                }
-
-            }
-            response.flushBuffer();
-
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            log.error("Error generated", e);
-        }
-
-    }
-    public  Date fromSubmitString2Date(String date) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
-        return dateFormat.parse(date);
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/rfpGeneral")
-    public synchronized void pageLoadd(HttpServletRequest request, HttpServletResponse response) throws ParseException {
-        String locationVal = null;
-        service = Context.getService(PharmacyService.class);
-        List<PharmacyLocationUsers> listUsers = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
-        int sizeUsers = listUsers.size();
-        if (sizeUsers > 1) {
-            locationVal = request.getSession().getAttribute("location").toString();
-
-        } else if (sizeUsers == 1) {
-            locationVal = listUsers.get(0).getLocation();
-        }
-
-    }
     //List<PharmacyStoreIncoming> pharmacyStoreIncomings = service.getDrugQuantityAfterLastStockTake(Date minDate, Date maxDate,String uuid);
     public synchronized JSONArray getArray(List<DrugExtra> supplierNamee, int size,String val,Date s,Date e) throws JSONException {
         supplierNames = new JSONArray();
@@ -201,31 +119,19 @@ public class RfpGeneralReportController {
 
         }
 
-        Double myValues[]=findDrugQuantity(supplierNamee.get(size).getDrug().getDrugId(),val,s,e,supplierNamee.get(size).getPharmacyEncounter().getUuid());
+        Double myValues[]=findDrugQuantity(supplierNamee.get(size).getDrug().getDrugId(),val,s,e);
         supplierNames.put(supplierNamee.get(size).getDrug().getName());
         supplierNames.put(myValues[0]);
-        supplierNames.put("");
-        supplierNames.put("");
-        supplierNames.put("");
         supplierNames.put(myValues[1]);
         supplierNames.put(myValues[2]);
         supplierNames.put(myValues[3]);
         supplierNames.put(myValues[4]);
         supplierNames.put(myValues[5]);
         supplierNames.put(myValues[6]);
-        supplierNames.put(myValues[7]);
-        supplierNames.put(myValues[8]);
-        supplierNames.put(myValues[9]);
         return supplierNames;
     }
 
-    public synchronized int getDropDown(List<DrugExtra> supplierNamee, int size) {
-        return supplierNamee.get(size).getCreator().getUserId();
-    }
-    public synchronized boolean getCheck(List<DrugExtra> supplierNamee, int size, String names) {
-        return true;
-    }
-    public Double []findDrugQuantity(Integer drugId,String val,Date startDate,Date endDate,String encounterUUID){
+    public Double []findDrugQuantity(Integer drugId,String val,Date startDate,Date endDate){
         String locationUUID=service.getPharmacyLocationsByName(val).getUuid();
         Drug drug = Context.getConceptService().getDrugByNameOrId(drugId.toString());
         DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(drugId,locationUUID);
@@ -262,18 +168,16 @@ public class RfpGeneralReportController {
         if(service.getAmountWaivedWithinPeriodRange(startDate,endDate,drugId,locationUUID) !=null){
             amountWaived=Double.valueOf(service.getAmountWaivedWithinPeriodRange(startDate,endDate,drugId,locationUUID));
         }
-        double countDispensed=0;
         Double cashExpected=quantitySold*unitPrice;
         Double cashExpectedLessW=(quantitySold*unitPrice)-amountWaived;
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date2 = new Date();
-
         double discount=0.0;
         if(service.getDiscountOnDrugsWithinPeriodRange(startDate,endDate,drugId.toString(),locationUUID) !=null){
             discount=service.getDiscountOnDrugsWithinPeriodRange(startDate,endDate,drugId.toString(),locationUUID);
         }
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date2 = new Date();
         cashExpectedLessW=cashExpectedLessW-discount;
-        Double myVals[] = {quantity,quantityFromStore,unitPrice,quantitySold,amountWaived,count,countDispensed,cashExpected,discount,cashExpectedLessW};
+        Double myVals[] = {unitPrice,quantitySold,amountWaived,count,cashExpected,discount,cashExpectedLessW};
 
         return myVals;
     }

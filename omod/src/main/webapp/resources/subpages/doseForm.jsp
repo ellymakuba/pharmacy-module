@@ -21,7 +21,7 @@
         </form>
         <form id="doseForm" action="#">
             <fieldset>
-                <label for="engine">Dose Descritpion</label> <input type="text"  name="name" id="name"  class="required"/>
+                <label for="engine">Dose Descritpion</label> <input type="text"  name="doseName" id="doseName"  class="required"/>
                 <input type="hidden" name="doseEdit" id="doseEdit" value="false"/>
                 <input type="hidden" name="doseUUID" id="doseUUID"/>
                 <input class="submit" type="submit" value="Submit"/>
@@ -33,7 +33,7 @@
         <tr>
             <th width="4%">Action</th>
             <th>name</th>
-            <th>name</th>
+            <th>UUID</th>
         </tr>
         </thead>
         <tbody>

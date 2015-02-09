@@ -23,6 +23,8 @@ public class PharmacyEncounter extends BaseOpenmrsData {
     private String regimenName;
     private Integer display;
     private Double totalAmount;
+    private Integer paymentStatus;
+    private Double discount;
 
     public Double getTotalAmount() {
         return totalAmount;
@@ -38,6 +40,22 @@ public class PharmacyEncounter extends BaseOpenmrsData {
 
     public void setDisplay(Integer display) {
         this.display = display;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double disount) {
+        this.discount = disount;
+    }
+
+    public Integer getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(Integer paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     public String getRegimenName() {

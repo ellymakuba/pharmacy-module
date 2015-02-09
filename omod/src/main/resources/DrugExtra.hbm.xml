@@ -17,6 +17,7 @@
         <many-to-one name="pharmacyLocations" property-ref="uuid" column="location_uuid"/>
         <property name="amount" type="double" column="amount"  length="255"/>
         <property name="quantitysold" type="java.lang.Integer" column="quantity_sold"/>
+        <property name="previouslySoldQuantity" type="java.lang.Integer" column="previouslySoldQuantity"/>
         <property name="display" type="java.lang.Integer" column="display"/>
         <many-to-one name="drug" class="org.openmrs.Drug" column="drug_id" not-null="true"/>
         <property name="receipt" type="java.lang.Integer" column="receipt" length="255"/>
@@ -38,5 +39,6 @@
         <property name="dateVoided" type="java.util.Date" column="date_voided"/>
         <property name="voidReason" type="java.lang.String" column="void_reason" length="255"/>
         <property name="uuid" type="string" length="38" not-null="true"  unique="true"/>
+        <property name="discount" type="java.lang.Double" column="discount"/>
     </class>
 </hibernate-mapping>

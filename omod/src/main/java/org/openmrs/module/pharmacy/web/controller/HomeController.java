@@ -31,7 +31,11 @@ public class HomeController {
     public synchronized void pageLoad(ModelMap map) {
 
     }
+    @Authorized("Manage Pharmacy")
+    @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/dispenseForm")
+    public synchronized void viewRFPDispenseForm(ModelMap map) {
 
+    }
     @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/home")
     public synchronized void pageLoadd(HttpServletRequest request, HttpServletResponse response) {
 

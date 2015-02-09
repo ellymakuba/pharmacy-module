@@ -128,60 +128,60 @@ public class HivProcessorController {
                         encounterProcessor.setForm(value.substring(value.indexOf("@")+1,value.length()-1));
                     }
                     else if(value.substring(0,value.indexOf("*")).equalsIgnoreCase("Obs"))   {
-                     obsProcessor = new ObsProcessor();
-                   if((value.substring(value.indexOf("@") + 1, (value.length() - 1)).substring(value.substring(value.indexOf("@") + 1, (value.length() - 1)).indexOf("|")+1)).length()!=0)
+                        obsProcessor = new ObsProcessor();
+                        if((value.substring(value.indexOf("@") + 1, (value.length() - 1)).substring(value.substring(value.indexOf("@") + 1, (value.length() - 1)).indexOf("|")+1)).length()!=0)
                         {
                             obsProcessor.setConcept(value.substring(value.indexOf("|")+1,(value.indexOf("#"))));
                             obsProcessor.setConceptAnswer(value.substring(value.indexOf("@") + 1, (value.length() - 1)).substring(value.substring(value.indexOf("@") + 1, (value.length() - 1)).indexOf("|")+1));
 
                             listObsProcessor.add(obsProcessor);
                         }
-                }
-                else if(value.substring(0,value.indexOf("*")).equalsIgnoreCase("ObsDrug"))   {
+                    }
+                    else if(value.substring(0,value.indexOf("*")).equalsIgnoreCase("ObsDrug"))   {
                         listMedicationProcessors= new ArrayList<MedicationProcessor>();
 
-                             if(value.indexOf("-")>0){
-                             medicationProcessor = new MedicationProcessor();
-                             medicationProcessor.setConcept(value.substring(value.indexOf("*")+1,(value.indexOf("#"))));
-                             medicationProcessor.setConceptAnswer(value.substring(value.indexOf("-")+1,(value.indexOf("|"))));
+                        if(value.indexOf("-")>0){
+                            medicationProcessor = new MedicationProcessor();
+                            medicationProcessor.setConcept(value.substring(value.indexOf("*")+1,(value.indexOf("#"))));
+                            medicationProcessor.setConceptAnswer(value.substring(value.indexOf("-")+1,(value.indexOf("|"))));
 
                              /*our changes*/
-                                 Integer drugId = Integer.valueOf(value.substring(value.indexOf("|")+1,((value.length()-1))));
-                                 Drug drug = new Drug(drugId);
-                                 medicationProcessor.setDrug(drug);
+                            Integer drugId = Integer.valueOf(value.substring(value.indexOf("|")+1,((value.length()-1))));
+                            Drug drug = new Drug(drugId);
+                            medicationProcessor.setDrug(drug);
 
                              /*medicationProcessor.setDrug(value.substring(value.indexOf("|")+1,((value.length()-1))));*/
-                             addToBigList=true;
-                             DispensedFirstPass=false;
-                             listMedicationProcessors.add(medicationProcessor);
-                         }
+                            addToBigList=true;
+                            DispensedFirstPass=false;
+                            listMedicationProcessors.add(medicationProcessor);
+                        }
                         else if(value.indexOf("|")>0){
-                             medicationProcessor = new MedicationProcessor();
+                            medicationProcessor = new MedicationProcessor();
 
                             medicationProcessor.setConcept(value.substring(value.indexOf("*")+1,(value.indexOf("#"))));
                             medicationProcessor.setConceptAnswer(value.substring(value.indexOf("@")+1,(value.indexOf("|"))));
 
                               /*our changes*/
-                                 Integer drugId = Integer.valueOf(value.substring(value.indexOf("|")+1,((value.length()-1))));
-                                 Drug drug = new Drug(drugId);
+                            Integer drugId = Integer.valueOf(value.substring(value.indexOf("|")+1,((value.length()-1))));
+                            Drug drug = new Drug(drugId);
 
-                                 medicationProcessor.setDrug(drug);
+                            medicationProcessor.setDrug(drug);
                     /*medicationProcessor.setDrugId(value.substring(value.indexOf("|")+1,((value.length()-1))));*/
-                             addToBigList=true;
-                             DispensedFirstPass=false;
-                             listMedicationProcessors.add(medicationProcessor);
-                         }
-                }
-                else if(value.substring(0,value.indexOf("*")).equalsIgnoreCase("ObsDrug1")){
+                            addToBigList=true;
+                            DispensedFirstPass=false;
+                            listMedicationProcessors.add(medicationProcessor);
+                        }
+                    }
+                    else if(value.substring(0,value.indexOf("*")).equalsIgnoreCase("ObsDrug1")){
                         if(value.indexOf("|")>0){
                             medicationProcessor = new MedicationProcessor();
                             medicationProcessor.setDose(value.substring(value.indexOf("*")+1,(value.indexOf("#"))));
 
-                    medicationProcessor.setUnits(value.substring(value.indexOf("@")+1,(value.indexOf("|"))));
-                    medicationProcessor.setFrequency(value.substring(value.indexOf("|")+1,(value.length()-1)));
+                            medicationProcessor.setUnits(value.substring(value.indexOf("@")+1,(value.indexOf("|"))));
+                            medicationProcessor.setFrequency(value.substring(value.indexOf("|")+1,(value.length()-1)));
                             listMedicationProcessors.add(medicationProcessor);
                         }
-                }
+                    }
                 }
                 else
                 {
@@ -373,26 +373,26 @@ public class HivProcessorController {
 
                     }
                     else   if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Other"))
-                        {
-                            RequestedFirstPass = false;
-                            if(value.substring(value.indexOf("@")+1,(value.length()-1)).length()>0) {
-                                medicationProcessor = new MedicationProcessor();
-                                medicationProcessor.setquantity(value.substring(value.indexOf("@")+1,(value.length()-1)));
+                    {
+                        RequestedFirstPass = false;
+                        if(value.substring(value.indexOf("@")+1,(value.length()-1)).length()>0) {
+                            medicationProcessor = new MedicationProcessor();
+                            medicationProcessor.setquantity(value.substring(value.indexOf("@")+1,(value.length()-1)));
 
-                                listMedicationProcessors.add( medicationProcessor);
+                            listMedicationProcessors.add( medicationProcessor);
 
 
-                            }
-//                            listMedicationProcessors.add(medicationProcessor);
                         }
+//                            listMedicationProcessors.add(medicationProcessor);
+                    }
 
                     else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("PillCount"))
-                        {
-                             medicationProcessor = new MedicationProcessor();
-                            medicationProcessor.setPillcount(value.substring(value.indexOf("@")+1,(value.length()-1)));
-                            listMedicationProcessors.add(medicationProcessor);
+                    {
+                        medicationProcessor = new MedicationProcessor();
+                        medicationProcessor.setPillcount(value.substring(value.indexOf("@")+1,(value.length()-1)));
+                        listMedicationProcessors.add(medicationProcessor);
 
-                        }
+                    }
 
                     else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Dispensed1"))
                     {
@@ -562,14 +562,14 @@ public class HivProcessorController {
                         }
                     }
                     else if(value.substring(0,value.indexOf("@")).equalsIgnoreCase("Prescriber"))
-                        {
-                            encounterProcessor.setPrescriber(value.substring(value.indexOf("@") + 1, value.length() - 1));
+                    {
+                        encounterProcessor.setPrescriber(value.substring(value.indexOf("@") + 1, value.length() - 1));
 
-                        }
+                    }
                     else
                     {
                         medicationProcessor = new MedicationProcessor();
-                         listMedicationProcessors.add(medicationProcessor);
+                        listMedicationProcessors.add(medicationProcessor);
                     }
                 }
                 if(addToBigList) {
@@ -627,20 +627,20 @@ public class HivProcessorController {
                 ArrayList<MedicationProcessor> c= v.next();
 //                  if(c.get(4).getPillcount().length()!=0){
                 if(c.get(4).getPillcount()!=null){
-                drugExtra = new DrugExtra();
-                drugExtra.setOption(null);
-                drugExtra.setChosenValue(null);
-                drugExtra.setReceipt(null);
-                drugExtra.setAmount(0.0);
-                drugExtra.setAmountw(0.0);
-                drugExtra.setDrugChange(null);
-                drugExtra.setInvoice(null);
-                drugExtra.setPill(CheckIfIntNull(c.get(4).getPillcount()));
-                drugExtra.setWaiverNo(null);
-                Drug drugTwo=c.get(0).getDrug();
-                drugExtra.setDrug(drugTwo);
-                listPharmacyDrugOrderExtra.add(drugExtra);
-                  }
+                    drugExtra = new DrugExtra();
+                    drugExtra.setOption(null);
+                    drugExtra.setChosenValue(null);
+                    drugExtra.setReceipt(null);
+                    drugExtra.setAmount(0.0);
+                    drugExtra.setAmountw(0.0);
+                    drugExtra.setDrugChange(null);
+                    drugExtra.setInvoice(null);
+                    drugExtra.setPill(CheckIfIntNull(c.get(4).getPillcount()));
+                    drugExtra.setWaiverNo(null);
+                    Drug drugTwo=c.get(0).getDrug();
+                    drugExtra.setDrug(drugTwo);
+                    listPharmacyDrugOrderExtra.add(drugExtra);
+                }
                 PharmacyOrders pharmacyOrders = new PharmacyOrders();
                 pharmacyOrders.setAutoEndDate(null);
                 pharmacyOrders.setConcept(CheckIfStringNull(c.get(0).getConcept()));
@@ -674,20 +674,20 @@ public class HivProcessorController {
                 String pharmacyDrugOrderUUId=null;
                 listPharmacyDrugOrder=service.getPharmacyDrugOrders();
                 if(listPharmacyDrugOrder !=null ){
-                for(PharmacyDrugOrder pharmacyDrugOrder2:listPharmacyDrugOrder ){
-                    if(pharmacyDrugOrder2.getPerson().getPatientId().toString().equals(encounterProcessor.getPatientId())){
-                        Date encDate= null;
-                        try {
-                            encDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(pharmacyDrugOrder2.getDateCreated().toString());
-                        } catch (ParseException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    for(PharmacyDrugOrder pharmacyDrugOrder2:listPharmacyDrugOrder ){
+                        if(pharmacyDrugOrder2.getPerson().getPatientId().toString().equals(encounterProcessor.getPatientId())){
+                            Date encDate= null;
+                            try {
+                                encDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(pharmacyDrugOrder2.getDateCreated().toString());
+                            } catch (ParseException e) {
+                                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            }
+                            if(date1.before(encDate)){
+                                pharmacyDrugOrderUUId=pharmacyDrugOrder2.getUuid();
+                            }
                         }
-                        if(date1.before(encDate)){
-                            pharmacyDrugOrderUUId=pharmacyDrugOrder2.getUuid();
-                        }
-                    }
 
-                }
+                    }
                 }
                 drugOrder= service.getPharmacyDrugOrdersByUuid(pharmacyDrugOrderUUId);
                 SimpleDateFormat todaysDate=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -720,7 +720,7 @@ public class HivProcessorController {
                 SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 String dateFormated=fmt.format(cal.getTime());
                 Date expNextDateOfVisit= null;
-               try {
+                try {
                     expNextDateOfVisit = fmt.parse(dateFormated);
 
                 } catch (ParseException e) {
@@ -728,7 +728,7 @@ public class HivProcessorController {
                 }
                 pharmacyDrugOrder.setExpected_next_visit_date(expNextDateOfVisit);
                 numbersInventtory[position][0]= c.get(0).getDrug().getDrugId();
-                 numbersInventtory[position][1]= CheckIfIntNull(c.get(5).getDispensed());
+                numbersInventtory[position][1]= CheckIfIntNull(c.get(5).getDispensed());
                 listPharmacyDrugOrders.add(pharmacyDrugOrder);//
                 listAnotherPharmacyObs.add(createPharmacyObs("1896",c.get(1).getFrequency(),"",c.get(0).getDrug().getDrugId().toString(),encounterProcessor.getPrescriber(),locationVal,encounterProcessor.getPatientId(),pharmacyEncounter,null));
                 listAnotherPharmacyObs.add(createPharmacyObs(c.get(0).getConcept(),c.get(0).getConceptAnswer(),"",c.get(0).getDrug().getDrugId().toString(),encounterProcessor.getPrescriber(),locationVal,encounterProcessor.getPatientId(),pharmacyEncounter,pharmacyOrders));
@@ -759,7 +759,7 @@ public class HivProcessorController {
             while (iter.hasNext()) {
                 Map.Entry entry = (Map.Entry) iter.next();
 
-            value+=entry.getValue()+"@";
+                value+=entry.getValue()+"@";
             }
         } catch (Exception pe) {
             log.info(pe);
@@ -855,12 +855,12 @@ public class HivProcessorController {
             if(list.get(i).getLocation().getName().equalsIgnoreCase(val)){
 //                PharmacyStore pharmacyStore=   service.getDrugDispenseSettingsByDrugId(Context.getConceptService().getDrugByNameOrId(""+drugId)).getInventoryId();
                 PharmacyStore pharmacyStore=   list.get(i).getInventoryId();
-                 //log.info("druuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuug id is"+drugId+"quantity "+Qnty);
+                //log.info("druuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuug id is"+drugId+"quantity "+Qnty);
 
                 if(pharmacyStore!=null ){
 
                     if(pharmacyStore.getDrugs().getDrugId()==drugId && pharmacyStore.getQuantity() > Qnty ){
-                       // log.info("druuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuug id is true");
+                        // log.info("druuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuug id is true");
 
                         pharmacyStore.setQuantity( (pharmacyStore.getQuantity()-Qnty));
                         service.savePharmacyInventory(pharmacyStore);

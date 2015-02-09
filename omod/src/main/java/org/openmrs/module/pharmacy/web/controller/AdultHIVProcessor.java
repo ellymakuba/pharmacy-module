@@ -25,8 +25,8 @@ import java.util.*;
 
 @Controller
 @Authorized("Manage Pharmacy")
-public class HivPedsProcessorController {
-    private static final Log log = LogFactory.getLog(HivPedsProcessorController.class);
+public class AdultHIVProcessor{
+    private static final Log log = LogFactory.getLog(AdultHIVProcessor.class);
     private ContainerFactory containerFactory;
     private String[][] encdata;
     private ConceptService conceptService;
@@ -61,11 +61,10 @@ public class HivPedsProcessorController {
     private     int numbersInventtory[][];
     private PharmacyDrugOrder drugOrder;
 
-    @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/hivPedsProcessor")
+    @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/adultHIVProcessor")
     public synchronized void pageLoadd(HttpServletRequest request, HttpServletResponse response) {
         conceptService = Context.getConceptService();
         String jsonText = request.getParameter("values");
-        log.info("value is++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+jsonText);
         EncounterProcessor encounterProcessor = new EncounterProcessor();
         ObsProcessor obsProcessor = new ObsProcessor();
         String regimenCode=request.getParameter("regimenCode");
@@ -73,6 +72,7 @@ public class HivPedsProcessorController {
         MedicationProcessor medicationProcessor = new MedicationProcessor();
         String locationVal = null;
         service = Context.getService(PharmacyService.class);
+        log.info("value is+++++++++++++++++++++++++++++++++++++++++++++++++++++++"+jsonText);
         List<PharmacyLocationUsers> listUsers = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         int sizeUsers = listUsers.size();
         if (sizeUsers > 1) {
@@ -121,9 +121,6 @@ public class HivPedsProcessorController {
                     if(key.equalsIgnoreCase("Enc6*noOfMonths|6#6")){
                         encounterProcessor.setDuration(value);
                     }
-                    if(key.equalsIgnoreCase("Enc7*PEDIATRICARV |0.1#1")){
-                        encounterProcessor.setForm(value);
-                    }
                     if(key.equalsIgnoreCase("Obs")){
                         if(value.contains("|"))
                         {
@@ -152,15 +149,22 @@ public class HivPedsProcessorController {
                     {
                         //medicationProcessor.setDose(value);
                     }
-                    if(key.equalsIgnoreCase("other"))
+                    if(key.equalsIgnoreCase("otherR"))
                     {
-                        if(value !=null) {
+                        if(value != null && !value.isEmpty()) {
                             medicationProcessor.setquantity(value);
                         }
                     }
-                    if(key.equalsIgnoreCase("Quantity"))
+                    if(key.contains("dispensed"))
                     {
                         medicationProcessor.setDispensed(value);
+                        log.info("dispensed++++++++++++++++++++++++++++++++++"+value);
+                    }
+                    if(key.equalsIgnoreCase("Quantity"))
+                    {   if(value != null && !value.isEmpty()) {
+                        medicationProcessor.setDispensed(value);
+                        log.info("Quantity ++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+value);
+                    }
                     }
                     if(key.equalsIgnoreCase("Prescriber"))
                     {
@@ -185,7 +189,7 @@ public class HivPedsProcessorController {
             pharmacyEncounter.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));
             pharmacyEncounter.setRegimenCode(regimenCode);
             pharmacyEncounter.setRegimenName(regimenName);
-            pharmacyEncounter.setFormName("PEDIATRICARV");
+            pharmacyEncounter.setFormName("ADULTHIV");
             service.savePharmacyEncounter(pharmacyEncounter);
             for (int y=0;y<listObsProcessor.size();y++){
                 ppharmacyObs = new PharmacyObs(); //
@@ -237,7 +241,7 @@ public class HivPedsProcessorController {
                         pharmacyDrugOrder.setDrugInventoryUuid(service.getDrugDispenseSettingsByDrugIdAndLocation(listMedicationProcessors.get(i).getDrug().getDrugId(),locationUUID).getInventoryId());
                         pharmacyDrugOrder.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));
                         pharmacyDrugOrder.setEquivalentDailyDose(0);
-                        pharmacyDrugOrder.setFormName("pediatricHIV");
+                        pharmacyDrugOrder.setFormName("ADULTHIV");
                         pharmacyDrugOrder.setFrequency(CheckIfStringNull(listMedicationProcessors.get(i).getFrequency()));
                         pharmacyDrugOrder.setOrderUuid(pharmacyOrders);
                         pharmacyDrugOrder.setQuantityPrescribed(CheckIfIntNull(listMedicationProcessors.get(i).getQuantity()));

@@ -321,7 +321,8 @@ public interface PharmacyService extends OpenmrsService {
      * @return one pharmacyInventory object by uuid
      */
     public List<PharmacyStore> getPharmacyInventoryByCategory(PharmacyCategory uuid);
-    public List<PharmacyStore> getPharmacyInventoryByNameAndLocation(String name,String location);
+    public List<Drug> getPharmacyInventoryByNameAndLocation(String name,String location);
+    public List<PharmacyStore> getPharmacyStoreByNameAndLocation(String name,String location);
     /**
      * @return list pharmacyInventory object by uuid
      */
@@ -760,4 +761,8 @@ public interface PharmacyService extends OpenmrsService {
     public PharmacyTemporaryInventory saveTemporaryInventory(PharmacyTemporaryInventory pharmacyTemporaryInventory);
     public List<PharmacyEncounter> getPharmacyEncounterListByLocationUUID(String locationUUID);
     public List<PharmacyStore> getPharmacyStoreByLocation(String locationUUID);
+    public PharmacyOrders getPharmacyOrderByEncounter(PharmacyEncounter uuid);
+    public PharmacyObs getPharmacyObservationByPharmacyOrder(PharmacyOrders uuid);
+    public PharmacyDrugOrder getPharmacyDrugOrdersByDrugExtraUUID(DrugExtra uuid);
+    public Double  getDiscountOnDrugsWithinPeriodRange(Date startDate,Date endDate,String encounterUUID,String location);
 }

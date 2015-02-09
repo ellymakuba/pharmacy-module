@@ -58,7 +58,7 @@
             </table>
         </form>
     </div>
-    <DIV id="incss">
+    <DIV id="batchSetterDIV">
         <div id='parent_div_2'>
             <form id="dispenseextra" action="#">
                 <fieldset>
@@ -106,26 +106,16 @@
                id="tdispense">
             <thead>
             <tr>
-                <th width="4%">Edit</th>
                 <th>UUID</th>
-                <th>Actions</th>
-                <th>Drug</th>
                 <th>Drug ID</th>
-                <th>Option</th>
-                <th>Value</th>
-                <th>Price per value</th>
+                <th>Drug Name</th>
+                <th>Quantity</th>
                 <th>Batch</th>
                 <th>Expire date</th>
-                <th>Void</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>

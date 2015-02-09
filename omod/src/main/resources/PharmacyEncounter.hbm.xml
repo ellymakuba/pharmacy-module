@@ -6,7 +6,7 @@
         <cache usage="read-write"/>
 
         <id name="id" type="int" column="pharmacy_encounter_id" unsaved-value="0">
-        <generator class="org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator"/></id>
+            <generator class="org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator"/></id>
         <discriminator column="pharmacy_encounter_id" insert="false"/>
         <many-to-one name="encounter"   property-ref="uuid"  column="pharmacy_encounter_type_uuid" not-null="false"/>
         <many-to-one name="person"  column="patient_uuid" not-null="true"/>
@@ -25,6 +25,8 @@
         <property name="voidReason" type="java.lang.String" column="void_reason" length="255"/>
         <property name="uuid" type="string" length="38" not-null="true" unique="true"/>
         <property name="display" type="java.lang.Integer" column="display"/>
+        <property name="paymentStatus" type="java.lang.Integer" column="paid"/>
         <property name="totalAmount" type="java.lang.Double" column="totalAmount"/>
+        <property name="discount" type="java.lang.Double" column="discount"/>
     </class>
 </hibernate-mapping>

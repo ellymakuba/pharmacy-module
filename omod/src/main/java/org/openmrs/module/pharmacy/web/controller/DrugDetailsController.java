@@ -184,14 +184,15 @@ public class DrugDetailsController {
                 else if (drop.equalsIgnoreCase("location")) {
                     String name = Context.getAuthenticatedUser().getUsername();
                     Collection<Role> xvc = userService.getAuthenticatedUser().getAllRoles();
-                    for (Role rl : xvc) {
+                    /*for (Role rl : xvc) {
                         if ((rl.getRole().equals("Pharmacy Administrator")) || (rl.getRole().equals("Provider"))) {
                             setLocation = true;
                         }
                         if (rl.hasPrivilege("Set Location")) {
                             setLocation = true;
                         }
-                    }
+                    }*/
+                    setLocation = true;
                     if (setLocation) {
                         for (int ii = 0; ii < size1; ii++) {
                             String val = getDropDownLocation(pharmacyLocationUsers, ii, name);

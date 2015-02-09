@@ -133,11 +133,16 @@ public class DrugBincardController {
             }
             else if (drop !=null) {
                 String locationUUID=service.getPharmacyLocationsByName(locationVal).getUuid();
-                pharmacyStoreList2 = service.getPharmacyInventoryByNameAndLocation(searchDrug,locationUUID);
-                int sizeD = pharmacyStoreList2.size();
-                for (int i = 0; i < sizeD; i++) {
-                    jsonArray.put("" + getPharmacyDrugDropDown(pharmacyStoreList2, i));
+                List<Drug> drug = service.getPharmacyInventoryByNameAndLocation(searchDrug,locationUUID);
+                for(int i=0; i<drug.size(); i++){
+                    jsonArray.put(""+getPharmacyDrugDropDown(drug,i));
                 }
+                /* Set<PharmacyStore> uniquePharmacyStore=new HashSet<PharmacyStore>(pharmacyStoreList2);
+                Iterator currentPharmacyStore=uniquePharmacyStore.iterator();
+                while (currentPharmacyStore.hasNext()){
+                    PharmacyStore pharmacyStore1= (PharmacyStore)currentPharmacyStore.next();
+                   jsonArray.put(""+pharmacyStore1.getDrugs().getName());
+                } */
 
                 response.getWriter().print(jsonArray);
             }
@@ -294,9 +299,9 @@ public class DrugBincardController {
 
         return pharmacyDose.get(size).getName();
     }
-    public synchronized String getPharmacyDrugDropDown(List<PharmacyStore> pharmacyStore, int size) {
+    public synchronized String getPharmacyDrugDropDown(List<Drug> pharmacyStore, int size) {
 
-        return pharmacyStore.get(size).getDrugs().getName();
+        return pharmacyStore.get(size).getName();
     }
     public synchronized boolean getCheck(List<PharmacyStore> pharmacyStore, int size, String name) {
 

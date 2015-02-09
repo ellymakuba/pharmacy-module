@@ -3,11 +3,19 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <%@ page import="org.openmrs.web.WebConstants" %>
-<%@ taglib prefix="openmrs" uri="/WEB-INF/taglibs/openmrs.tld" %>
+<%@ include file="/WEB-INF/template/include.jsp" %>
 <openmrs:require privilege="Manage Pharmacy" otherwise="/login.htm" redirect="/module/pharmacy/home.form"/>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<%@ include file="/WEB-INF/template/include.jsp" %>
+<style type="text/css">
+    .newRowClass{
+        border:1px solid black;
+    }
+    .queueFormDIVClass table tr td{
+        border:1px solid white;
+        background-color:#EBEBFF;
+    }
+</style>
 <openmrs:htmlInclude file="/openmrs.js" />
 <openmrs:htmlInclude file="/scripts/openmrsmessages.js"  appendLocale="true" />
 <openmrs:htmlInclude file="/style.css" />
@@ -68,79 +76,216 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/moduleResources/pharmacy/scripts/Serialize.js">  </script>
 
 <script type="text/javascript">
-    <c:if test="${empty DO_NOT_INCLUDE_JQUERY}">
-        var $j = jQuery.noConflict();
-    </c:if>
-    /* variable used in js to know the context path */
+<c:if test="${empty DO_NOT_INCLUDE_JQUERY}">
+    var $j = jQuery.noConflict();
+</c:if>
+/* variable used in js to know the context path */
 
-    $j("#patient").show();
-    var openmrsContextPath = '${pageContext.request.contextPath}';
-    var dwrLoadingMessage = '<spring:message code="general.loading" />';
-    var jsDateFormat = '<openmrs:datePattern localize="false"/>';
-    var jsLocale = '<%= org.openmrs.api.context.Context.getLocale() %>';
+$j("#patient").show();
+var openmrsContextPath = '${pageContext.request.contextPath}';
+var dwrLoadingMessage = '<spring:message code="general.loading" />';
+var jsDateFormat = '<openmrs:datePattern localize="false"/>';
+var jsLocale = '<%= org.openmrs.api.context.Context.getLocale() %>';
 
-    /* prevents users getting false dwr errors msgs when leaving pages */
-    var pageIsExiting = false;
-    if (jQuery)
-        jQuery(window).bind('beforeunload', function () { pageIsExiting = true; } );
+/* prevents users getting false dwr errors msgs when leaving pages */
+var pageIsExiting = false;
+if (jQuery)
+    jQuery(window).bind('beforeunload', function () { pageIsExiting = true; } );
 
-    var handler = function(msg, ex) {
-        if (!pageIsExiting) {
-            var div = document.getElementById("openmrs_dwr_error");
-            div.style.display = ""; // show the error div
-            var msgDiv = document.getElementById("openmrs_dwr_error_msg");
-            msgDiv.innerHTML = '<spring:message code="error.dwr"/>' + " <b>" + msg + "</b>";
-        }
-    };
-    dwr.engine.setErrorHandler(handler);
-    dwr.engine.setWarningHandler(handler);
+var handler = function(msg, ex) {
+    if (!pageIsExiting) {
+        var div = document.getElementById("openmrs_dwr_error");
+        div.style.display = ""; // show the error div
+        var msgDiv = document.getElementById("openmrs_dwr_error_msg");
+        msgDiv.innerHTML = '<spring:message code="error.dwr"/>' + " <b>" + msg + "</b>";
+    }
+};
+dwr.engine.setErrorHandler(handler);
+dwr.engine.setWarningHandler(handler);
 
-    var lastSearch;
-    $j.validator.addMethod(
-            "selectNone",
-            function (value, element) {
-                if (element.value == "-1") {
-                    return false;
-                }
-                else return true;
+var lastSearch;
+$j.validator.addMethod(
+        "selectNone",
+        function (value, element) {
+            if (element.value == "-1") {
+                return false;
             }
-    );
-    var path = ${pageContext.request.contextPath}/;
-    function selectedChwProvider(userId, provider) {
-        if (provider != null) {
-            var prov = provider.userId;
+            else return true;
         }
-        $j("#requisitiono").val(prov);
-        $j("#requisitionp").val(prov);
-        $j("#requisition").val(prov)
+);
+var path = ${pageContext.request.contextPath}/;
+function selectedChwProvider(userId, provider) {
+    if (provider != null) {
+        var prov = provider.userId;
     }
-    function stopRKey(evt) {
-        var evt = (evt) ? evt : ((event) ? event : null);
-        var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
-        if ((evt.keyCode == 13) && (node.type == "text")) {
-            return false;
-        }
+    $j("#requisitiono").val(prov);
+    $j("#requisitionp").val(prov);
+    $j("#requisition").val(prov)
+}
+function stopRKey(evt) {
+    var evt = (evt) ? evt : ((event) ? event : null);
+    var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+    if ((evt.keyCode == 13) && (node.type == "text")) {
+        return false;
     }
-    document.onkeypress = stopRKey;
-    function selectedChwProvider1(userId, provider) {
-        if (provider != null) {
-            var prov = provider.userId;
-        }
-        $j("#issuedo").val(prov);
-        $j("#issuedp").val(prov);
-        $j("#issued").val(prov);
+}
+document.onkeypress = stopRKey;
+function selectedChwProvider1(userId, provider) {
+    if (provider != null) {
+        var prov = provider.userId;
     }
-    function selectedChwProvider2(userId, provider) {
-        if (provider != null) {
-            var prov = provider.userId;
-        }
-        $j("#authorized").val(prov);
-        $j("#authorizedo").val(prov);
-        $j("#authorizedp").val(prov);
+    $j("#issuedo").val(prov);
+    $j("#issuedp").val(prov);
+    $j("#issued").val(prov);
+}
+function selectedChwProvider2(userId, provider) {
+    if (provider != null) {
+        var prov = provider.userId;
     }
-    jQuery.Page = {
-        context:path
-    };
+    $j("#authorized").val(prov);
+    $j("#authorizedo").val(prov);
+    $j("#authorizedp").val(prov);
+}
+jQuery.Page = {
+    context:path
+};
+
+function loadRFPDispensingForm(){
+    <%
+    if (org.openmrs.api.context.Context.hasPrivilege("process RFP payments")) {
+    %>
+    $j("#queueFormDIV").hide();
+    <% } %>
+    $j('#west_panel_content').empty();
+    $j('#west_panel_content').append('<DIV id="dtab_1">'+
+            '<div id="queueFormDIV" class="queueFormDIVClass">'+
+            '<h3 style="text-align: center">RFP Drug Dispensing Form</h3>'+
+            '<form id="dispensingForm" name="dispensingForm">'+
+            '<fieldset>'+
+            '<table>'+
+            '<tr>'+
+            '<td>Search Patient Identifier</td>'+
+            '<td><input type="text" name="patientId" id="patientId" class="required"/></td>'+
+            '<td><input type="text" name="patientName" id="patientName" style="width:350px;"  readonly/></td>'+
+            '</tr>'+
+            '</table>'+
+            '<table id="tableDispense">'+
+            '<thead>'+
+            '<tr class="newRowClass" ><th>Drug </th>' +
+            '<th>stock </th>' +
+            '<th>Dose </th>' +
+            '<th>UnitPrice</th>'+
+            '<th>Qnty</th>' +
+            '<th>Amt(KSH)</th>' +
+            '<th>Disc</th>'+
+            '<th>Waived(ksh)</th>'+
+            '<th>Delete</th></tr>'+
+            '</thead>'+
+            '<tbody>'+
+            '<tr class="newRowClass" >'+
+            '<td ><input type="text" name="dispenseFormDrug" id="dispenseFormDrug" style="width: 350px; "/></td>'+
+            '<td><input type="text" name="quantityInStock" id="quantityInStock" style="width:50px;" readonly  /></td>'+
+            '<td>'+
+            '<select id="dosage"  name="dosage" ></select>'+
+            '</td>'+
+            '<td><input type="text" name="unitPrice" id="unitPrice" style="width:50px;"  readonly/></td>'+
+            '<td><input type="text"  name="quantity" id="quantity" style="width:80px;" /></td>'+
+            '<td><input type="text" name="amount" id="amount"  style="width:80px;"/></td>'+
+            '<td><input type="text" name="discount" id="discount" value="0" style="width:50px;"/></td>'+
+            '<td><input type="text" name="itemAmountWaived" id="itemAmountWaived"  style="width:50px;" value="0"/></td>'+
+            '<td><a href="#">del</a></td>'+
+            '</tr>'+
+            '</tbody>'+
+            '</table>'+
+            '<table><tr><td>Total Amount</td><td><input type="text" name="totalAmount" id="totalAmount" readonly style="width: 100px;"></td>'+
+            <% if(org.openmrs.api.context.Context.hasPrivilege("process RFP payments")){ %>
+            '<td>Amount Paid</td><td><input type="text" name="amountPaid" id="amountPaid" style="width: 100px;"></td>'+
+            '<td>Discount Amount</td><td><input type="text" name="totalDiscount" id="totalDiscount" value="0.0" style="width: 100px;"></td>'+
+            <% } else{ %>
+            '<td>Amount Paid</td><td><input type="text" name="amountPaid" id="amountPaid" style="width: 100px;" readonly></td>'+
+            '<td>Discount Amount</td><td><input type="text" name="totalDiscount" id="totalDiscount" value="0.0" style="width: 100px;" readonly></td>'+
+            <% } %>
+            '<td>Amount Waived</td><td><input type="text" name="amountWaived" id="amountWaived" value="0" style="width: 100px;" readonly></td>'+
+            '<td>Balance</td> <td><input type="text" name="balance" id="balance" style="width: 100px;" readonly></td>'+
+            '</tr></table>'+
+            <%
+                  if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin") || org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense")) {
+            %>
+            '<input type="button" value="Add Drug" onclick="addRow()"/>'+
+            '<input style="text-align: right;" type="button" value="Queue for payment" onclick="addNewInvoiceOnQueue()"/> ' +
+            <% }
+                if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin") || org.openmrs.api.context.Context.hasPrivilege("process RFP payments")) {
+            %>
+            '<input style="text-align: right;" type="button" value="Process Payment" onClick="processInvoicePayment()"/>' +
+            <%
+                }
+                if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin") || org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense")){
+            %>
+            '<input style="text-align: right;" type="button" value="Complete Encounter" onclick="confirmInvoiceAndIssueDrugs()"/>'+
+            <% } %>
+            '</fieldset> '+
+            '</form>'+
+            '</div>'+
+            '<div id="unClearedReceiptsDIV" >'+
+            '<h3 style="text-align: center">Uncleared Patient Queue</h3>'+
+            '<table width="100%" id="unClearedReceipts" >'+
+            '<thead>'+
+            '<th>EncounterUUID</th>'+
+            '<th>Patient ID</th>'+
+            '<th>Total</th>'+
+            '<th>Patient Name</th>'+
+            '<Th>Time</Th>'+
+            '<Th>Status</Th>'+
+            '<Th>Print</Th>'+
+            '</thead>'+
+            '<tbody>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '</tbody>'+
+            '</table>'+
+            '</div>'+
+            '<div id="allPatientEncountersDIV">'+
+            <%
+               if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin") || org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense")) {
+           %>
+            '<h3 style="text-align: center">Previous Patient Encounters</h3>'+
+            '<table cellpadding="0" cellspacing="0" border="0" class="display"  id="allPatientEncounters">'+
+            '<thead>'+
+            '<tr>' +
+            '<th width="4%">UUID</th>'+
+            '<th width="4%">Encounter Date</th>'+
+            '<th>Form Name</th>' +
+            '<th>Issued Medication</th>' +
+            '<th>Location</th>'+
+            '<th>User</th>' +
+            '<th>Action</th> ' +
+            '</tr>'   +
+            '</thead>'+
+            '<tbody>'+
+            '<tr>' +
+            '<td></td>' +
+            '<td></td>' +
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '</tr>' +
+            '</tbody>'+
+            '</table>'+
+            '</DIV>'+
+            <% } %>
+            '</DIV>');
+    $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/dispenseForm.js", function () {
+
+    });
+    hideInactiveDivElements();
+}
 </script>
 <script type="text/javascript"
         src="${pageContext.request.contextPath}/moduleResources/pharmacy/scripts/themeswitchertool.js"></script>
@@ -484,9 +629,9 @@ myLayout = $j("body") .layout( { west__size:300 });
 // ACCORDION - in the West pane
 $j("#accordion1").accordion({
 //    heightStyle: "fill" ,
-//    autoHeight: false,
+    autoHeight: false
 //    navigation: true,
-    heightStyle: "content"
+//    heightStyle: "content"
 //    fillSpace:true, active:1 // set active accordion-panel
 });
 
@@ -588,25 +733,7 @@ $j("#DBarcode").click(function () {
         }
     });
 });
-/*Shows regimens set view*/
-$j("#regimenlink").click(function () {
-    $j.getJSON("locationSetter.form", function (result) {
-        if (result == "none") {
-            $j("#errorDiv").show();
-            $j("#errorDiv").delay(5000).hide("slow");
-            $j("#spinner").delay(5000).hide("slow");
-        }
-        else {
-            $j('#west_panel_content').empty();
-            $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/dispenseForm.jsp #dtab_1', function () {
-                $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/dispenseForm.js", function () {
 
-                });
-            });
-            hideInactiveDivElements();
-        }
-    })
-});
 $j("#tbFormLink").click(function () {
     $j.getJSON("locationSetter.form", function (result) {
         if (result == "none") {
@@ -626,7 +753,58 @@ $j("#tbFormLink").click(function () {
         }
     })
 });
+$j("#pediatric").click(function () {
+    $j.getJSON("locationSetter.form", function (result) {
+        if (result == "none") {
+            $j("#errorDiv").show();
+            $j("#errorDiv").delay(5000).hide("slow");
+            $j("#spinner").delay(5000).hide("slow");
+        }
+        else {
+            $j('#west_panel_content').empty();
+            $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/PediatricForm.jsp', function () {
+                $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/PediatricForm.js", function () {
 
+                });
+            });
+            hideInactiveDivElements();
+        }
+    })
+});
+$j("#adultHiv").click(function () {
+    $j.getJSON("locationSetter.form", function (result) {
+        if (result == "none") {
+            $j("#errorDiv").show();
+            $j("#errorDiv").delay(5000).hide("slow");
+            $j("#spinner").delay(5000).hide("slow");
+        }
+        else {
+            $j('#west_panel_content').empty();
+            $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/HivForm.jsp', function () {
+                $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/adultHIVForm.js", function () {
+
+                });
+            });
+            hideInactiveDivElements();
+        }
+    })
+});
+$j("#adultOI").click(function () {
+    $j.getJSON("locationSetter.form", function (result) {
+        if (result == "none") {
+            $j("#spinner").delay(5000).hide("slow");
+        }
+        else {
+            $j('#west_panel_content').empty();
+            $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/adultOIForm.jsp', function () {
+                // $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/PediatricForm.js", function () {
+
+                // });
+            });
+            hideInactiveDivElements();
+        }
+    })
+});
 /*show Bincard Totals view*/
 $j("#bincardtotaldrugs").click(function () {
     $j('#west_panel_content').empty();
@@ -658,6 +836,9 @@ $j("#dstock").click(function () {
         }
     });
 
+});
+$j("#regimenlink").click(function(){
+    loadRFPDispensingForm();
 });
 /*show bincard view*/
 $j("#dstore").click(function () {
@@ -776,6 +957,16 @@ $j("#rfpreport").click(function () {
     });
     hideInactiveDivElements();
     $j("#rfpreportpage").show();
+});
+$j("#rfpCashierReport").click(function () {
+    $j("#spinner").show();
+    $j('#west_panel_content').empty();
+    $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/rfpCashierSalesReport.jsp', function () {
+        $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/rfpCashierReport.js", function () {
+
+        });
+    });
+    hideInactiveDivElements();
 });
 /*View to choose location*/
 $j("#fmapreport").click(function () {
@@ -944,7 +1135,7 @@ $j("#dmanager").click(function () {
         }
         else {
             $j('#west_panel_content').empty();
-            $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/doseForm.jsp #dnames', function () {
+            $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/doseForm.jsp', function () {
                 $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/doseForm.js", function () {
                 });
             });
@@ -1229,6 +1420,7 @@ function clear_form_elements(ele) {
 }
 CloseDialog();
 });
+
 </script>
 </head>
 <body>
@@ -1259,6 +1451,7 @@ CloseDialog();
 
         </div>
     </div>
+
     <div id="errorDialog" title="Error"></div>
     <DIV id="psychiatrysec">
         <DIV class="ui-layout-content ui-widget-content ui-corner-bottom" style="border-top: 0; padding-bottom: 1em;">
@@ -1381,52 +1574,20 @@ CloseDialog();
 <DIV class="ui-layout-west">
     <div id="accordion1" class="basic">
         <h3>
-            <a href="#">Reports </a>
-        </h3>
-        <div class="ui-layout-content">
-            <UL>
-                <LI><A href="#" id="requestsum">Detailed Dispensed Drugs Report</A></LI>
-                <LI><A href="#" id="rfpreport">General RFP Report</A></LI>
-                <LI><A href="#" id="fmapreport">F-map Report</A></LI>
-                <LI><A href="#" id="dsdr">DSDR Report</A></LI>
-            </UL>
-        </div>
-        <h3>
             <a href="#">Location </a>
         </h3>
         <div class="ui-layout-content">
-            <UL>
-                <LI><A href="#" id="locationsetterid">Select location</A>
-                </LI>
-            </UL>
-        </div>
-        <% if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy inventory")) {
-        %>
-        <h3>
-            <div id="ui">
-                <a href="#">Inventory</a>
-            </div>
-        </h3>
-        <div class="ui-layout-content">
-            <div id="ui8">
-                <UL>
-                    <LI><A href="#" id="dincoming">Add requests</A> </LI>
-                    <LI><A href="#" id="doutgoing">Approve requests from other sites</A></LI>
-                    <LI><A href="#" id="dapproved">Approved Requests</A></LI>
-                    <LI><A href="#" id="dstore">Inventory</A></LI>
-                    <LI><A href="#" id="dlow">Low stock</A></LI>
-                    <LI><A href="#" id="dhigh">Short Expire Stock</A></LI>
-                    <LI><A href="#" id="dstock">Stock take</A></LI>
-                    <LI><A href="#" id="dtransactions">Transactions Logs</A></LI>
-                    <LI><A href="#" id="dmanager">Dose Management</A></LI>
-                </UL>
-            </div>
-        </div>
-        <%
-            } else {
-            }
-            if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy regimen")) {
-        %>
+            <ul>
+                <li><A href="#" id="locationsetterid">Select location</A></li>
+                <% if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin")){ %>
+                <LI><A href="#" id="locationUser">Location Users</A></LI>
+                <LI><A href="#" id="locationName">Location names</A></LI>
+                <% } %>
+            </ul>
+        </div><%
+        if(userLocation !=null){
+            if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense") || org.openmrs.api.context.Context.hasPrivilege("process RFP payments")) {
+    %>
         <h3>
             <div id="ui1">
                 <a href="#">RFP Dispensing Form</a>
@@ -1441,27 +1602,64 @@ CloseDialog();
                 </UL>
             </div>
         </div>
-        <%
-            } else {
-            }
-            if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense")) {
+        <% }
+            if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense")){
         %>
         <h3>
             <div id="ui2">
-                <a href="#">Dispense</a>
+                <a href="#">Main Pharmacy Forms</a>
             </div>
         </h3>
         <div class="ui-layout-content">
             <div id="ui28">
-                <LI><A href="#" id="psychiatry">Start Dispensing</A></LI>
+                <!--<LI><A href="#" id="psychiatry">Start Dispensing</A></LI>-->
+                <LI><A href="#" id="pediatric">Pediatric ARV Form</A></LI>
+                <LI><A href="#" id="adultHiv">Adult HIV Form</A></LI>
+                <LI><A href="#" id="adultOI">Adult OI Form</A></LI>
                 <LI><A href="#" id="tbFormLink">TB Drugs Dispensing Form</A></LI>
             </div>
         </div>
-        <%
-            } else {
+        <% } %>
+        <h3>
+            <a href="#">Reports </a>
+        </h3>
+        <div class="ui-layout-content">
+            <UL>
 
+                <LI><A href="#" id="rfpreport">General RFP Report</A></LI>
+                <LI><A href="#" id="rfpCashierReport">RFP Cashier Report</A></LI>
+                <%  if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin")){
+                %>
+                <LI><A href="#" id="fmapreport">F-map Report</A></LI>
+                <LI><A href="#" id="dsdr">DSDR Report</A></LI>
+                <LI><A href="#" id="requestsum">Detailed Dispensed Drugs Report</A></LI>
+                <% } %>
+            </UL>
+        </div>
+
+        <%
+            if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense") && userLocation !=null) {
+        %>
+        <h3>
+            <div id="ui">
+                <a href="#">Inventory</a>
+            </div>
+        </h3>
+        <div class="ui-layout-content">
+            <div id="ui8">
+                <UL>
+                    <LI><A href="#" id="dincoming">Add new Inventory</A> </LI>
+                    <LI><A href="#" id="doutgoing">Approve requests from other sites</A></LI>
+                    <LI><A href="#" id="dapproved">Approved Requests</A></LI>
+                    <LI><A href="#" id="dstock">Stock take</A></LI>
+                    <LI><A href="#" id="dtransactions">Transactions Logs</A></LI>
+                    <LI><A href="#" id="dmanager">Dose Management</A></LI>
+                </UL>
+            </div>
+        </div>
+        <%
             }
-            if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin")) {
+            if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin") || org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense")) {
         %>
         <h3>
             <div id="ui3">
@@ -1471,20 +1669,19 @@ CloseDialog();
         <div>
             <div class="ui-layout-content">
                 <div id="ui38">
+                    <%  if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin")){ %>
                     <LI><A href="#" id="Asupplier">Suppliers</A></LI>
                     <LI><A href="#" id="tt">Transaction Types</A></LI>
-                    <LI><A href="#" id="locationName">Location names</A></LI>
-                    <LI><A href="#" id="locationUser">Location Users</A></LI>
                     <LI><A href="#" id="DCategories">Drug Categories</A> </LI>
                     <LI><A href="#" id="Dmaxmin">Drug Max Min setter</A></LI>
                     <LI><A href="#" id="DGeneral">Dispense variables</A></LI>
+                    <% } %>
                     <LI><A href="#" id="DBatch">Dispense Batch settings</A></LI>
-                    <LI><A href="#" id="dSetUp">Drug admin settings</A></LI>
                 </div>
             </div>
         </div>
         <%
-            } else {
+                }
             }
         %>
     </div>

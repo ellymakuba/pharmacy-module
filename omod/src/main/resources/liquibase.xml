@@ -27,8 +27,8 @@
                         nullable="false"
                         primaryKey="true"/>
             </column>            <column
-                    name="name"
-                    type="char(38)"/>
+                name="name"
+                type="char(38)"/>
             <column
                     name="description"
                     type="char(38)"/>
@@ -3553,11 +3553,11 @@
             <column name="drug_id" type="int(20)"/>
         </addColumn>
     </changeSet>
-<changeSet author="ellymakuba" id="2013-10-25-3:09">
-<addColumn tableName="pharmacy_drug_extra">
-    <column name="patient_id" type="int(20)"/>
-</addColumn>
-</changeSet>
+    <changeSet author="ellymakuba" id="2013-10-25-3:09">
+        <addColumn tableName="pharmacy_drug_extra">
+            <column name="patient_id" type="int(20)"/>
+        </addColumn>
+    </changeSet>
     <changeSet author="ellymakuba" id="2013-10-31-12:24pm">
         <addColumn tableName="pharmacy_drug_extra">
             <column name="drug_name" type="VARCHAR(250)"/>
@@ -3576,7 +3576,7 @@
     <changeSet author="ellymakuba" id="2013-12-6-11:33am">
         <addColumn tableName="pharmacy_locations">
             <column name="batch_settings" type="int(20)"/>
-            </addColumn>
+        </addColumn>
     </changeSet>
     <changeSet author="ellymakuba" id="2014-01-7-09:45pm">
         <addColumn tableName="pharmacy_drug_extra">
@@ -3644,40 +3644,40 @@
         </addColumn>
     </changeSet>
     <changeSet id="pharmacy-2014-07-07-7:30" author="ellymakuba">
-    <preConditions onFail="MARK_RAN"> <not> <tableExists tableName="pharmacy_dose"/></not>
-    <dbms type="mysql"/></preConditions>
-    <comment> Creating the pharmacy_dose table</comment>
-    <createTable tableName="pharmacy_dose">
-        <column name="pharmacy_dose_id"  type="int(11)">
-            <constraints  nullable="false"  primaryKey="true"/>
-        </column>
-        <column name="doseName"  type="char(38)"><constraints nullable="false"/></column>
-        <column name="creator" defaultValue="0"  type="int(11)">
-            <constraints nullable="false"/>
-        </column>
-        <column name="datecreated"  type="datetime">
-            <constraints nullable="true"/>
-        </column>
-        <column  name="voided" defaultValue="0" type="smallint(6)">
-            <constraints nullable="false"/>
-        </column>
-        <column name="voided_by" type="int(11)">
-            <constraints nullable="true"/>
-        </column>
-        <column name="date_voided"  type="datetime">
-            <constraints nullable="true"/>
-        </column>
-        <column name="void_reason"  type="varchar(255)">
-            <constraints nullable="true"/>
-        </column>
-        <column name="uuid" type="char(38)">
-            <constraints nullable="false"/>
-        </column>
-    </createTable>
+        <preConditions onFail="MARK_RAN"> <not> <tableExists tableName="pharmacy_dose"/></not>
+            <dbms type="mysql"/></preConditions>
+        <comment> Creating the pharmacy_dose table</comment>
+        <createTable tableName="pharmacy_dose">
+            <column name="pharmacy_dose_id"  type="int(11)">
+                <constraints  nullable="false"  primaryKey="true"/>
+            </column>
+            <column name="doseName"  type="char(38)"><constraints nullable="false"/></column>
+            <column name="creator" defaultValue="0"  type="int(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datecreated"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column  name="voided" defaultValue="0" type="smallint(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voided_by" type="int(11)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date_voided"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="void_reason"  type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="uuid" type="char(38)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
         <createIndex indexName="uuid" tableName="pharmacy_dose">
             <column name="uuid"/>
         </createIndex>
-    <addAutoIncrement columnDataType="int" columnName="pharmacy_dose_id" tableName="pharmacy_dose"/>
+        <addAutoIncrement columnDataType="int" columnName="pharmacy_dose_id" tableName="pharmacy_dose"/>
     </changeSet>
     <changeSet author="ellymakuba" id="2014-08-12-43:26pm">
         <addColumn tableName="pharmacy_inventory">
@@ -3746,6 +3746,26 @@
     <changeSet author="ellymakuba" id="2014-08-15-11:07pm">
         <addColumn tableName="pharmacy_temporary_inventory">
             <column name="locationUUID" type="VARCHAR(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2014-10-24-08:01am">
+        <addColumn tableName="pharmacy_encounter">
+            <column name="paid" type="int(1)" defaultValue="0"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2014-11-05-11:16am">
+        <addColumn tableName="pharmacy_drug_extra">
+            <column name="previouslySoldQuantity" type="int(11)" defaultValue="0"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2014-12-03-03:17pm">
+        <addColumn tableName="pharmacy_encounter">
+            <column name="discount" type="double" defaultValue="0.0"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2015-01-12-4:12pm">
+        <addColumn tableName="pharmacy_drug_extra">
+            <column name="discount" type="double" defaultValue="0.0"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>

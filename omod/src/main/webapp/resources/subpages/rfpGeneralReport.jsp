@@ -36,11 +36,13 @@
             <th>#Waived</th>
             <th>#Drug Dispensed</th>
             <th>cash expected</th>
-            <th>Cash Less Amount Waived</th>
+            <th>Discount</th>
+            <th>Actual Cash</th>
         </tr>
         </thead>
         <tbody>
         <tr>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -71,11 +73,12 @@
             <th></th>
             <th></th>
             <th></th>
+            <th></th>
         </tr>
         </tfoot>
     </table>
 
 </DIV>
- <div id="reps"></div>
+<div id="reps"></div>
 </body>
 </html>

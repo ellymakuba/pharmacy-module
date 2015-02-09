@@ -382,28 +382,7 @@ public class DrugIncomingController {
                         if(batchArray[y]==null)
                             pharmacyStore.setBatchNo(0);
                         else {
-                            PharmacyStore pharmacyStore1=service.getBatchNoByNo(Integer.parseInt(batchArray[y]));
-                            if(pharmacyStore1 !=null){
-                                if(pharmacyStore1.getBatchNo() >0){
-                                    batchNoExists=true;
-                                }
-                                if(batchNoExists){
-                                    //JOptionPane.showMessageDialog(null, "The batchNo already exists.");
-                                    JOptionPane optionPane = new JOptionPane("The entered batchNO already exists edit the stock quantity instead", JOptionPane.ERROR_MESSAGE);
-                                    JDialog dialog = optionPane.createDialog("ErrorMsg");
-                                    dialog.setAlwaysOnTop(true);
-                                    dialog.setVisible(true);
-                                    dialog.dispose();
-                                    break;
-                                }
-                                if(!batchNoExists)
-                                {
-                                    pharmacyStore.setBatchNo(Integer.parseInt(batchArray[y]));
-                                }
-                            }
-                            else{
-                                pharmacyStore.setBatchNo(Integer.parseInt(batchArray[y]));
-                            }
+                           pharmacyStore.setBatchNo(Integer.parseInt(batchArray[y]));
                         }
                         PharmacyLocations pharmacyLocations= service.getPharmacyLocationsByName(locationVal);
                         List<PharmacyStore> pharmacyStore1 = service.getPharmacyInventory();

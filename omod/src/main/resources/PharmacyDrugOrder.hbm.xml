@@ -10,6 +10,7 @@
                     class="org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator"/>
         </id>
         <many-to-one name="orderUuid" property-ref="uuid"  column="order_uuid"/>
+        <many-to-one name="drugUuid" property-ref="uuid"  column="drug_extra_uuid"/>
         <many-to-one name="drugInventoryUuid"  property-ref="uuid"  column="drug_inventory_uuid"/>
         <property name="dose" type="double" column="dose"  />
         <property name="equivalentDailyDose" type="double" column="equivalent_daily_dose"  />

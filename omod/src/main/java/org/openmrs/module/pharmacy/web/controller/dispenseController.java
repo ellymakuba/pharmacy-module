@@ -66,6 +66,10 @@ public class dispenseController {
     private boolean addMiddle;
     private PharmacyDrugOrder pharmacyDrugOrder;
     private List<PharmacyStore> drugsInInventory;
+    @RequestMapping(method=RequestMethod.GET, value="module/pharmacy/checkQuantityDispensedVSQuantityInStock")
+    public void compareQuantityInStockVsQUantityDispensed(HttpServletRequest request,HttpServletResponse response) throws JSONException, IOException {
+
+    }
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/patientEncountersByIdentifier")
     public synchronized void DisplaypatientEncountersByIdentifier(HttpServletRequest request,HttpServletResponse response) throws JSONException, IOException {
         service = Context.getService(PharmacyService.class);
@@ -92,18 +96,25 @@ public class dispenseController {
                 for (int j = 0; j < listDrugsSize; j++) {//
                     if (listDrugs.get(j).getConcept() != null) {
                         listObsConcepts =service.getPharmacyObsByPharmacyOrder(listDrugs.get(j));
+                        int lastItem=listObsConcepts.size()-1;
                         for (int y = 0; y < listObsConcepts.size(); y++) {
-                            drugsIssuedToPatient=drugsIssuedToPatient +listObsConcepts.get(y).getValue_drug().getName().toString() ;
+                            if(y==lastItem){
+                                drugsIssuedToPatient=drugsIssuedToPatient +listObsConcepts.get(y).getValue_drug().getName().toString() ;
+                            }
+                            else{
+                                drugsIssuedToPatient=drugsIssuedToPatient +listObsConcepts.get(y).getValue_drug().getName().toString()+", " ;
+                            }
+
                         }
                     }
                 }
-                jsonArray.put("Edit");
+                jsonArray.put(list.get(i).getUuid());
                 jsonArray.put(list.get(i).getDateTime());
                 jsonArray.put(list.get(i).getFormName());
                 jsonArray.put(drugsIssuedToPatient);
                 jsonArray.put(locationName);
                 jsonArray.put(list.get(i).getCreator());
-                jsonArray.put(list.get(i).getUuid());
+                jsonArray.put("Edit");
                 jsonObject.accumulate("aaData",jsonArray);
             }
         }
@@ -147,6 +158,7 @@ public class dispenseController {
         String formtype = request.getParameter("formtype");
         String drugID = request.getParameter("drugCheck");
         String totVal = request.getParameter("total");
+        String patientUUIDToFindRegimen=request.getParameter("patientUUIDToFindRegimen");
         //get openmrs variables
         service = Context.getService(PharmacyService.class);
         patientService = Context.getEncounterService();
@@ -167,70 +179,70 @@ public class dispenseController {
         jsonArray = new JSONArray();
         listPharmacyDrugOrder=service.getPharmacyDrugOrders();
         try {
-             if (patientId != null && patientEncounters == null) {
-                 ArrayList<Date> dates=new ArrayList<Date>();
-                 jsonArray1 = new JSONArray();
-                 String date_s = "2000-01-18 00:00:00.0";
-                 SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                 Date date1 = dt.parse(date_s);
-                 String pharmacyDrugOrderUUId=null;
-                 for(PharmacyDrugOrder pharmacyDrugOrder:listPharmacyDrugOrder ){
-                     if(pharmacyDrugOrder.getPerson().getPatientId().toString().equals(patientId) && pharmacyDrugOrder.getFormName().equalsIgnoreCase("ADULTHIV")){
-                         dates.add(pharmacyDrugOrder.getDateCreated());
-                         Date encDate=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(pharmacyDrugOrder.getDateCreated().toString());
-                         if(date1.before(encDate)){
-                             pharmacyDrugOrderUUId=pharmacyDrugOrder.getUuid();
-                         }
-                     }
-                 }
-                 pharmacyDrugOrder= service.getPharmacyDrugOrdersByUuid(pharmacyDrugOrderUUId);
-                 SimpleDateFormat todaysDate=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                 Date realDate=new Date();
-                 String dateFormat=todaysDate.format(realDate.getTime());
-                 Date actualDate=null;
-                 try {
-                     actualDate=todaysDate.parse(dateFormat);
-                 } catch (ParseException e) {
-                     e.printStackTrace();
-                 }
-                 int DaysInMillSec= 1000 * 60 * 60 * 24;
-                 if(pharmacyDrugOrder !=null){
-                     long largeDate=pharmacyDrugOrder.getExpected_next_visit_date().getTime()/DaysInMillSec;
-                     long smallDate=actualDate.getTime()/DaysInMillSec;
-                     long DiffInDays=largeDate-smallDate;
-                     SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                     String dateFormated=fmt.format(pharmacyDrugOrder.getExpected_next_visit_date().getTime());
-                     Date expNextDateOfVisit= null;
-                     try {
-                         expNextDateOfVisit = fmt.parse(dateFormated);
-                     } catch (ParseException e) {
-                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                     }
-                     int drugsPerDay=0;
-                     if(pharmacyDrugOrder.getDose()==1900){
-                         drugsPerDay=2;
-                     }
-                     else{
-                         drugsPerDay=2;
-                     }
-                     SimpleDateFormat fmtDate=new SimpleDateFormat("dd/MM/yyyy");
-                     String formatedLastVisitDate=fmtDate.format(pharmacyDrugOrder.getDateCreated().getTime());
-                     String formatedNextVisitDate=fmtDate.format(pharmacyDrugOrder.getExpected_next_visit_date().getTime());
-                     Date dateC=null;
-                     Date dateN=null;
-                     dateC=fmtDate.parse(formatedLastVisitDate);
-                     dateN=fmtDate.parse(formatedNextVisitDate);
-                     jsonArray1 = new JSONArray();
-                     jsonArray1.put(formatedLastVisitDate);
-                     jsonArray1.put(pharmacyDrugOrder.getFrequency());
-                     jsonArray1.put(formatedNextVisitDate);
-                     jsonArray1.put(DiffInDays);
-                     jsonArray1.put(DiffInDays*drugsPerDay);
-                     if (jsonArray1 != null)
-                     jsonObject.accumulate("aaData", jsonArray1);
+            if (patientId != null && patientEncounters == null) {
+                ArrayList<Date> dates=new ArrayList<Date>();
+                jsonArray1 = new JSONArray();
+                String date_s = "2000-01-18 00:00:00.0";
+                SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                Date date1 = dt.parse(date_s);
+                String pharmacyDrugOrderUUId=null;
+                for(PharmacyDrugOrder pharmacyDrugOrder:listPharmacyDrugOrder ){
+                    if(pharmacyDrugOrder.getPerson().getPatientId().toString().equals(patientId) && pharmacyDrugOrder.getFormName().equalsIgnoreCase("ADULTHIV")){
+                        dates.add(pharmacyDrugOrder.getDateCreated());
+                        Date encDate=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(pharmacyDrugOrder.getDateCreated().toString());
+                        if(date1.before(encDate)){
+                            pharmacyDrugOrderUUId=pharmacyDrugOrder.getUuid();
+                        }
+                    }
+                }
+                pharmacyDrugOrder= service.getPharmacyDrugOrdersByUuid(pharmacyDrugOrderUUId);
+                SimpleDateFormat todaysDate=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                Date realDate=new Date();
+                String dateFormat=todaysDate.format(realDate.getTime());
+                Date actualDate=null;
+                try {
+                    actualDate=todaysDate.parse(dateFormat);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                int DaysInMillSec= 1000 * 60 * 60 * 24;
+                if(pharmacyDrugOrder !=null){
+                    long largeDate=pharmacyDrugOrder.getExpected_next_visit_date().getTime()/DaysInMillSec;
+                    long smallDate=actualDate.getTime()/DaysInMillSec;
+                    long DiffInDays=largeDate-smallDate;
+                    SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                    String dateFormated=fmt.format(pharmacyDrugOrder.getExpected_next_visit_date().getTime());
+                    Date expNextDateOfVisit= null;
+                    try {
+                        expNextDateOfVisit = fmt.parse(dateFormated);
+                    } catch (ParseException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+                    int drugsPerDay=0;
+                    if(pharmacyDrugOrder.getDose()==1900){
+                        drugsPerDay=2;
+                    }
+                    else{
+                        drugsPerDay=2;
+                    }
+                    SimpleDateFormat fmtDate=new SimpleDateFormat("dd/MM/yyyy");
+                    String formatedLastVisitDate=fmtDate.format(pharmacyDrugOrder.getDateCreated().getTime());
+                    String formatedNextVisitDate=fmtDate.format(pharmacyDrugOrder.getExpected_next_visit_date().getTime());
+                    Date dateC=null;
+                    Date dateN=null;
+                    dateC=fmtDate.parse(formatedLastVisitDate);
+                    dateN=fmtDate.parse(formatedNextVisitDate);
+                    jsonArray1 = new JSONArray();
+                    jsonArray1.put(formatedLastVisitDate);
+                    jsonArray1.put(pharmacyDrugOrder.getFrequency());
+                    jsonArray1.put(formatedNextVisitDate);
+                    jsonArray1.put(DiffInDays);
+                    jsonArray1.put(DiffInDays*drugsPerDay);
+                    if (jsonArray1 != null)
+                        jsonObject.accumulate("aaData", jsonArray1);
 
-                 }
-               else{
+                }
+                else{
                     drugNamess = new JSONArray();
                     drugNamess.put("None");
                     drugNamess.put("None");
@@ -257,81 +269,79 @@ public class dispenseController {
                 jsonObject1 = new JSONObject(drugID); // this parses the jsonObject
                 iterator = jsonObject1.keys(); //gets all the keys
                 boolean booleanCheck =false;
-                 while (iterator.hasNext()) {
+                while (iterator.hasNext()) {
                     String key = iterator.next().toString(); // get key
                     Object on = jsonObject1.get(key); // get value
-                     PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
+                    PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
                     DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(Context.getConceptService().getDrug(Integer.parseInt(key)).getDrugId(),pharmacyLocations.getUuid());
-                     if(drugDispenseSettings==null){
-                         booleanCheck = false;
-                     }
-                     else{
-                         booleanCheck = true;
-                     }
+                    if(drugDispenseSettings==null){
+                        booleanCheck = false;
+                    }
+                    else{
+                        booleanCheck = true;
+                    }
 
                 }
                 response.getWriter().print("" + booleanCheck);
             }
-             else if (age != null) {
+            else if (age != null) {
                 jsonArray = new JSONArray();
                 jsonArray.put(Context.getPatientService().getPatient(Integer.parseInt(age)).getAge());
                 response.getWriter().print(jsonArray);
                 list = null;
                 size = 0;
             }
-             else if (patientEncounters != null) {
-                 person = Context.getPersonService().getPerson(Integer.parseInt(patientId));
-                 list = Context.getService(PharmacyService.class).getPharmacyEncounterListByPatientId(person);
-                 sizeList = list.size();
-                 jsonObject= new JSONObject();
-                 if(sizeList >0){
-                 for (int i = 0; i < sizeList; i++) {
-                     jsonArray=new JSONArray();
-                     listDrugs = service.getPharmacyOrdersByEncounterId(list.get(i));
-                     listDrugsSize = listDrugs.size();
-                     jsonObject1 = new JSONObject();
-                     String drugsIssuedToPatient="";
-                     for (int j = 0; j < listDrugsSize; j++) {//
-                         if (listDrugs.get(j).getConcept() != null) {
-                             listObsConcepts =service.getPharmacyObsByPharmacyOrder(listDrugs.get(j));
-                             for (int y = 0; y < listObsConcepts.size(); y++) {
-                                 drugsIssuedToPatient=drugsIssuedToPatient +listObsConcepts.get(y).getValue_drug().getName().toString() ;
-                             }
-                         }
-                     }
-                     jsonArray.put("Edit");
-                     jsonArray.put(list.get(i).getDateTime());
-                     jsonArray.put(list.get(i).getFormName());
-                     jsonArray.put(drugsIssuedToPatient);
-                     jsonArray.put(list.get(i).getCreator());
-                     jsonObject.accumulate("aaData",jsonArray);
-                 }
-                 }
-                 else{
-                     jsonArray=new JSONArray();
-                     jsonArray.put("None");
-                     jsonArray.put("None");
-                     jsonArray.put("None");
-                     jsonArray.put("None");
-                     jsonArray.put("None");
-                     jsonObject.accumulate("aaData",jsonArray);
-                 }
-                 jsonObject.accumulate("iTotalRecords", jsonObject.getJSONArray("aaData").length());
-                 jsonObject.accumulate("iTotalDisplayRecords", jsonObject.getJSONArray("aaData").length());
-                 jsonObject.accumulate("iDisplayStart", 0);
-                 jsonObject.accumulate("iDisplayLength", 10);
-                 response.getWriter().print(jsonObject);
-             }
-             else if (encounter != null) {
-                person = Context.getPersonService().getPerson(Integer.parseInt(pen));
-                 list=service.getCurrentPatientRegimen(pen);
-                 sizeList = list.size();
-                 jsonObject= new JSONObject();
-                 if(list.get(0).getRegimenName() !=null){
-                     jsonObject.accumulate("aaData",list.get(0).getRegimenName());
-                 }
-                 response.getWriter().print(jsonObject);
-
+            else if (patientEncounters != null) {
+                person = Context.getPersonService().getPerson(Integer.parseInt(patientId));
+                list = Context.getService(PharmacyService.class).getPharmacyEncounterListByPatientId(person);
+                sizeList = list.size();
+                jsonObject= new JSONObject();
+                if(sizeList >0){
+                    for (int i = 0; i < sizeList; i++) {
+                        jsonArray=new JSONArray();
+                        listDrugs = service.getPharmacyOrdersByEncounterId(list.get(i));
+                        listDrugsSize = listDrugs.size();
+                        jsonObject1 = new JSONObject();
+                        String drugsIssuedToPatient="";
+                        for (int j = 0; j < listDrugsSize; j++) {//
+                            if (listDrugs.get(j).getConcept() != null) {
+                                listObsConcepts =service.getPharmacyObsByPharmacyOrder(listDrugs.get(j));
+                                for (int y = 0; y < listObsConcepts.size(); y++) {
+                                    drugsIssuedToPatient=drugsIssuedToPatient +listObsConcepts.get(y).getValue_drug().getName().toString() ;
+                                }
+                            }
+                        }
+                        jsonArray.put("Edit");
+                        jsonArray.put(list.get(i).getDateTime());
+                        jsonArray.put(list.get(i).getFormName());
+                        jsonArray.put(drugsIssuedToPatient);
+                        jsonArray.put(list.get(i).getCreator());
+                        jsonObject.accumulate("aaData",jsonArray);
+                    }
+                }
+                else{
+                    jsonArray=new JSONArray();
+                    jsonArray.put("None");
+                    jsonArray.put("None");
+                    jsonArray.put("None");
+                    jsonArray.put("None");
+                    jsonArray.put("None");
+                    jsonObject.accumulate("aaData",jsonArray);
+                }
+                jsonObject.accumulate("iTotalRecords", jsonObject.getJSONArray("aaData").length());
+                jsonObject.accumulate("iTotalDisplayRecords", jsonObject.getJSONArray("aaData").length());
+                jsonObject.accumulate("iDisplayStart", 0);
+                jsonObject.accumulate("iDisplayLength", 10);
+                response.getWriter().print(jsonObject);
+            }
+            else if (patientUUIDToFindRegimen != null) {
+                String patientID=service.getPatientByIdentifier(patientUUIDToFindRegimen) ;
+                list=service.getCurrentPatientRegimen(patientID);
+                jsonObject= new JSONObject();
+                if(list !=null){
+                    jsonObject.accumulate("aaData",list.get(0).getRegimenName());
+                }
+                response.getWriter().print(jsonObject);
             } else if (passUserId != null) {
                 jsonArray = new JSONArray();
                 jsonArray.put(Context.getUserContext().getAuthenticatedUser().getSystemId());

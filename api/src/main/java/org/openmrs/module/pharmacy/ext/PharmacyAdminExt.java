@@ -25,7 +25,6 @@ public class PharmacyAdminExt extends AdministrationSectionExt {
         Map<String, String> map = new HashMap<String, String>();
 
         map.put("module/pharmacy/home.form", "Pharmacy");
-
         return map;
 
     }

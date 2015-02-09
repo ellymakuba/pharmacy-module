@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.openmrs.Drug;
 import org.openmrs.Role;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.context.Context;
@@ -87,6 +88,7 @@ public class DrugDispense {
     private int sizeUsers;
     private List<DrugDispenseSettings> drugDispenseSettings;
     private DrugDispenseSettings drugDispense;
+    private Drug drugObject;
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/listOfDrugsToSetBatch")
     public synchronized void displayDrugsToSetBatch(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
         String locationVal = null;
@@ -103,6 +105,7 @@ public class DrugDispense {
 
 
         }
+        PharmacyLocations location=service.getPharmacyLocationsByName(locationVal);
         userService = Context.getUserContext();
         service = Context.getService(PharmacyService.class);
         serviceLocation = Context.getLocationService();
@@ -118,6 +121,20 @@ public class DrugDispense {
         gregorianCalendar.set(currentDate.get(currentDate.YEAR), currentDate.get(currentDate.MONTH),
         currentDate.get(currentDate.DAY_OF_MONTH));
         json = new JSONObject();
+        drugObject = Context.getConceptService().getDrugByNameOrId(drugName);
+        DrugDispenseSettings currentSetBatch=service.getDrugDispenseSettingsByDrugIdAndLocation(drugObject.getDrugId(),location.getUuid());
+        if(currentSetBatch !=null){
+            datad2=new JSONArray();
+            datad2.put(currentSetBatch.getUuid());
+            datad2.put(currentSetBatch.getDrugId().getDrugId());
+            datad2.put(currentSetBatch.getDrugId().getName());
+            datad2.put(currentSetBatch.getInventoryId().getQuantity());
+            datad2.put(currentSetBatch.getBatchId());
+            datad2.put(currentSetBatch.getInventoryId().getExpireDate().toString().substring(0, 10));
+            if (datad2!= null) {
+                json.accumulate("aaData", datad2);
+        }
+        }
         if (!json.has("aaData")) {
             datad2 = new JSONArray();
             datad2.put("None");
@@ -126,11 +143,6 @@ public class DrugDispense {
             datad2.put("None");
             datad2.put("None");
             datad2.put("None");
-            datad2.put("None");
-            datad2.put("None");
-            datad2.put("None");
-            datad2.put("None");
-            datad2.put("");
             json.accumulate("aaData", datad2);
         }
         drugName = null;
