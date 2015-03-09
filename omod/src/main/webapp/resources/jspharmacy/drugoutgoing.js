@@ -113,35 +113,17 @@ binTable = $j('#toutgoing').dataTable({
     bProcessing:true,
     bLengthChange:false,
     bPaginate:true,
-
     "fnRowCallback":function (nRow, aData, iDisplayIndex) {
-
-
         var htm = '<ul class="popOutgoing">	<li> <img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/items.png" alt="" /><ul class="popOutgoing" id=' + "popOutgoing" + aData[10] + '>';
-
-
-//        if(aData[14]=="Approve"){
-//            htm +=	'<li> <a href="#" id="approveoutgoing" ><img src="'+jQuery.Page.context+'moduleResources/pharmacy/images/approve.png" />Approve</a></li>';
-//        }
-
-
         if (aData[15] == "Delete") {
             htm += '<li> <a href="#" id="voidoutgoing" ><img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/delete.png" />Void</a></li>';
         }
-
-
         htm += '<li> <a href="#" id="detailsoutgoing"><img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/details.png" />Details</a></li>';
         htm += '<li> <a href="#" id="canceloutgoing"><img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/cancel.png" />Back</a></li>';
-
-
         htm += '</ul></li></ul>';
-
-
         $j('td:eq(0)', nRow).html(htm);
-
         return nRow;
     },
-
     sAjaxSource:'drugOutgoing.form',
     "fnServerData":fnDataTablesPipeline,
     "aoColumnDefs":[

@@ -24,10 +24,10 @@
         <th>Unit cost</th>
         <th>Quantity Sold</th>
         <th>Amount Waived</th>
-        <th>#Waived</th>
+        <th>No of Waivers</th>
         <th>cash expected</th>
         <th>Discount</th>
-        <th>Cash Less Amount Waived</th>
+        <th>Cash Collected</th>
     </tr>
     </thead>
     <tbody>

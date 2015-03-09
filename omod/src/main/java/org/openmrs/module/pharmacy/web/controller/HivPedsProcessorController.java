@@ -6,6 +6,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
 import org.openmrs.Drug;
+import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.ConceptService;
@@ -183,8 +184,16 @@ public class HivPedsProcessorController {
             pharmacyEncounter.setNextVisitDate(endDate);
             pharmacyEncounter.setDuration(Integer.parseInt(encounterProcessor.getDuration()));
             pharmacyEncounter.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));
-            pharmacyEncounter.setRegimenCode(regimenCode);
-            pharmacyEncounter.setRegimenName(regimenName);
+            if(regimenName ==""){
+                Patient patient=Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId()));
+                PharmacyEncounter previousPatientEncounter=service.getLastPharmacyEncounterByPatientUUID(patient);
+                pharmacyEncounter.setRegimenCode(previousPatientEncounter.getRegimenCode());
+                pharmacyEncounter.setRegimenName(previousPatientEncounter.getRegimenName());
+            }
+            else{
+                pharmacyEncounter.setRegimenCode(regimenCode);
+                pharmacyEncounter.setRegimenName(regimenName);
+            }
             pharmacyEncounter.setFormName("PEDIATRICARV");
             service.savePharmacyEncounter(pharmacyEncounter);
             for (int y=0;y<listObsProcessor.size();y++){
@@ -410,20 +419,22 @@ public class HivPedsProcessorController {
         return object;
 
     }
-    public boolean  substractFromInventory(Integer drugId,int Qnty,String val){
+    public void  substractFromInventory(Integer drugId,int Qnty,String val){
         Drug drug = Context.getConceptService().getDrugByNameOrId(drugId.toString());
         String locationUUID=service.getPharmacyLocationsByName(val).getUuid();
         DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(drug.getDrugId(),locationUUID);
+        System.out.println("one++++++++++++++++++inside subtractfrom inventory +++++++++++++++++++"+drugId+" Qnty +++"+Qnty+" val "+val);
         if(drugDispenseSettings !=null){
             PharmacyStore pharmacyStore = drugDispenseSettings.getInventoryId();
             if(pharmacyStore!=null ){
-                if(pharmacyStore.getQuantity() > Qnty ){
+                System.out.println("two++++++++++++++++++inside subtractfrom inventory +++++++++++++++++++"+drugId+" Qnty +++"+Qnty+" val "+val);
+                if(pharmacyStore.getQuantity() > Qnty || pharmacyStore.getQuantity() == Qnty){
+                    System.out.println("three++++++++++++++++++inside subtractfrom inventory +++++++++++++++++++"+drugId+" Qnty +++"+Qnty+" val "+val);
                     pharmacyStore.setQuantity(pharmacyStore.getQuantity()-Qnty);
                     service.savePharmacyInventory(pharmacyStore);
                 }
             }
         }
-        return true;
     }
 
     public synchronized String[] exractKeyAndValue(String jsonText) {

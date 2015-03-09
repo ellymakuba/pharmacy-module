@@ -80,7 +80,6 @@ public class DrugDetailsController {
 
         try {
             drugObject = Context.getConceptService().getDrugByNameOrId(drugName);
-            log.info("pharmacyDrugIDRequest drug+++++++++++++++++++++++++++++++++++++++++"+drugObject.getDrugId());
             jsonArray.put("" + drugObject.getDrugId());
             response.getWriter().print(jsonArray);
         } catch (IOException e) {
@@ -283,6 +282,9 @@ public class DrugDetailsController {
 
 
     }
-
+     public Integer multiply(Integer x,Integer y){
+         Integer z=x/y;
+         return z;
+     }
 
 }

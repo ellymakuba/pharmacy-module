@@ -336,7 +336,6 @@ $j("#patientId").autocomplete({
             type:"GET",
             url:"drugDetails.form?drop=patientLastName&patientToFind="+patient,
             data:patient,
-            dataType:"json",
             success:function (result) {
                 document.getElementById("patientName").value=result;
                 $j("#currentRegimen").val()=="";
@@ -454,56 +453,97 @@ $j("#prescriber").autocomplete({
     }
 });
 
-function checkHivPedsForm(val){
+function checkHivPedsForm(val,reg){
     cRegimen=val;
-    if(regimenName !=pRegimen)
+    if(reg !=pRegimen && pRegimen !="")
     {
-        if($j("#regimenchange").is(':checked') || ($j("#arvtype1").is(':checked') )|| ($j("#arvtype5").is(':checked') ))  {
+        if($j("#regimenchange").is(':checked'))  {
             return true;
         }
         else{
             $j("#errorDialog").empty();
-            $j('<dl><dt></dt><dd >' + "Info: " + "Regimen Not ok Or Select Regimen change\n"+ '</dd></dl> ').appendTo('#errorDialog');
+            $j('<dl><dt></dt><dd >' + "Info: " + "current regimen is different from previous regimen , must select regimen change\n"+ '</dd></dl> ').appendTo('#errorDialog');
             $j("#errorDialog").dialog("open")
             return false
         }
     }
+    else if(reg !=pRegimen && pRegimen =="")
+    {
+        if(($j("#arvtype1").is(':checked') ) || ($j("#arvtype5").is(':checked') )){
+            return true;
+        }
+        else{
+            $j("#errorDialog").empty();
+            $j('<dl><dt></dt><dd >' + "Info: " + "Choose either Regimen initiation or continue regimen\n"+ '</dd></dl> ').appendTo('#errorDialog');
+            $j("#errorDialog").dialog("open")
+            return false
+        }
+
+    }
     else {
         return true;
-        $j("#infodiv").html("Regimen ok");
-
     }
 }
 function validateHivPedsForm(){
     var num=1;
+    var regimenChangeIsChecked=0;
     message="";
-    if ($j("#weight").val()=="")
-    {
-        message+="No weight entered";
-        return num;
-    }
     if (!$j("#patienttype1").is(':checked')&&!$j("#patienttype2").is(':checked')&&!$j("#patienttype3").is(':checked'))
     {
-        message+="Atleast one patient type must be selected  "+"<br/>";
-    }
-    if ((!$j("#arvtype1").is(':checked'))&&(!$j("#arvtype2").is(':checked'))&&(!$j("#arvtype3").is(':checked'))&&(!$j("#arvtype4").is(':checked'))&&(!$j("#arvtype5").is(':checked')))
-    {
-        message+="Atleast one ARV type must be selected "+"<br/>";
+        message+="Error:Atleast one patient type must be selected  "+"<br/>";
     }
     if ($j("#regimenchange").is(':checked')) {
+        regimenChangeIsChecked=1;
         if ((!$j("#regimenchange1").is(':checked'))&&(!$j("#regimenchange2").is(':checked'))&&(!$j("#regimenchange3").is(':checked')))
         {
-            message+="Atleast one regimen change reason must be selected "+"<br/>";
+            message+="Error:Atleast one regimen change reason must be selected "+"<br/>";
         }
     }
+    if(regimenChangeIsChecked==0){
+        if ((!$j("#arvtype1").is(':checked'))&&(!$j("#arvtype2").is(':checked'))&&(!$j("#arvtype3").is(':checked'))&&(!$j("#arvtype4").is(':checked'))&&(!$j("#arvtype5").is(':checked')))
+        {
+            message+="Error:Atleast one ARV type must be selected "+"<br/>";
+        }
+    }
+    if(regimenChangeIsChecked==1){
+        if (($j("#arvtype1").is(':checked')) || ($j("#arvtype2").is(':checked')) || ($j("#arvtype3").is(':checked')) || ($j("#arvtype4").is(':checked')) || ($j("#arvtype5").is(':checked')))
+        {
+            message+="Error:When changing patient regimen don't select any ARV type"+"<br/>";
+        }
+    }
+    if (($j("#arvtype1").is(':checked')) || ($j("#arvtype2").is(':checked')) || ($j("#arvtype3").is(':checked')) || ($j("#arvtype4").is(':checked')) || ($j("#arvtype5").is(':checked')))
+    {
+        if (($j("#arvtype1").is(':checked'))){
+            if (($j("#arvtype2").is(':checked')) || ($j("#arvtype4").is(':checked')) || ($j("#arvtype5").is(':checked'))){
+                message+="Error:Make sure to select the ARV types correctly "+"<br/>";
+            }
+        }
+        if (($j("#arvtype2").is(':checked'))){
+            if (($j("#arvtype1").is(':checked')) || ($j("#arvtype4").is(':checked'))){
+                message+="Error:Make sure to select the ARV types correctly "+"<br/>";
+            }
+        }
+        if (($j("#arvtype3").is(':checked'))){
+            if (($j("#arvtype4").is(':checked'))){
+                message+="Error:Make sure to select the ARV types correctly "+"<br/>";
+            }
+        }
+        if (($j("#arvtype4").is(':checked'))){
+            if (($j("#arvtype1").is(':checked')) || ($j("#arvtype2").is(':checked')) || ($j("#arvtype3").is(':checked'))|| ($j("#arvtype5").is(':checked'))){
+                message+="Error:Make sure to select the ARV types correctly "+"<br/>";
+            }
+        }
+
+    }
+
     if ($j("#datePicker").val()=="") {
-        message+="Give Encounter date "+"<br/>";
+        message+="Error:Give Encounter date "+"<br/>";
     }
     if ($j("#nextvisit").val()=="") {
-        message+="No Next visit date "+"<br/>";
+        message+="Error:No Next visit date "+"<br/>";
     }
     if ($j("#prescriber").val()=="") {
-        message+="Give the  prescriber "+"<br/>";
+        message+="Error:Give the  prescriber "+"<br/>";
 
     }
     return num;
@@ -559,6 +599,24 @@ function checkHivRegimen(val)
     if(regimen>splicedRegimen){
         isRegimenValid = true ;
     }
+    var regimenVals;
+    var regimenN;
+    var regimenC;
+    if ((!$j("#arvtype1").is(':checked')) && (!$j("#arvtype2").is(':checked')) && ($j("#arvtype3").is(':checked'))&& (!$j("#arvtype4").is(':checked')) && (!$j("#arvtype5").is(':checked')) ){
+        $j.ajax({
+            type:"GET",
+            url:"currentPatientRegimen.form?patientIdentifier="+$j("#patientId").val(),
+            async:false,
+            success:function (result) {
+                regimenVals=JSON.parse(result);
+                regimenN=regimenVals.regimenNam;
+                regimenC=regimenVals.regimenCod;
+                if(result.toString() !=""){
+                    isRegimenValid = true ;
+                }
+            }
+        });
+    }
     return isRegimenValid ;
 }
 
@@ -579,8 +637,8 @@ function regimenFilter(val){
     var dapsonePosition=regimen.indexOf('92');
     var isoniazidPosition=regimen.indexOf('656');
     var positionOfEquity = 1000 ;
-    var regimenCode='';
-    var regimenName='';
+    var regimenCod='';
+    var regimenNam='';
     for (numbersCounter = 0 ;
          numbersCounter < drugConcepts.length ;
          numbersCounter ++ )
@@ -614,120 +672,120 @@ function regimenFilter(val){
     }
     if(positionOfEquity < 3){
         if($j("#patienttype1").is(':checked')){
-            regimenName='AZT/3TC/NVP';
-            regimenCode='PM3';
+            regimenNam='AZT/3TC/NVP';
+            regimenCod='PM3';
         }
         else{
-            regimenName='AZT/3TC/NVP';
-            regimenCode='CF1A';
+            regimenNam='AZT/3TC/NVP';
+            regimenCod='CF1A';
         }
     }
     else if(positionOfEquity < 5) {
-        regimenName='TDF/3TC/EFV';
-        regimenCode='AF2B';
+        regimenNam='TDF/3TC/EFV';
+        regimenCod='AF2B';
     }
     else if(positionOfEquity < 7) {
-        regimenName='d4T/3TC/NVP';
-        regimenCode='CF3A';
+        regimenNam='d4T/3TC/NVP';
+        regimenCod='CF3A';
     }
     else if(positionOfEquity ==7) {
         if($j("#patienttype1").is(':checked')) {
-            regimenName='AZT/3TC/EFV';
-            regimenCode='PM4';
+            regimenNam='AZT/3TC/EFV';
+            regimenCod='PM4';
         }
         else{
-            regimenName='AZT/3TC/EFV';
-            regimenCode='CF1B';
+            regimenNam='AZT/3TC/EFV';
+            regimenCod='CF1B';
         }
     }
     else if(positionOfEquity ==8) {
-        regimenName='AZT/3TC/ABC';
-        regimenCode='CF2C';
+        regimenNam='AZT/3TC/ABC';
+        regimenCod='CF2C';
     }
     else if(positionOfEquity ==9) {
         if($j("#patienttype1").is(':checked')) {
-            regimenName='TDF/3TC/NVP';
-            regimenCode='PM6';
+            regimenNam='TDF/3TC/NVP';
+            regimenCod='PM6';
         }
         else if($j("#patienttype3").is(':checked')) {
-            regimenName='TDF/3TC/NVP';
-            regimenCode='PA3B';
+            regimenNam='TDF/3TC/NVP';
+            regimenCod='PA3B';
         }
         else{
-            regimenName='TDF/3TC/NVP';
-            regimenCode='AF2A';
+            regimenNam='TDF/3TC/NVP';
+            regimenCod='AF2A';
         }
     }
     else if(positionOfEquity ==10) {
-        regimenName='TDF/3TC/AZT';
-        regimenCode='AF2C';
+        regimenNam='TDF/3TC/AZT';
+        regimenCod='AF2C';
     }
     else if(positionOfEquity ==11) {
-        regimenName='d4T/3TC/EFV';
-        regimenCode='AF3B';
+        regimenNam='d4T/3TC/EFV';
+        regimenCod='AF3B';
     }
     else if(positionOfEquity ==12) {
-        regimenName='d4T/3TC/ABC';
-        regimenCode='AF3C';
+        regimenNam='d4T/3TC/ABC';
+        regimenCod='AF3C';
     }
     else if(positionOfEquity ==13) {
         if($j("#patienttype1").is(':checked')) {
-            regimenName='AZT/3TC/LPV/r';
-            regimenCode='PM5';
+            regimenNam='AZT/3TC/LPV/r';
+            regimenCod='PM5';
         }
         else if($j("#patienttype3").is(':checked')){
-            regimenName='AZT/3TC/LPV/r';
-            regimenCode='PA1B';
+            regimenNam='AZT/3TC/LPV/r';
+            regimenCod='PA1B';
         }
         else{
-            regimenName='AZT/3TC/LPV/r';
-            regimenCode='AS1A';
+            regimenNam='AZT/3TC/LPV/r';
+            regimenCod='AS1A';
         }
     }
     else if(positionOfEquity ==14) {
-        regimenName='AZT/3TC/ATV/r';
-        regimenCode='CF1C';
+        regimenNam='AZT/3TC/ATV/r';
+        regimenCod='CF1C';
     }
     else if(positionOfEquity ==15) {
-        regimenName='TDF/3TC/LPV/r';
-        regimenCode='AS2A';
+        regimenNam='TDF/3TC/LPV/r';
+        regimenCod='AS2A';
     }
     else if(positionOfEquity ==16) {
-        regimenName='TDF/3TC/ATV/r';
-        regimenCode='AS2C';
+        regimenNam='TDF/3TC/ATV/r';
+        regimenCod='AS2C';
     }
     else if(positionOfEquity ==17) {
         if($j("#patienttype3").is(':checked')){
-            regimenName='d4T/3TC/LPV/r';
-            regimenCode='CA2B';
+            regimenNam='d4T/3TC/LPV/r';
+            regimenCod='CA2B';
         }
         else{
-            regimenName='d4T/3TC/LPV/r';
-            regimenCode='CS3A';
+            regimenNam='d4T/3TC/LPV/r';
+            regimenCod='CS3A';
         }
 
     }
     else if(positionOfEquity==18 || positionOfEquity==19){
-        regimenName='AZT/3TC';
-        regimenCode='CA1A';
+        regimenNam='AZT/3TC';
+        regimenCod='CA1A';
     }
     else if (positionOfEquity==20 || positionOfEquity==21){
-        regimenName='D4T/3TC';
-        regimenCode='CA2A';
+        regimenNam='D4T/3TC';
+        regimenCod='CA2A';
     }
     else if(positionOfEquity==22 || positionOfEquity==23){
-        regimenName='TDF/3TC';
-        regimenCode='CA3A'
+        regimenNam='TDF/3TC';
+        regimenCod='CA3A'
     }
     else if(positionOfEquity==24 || positionOfEquity==25){
-        regimenName='ABC/3TC/NVP';
-        regimenCode='CF2A'
+        regimenNam='ABC/3TC/NVP';
+        regimenCod='CF2A'
     }
     else{
-        regimenName='';
-        regimenCode=''
+        regimenNam='';
+        regimenCod=''
     }
-    return [regimenCode,regimenName];
+    return [regimenCod,regimenNam];
 }
 
 function processForm(){
@@ -774,10 +832,10 @@ function processForm(){
         }
     });
     if(drugVSRequest==1){
-        inputErrors+="You have not selected/entered quantity prescribed for one or more drugs"+"<br/>";
+        inputErrors+="Error:You have not selected/entered quantity prescribed for one or more drugs"+"<br/>";
     }
     if(drugVSQuantity==1){
-        inputErrors+="You have not selected quantity dispensed for one or more drugs"+"<br/>";
+        inputErrors+="Error:You have not selected quantity dispensed for one or more drugs"+"<br/>";
     }
     var otherDrugSelected;
     var otherDrugRequestSelected;
@@ -812,7 +870,7 @@ function processForm(){
         }
     });
     if(allSelectedCheck==1){
-        inputErrors+="You have not entered either quantity dispensed or quantity prescribed for one or more  of the extra drugs"+"<br/>";
+        inputErrors+="Error:You have not entered either quantity dispensed or quantity prescribed for one or more  of the extra drugs"+"<br/>";
     }
     var hivPedsData = [];
     $j('#pediatricFormDiv').find('tr.display').each(function(){
@@ -843,7 +901,7 @@ function processForm(){
     var v= validateHivPedsForm();
     if(v==0){
         $j("#errorDialog").empty();
-        $j('<dl><dt></dt><dd >' + "Info: " + "Please check all elements for the drug checked all Compulsory columns \n" +'</dd></dl> ').appendTo('#errorDialog');
+        $j('<dl><dt></dt><dd >' + "Info: " + "Error:Please check all elements for the drug checked all Compulsory columns \n" +'</dd></dl> ').appendTo('#errorDialog');
         $j('<dl><dt></dt><dd >' + "Info: "  +message+ '</dd></dl> ').appendTo('#errorDialog');
         $j("#errorDialog").dialog("open")
     }
@@ -860,6 +918,10 @@ function processForm(){
 
     else  if(v==1){
         var drugNum="";
+        var otherDrugID="";
+        var otherDrugID2="";
+        var  otherDrugIDArray=[];
+        var  otherDrugIDArray2=[];
         var values = $j("input[title='drug']").map(function ()
         {
             if ($j(this).is(':checked')){
@@ -867,9 +929,31 @@ function processForm(){
                 return $j(this).val().substring($j(this).val().indexOf('|')+1);
             }
         }).get();
-        var values2 = $j("input[title='qnty']").map(
-            function () {
-                if ($j(this).val()!="") {
+
+        if($j('#h_24').val() !=""){
+            otherDrugIDArray =$j('#h_24').map(function ()
+            {    otherDrugID= $j('#h_24').val().substring($j('#h_24').val().indexOf('|')+1);
+                return otherDrugID
+            }).get();
+
+        }
+        if($j('#h_25').val() !=""){
+            otherDrugIDArray2 =$j('#h_25').map(function ()
+            {    otherDrugID2= $j('#h_25').val().substring($j('#h_25').val().indexOf('|')+1);
+                return otherDrugID2
+            }).get();
+
+        }
+        values=values.concat(otherDrugIDArray);
+        values=values.concat(otherDrugIDArray2);
+        var values2 = $j("input[title='dispensed'],input[title='qnty']").map(
+        function () {
+                if($j(this).is(':checked'))
+                {
+                    return $j(this).val();
+                }
+                else if($j(this).val()!="" && ($j(this).attr("name")=="Quantity") )
+                {
                     return $j(this).val();
                 }
             }).get();
@@ -886,9 +970,24 @@ function processForm(){
         if(ans==true)  {
 
             var regimens=regimenFilter(drugid);
-            regimenCode= regimens[0];
-            regimenName=regimens[1];
-            var val= checkHivPedsForm(drugNum);
+            var regimenCode= regimens[0];
+            var regimenName=regimens[1];
+            var regimenVals;
+            if(regimenName==""){
+                $j.ajax({
+                    type:"GET",
+                    url:"currentPatientRegimen.form?patientIdentifier="+$j("#patientId").val(),
+                    async:false,
+                    success:function (result) {
+                        if(result.toString() !=""){
+                            regimenVals=JSON.parse(result);
+                            regimenName=regimenVals.regimenNam;
+                            regimenCode=regimenVals.regimenCod;
+                        }
+                    }
+                });
+            }
+            var val= checkHivPedsForm(drugNum,regimenName);
             if(val==true){
                 var size = vals.length;
                 var json = {};
@@ -920,7 +1019,7 @@ function processForm(){
                         }
                         else {
                             $j("#errorDialog").empty();
-                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                            $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or you do not have enough quantity in stock for one or more drugs" + '</dd></dl> ').appendTo('#errorDialog');
                             $j("#errorDialog").dialog("open");
                         }
                     }

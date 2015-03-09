@@ -168,8 +168,12 @@ public class RfpCashierReportController {
         if(service.getAmountWaivedWithinPeriodRange(startDate,endDate,drugId,locationUUID) !=null){
             amountWaived=Double.valueOf(service.getAmountWaivedWithinPeriodRange(startDate,endDate,drugId,locationUUID));
         }
-        Double cashExpected=quantitySold*unitPrice;
-        Double cashExpectedLessW=(quantitySold*unitPrice)-amountWaived;
+        Double cashExpected=service.getDrugTotalCashCollectedWithinPeriodRange(startDate,endDate,drugId,locationUUID);
+        Double cashClaimedOnReceipt=0.0;
+        if(cashExpected !=null){
+            cashClaimedOnReceipt= cashExpected;
+        }
+        Double cashExpectedLessW=(cashClaimedOnReceipt)-amountWaived;
         double discount=0.0;
         if(service.getDiscountOnDrugsWithinPeriodRange(startDate,endDate,drugId.toString(),locationUUID) !=null){
             discount=service.getDiscountOnDrugsWithinPeriodRange(startDate,endDate,drugId.toString(),locationUUID);

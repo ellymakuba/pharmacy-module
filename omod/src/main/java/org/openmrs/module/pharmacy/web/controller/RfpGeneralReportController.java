@@ -263,8 +263,12 @@ public class RfpGeneralReportController {
             amountWaived=Double.valueOf(service.getAmountWaivedWithinPeriodRange(startDate,endDate,drugId,locationUUID));
         }
         double countDispensed=0;
-        Double cashExpected=quantitySold*unitPrice;
-        Double cashExpectedLessW=(quantitySold*unitPrice)-amountWaived;
+        Double cashExpected=service.getDrugTotalCashCollectedWithinPeriodRange(startDate,endDate,drugId,locationUUID);
+        Double cashClaimedOnReceipt=0.0;
+        if(cashExpected !=null){
+            cashClaimedOnReceipt= cashExpected;
+        }
+        Double cashExpectedLessW=(cashClaimedOnReceipt)-amountWaived;
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date2 = new Date();
 

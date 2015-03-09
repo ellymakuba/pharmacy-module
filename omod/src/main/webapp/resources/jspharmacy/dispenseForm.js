@@ -226,7 +226,21 @@ $j('#unClearedReceipts').delegate(' tbody td  input', 'click', function () {
 })
 $j('#tableDispense').delegate(' tr td a', 'click', function(e){
     e.preventDefault();
-    $j(this).closest('tr').remove();
+    try {
+        var table = document.getElementById("tableDispense");
+        var rowCount = table.rows.length;
+        if(rowCount <= 2) {
+            alert("Cannot delete all the rows.");
+            //break;
+        }
+        else{
+            $j(this).closest('tr').remove();
+        }
+
+    }catch(e) {
+        alert(e);
+    }
+
 });
 function RefreshTable(tableId, urlData) {
     table = $j(tableId).dataTable();

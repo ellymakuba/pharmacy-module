@@ -85,6 +85,7 @@ public class DrugBincardController {
     private JSONArray jsonArray;
     private PharmacyStore pharmacyStore;
     private PharmacyDose doseInstance;
+
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/drugBincard")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) {
         String locationVal = null;

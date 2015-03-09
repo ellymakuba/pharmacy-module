@@ -4,6 +4,7 @@
 package org.openmrs.module.pharmacy.dao;
 
 import org.openmrs.Drug;
+import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.module.pharmacy.model.*;
 import org.springframework.transaction.annotation.Transactional;
@@ -431,7 +432,7 @@ public interface PharmacyDAO {
      */
 
     public PharmacyEncounterType savePharmacyEncounterType(PharmacyEncounterType pharmacyEncounterType);
-    public Integer  getAmountWaivedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID);
+    public Integer getAmountWaivedWithinPeriodRange(Date startDate, Date endDate, Integer drugID, String locationUUID);
     public Integer  getNumberOfTimesDrugWaivedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID);
     /**
      * @return all the pharmacyEncounterType
@@ -701,4 +702,6 @@ public interface PharmacyDAO {
     public PharmacyObs getPharmacyObservationByPharmacyOrder(PharmacyOrders uuid);
     public PharmacyDrugOrder getPharmacyDrugOrdersByDrugExtraUUID(DrugExtra uuid);
     public Double  getDiscountOnDrugsWithinPeriodRange(Date startDate,Date endDate,String encounterUUID,String location);
+    public PharmacyEncounter getLastPharmacyEncounterByPatientUUID(Patient patientUUID);
+    public Double getDrugTotalCashCollectedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID);
 }

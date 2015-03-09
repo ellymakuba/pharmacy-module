@@ -6,6 +6,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
 import org.openmrs.Drug;
+import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.ConceptService;
@@ -158,12 +159,10 @@ public class AdultHIVProcessor{
                     if(key.contains("dispensed"))
                     {
                         medicationProcessor.setDispensed(value);
-                        log.info("dispensed++++++++++++++++++++++++++++++++++"+value);
                     }
                     if(key.equalsIgnoreCase("Quantity"))
                     {   if(value != null && !value.isEmpty()) {
                         medicationProcessor.setDispensed(value);
-                        log.info("Quantity ++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+value);
                     }
                     }
                     if(key.equalsIgnoreCase("Prescriber"))
@@ -187,8 +186,18 @@ public class AdultHIVProcessor{
             pharmacyEncounter.setNextVisitDate(endDate);
             pharmacyEncounter.setDuration(Integer.parseInt(encounterProcessor.getDuration()));
             pharmacyEncounter.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));
-            pharmacyEncounter.setRegimenCode(regimenCode);
-            pharmacyEncounter.setRegimenName(regimenName);
+            Patient patient=Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId()));
+            PharmacyEncounter previousPatientEncounter=service.getLastPharmacyEncounterByPatientUUID(patient);
+            if(regimenName =="" && previousPatientEncounter !=null){
+                if(previousPatientEncounter.getRegimenName() !=null){
+                    pharmacyEncounter.setRegimenCode(previousPatientEncounter.getRegimenCode());
+                    pharmacyEncounter.setRegimenName(previousPatientEncounter.getRegimenName());
+                }
+            }
+            else{
+                pharmacyEncounter.setRegimenCode(regimenCode);
+                pharmacyEncounter.setRegimenName(regimenName);
+            }
             pharmacyEncounter.setFormName("ADULTHIV");
             service.savePharmacyEncounter(pharmacyEncounter);
             for (int y=0;y<listObsProcessor.size();y++){
@@ -414,20 +423,19 @@ public class AdultHIVProcessor{
         return object;
 
     }
-    public boolean  substractFromInventory(Integer drugId,int Qnty,String val){
+    public void  substractFromInventory(Integer drugId,int Qnty,String val){
         Drug drug = Context.getConceptService().getDrugByNameOrId(drugId.toString());
         String locationUUID=service.getPharmacyLocationsByName(val).getUuid();
         DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(drug.getDrugId(),locationUUID);
         if(drugDispenseSettings !=null){
             PharmacyStore pharmacyStore = drugDispenseSettings.getInventoryId();
             if(pharmacyStore!=null ){
-                if(pharmacyStore.getQuantity() > Qnty ){
+                if(pharmacyStore.getQuantity() > Qnty || pharmacyStore.getQuantity() == Qnty){
                     pharmacyStore.setQuantity(pharmacyStore.getQuantity()-Qnty);
                     service.savePharmacyInventory(pharmacyStore);
                 }
             }
         }
-        return true;
     }
 
     public synchronized String[] exractKeyAndValue(String jsonText) {

@@ -4,6 +4,7 @@
 package org.openmrs.module.pharmacy.service;
 
 import org.openmrs.Drug;
+import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.pharmacy.model.*;
@@ -765,4 +766,6 @@ public interface PharmacyService extends OpenmrsService {
     public PharmacyObs getPharmacyObservationByPharmacyOrder(PharmacyOrders uuid);
     public PharmacyDrugOrder getPharmacyDrugOrdersByDrugExtraUUID(DrugExtra uuid);
     public Double  getDiscountOnDrugsWithinPeriodRange(Date startDate,Date endDate,String encounterUUID,String location);
+    public PharmacyEncounter getLastPharmacyEncounterByPatientUUID(Patient patientUUID);
+    public Double getDrugTotalCashCollectedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID);
 }

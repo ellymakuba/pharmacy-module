@@ -33,6 +33,7 @@ $j("form#rfpCashierReportForm").submit(function () {
                 nCells[3].innerHTML = iTotal[1];
                 nCells[5].innerHTML = iTotal[2];
                 nCells[6].innerHTML = iTotal[3];
+                nCells[7].innerHTML =iTotal[2]- iTotal[3];
             },
             //sAjaxSource: "revolveAdult.form",
             "fnServerData":fnDataTablesPipeline

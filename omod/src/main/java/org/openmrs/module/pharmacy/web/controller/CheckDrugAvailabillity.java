@@ -88,14 +88,26 @@ public class CheckDrugAvailabillity{
             boolean booleanCheck =false;
             while (iterator.hasNext()) {
                 String key = iterator.next().toString(); // get key
-                Object on = jsonObject1.get(key); // get value
+                Object jsonObj = jsonObject1.get(key); // get value
+                System.out.println("jsonObj++++++++++++++++++++++++++++++++++++++++++++++++++"+jsonObj);
+                Integer quantityDispensed= Integer.valueOf(jsonObj.toString());
                 PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
                 DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(Context.getConceptService().getDrug(Integer.parseInt(key)).getDrugId(),pharmacyLocations.getUuid());
                 if(drugDispenseSettings==null){
                     booleanCheck = false;
+                    break;
                 }
                 else{
-                    booleanCheck = true;
+                    PharmacyStore pharmacyStore = drugDispenseSettings.getInventoryId();
+                    if(pharmacyStore.getQuantity() < quantityDispensed){
+                        booleanCheck = false;
+                        System.out.println("pharmacyStore quantity++++++++++++++++++++++++++++++++++++++++++++++++++"+pharmacyStore.getQuantity()+" quantityDispensed++ "+quantityDispensed);
+                        break;
+                    }
+                    else{
+                        booleanCheck = true;
+                    }
+
                 }
 
             }
@@ -106,5 +118,4 @@ public class CheckDrugAvailabillity{
             log.error("Error generated"+e.getLocalizedMessage());
         }
     }
-
 }

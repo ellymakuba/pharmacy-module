@@ -5,6 +5,13 @@
 <body>
 <DIV id="dtab_1">
     <DIV id="incss">
+        <fieldset>
+            <form id="filterd" action="#">
+                <legend> Filter</legend>
+                <label>Drug</label>
+                <input type="text" name="filterdrugstock" id="filterdrugstock"/>
+            </form>
+        </fieldset>
         <form id="bincardform" action="#">
             <fieldset>
                 <legend>Name</legend>

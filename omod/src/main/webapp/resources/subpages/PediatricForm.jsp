@@ -43,11 +43,11 @@
 </tr>
 <tr class="display">
     <td>ARV types </td>
-    <td> <input type="radio" id="arvtype1" name="Obs*CHECK|1705#10" value="INITIATION|1703" >INITIATION OF ARVs</td>
-    <td><input type="radio" id="arvtype2" name="Obs*CHECK|1705#10" value="In patient|7625" >In patient refill</td>
-    <td><input type="radio" id="arvtype3" name="Obs*CHECK|1705#10" value="OI DRUG REFILL|7626">OI  REFILL</td>
-    <td colspan="2"><input type="radio" id="arvtype4" name="Obs*CHECK|1705#10" value="Initiation of OI prophylaxis|7627">Initiation of OI prophylaxis</td>
-    <td><input type="radio" id="arvtype5" name="Obs*CHECK|1705#10" value="CONTINUE REGIMEN|1257">CONTINUE REGIMEN</td>
+    <td> <input type="checkbox" id="arvtype1" name="Obs*CHECK|1705#10" value="INITIATION|1703" >INITIATION OF ARVs</td>
+    <td><input type="checkbox" id="arvtype2" name="Obs*CHECK|1705#10" value="In patient|7625" >In patient refill</td>
+    <td><input type="checkbox" id="arvtype3" name="Obs*CHECK|1705#10" value="OI DRUG REFILL|7626">OI  REFILL</td>
+    <td colspan="2"><input type="checkbox" id="arvtype4" name="Obs*CHECK|1705#10" value="Initiation of OI prophylaxis|7627">Initiation of OI prophylaxis</td>
+    <td><input type="checkbox" id="arvtype5" name="Obs*CHECK|1705#10" value="CONTINUE REGIMEN|1257">CONTINUE REGIMEN</td>
 </tr>
 <tr class="display">
     <td>Regimen change</td><td><input type="radio" id="regimenchange" name="regimenchange" value="OREGIMEN FAILURE (TREATMENT FAILURE)|843" />Regimen Change</td>

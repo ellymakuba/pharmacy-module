@@ -3,6 +3,7 @@ package org.openmrs.module.pharmacy.service.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Drug;
+import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.pharmacy.dao.PharmacyDAO;
@@ -837,5 +838,11 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     }
     public Double  getDiscountOnDrugsWithinPeriodRange(Date startDate,Date endDate,String encounterUUID,String location){
         return pharmacyDAO.getDiscountOnDrugsWithinPeriodRange(startDate,endDate,encounterUUID,location);
+    }
+    public PharmacyEncounter getLastPharmacyEncounterByPatientUUID(Patient patientUUID){
+        return pharmacyDAO.getLastPharmacyEncounterByPatientUUID(patientUUID);
+    }
+    public Double  getDrugTotalCashCollectedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID){
+        return  pharmacyDAO.getDrugTotalCashCollectedWithinPeriodRange(startDate,endDate,drugID,locationUUID);
     }
 }

@@ -837,6 +837,28 @@ $j("#dstock").click(function () {
     });
 
 });
+$j("#stockTakeForm").click(function () {
+    $j("#spinner").show();
+    $j.getJSON("locationSetter.form", function (result) {
+        if (result == "none") {
+            $j("#errorDiv").show();
+            $j("#errorDiv").delay(5000).hide("slow");
+            $j("#spinner").delay(5000).hide("slow");
+        }
+        else {
+            $j('#west_panel_content').empty();
+            $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/stockTakeForm.jsp #dtab_1', function () {
+                $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/stockTakeForm.js", function () {
+
+                });
+
+            });
+            hideInactiveDivElements();
+            $j("#stock").show("slow");
+        }
+    });
+
+});
 $j("#regimenlink").click(function(){
     loadRFPDispensingForm();
 });
@@ -1625,8 +1647,10 @@ CloseDialog();
         </h3>
         <div class="ui-layout-content">
             <UL>
-
+                <%  if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense")){
+                %>
                 <LI><A href="#" id="rfpreport">General RFP Report</A></LI>
+                <% } %>
                 <LI><A href="#" id="rfpCashierReport">RFP Cashier Report</A></LI>
                 <%  if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin")){
                 %>
@@ -1651,7 +1675,7 @@ CloseDialog();
                     <LI><A href="#" id="dincoming">Add new Inventory</A> </LI>
                     <LI><A href="#" id="doutgoing">Approve requests from other sites</A></LI>
                     <LI><A href="#" id="dapproved">Approved Requests</A></LI>
-                    <LI><A href="#" id="dstock">Stock take</A></LI>
+                    <LI><A href="#" id="stockTakeForm">Stock take Form</A></LI>
                     <LI><A href="#" id="dtransactions">Transactions Logs</A></LI>
                     <LI><A href="#" id="dmanager">Dose Management</A></LI>
                 </UL>

@@ -35,11 +35,11 @@
 </tr>
 <tr class="display">
     <td>ARV types </td>
-    <td> <input type="radio" id="arvtype1" name="Obs*CHECK|1705#10" value="INITIATION|1703" >INITIATION OF ARVs</td>
-    <td><input type="radio" id="arvtype2" name="Obs*CHECK|1705#10" value="In patient|7625" >ARV refill</td>
-    <td><input type="radio" id="arvtype3" name="Obs*CHECK|1705#10" value="OI DRUG REFILL|7626">OI  REFILL</td>
-    <td colspan="2"><input type="radio" id="arvtype4" name="Obs*CHECK|1705#10" value="Initiation of OI prophylaxis|7627">Initiation of OI prophylaxis</td>
-    <td><input type="radio" id="arvtype5" name="Obs*CHECK|1705#10" value="CONTINUE REGIMEN|1257">CONTINUE REGIMEN</td>
+    <td> <input type="checkbox" id="arvtype1" name="Obs*CHECK|1705#10" value="INITIATION|1703" >INITIATION OF ARVs</td>
+    <td><input type="checkbox" id="arvtype2" name="Obs*CHECK|1705#10" value="In patient|7625" >ARV refill</td>
+    <td><input type="checkbox" id="arvtype3" name="Obs*CHECK|1705#10" value="OI DRUG REFILL|7626">OI REFILL</td>
+    <td colspan="2"><input type="checkbox" id="arvtype4" name="Obs*CHECK|1705#10" value="Initiation of OI prophylaxis|7627">Initiation of OI prophylaxis</td>
+    <td><input type="checkbox" id="arvtype5" name="Obs*CHECK|1705#10" value="CONTINUE REGIMEN|1257">CONTINUE REGIMEN</td>
 </tr>
 <tr class="display">
     <td>Regimen change</td><td><input type="radio" id="regimenchange" name="regimenchange" value="OREGIMEN FAILURE (TREATMENT FAILURE)|843" />Regimen Change</td>
@@ -158,15 +158,20 @@
 </tr>
 <tr id="row8">
     <td><input type="radio" name="drug8" title="drug" value="631|22"/>Nevirapine200mg</td>
-    <td>1 tab OD<input type="hidden" value="1 tab OD" /></td>
-    <td><input type="radio" name="eigth_requested" title="Requested" value="30" />2 weeks
-        <input type="radio" name="eigth_requested" title="Requested" value="60" />one 1 tab
+    <td><input type="radio" value="1 tab OD" />1 tab OD</br>
+        <input type="radio" value="1 tab BD" />1 tab BD
+    </td>
+    <td><input type="radio" name="eigth_requested" title="Requested" value="14" />14</br>
+        <input type="radio" name="eigth_requested" title="Requested" value="60" />60
+        <input type="radio" name="eigth_requested" title="Requested" value="120" />120
+        <input type="radio" name="eigth_requested" title="Requested" value="180" />180
     </td>
     <td><input type="text" name="otherR" value="" style="width:50px;"/></td>
     <td><input type="text" name="PillCount" value="" style="width:50px;"/> </td>
-    <td><input type="radio" name="eigth_dispensed" title="dispensed" value="30" />30
+    <td> <input type="radio" name="eigth_dispensed" title="dispensed" value="14" />14</br>
         <input type="radio" name="eigth_dispensed" title="dispensed" value="60" />60
-        <input  type="radio" name="eigth_dispensed" title="dispensed" value="90" />90
+        <input type="radio" name="eigth_dispensed" title="dispensed" value="120" />120
+        <input  type="radio" name="eigth_dispensed" title="dispensed" value="180" />180
     </td>
     <td><input type="text" name="Quantity" value="" title="qnty" style="width:50px;"/> </td>
 </tr>
@@ -287,7 +292,7 @@
     <td><input type="text" name="Quantity" value="" title="qnty" style="width:50px;"/> </td>
 </tr>
 <tr id="row16">
-    <td><input type="radio" name="drug16" title="drug" value="656|60"/>Septrin DS</td>
+    <td><input type="radio" name="drug16" title="drug" value="656|61"/>Septrin DS</td>
     <td>1 Tab OD<input type="hidden" value="1 Tab OD" /></td>
     <td><input type="radio" name="sixteenth_requested" title="Requested" value="30" />30
         <input type="radio" name="sixteenth_requested" title="Requested" value="60" />60

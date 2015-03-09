@@ -21,8 +21,8 @@ $j("#stockcard").validate({
 stockTable=$j('#tstockcard').dataTable({
     bJQueryUI:true,
     bRetrieve:true,
-    bServerSide:true,
     bAutoWidth:false,
+    bServerSide:true,
     bProcessing:true,
     "fnRowCallback":function (nRow, aData, iDisplayIndex) {
         var htm = '<ul class="popSupplier">	<li> <img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/items.png" alt="" /><ul class="popSupplier" id=' + "popSupplier" + aData[1] + '>';
@@ -35,10 +35,16 @@ stockTable=$j('#tstockcard').dataTable({
         $j('td:eq(0)', nRow).html(htm);
         return nRow;
     },
-    bInfo:false,
     sAjaxSource:'drugBincard.form',
-    "fnServerData":fnDataTablesPipeline
-});
+    "fnServerData":fnDataTablesPipeline,
+    "aoColumnDefs":[
+        {
+            "bVisible":false,
+            "aTargets":[ 1]
+        }
+    ]
+})
+
 $j('#tstockcard tbody tr').live('click', function () {
     var data = stockTable.fnGetData(this);
     uuid = data[2];
@@ -134,7 +140,7 @@ $j("#filterdrugstock").autocomplete({
     },
     minLength:3,
     select:function (event, ui) {
-        stockTable.fnFilter($j(this).val());
+        stockTable.fnFilter(ui.item.label);
     },
     open:function () {
         $j(this).removeClass("ui-corner-all").addClass("ui-corner-top");

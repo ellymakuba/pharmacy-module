@@ -77,30 +77,39 @@ public class InventoryStockController {
         String myVals[]=exractKeyAndValue(drugID);
         String drugName=myVals[1];
         if(select !=null){
-         if(select.equalsIgnoreCase("stock")) {
-        iterator2 = jsonObject2.keys();
-        while (iterator2.hasNext()) {
-            drugsQuantityInStore=0;
-            String key2 = iterator2.next().toString(); // get key
-            drugsInInventory=service.getPharmacyInventory();
-            int drugsInInventorySize=drugsInInventory.size();
-            for(int inInventory=0; inInventory<drugsInInventorySize; inInventory++){
-                if(drugsInInventory.get(inInventory).getLocation().equals(service.getPharmacyLocationsByName(locationVal).getUuid())){
-                    if(drugsInInventory.get(inInventory).getDrugs().getUuid().equals(Context.getConceptService().getDrugByNameOrId(drugName).getUuid())){
-                        drugsQuantityInStore=drugsQuantityInStore+drugsInInventory.get(inInventory).getQuantity();
+            if(select.equalsIgnoreCase("stock")) {
+                iterator2 = jsonObject2.keys();
+                while (iterator2.hasNext()) {
+                    drugsQuantityInStore=0;
+                    String key2 = iterator2.next().toString(); // get key
+                    drugsInInventory=service.getPharmacyInventory();
+                    int drugsInInventorySize=drugsInInventory.size();
+                    for(int inInventory=0; inInventory<drugsInInventorySize; inInventory++){
+                        if(drugsInInventory.get(inInventory).getLocation().equals(service.getPharmacyLocationsByName(locationVal).getUuid())){
+                            if(drugsInInventory.get(inInventory).getDrugs().getUuid().equals(Context.getConceptService().getDrugByNameOrId(drugName).getUuid())){
+                                drugsQuantityInStore=drugsQuantityInStore+drugsInInventory.get(inInventory).getQuantity();
+                            }
+                        }
                     }
                 }
-                }
+                response.getWriter().print("" + drugsQuantityInStore);
             }
-            response.getWriter().print("" + drugsQuantityInStore);
-          }
 
             else if(select.equalsIgnoreCase("unitPrice")){
-             pharmacyStore=new PharmacyStore();
-             String drugUUID=Context.getConceptService().getDrugByNameOrId(drugName).getUuid();
-             pharmacyStore = service.getPharmacyInventoryByDrugUuid(drugUUID,service.getPharmacyLocationsByName(locationVal).getUuid());
-             response.getWriter().print("" + pharmacyStore.getUnitPrice());
-         }
+                pharmacyStore=new PharmacyStore();
+                String drugUUID=Context.getConceptService().getDrugByNameOrId(drugName).getUuid();
+                pharmacyStore = service.getPharmacyInventoryByDrugUuid(drugUUID,service.getPharmacyLocationsByName(locationVal).getUuid());
+                response.getWriter().print("" + pharmacyStore.getUnitPrice());
+            }
+
+            else if(select.equalsIgnoreCase("drugConcept")){
+                jsonObject2=new JSONObject();
+                JSONArray jsonArray=new JSONArray();
+                Drug drug=Context.getConceptService().getDrugByNameOrId(drugName);
+                jsonArray.put(drug.getConcept()+"|"+drug.getDrugId());
+                jsonObject2.accumulate("aaData",jsonArray);
+                response.getWriter().print("" + jsonObject2);
+            }
         }
         else if(checkBoolean !=null){
             allowDispense=false;
