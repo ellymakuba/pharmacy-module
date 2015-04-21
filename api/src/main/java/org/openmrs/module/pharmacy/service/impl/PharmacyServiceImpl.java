@@ -845,4 +845,10 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public Double  getDrugTotalCashCollectedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID){
         return  pharmacyDAO.getDrugTotalCashCollectedWithinPeriodRange(startDate,endDate,drugID,locationUUID);
     }
+    public List<DrugExtra> getDrugExtraByPharmacyEncounter(PharmacyEncounter encounter){
+        return pharmacyDAO.getDrugExtraByPharmacyEncounter(encounter);
+    }
+    public List<PharmacyEncounter> getUnclearedPharmacyEncountersListByPersonID(Integer personID){
+        return pharmacyDAO.getUnclearedPharmacyEncountersListByPersonID(personID);
+    }
 }

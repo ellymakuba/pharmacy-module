@@ -54,9 +54,7 @@ public class PrintInvoiceController {
         PdfWriter docWriter = null;
 
         PharmacyEncounter pharmacyEncounter=service.getPharmacyEncounterByUuid(encounter);
-        String patient=service.getPatientByIdentifier(pharmacyEncounter.getPerson().getPatientIdentifier().getIdentifier()) ;
-        Person person=Context.getPatientService().getPatient(Integer.parseInt(patient));
-
+        Person person=pharmacyEncounter.getPerson();
         DecimalFormat df = new DecimalFormat("0.00");
         File tmpFile = File.createTempFile("paymentReceipt", ".pdf");
 
@@ -77,7 +75,7 @@ public class PrintInvoiceController {
             //Image image1 = Image.getInstance("ampath.jpeg");
 
             //specify column widths
-            float[] columnWidths = {5f, 1.5f, 2f, 2f,2f};
+            float[] columnWidths = {5f, 1.5f, 1.5f, 1.5f,1.5f,1.8f};
             //create PDF table with the given widths
             PdfPTable table = new PdfPTable(columnWidths);
             // set table width a percentage of the page width
@@ -85,13 +83,14 @@ public class PrintInvoiceController {
 
             //insert column headings
             insertCell(table, "Patient ID", Element.ALIGN_RIGHT, 1, bfBold12);
-            insertCell(table, pharmacyEncounter.getPerson().getPatientIdentifier().getIdentifier(), Element.ALIGN_LEFT, 4, bfBold12);
+            insertCell(table, pharmacyEncounter.getPerson().getPatientIdentifier().getIdentifier(), Element.ALIGN_LEFT, 5, bfBold12);
             insertCell(table, "Name", Element.ALIGN_RIGHT, 1, bfBold12);
-            insertCell(table,person.getGivenName()+" "+ person.getFamilyName(), Element.ALIGN_LEFT, 4, bfBold12);
+            insertCell(table,person.getGivenName()+" "+ person.getFamilyName(), Element.ALIGN_LEFT, 5, bfBold12);
             insertCell(table, "Medication Name", Element.ALIGN_RIGHT, 1, bfBold12);
             insertCell(table, "Prc", Element.ALIGN_LEFT, 1, bfBold12);
             insertCell(table, "Qty", Element.ALIGN_LEFT, 1, bfBold12);
             insertCell(table, "Disc", Element.ALIGN_LEFT, 1,bfBold12);
+            insertCell(table, "wvr", Element.ALIGN_LEFT, 1,bfBold12);
             insertCell(table, "Amt", Element.ALIGN_RIGHT, 1,bfBold12);
             table.setHeaderRows(1);
 
@@ -102,17 +101,19 @@ public class PrintInvoiceController {
             Double receiptTotal=0.0;
             for(int x=0; x<itemSize; x++){
                 Double amountLessDiscount=receiptToProcess.get(x).getAmount()-receiptToProcess.get(x).getDiscount();
+                amountLessDiscount=amountLessDiscount-receiptToProcess.get(x).getAmountw();
                 PharmacyStore pharmacyStore=service.getPharmacyInventoryByDrugUuid(receiptToProcess.get(x).getDrug().getUuid(),locationUUID);
                 insertCell(table, receiptToProcess.get(x).getDrug().getName(), Element.ALIGN_RIGHT, 1, bf12);
                 insertCell(table, ""+pharmacyStore.getUnitPrice(), Element.ALIGN_RIGHT, 1, bf12);
                 insertCell(table, ""+receiptToProcess.get(x).getQuantitysold(), Element.ALIGN_RIGHT, 1, bf12);
                 insertCell(table, ""+receiptToProcess.get(x).getDiscount(), Element.ALIGN_RIGHT, 1, bf12);
+                insertCell(table, ""+receiptToProcess.get(x).getAmountw(), Element.ALIGN_RIGHT, 1, bf12);
                 insertCell(table, ""+amountLessDiscount, Element.ALIGN_RIGHT, 1, bf12);
                 receiptTotal = receiptTotal + amountLessDiscount;
             }
             insertCell(table, "Total:", Element.ALIGN_LEFT, 2, bfBold12);
-            insertCell(table, df.format(receiptTotal), Element.ALIGN_LEFT, 3, bfBold12);
-            insertCell(table, "We Treat God Heals ...", Element.ALIGN_LEFT, 4, bfBold12);
+            insertCell(table, df.format(receiptTotal), Element.ALIGN_LEFT, 4, bfBold12);
+            insertCell(table, "We Treat God Heals ...", Element.ALIGN_LEFT, 6, bfBold12);
             doc.add(table);
 
 

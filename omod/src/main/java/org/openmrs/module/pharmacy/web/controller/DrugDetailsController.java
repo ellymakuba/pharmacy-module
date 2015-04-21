@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.List;
 
@@ -79,6 +81,9 @@ public class DrugDetailsController {
         service = Context.getService(PharmacyService.class);
 
         try {
+            System.out.println("drug name is+++++++++++++++++++++++++++++++++++++++"+drugName);
+            //drugName= URLDecoder.decode(drugName,"UTF-8");
+            //System.out.println("drug name encoded+++++++++++++++++++++++++++++++++++++++"+URLEncoder.encode(drugName,"UTF-8"));
             drugObject = Context.getConceptService().getDrugByNameOrId(drugName);
             jsonArray.put("" + drugObject.getDrugId());
             response.getWriter().print(jsonArray);

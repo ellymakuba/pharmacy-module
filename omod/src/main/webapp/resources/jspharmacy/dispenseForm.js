@@ -66,6 +66,8 @@ function countR(){
     var tableLength=document.getElementById("tableDispense").rows.length;
     alert(tableLength);
 }
+
+toggleQueueButtons();
 var rowCounter = document.getElementById("tableDispense").rows.length+1;
 $j("#unClearedReceiptsDIV").show();
 $j("#allPatientEncountersDIV").hide();
@@ -176,31 +178,38 @@ $j('#unClearedReceipts tbody').delegate("tr","click", function () {
     var totalAmountWaived=0;
     var totalDiscount=0;
     document.getElementById("amountPaid").value='';
-    $j.getJSON('unProcessedReceipts.form?encounterUUID='+aData[0]+'&paymentStatus='+aData[5], function (data) {
-        $j.each(data.aaData, function(idx, elem){
-            vals= elem.toString().split(",");
-            $j('table#tableDispense TBODY').append('<tr><td><input name="dispenseFormDrug" id="dispenseFormDrug_'+idx+'"  style="width:350px;" value="'
-                +vals[0]+'" /></td><td><input name="quantityInStock" style="width:50px;" id="quantityInStock_'+idx+'" readonly  value="' +vals[5]+'"/>' +'</td>' +
-                '<td><select id="dosage_'+idx+'"  name="dosage" ></select> </td>'+
-                '<td><input type="text" name="unitPrice" id="unitPrice_'+idx+'" style="width:50px" value="'+vals[4]+'"/></td>'+
-                '<td><input type="text"  name="quantity" style="width:80px;" id="quantity_'+idx+'" value="'+vals[1]+'" /></td>'+
-                '<td><input type="text" name="amount" id="amount_'+idx+'" style="width:80px;"  value="'+vals[2]+'" /></td>' +
-                '<td><input type="text" name="discount" style="width:50px;" value="'+vals[8]+'" id="discount_'+idx+'"/></td> '+
-                '<td><input type="text" name="itemAmountWaived" style="width:50px;" value="'+vals[7]+'" id="itemAmountWaived_'+idx+'"/></td> '+
-                '<td><a href="#">del</a></td>'+
-                '<td><input type="hidden" name="drugExtraUUID" value="'+vals[3]+'"</td>'+
-                '<td><input type="hidden" name="previouslySoldQuantity" value="'+vals[6]+'"</td></tr>');
-            totalAmount=Number(totalAmount)+Number(vals[2]);
-            totalAmountWaived=Number(totalAmountWaived)+Number(vals[7]);
-            totalDiscount=Number(totalDiscount)+Number(vals[8]);
-            $j.getJSON("drugBincard.form?selectDose=doseSelect",function (result) {
-                $j.each(result,function (index, value) {
-                    $j("#dosage_"+idx).append($j("<option></option>").attr("value",index).text(value));
+    $j.ajax({
+        type:'GET',
+        url: 'unProcessedReceipts.form?encounterUUID='+aData[0]+'&paymentStatus='+aData[5],
+        dataType: 'json',
+        async: false,
+        data: {myname:"fetch"},
+        success: function(data) {
+            $j.each(data.aaData, function(idx, elem){
+                vals= elem.toString().split(",");
+                $j('table#tableDispense TBODY').append('<tr><td><input name="dispenseFormDrug" id="dispenseFormDrug_'+idx+'"  style="width:350px;" value="'
+                    +vals[0]+'" /></td><td><input name="quantityInStock" style="width:50px;" id="quantityInStock_'+idx+'" readonly  value="' +vals[5]+'"/>' +'</td>' +
+                    '<td><select id="dosage_'+idx+'"  name="dosage" ></select> </td>'+
+                    '<td><input type="text" name="unitPrice" id="unitPrice_'+idx+'" style="width:50px" value="'+vals[4]+'"/></td>'+
+                    '<td><input type="text"  name="quantity" style="width:80px;" id="quantity_'+idx+'" value="'+vals[1]+'" /></td>'+
+                    '<td><input type="text" name="amount" id="amount_'+idx+'" style="width:80px;"  value="'+vals[2]+'" /></td>' +
+                    '<td><input type="text" name="discount" style="width:50px;" value="'+vals[8]+'" id="discount_'+idx+'"/></td> '+
+                    '<td><input type="text" name="itemAmountWaived" style="width:50px;" value="'+vals[7]+'" id="itemAmountWaived_'+idx+'"/></td> '+
+                    '<td><a href="#">Rem</a></td>'+
+                    '<td><input type="hidden" name="drugExtraUUID" value="'+vals[3]+'"</td>'+
+                    '<td><input type="hidden" name="previouslySoldQuantity" value="'+vals[6]+'"</td></tr>');
+                totalAmount=Number(totalAmount)+Number(vals[2]);
+                totalAmountWaived=Number(totalAmountWaived)+Number(vals[7]);
+                totalDiscount=Number(totalDiscount)+Number(vals[8]);
+                $j.getJSON("drugBincard.form?selectDose=doseSelect",function (result) {
+                    $j.each(result,function (index, value) {
+                        $j("#dosage_"+idx).append($j("<option></option>").attr("value",index).text(value));
+                    });
                 });
-            });
-        });
+            })
         $j('table#tableDispense TBODY').append('<input type="hidden" name="previousEncounter" id="previousEncounter" value="'+aData[0]+'">');
-        document.getElementById("totalAmount").value=totalAmount;
+        var totalToLess=parseFloat(totalAmountWaived)+parseFloat(totalDiscount);
+        document.getElementById("totalAmount").value=parseFloat(totalAmount)-parseFloat(totalToLess);
         document.getElementById("amountWaived").value=totalAmountWaived;
         document.getElementById("totalDiscount").value=totalDiscount;
         var amount=0;
@@ -214,8 +223,9 @@ $j('#unClearedReceipts tbody').delegate("tr","click", function () {
                 }
             });
         }
+    }
     });
-
+    toggleQueueButtons();
     $j("#tableDispense").show();
 })
 $j('#unClearedReceipts').delegate(' tbody td  input', 'click', function () {
@@ -248,23 +258,49 @@ function RefreshTable(tableId, urlData) {
     table.fnDraw();
 }
 $j("#amountPaid").live("blur",function(){
-    var cumilativePaid=parseFloat($j("#amountWaived").val())+parseFloat($j("#totalDiscount").val());
-    cumilativePaid=parseFloat($j("#totalAmount").val())-cumilativePaid;
-    document.getElementById("balance").value= parseFloat($j("#amountPaid").val())-parseFloat(cumilativePaid);
+    document.getElementById("balance").value= parseFloat($j("#amountPaid").val())-parseFloat($j("#totalAmount").val());
 })
 $j("INPUT[NAME='itemAmountWaived']").live("blur",function(){
-    var waivedSumAmount=0;
-    $j("INPUT[name='itemAmountWaived']").each(function() {
-        waivedSumAmount += Number($j(this).val());
+    var amountRequiredToPay = 0;
+    var totalReceiptSum=0;
+    var discountSum=0;
+    var waivedSum=0;
+    var totalToLess=0;
+    $j("input[name='amount']").each(function() {
+        totalReceiptSum += Number($j(this).val());
     });
-    document.getElementById("amountWaived").value=Number(waivedSumAmount);
+    $j("input[name='discount']").each(function() {
+        discountSum += Number($j(this).val());
+    });
+    $j("input[name='itemAmountWaived']").each(function() {
+        waivedSum += Number($j(this).val());
+    });
+    totalToLess=parseFloat(discountSum)+parseFloat(waivedSum);
+    amountRequiredToPay=parseFloat(totalReceiptSum)-parseFloat(totalToLess);
+    document.getElementById("totalAmount").value=parseFloat(amountRequiredToPay);
+    document.getElementById("amountWaived").value=Number(waivedSum);
+    document.getElementById("balance").value= parseFloat($j("#amountPaid").val())-parseFloat($j("#totalAmount").val());
 });
 $j("INPUT[NAME='discount']").live("blur",function(){
-    var discountAmount=0;
-    $j("INPUT[name='discount']").each(function() {
-        discountAmount += Number($j(this).val());
+    var amountRequiredToPay;
+    var totalReceiptSum=0;
+    var discountSum=0;
+    var waivedSum=0;
+    var totalToLess;
+    $j("input[name='amount']").each(function() {
+        totalReceiptSum += Number($j(this).val());
     });
-    document.getElementById("totalDiscount").value=Number(discountAmount);
+    $j("input[name='discount']").each(function() {
+        discountSum += Number($j(this).val());
+    });
+    $j("input[name='itemAmountWaived']").each(function() {
+        waivedSum += Number($j(this).val());
+    });
+    totalToLess=parseFloat(discountSum)+parseFloat(waivedSum);
+    amountRequiredToPay=parseFloat(totalReceiptSum)-parseFloat(totalToLess);
+    document.getElementById("totalAmount").value=parseFloat(amountRequiredToPay);
+    document.getElementById("totalDiscount").value=Number(discountSum);
+    document.getElementById("balance").value= parseFloat($j("#amountPaid").val())-parseFloat($j("#totalAmount").val());
 });
 function AutoReload() {
     unClearedReceiptsTable=$j("#unClearedReceipts").dataTable({
@@ -273,12 +309,68 @@ function AutoReload() {
         bServerSide:true,
         bProcessing:true,
         sAjaxSource:"unProcessedReceipts.form?drop=displayUnclearedReceipts" ,
-        "fnServerData":fnDataTablesPipeline2
+        "fnServerData":fnDataTablesPipeline2,
+
     })}
 function fnFormatDetails(nTr) {
     document.forms['dispensingForm'].elements["patientId"].value = aData[1];
     document.forms['dispensingForm'].elements["totalAmount"].value = aData[2];
 }
+$j("#patientIdentifier").live("focus", function () {
+    $j(this).autocomplete({
+        source:function (request, response) {
+            dataString = "searchPatient=" + request.term;
+            $j.getJSON("drugDetails.form?drop=patientSearch&" + dataString, function (result) {
+                $j("#dispenseFormDrug").removeClass('working');
+                response($j.each(result, function (index, item) {
+                    return {
+                        label:item,
+                        value:item
+                    }
+                }));
+            });
+        },
+        minLength:3,
+        select:function (event, ui) {
+            unClearedReceiptsTable.fnDestroy();
+            unClearedReceiptsTable=$j("#unClearedReceipts").dataTable({
+                bJQueryUI:true,
+                bRetrieve:true,
+                bServerSide:true,
+                bProcessing:true,
+                "bAutoWidth": false,
+                sAjaxSource:"patientUnclearedRecords.form?patientIdentifier="+ui.item.value,
+                "fnServerData":fnDataTablesPipeline2,
+                "aoColumnDefs":[
+                    {
+                        "bVisible":false,
+                        "aTargets":[ 0 ]
+                    }
+                ]
+            })
+        }
+    });
+});
+/*
+$j("#patientIdentifier").live("blur", function () {
+    unClearedReceiptsTable.fnDestroy();
+    unClearedReceiptsTable=$j("#unClearedReceipts").dataTable({
+        bJQueryUI:true,
+        bRetrieve:true,
+        bServerSide:true,
+        bProcessing:true,
+        "bAutoWidth": false,
+        sAjaxSource:"patientUnclearedRecords.form?patientIdentifier="+$j(this).val(),
+        "fnServerData":fnDataTablesPipeline2,
+        "aoColumnDefs":[
+            {
+                "bVisible":false,
+                "aTargets":[ 0 ]
+            }
+        ]
+    })
+});
+*/
 $j("input[name=dispenseFormDrug]").live("focus", function () {
     $j(this).autocomplete({
         search:function () {
@@ -432,14 +524,25 @@ $j("input[name='quantity']").live("blur", function () {
 });
 
 $j("input[name='amount']").live("blur",function () {
-    var sumpaid = 0;
+    var amountRequiredToPay = 0;
+    var totalReceiptSum=0;
+    var discountSum=0;
+    var waivedSum=0;
+    var totalToLess=0;
     $j("input[name='amount']").each(function() {
-        sumpaid += Number($j(this).val());
+        totalReceiptSum += Number($j(this).val());
     });
-    document.getElementById("totalAmount").value=Number(sumpaid);
+    $j("input[name='discount']").each(function() {
+        discountSum += Number($j(this).val());
+    });
+    $j("input[name='itemAmountWaived']").each(function() {
+        waivedSum += Number($j(this).val());
+    });
+    totalToLess=parseFloat(discountSum)+parseFloat(waivedSum);
+    amountRequiredToPay=parseFloat(totalReceiptSum)-parseFloat(totalToLess);
+    document.getElementById("totalAmount").value=parseFloat(amountRequiredToPay);
 });
 function addNewInvoiceOnQueue(){
-    var dataString = $j("#dispensingForm").serializeArray();
     var json = [];
     $j('#queueFormDIV').find('tr').each(function(){
         var rowObject=[];
@@ -456,15 +559,17 @@ function addNewInvoiceOnQueue(){
     });
     $j.ajax({
         type:"POST",
-        url:"rfpDispenseFormProcessor.form?checkBoolean=checkBoolean",
+        url:"rfpDispenseFormCheckInventoryAvailability.form",
         data:{values:JSON.stringify(json) },
         success:function (result) {
             if(result.toString()=='true') {
                 $j.ajax({
                     type:"POST",
-                    url:"rfpDispenseFormProcessor.form?previousEncounter="+$j("#previousEncounter").val(),
+                    url:"rfpDispenseFormAddNewInvoice.form?AddNewInvoiceOnQueue="+$j("#previousEncounter").val(),
                     data:{values:JSON.stringify(json) },
                     success:function (result) {
+                        printInvoice(result.toString());
+
                         aData="";
                         document.getElementById("dispensingForm").reset();
                         removeRows();
@@ -479,9 +584,55 @@ function addNewInvoiceOnQueue(){
             }
         }
     });
+    toggleQueueButtons();
     return false;
 }
+function updateAndRequeue(){
+    var json = [];
+    $j('#queueFormDIV').find('tr').each(function(){
+        var rowObject=[];
+        $j(this).find('td').each(function(){
+            var obj = {}
+            var  td = $j(this).find('input');
 
+            var key = td.attr('name');
+            var val = td.val();
+            obj[key] = val;
+            rowObject.push(obj);
+        });
+        json.push(rowObject);
+    });
+    $j.ajax({
+        type:"POST",
+        url:"rfpDispenseFormCheckInventoryAvailability.form",
+        data:{values:JSON.stringify(json) },
+        success:function (result) {
+            if(result.toString()=='true') {
+                $j.ajax({
+                    type:"POST",
+                    url:"rfpDispenseFormUpdateAndRequeue.form?encounterToUpdate="+aData[0],
+                    data:{values:JSON.stringify(json) },
+                    success:function (result) {
+                        printInvoice(result.toString());
+
+                        aData="";
+                        document.getElementById("dispensingForm").reset();
+                        removeRows();
+                        unClearedReceiptsTable.fnDraw();
+                    }
+                });
+            }
+            else {
+                $j("#errorDialog").empty();
+                $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                $j("#errorDialog").dialog("open");
+            }
+        }
+    });
+    toggleQueueButtons();
+    return false;
+
+}
 function processInvoicePayment(){
     if(parseFloat($j("#amountPaid").val()).toString() =="NaN" || parseFloat($j("#balance").val()).toString() =="NaN" || parseFloat($j("#balance").val())< 0){
         $j("#errorDialog").empty();
@@ -505,27 +656,29 @@ function processInvoicePayment(){
         });
         $j.ajax({
             type:"POST",
-            url:"rfpDispenseFormProcessor.form?receipt="+aData[0],
+            url:"rfpDispenseFormProcessPayment.form?encounterToProcessPayment="+aData[0],
+            async:false,
             data:{values:JSON.stringify(jsonReceiptData) },
             success:function (result) {
-                var printingURL="printInvoice.form?encounterUUID="+result.toString();
+               /*  var printingURL="printInvoice.form?encounterUUID="+result.toString();
                 window.location=printingURL;
                 document.getElementById("dispensingForm").reset();
                 removeRows();
-                unClearedReceiptsTable.fnDraw();
+                unClearedReceiptsTable.fnDraw();  */
 
             }
         });
-    }
+    }toggleQueueButtons();
     return false;
 }
 function confirmInvoiceAndIssueDrugs(){
-    if((parseFloat($j("#amountPaid").val()) < parseFloat($j("#totalAmount").val())) || parseFloat($j("#amountPaid").val()).toString() =="NaN"){
+    processInvoicePayment();
+    /*if((parseFloat($j("#amountPaid").val()) < parseFloat($j("#totalAmount").val())) || parseFloat($j("#amountPaid").val()).toString() =="NaN"){
         $j("#errorDialog").empty();
         $j('<dl><dt></dt><dd >' + "Info: " + "Cannot close Invoice before payment is done" + '</dd></dl> ').appendTo('#errorDialog');
         $j("#errorDialog").dialog("open");
     }
-    else{
+    else{ */
         var jsonReceiptData = [];
         $j('#queueFormDIV').find('tr').each(function(){
             var rowObject=[];
@@ -543,12 +696,13 @@ function confirmInvoiceAndIssueDrugs(){
         $j.ajax({
             type:"POST",
             url:"checkIfPaymentHasBeenMade.form?encounterToCheck="+aData[0],
+            async:false,
             data:{values:JSON.stringify(jsonReceiptData) },
             success:function (result) {
                 if(result==1){
                     $j.ajax({
                         type:"POST",
-                        url:"closePatientEncounter.form?receipt="+aData[0]+"&patientID="+$j('#patientId').val(),
+                        url:"closePatientEncounter.form?encounterToClose="+aData[0]+"&patientID="+$j('#patientId').val(),
                         data:{values:JSON.stringify(jsonReceiptData) },
                         success:function () {
                             document.getElementById("dispensingForm").reset();
@@ -558,7 +712,6 @@ function confirmInvoiceAndIssueDrugs(){
                     });
                 }
                 else{
-                    $j("#errorDialog").empty();
                     $j('<dl><dt></dt><dd >' + "Info: " + "Please process Payment before you close form" + '</dd></dl> ').appendTo('#errorDialog');
                     $j("#errorDialog").dialog("open");
                 }
@@ -566,7 +719,8 @@ function confirmInvoiceAndIssueDrugs(){
 
         })
 
-    }
+    //}
+    toggleQueueButtons();
     return false;
 }
 // $j(".myBox").click(function(){
@@ -581,14 +735,90 @@ $j("table").delegate("#allPatientEncounters tbody tr :last-child","click",functi
     $j.ajax({
         type:"GET",
         url:"reprocessEncounter.form?encounterUUID="+aData[0],
+        async:false,
         data:amount,
         success:function () {
             unClearedReceiptsTable.fnDraw();
             $j("#unClearedReceiptsDIV").show();
         }
     });
+
+})
+$j("table").delegate("#allPatientEncounters tbody tr :first-child","click",function(){
+    var TableRow = this.parentNode;
+    aData =patienteEncounters.fnGetData(TableRow);
+    var amount;
+    $j.ajax({
+        type:"GET",
+        url:"temporaryCloseToPreviuosEncounters.form?encounterUUID="+aData[0],
+        async:false,
+        data:amount,
+        success:function () {
+            unClearedReceiptsTable.fnDraw();
+            $j("#unClearedReceiptsDIV").show();
+        }
+    });
+
 })
 
 setInterval(function(){
     unClearedReceiptsTable.fnDraw();
 }, 10000);
+function toggleQueueButtons(){
+    if($j("#previousEncounter").val() =="" || typeof ($j("#previousEncounter").val())=="undefined"){
+        $j("#queue").show();
+        $j("#requeue").hide();
+    }
+    else{
+        $j("#queue").hide();
+        $j("#requeue").show();
+    }
+}
+function printInvoice(encounter)
+{
+    var totalAmount=0;
+    var totalAmountWaived=0;
+    var totalDiscount=0;
+    var totalAmountToLess=0;
+   $j("#printSection").empty();
+    $j('#printSection').append('<table id="receiptTable" class="visibleBorder"><thead>' +
+        '<tr class="newRowClass"><td>patient ID</td><td></td><td></td><td></td><td>'+$j("#patientId").val()+'</td></tr>'+
+        '<tr><td>patient Name</td><td></td><td></td><td></td><td>'+$j("#patientName").val()+'</td></tr>'+
+        '<tr><th>Drug</th><th></th><th>UtP</th><th>Qty</th><th>Amt</th>' +
+        '</tr></thead><tbody></tbody></table>');
+    $j.ajax({
+        type:'GET',
+        url: 'unProcessedReceipts.form?encounterUUID='+encounter+'&paymentStatus=0',
+        dataType: 'json',
+        async: false,
+        data: {myname:"fetch"},
+        success: function(data) {
+            $j.each(data.aaData, function(idx, elem){
+                vals= elem.toString().split(",");
+                $j('table#receiptTable TBODY').append('<tr>' +
+                    '<td>'+vals[0]+'</td>' +
+                    '<td></td>' +
+                    '<td>'+vals[4]+'</td>'+
+                    '<td>'+vals[1]+'</td>'+
+                    '<td>'+vals[2]+'</td>' +
+                    '</tr>');
+                totalAmount=Number(totalAmount)+Number(vals[2]);
+                totalAmountWaived=Number(totalAmountWaived)+Number(vals[7]);
+                totalDiscount=Number(totalDiscount)+Number(vals[8]);
+            })
+            totalAmountToLess=parseFloat(totalAmountWaived)+parseFloat(totalDiscount);
+            totalAmount=parseFloat(totalAmount)-parseFloat(totalAmountToLess);
+            $j('table#receiptTable TBODY').append('<tr><td>Discount</td><td></td><td></td><td></td><td>'+totalDiscount+'</td></tr>'+
+            '</br><tr><td>Amnt Waived</td><td></td><td></td><td></td><td>'+totalAmountWaived+'</td></tr>'+
+            '<tr><td>Cash Expected</td><td></td><td></td><td></td><td>'+totalAmount+'</td></tr></table>')
+        }
+    });
+    var prtContent = document.getElementById('printSection');
+    var WinPrint = window.open('', '', 'width=800,height=650');
+    var str =  prtContent.innerHTML;
+    WinPrint.document.write(str);
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+    WinPrint.close();
+}

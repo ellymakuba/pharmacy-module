@@ -29,7 +29,8 @@ var drugConcepts = [
     [6965],
     [625,628],
     [802,628],
-    [1400]
+    [1400],
+    [628,814,633]
 ];
 $j.getJSON("drugBincard.form?selectDose=doseSelect",function (result) {
     $j.each(result,function (index, value) {
@@ -162,7 +163,7 @@ $j("#patientId").autocomplete({
             success:function (result) {
                 document.getElementById("patientName").value=result;
                 $j("#currentRegimen").val()=="";
-                $j.getJSON("dispenser.form?patientUUIDToFindRegimen=" +patient, function(data) {
+                $j.getJSON("dispense.form?patientUUIDToFindRegimen=" +patient, function(data) {
                     if(jQuery.isEmptyObject(data)){
                         pRegimen="";
                         $j("#currentRegimen").val("Not given");
@@ -293,19 +294,14 @@ function checkHivForm(val,reg){
     cRegimen=val;
     if(reg !=pRegimen && pRegimen !="")
     {
-        if($j("#regimenchange").is(':checked'))  {
+        if($j("#regimenchange").is(':checked') || pRegimen =="undefined"){
             return true;
         }
         else{
-            if(reg==""){
-              return true;
-            }
-            else{
             $j("#errorDialog").empty();
             $j('<dl><dt></dt><dd >' + "Info: " + "current regimen is different from previous regimen , must select regimen change\n"+ '</dd></dl> ').appendTo('#errorDialog');
             $j("#errorDialog").dialog("open")
             return false
-            }
         }
     }
     else if(reg !=pRegimen && pRegimen =="")
@@ -618,7 +614,10 @@ function regimenFilter(val){
         regimenN='TDF/3TC';
         regimenC='PA3A'
     }
-
+    else if(positionOfEquity==24){
+        regimenN='ABC/3TC/EFV';
+        regimenC='PA1B'
+    }
 
     return [regimenC,regimenN];
 }

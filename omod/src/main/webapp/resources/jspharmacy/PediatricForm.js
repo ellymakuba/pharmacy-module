@@ -31,7 +31,8 @@ var drugConcepts = [
     [802,628],
     [1400],
     [628,814,631],
-    [631,6679]
+    [631,6679],
+    [628,814,633]
 ];
 $j.getJSON("drugBincard.form?selectDose=doseSelect",function (result) {
     $j.each(result,function (index, value) {
@@ -457,7 +458,7 @@ function checkHivPedsForm(val,reg){
     cRegimen=val;
     if(reg !=pRegimen && pRegimen !="")
     {
-        if($j("#regimenchange").is(':checked'))  {
+        if($j("#regimenchange").is(':checked') || pRegimen =="undefined"){
             return true;
         }
         else{
@@ -779,7 +780,11 @@ function regimenFilter(val){
     }
     else if(positionOfEquity==24 || positionOfEquity==25){
         regimenNam='ABC/3TC/NVP';
-        regimenCod='CF2A'
+        regimenCod='CF2A';
+    }
+    else if(positionOfEquity==26){
+        regimenNam='ABC/3TC/EFV';
+        regimenCod='CF1B';
     }
     else{
         regimenNam='';

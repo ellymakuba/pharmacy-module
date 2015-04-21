@@ -526,7 +526,7 @@
     <td>Nevirapine (NVP)</td>
     <td>>25kg</td>
     <td><input type="radio" name="sixth_drug_sixth_line" title="drug" value="631|22" />200mg tab</td>
-    <td>1 tab OD<input type="hidden" value="1 tab OD" /></td>
+    <td>1 tab OD<input type="hidden" value="1 tab BD" /></td>
     <td><input type="radio" name="sixth_sixth_line_requested" title="Requested" value="60" />60
         <input type="radio" name="sixth_sixth_line_requested" title="Requested" value="120" />120
         <input type="radio" name="sixth_sixth_line_requested" title="Requested" value="2" />2</td>

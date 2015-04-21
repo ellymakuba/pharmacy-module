@@ -40,20 +40,25 @@ public class CurrentPatientRegimen {
         String patientID=service.getPatientByIdentifier(patientIdentifier);
         Patient patient=Context.getPatientService().getPatient(Integer.valueOf(patientID));
         PharmacyEncounter pharmacyEncounter=service.getLastPharmacyEncounterByPatientUUID(patient);
-        currentRegimenName=pharmacyEncounter.getRegimenName();
-        currentRegimenCode=pharmacyEncounter.getRegimenCode();
-        try{
-            jsonRegimenObject=new JSONObject();
-            jsonRegimenObject.accumulate("regimenCod",currentRegimenCode);
-            jsonRegimenObject.accumulate("regimenNam",currentRegimenName);
-            response.getWriter().print(jsonRegimenObject);
-            response.flushBuffer();
+        if(pharmacyEncounter !=null){
+            currentRegimenName=pharmacyEncounter.getRegimenName();
+            currentRegimenCode=pharmacyEncounter.getRegimenCode();
         }
-        catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (JSONException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+
+            try{
+                jsonRegimenObject=new JSONObject();
+                jsonRegimenObject.accumulate("regimenCod",currentRegimenCode);
+                jsonRegimenObject.accumulate("regimenNam",currentRegimenName);
+                response.getWriter().print(jsonRegimenObject);
+                response.flushBuffer();
+            }
+            catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (JSONException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+
+
 
     }
 }

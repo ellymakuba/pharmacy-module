@@ -351,7 +351,7 @@ $j("#dispensedrug").autocomplete({
     },
     minLength:3,
     select:function (event, ui) {
-        $j.getJSON("pharmacyDrugIDRequest.form?drugName="+ui.item.label,function(result) {
+        $j.getJSON("pharmacyDrugIDRequest.form?drugName="+encodeURIComponent(ui.item.label),function(result) {
             var drugId = result;
             setTable(drugId);
             SetDispenseTable(drugId);
@@ -376,7 +376,7 @@ $j('#tinventoryset').delegate('tbody tr', 'click', function (){
     var inventoryNO=batchaData[0];
     var newQuantity=$j("input[name='newQuantity']").val();
 
-    $j.getJSON("pharmacyDrugIDRequest.form?drugName="+$j("#dispensedrug").val(),function(result) {
+    $j.getJSON("pharmacyDrugIDRequest.form?drugName="+encodeURIComponent($j("#dispensedrug").val()),function(result) {
         drugId = result;
         var drug = $j("#dispensedrug").val();
         dataString = "&dispensedrug=" + drug +"&drugID="+drugId;

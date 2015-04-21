@@ -10,6 +10,10 @@
         .newRowClass{
             border:1px solid black;
         }
+        .visibleBorder td{
+            border:1px solid black;
+            background-color:#EBEBFF;
+        }
     </style>
 
 </head>
@@ -53,7 +57,7 @@
                 <input type="button" value="Remove Row" onclick="deleteRow('tableDispense')"/> </br>
                 <input type="button" value="Queue for payment" onclick="addNewInvoiceOnQueue()"/>
                 <%
-                    if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin")) {
+                    if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin") || org.openmrs.api.context.Context.hasPrivilege("System Developer")) {
                 %>
                 <input  type="button" value="Process Payment" onClick="processInvoicePayment()"/>
                 <%

@@ -162,11 +162,12 @@ function loadRFPDispensingForm(){
             '<h3 style="text-align: center">RFP Drug Dispensing Form</h3>'+
             '<form id="dispensingForm" name="dispensingForm">'+
             '<fieldset>'+
-            '<table>'+
+            '<table id="patientInfoTable">'+
             '<tr>'+
-            '<td>Search Patient Identifier</td>'+
+            '<td>Type Patient Identifier</td>'+
             '<td><input type="text" name="patientId" id="patientId" class="required"/></td>'+
-            '<td><input type="text" name="patientName" id="patientName" style="width:350px;"  readonly/></td>'+
+            '<td><input type="text" name="patientName" id="patientName" style="width:300px;"  readonly/></td>'+
+            '<td>Search Identifier On Queue:<input type="text" name="patientIdentifier" id="patientIdentifier" /></td>'+
             '</tr>'+
             '</table>'+
             '<table id="tableDispense">'+
@@ -179,7 +180,7 @@ function loadRFPDispensingForm(){
             '<th>Amt(KSH)</th>' +
             '<th>Disc</th>'+
             '<th>Waived(ksh)</th>'+
-            '<th>Delete</th></tr>'+
+            '<th>Remove</th></tr>'+
             '</thead>'+
             '<tbody>'+
             '<tr class="newRowClass" >'+
@@ -197,26 +198,27 @@ function loadRFPDispensingForm(){
             '</tr>'+
             '</tbody>'+
             '</table>'+
-            '<table><tr><td>Total Amount</td><td><input type="text" name="totalAmount" id="totalAmount" readonly style="width: 100px;"></td>'+
+            '<table><tr><td>Amount Expected</td><td><input type="text" name="totalAmount" id="totalAmount" readonly style="width: 100px;"></td>'+
             <% if(org.openmrs.api.context.Context.hasPrivilege("process RFP payments")){ %>
-            '<td>Amount Paid</td><td><input type="text" name="amountPaid" id="amountPaid" style="width: 100px;"></td>'+
-            '<td>Discount Amount</td><td><input type="text" name="totalDiscount" id="totalDiscount" value="0.0" style="width: 100px;"></td>'+
+            '<td>Cash Received</td><td><input type="text" name="amountPaid" id="amountPaid" style="width: 100px;"></td>'+
+            '<td>Total Discount</td><td><input type="text" name="totalDiscount" id="totalDiscount" value="0.0" style="width: 100px;"></td>'+
             <% } else{ %>
-            '<td>Amount Paid</td><td><input type="text" name="amountPaid" id="amountPaid" style="width: 100px;" readonly></td>'+
-            '<td>Discount Amount</td><td><input type="text" name="totalDiscount" id="totalDiscount" value="0.0" style="width: 100px;" readonly></td>'+
+            '<td>Cash Received</td><td><input type="text" name="amountPaid" id="amountPaid" style="width: 100px;" readonly></td>'+
+            '<td>Total Discount</td><td><input type="text" name="totalDiscount" id="totalDiscount" value="0.0" style="width: 100px;" readonly></td>'+
             <% } %>
-            '<td>Amount Waived</td><td><input type="text" name="amountWaived" id="amountWaived" value="0" style="width: 100px;" readonly></td>'+
+            '<td>Total Waived</td><td><input type="text" name="amountWaived" id="amountWaived" value="0" style="width: 100px;" readonly></td>'+
             '<td>Balance</td> <td><input type="text" name="balance" id="balance" style="width: 100px;" readonly></td>'+
             '</tr></table>'+
             <%
                   if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin") || org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense")) {
             %>
             '<input type="button" value="Add Drug" onclick="addRow()"/>'+
-            '<input style="text-align: right;" type="button" value="Queue for payment" onclick="addNewInvoiceOnQueue()"/> ' +
+            '<input id="queue" style="text-align: right;" type="button" value="Queue for payment" onclick="addNewInvoiceOnQueue()"/> ' +
+            '<input id="requeue" type="button" value="Update & Requeue" onClick="updateAndRequeue()"/>'+
             <% }
                 if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin") || org.openmrs.api.context.Context.hasPrivilege("process RFP payments")) {
             %>
-            '<input style="text-align: right;" type="button" value="Process Payment" onClick="processInvoicePayment()"/>' +
+           // '<input style="text-align: right;" type="button" value="Process Payment" onClick="processInvoicePayment()"/>' +
             <%
                 }
                 if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin") || org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense")){
@@ -280,7 +282,7 @@ function loadRFPDispensingForm(){
             '</table>'+
             '</DIV>'+
             <% } %>
-            '</DIV>');
+            '</DIV><div id="printSection"> </div>');
     $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/dispenseForm.js", function () {
 
     });
@@ -427,73 +429,7 @@ $j(document).ready(
                     , searchPhrase: '<spring:message text="${ param.phrase }" javaScriptEscape="true"/>'
             </c:if>
         });
-$j.getJSON("locationSetter.form?drop=drop", function (result) {
-    if (result == "null") {
-        <%
-    if (org.openmrs.api.context.Context.getAuthenticatedUser().hasRole("Pharmacy Administrator") ) {
-        %>
-        $j("#ui").show();
-        $j("#ui8").show();
 
-        $j("#ui1").show();
-        $j("#ui18").show();
-
-        $j("#ui2").show();
-        $j("#ui28").show();
-
-        $j("#ui3").show();
-        $j("#ui38").show();
-
-        $j("#ui4").show();
-        $j("#ui48").show();
-
-
-        <%
-    }
-    else {
-        %>
-
-
-        $j("#ui").hide();
-        $j("#ui8").hide();
-
-        $j("#ui1").hide();
-        $j("#ui18").hide();
-
-        $j("#ui2").hide();
-        $j("#ui28").hide();
-
-        $j("#ui3").hide();
-        $j("#ui38").hide();
-
-        $j("#ui4").hide();
-        $j("#ui48").hide();
-
-        <%
-        }
-        %>
-
-
-    }
-    else {
-        $j("#ui").show();
-        $j("#ui8").show();
-
-        $j("#ui1").show();
-        $j("#ui18").show();
-
-        $j("#ui2").show();
-        $j("#ui28").show();
-
-        $j("#ui3").show();
-        $j("#ui38").show();
-
-        $j("#ui4").show();
-        $j("#ui48").show();
-
-
-    }
-});
 
 $j("#errorDiv").hide();
 /*Generic datatable r;efresh function*/

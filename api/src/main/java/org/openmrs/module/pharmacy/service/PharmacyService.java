@@ -768,4 +768,6 @@ public interface PharmacyService extends OpenmrsService {
     public Double  getDiscountOnDrugsWithinPeriodRange(Date startDate,Date endDate,String encounterUUID,String location);
     public PharmacyEncounter getLastPharmacyEncounterByPatientUUID(Patient patientUUID);
     public Double getDrugTotalCashCollectedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID);
+    public List<DrugExtra> getDrugExtraByPharmacyEncounter(PharmacyEncounter encounter);
+    public List<PharmacyEncounter> getUnclearedPharmacyEncountersListByPersonID(Integer personID);
 }

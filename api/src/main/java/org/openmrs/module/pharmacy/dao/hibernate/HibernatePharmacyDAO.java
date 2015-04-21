@@ -130,6 +130,14 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
                 .addOrder(Order.desc("dateCreated"));
         return criteria.list();
     }
+    public List<PharmacyEncounter> getUnclearedPharmacyEncountersListByPersonID(Integer personID) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PharmacyEncounter.class)
+                .createAlias("person", "p")
+                .add(Restrictions.eq("p.personId", personID))
+                .add(Restrictions.eq("display", 0))
+                .addOrder(Order.desc("dateCreated"));
+        return criteria.list();
+    }
     /**
      * @see org.openmrs.module.pharmacy.dao.PharmacyDAO#getPharmacyEncounterByUuid(String)
      */
@@ -1589,6 +1597,12 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
         criteria.setMaxResults(1);
         PharmacyEncounter encounter=(PharmacyEncounter)criteria.uniqueResult();
         return encounter;
+    }
+    public List<DrugExtra> getDrugExtraByPharmacyEncounter(PharmacyEncounter encounter){
+        Criteria criteria=sessionFactory.getCurrentSession().createCriteria(DrugExtra.class)
+            .add(Restrictions.eq("pharmacyEncounter",encounter));
+        List<DrugExtra> drugExtra=criteria.list();
+        return drugExtra;
     }
 }
 

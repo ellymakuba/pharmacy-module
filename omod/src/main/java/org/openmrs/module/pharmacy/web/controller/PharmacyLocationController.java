@@ -73,18 +73,10 @@ public class PharmacyLocationController {
         response.setContentType("application/json");
         try {
 
-            String location = request.getParameter("locationsVal");
+            String location = request.getParameter("selectedLocation");
             if (location != null) {
-                if (request.getSession().getAttribute("location") == null) {
-                    request.getSession(true).setAttribute("location", location);
-                    response.getWriter().print(service.setPharmacyLocation(location));
-                } else {
-                    request.getSession(false).removeAttribute("location");
-                    request.getSession(false).setAttribute("location", location);
-                    response.getWriter().print(service.setPharmacyLocation(location));
-
-
-                }
+                    request.getSession().setAttribute("location", location);
+                    response.getWriter().print(location);
 
             }
 

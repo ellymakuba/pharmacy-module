@@ -6,13 +6,13 @@
 <body>
 <DIV id="dlocation">
     <DIV id="incss">
-        <form id="locationForm" action="#">
+        <form id="locationForm" name ="locationForm">
             <hr color=#1aad9b width="100%">
             <fieldset>
                 <legend> Your Location</legend>
                 <label>Location</label>
                 <select id="locationsVal" name="locationsVal"> </select>
-                <input type="submit" value="Set"/>
+                <input type="submit" value="Set Location"/>
             </fieldset>
             <hr color=#1aad9b width="100%">
         </form>

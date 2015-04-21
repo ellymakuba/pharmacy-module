@@ -1,23 +1,7 @@
 var oCache = {
     iCacheLower:-1
 };
-$j.getJSON("locationSetter.form?drop=drop",
-    function (result) {
-        if (result == "null") {
-        }
-        else {
-            $j("#ui").show();
-            $j("#ui8").show();
-            $j("#ui1").show();
-            $j("#ui18").show();
-            $j("#ui2").show();
-            $j("#ui28").show();
-            $j("#ui3").show();
-            $j("#ui38").show();
-            $j("#ui4").show();
-            $j("#ui48").show();
-        }
-    });
+
 $j("#locationForm").validate();
 getDataLocation();
 $j("#hidelocation").hide();
@@ -31,13 +15,13 @@ $j("#hidelocation").click(function () {
     $j("#showlocation").show();
     $j("#locationForm").hide();
 });
-$j("form#locationForm").submit(function () {
+$j("#locationForm").submit(function () {
         dataString = $j("#locationForm").serialize();
         var e = document.getElementById("locationsVal");
-        var strUser = e.options[e.selectedIndex].value;
+        var selectedLocation = e.options[e.selectedIndex].value;
             $j.ajax({
                 type:"POST",
-                url:"locationSetter.form",
+                url:"locationSetter.form?selectedLocation="+selectedLocation,
                 data:dataString,
                 success:function (data) {
                 }

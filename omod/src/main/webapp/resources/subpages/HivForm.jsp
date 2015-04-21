@@ -67,7 +67,7 @@
     <td><input type="text" name="Quantity" value="" title="qnty" style="width:50px;"/> </td>
 </tr>
 <tr  id="row2">
-    <td><input type="radio" name="drug2" title="drug" value="6964|152"/>TDF300mg/3TC300mg/EFV600mg</td>
+    <td><input type="radio" name="drug2" title="drug" value="6964|38"/>TDF300mg/3TC300mg/EFV600mg</td>
     <td>1 tablet OD<input type="hidden" value="1 tablet OD" /></td>
     <td><input type="radio" name="second_requested" title="Requested" value="30" /> 30
         <input type="radio" name="second_requested" title="Requested" value="60" />60
