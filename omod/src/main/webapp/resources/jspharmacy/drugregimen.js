@@ -123,17 +123,10 @@ $j("#option1").autocomplete({
     search:function () {
         $j(this).addClass('working');
     },
-
     source:function (request, response) {
-
-        dataString = "searchDrug=" + request.term;
-
-        $j.getJSON("drugDetails.form?drop=drop&" + dataString, function (result) {
-
+        $j.getJSON("drop.form?searchDrug=" + request.term, function (result) {
             $j("#option1").removeClass('working');
-
             response($j.each(result, function (index, item) {
-
                 return {
                     label:item,
                     value:item
@@ -158,17 +151,10 @@ $j("#option2").autocomplete({
     search:function () {
         $j(this).addClass('working');
     },
-
-    source:function (request, response) {
-
-        dataString = "searchDrug=" + request.term;
-
-        $j.getJSON("drugDetails.form?drop=drop&" + dataString, function (result) {
-
+        source:function (request, response) {
+        $j.getJSON("drop.form?searchDrug=" + request.term, function (result) {
             $j("#option2").removeClass('working');
-
             response($j.each(result, function (index, item) {
-
                 return {
                     label:item,
                     value:item
@@ -195,15 +181,9 @@ $j("#complete").autocomplete({
     },
 
     source:function (request, response) {
-
-        dataString = "searchDrug=" + request.term;
-
-        $j.getJSON("drugDetails.form?drop=drop&" + dataString, function (result) {
-
+        $j.getJSON("drop.form?searchDrug=" + request.term, function (result) {
             $j("#complete").removeClass('working');
-
             response($j.each(result, function (index, item) {
-
                 return {
                     label:item,
                     value:item
@@ -228,17 +208,10 @@ $j("#regimendrug1").autocomplete({
     search:function () {
         $j(this).addClass('working');
     },
-
     source:function (request, response) {
-
-        dataString = "searchDrug=" + request.term;
-
-        $j.getJSON("drugDetails.form?drop=drop&" + dataString, function (result) {
-
+        $j.getJSON("drop.form?searchDrug=" + request.term, function (result) {
             $j("#regimendrug1").removeClass('working');
-
             response($j.each(result, function (index, item) {
-
                 return {
                     label:item,
                     value:item
@@ -265,15 +238,9 @@ $j("#regimendrug2").autocomplete({
     },
 
     source:function (request, response) {
-
-        dataString = "searchDrug=" + request.term;
-
-        $j.getJSON("drugDetails.form?drop=drop&" + dataString, function (result) {
-
+        $j.getJSON("drop.form?searchDrug=" + request.term, function (result) {
             $j("#regimendrug2").removeClass('working');
-
             response($j.each(result, function (index, item) {
-
                 return {
                     label:item,
                     value:item
@@ -300,15 +267,9 @@ $j("#regimendrug3").autocomplete({
     },
 
     source:function (request, response) {
-
-        dataString = "searchDrug=" + request.term;
-
-        $j.getJSON("drugDetails.form?drop=drop&" + dataString, function (result) {
-
+        $j.getJSON("drop.form?searchDrug=" + request.term, function (result) {
             $j("#regimendrug3").removeClass('working');
-
             response($j.each(result, function (index, item) {
-
                 return {
                     label:item,
                     value:item
@@ -332,17 +293,10 @@ $j("#regimendrug4").autocomplete({
     search:function () {
         $j(this).addClass('working');
     },
-
     source:function (request, response) {
-
-        dataString = "searchDrug=" + request.term;
-
-        $j.getJSON("drugDetails.form?drop=drop&" + dataString, function (result) {
-
+        $j.getJSON("drop.form?searchDrug=" + request.term, function (result) {
             $j("#regimendrug4").removeClass('working');
-
             response($j.each(result, function (index, item) {
-
                 return {
                     label:item,
                     value:item

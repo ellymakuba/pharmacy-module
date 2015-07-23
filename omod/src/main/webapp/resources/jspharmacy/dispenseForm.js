@@ -319,8 +319,7 @@ function fnFormatDetails(nTr) {
 $j("#patientIdentifier").live("focus", function () {
     $j(this).autocomplete({
         source:function (request, response) {
-            dataString = "searchPatient=" + request.term;
-            $j.getJSON("drugDetails.form?drop=patientSearch&" + dataString, function (result) {
+            $j.getJSON("patientSearch.form?patientSearch=" + request.term, function (result) {
                 $j("#dispenseFormDrug").removeClass('working');
                 response($j.each(result, function (index, item) {
                     return {
@@ -454,8 +453,7 @@ $j("input[name=patientId]").live("focus", function () {
             $j(this).addClass('working');
         },
         source:function (request, response) {
-            dataString = "searchPatient=" + request.term;
-            $j.getJSON("drugDetails.form?drop=patientSearch&" + dataString, function (result) {
+            $j.getJSON("patientSearch.form?patientSearch=" + request.term, function (result) {
                 $j("#dispenseFormDrug").removeClass('working');
                 response($j.each(result, function (index, item) {
                     return {
@@ -487,7 +485,7 @@ $j("input[name=patientId]").live("focus", function () {
             });
             $j.ajax({
                 type:"GET",
-                url:"drugDetails.form?drop=patientLastName&patientToFind="+patient,
+                url:"patientLastName.form?patientToFind="+patient,
                 data:patient,
                 dataType:"json",
                 success:function (result) {
@@ -760,10 +758,10 @@ $j("table").delegate("#allPatientEncounters tbody tr :first-child","click",funct
     });
 
 })
-
+/*
 setInterval(function(){
     unClearedReceiptsTable.fnDraw();
-}, 10000);
+}, 10000); */
 function toggleQueueButtons(){
     if($j("#previousEncounter").val() =="" || typeof ($j("#previousEncounter").val())=="undefined"){
         $j("#queue").show();
@@ -814,11 +812,20 @@ function printInvoice(encounter)
         }
     });
     var prtContent = document.getElementById('printSection');
-    var WinPrint = window.open('', '', 'width=800,height=650');
+    var WinPrint = window.open('', '','width=600,height=650');
+    $j("#errorDialog").empty();
+    if(!WinPrint || WinPrint.closed || typeof WinPrint.closed=='undefined')
+    {
+        $j('<dl><dt></dt><dd >' + "please unblock pop ups in your browser to be able to print invoice" + '</dd></dl></br>').appendTo('#errorDialog');
+        $j("#errorDialog").dialog("open");
+    }
+    else
+    {
     var str =  prtContent.innerHTML;
     WinPrint.document.write(str);
     WinPrint.document.close();
     WinPrint.focus();
     WinPrint.print();
     WinPrint.close();
+    }
 }

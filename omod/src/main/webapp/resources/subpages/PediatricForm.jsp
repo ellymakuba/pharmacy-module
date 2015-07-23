@@ -348,7 +348,7 @@
     <td>Nevirapine (NVP)</td>
     <td>3-5.9kg</td>
     <td><input type="radio" name="fifth_drug_first_line" title="drug" value="631|140" />Syrup</br>
-        <input type="radio" name="fifth_drug_first_line" title="drug" value="631|22" />50mg
+        <input type="radio" name="fifth_drug_first_line" title="drug" value="631|141" />50mg
     </td>
     <td><input type="radio" value="2ml OD" name="fifth_first_line_dose"/>2ml OD</br>
         <input type="radio" value="1/2 tab BD" name="fifth_first_line_dose"/>1/2 tab BD
@@ -364,7 +364,7 @@
     <td>Nevirapine (NVP)</td>
     <td>6-9.9kg</td>
     <td><input type="radio" name="fifth_drug_second_line" title="drug" value="631|140" />Syrup</br>
-        <input type="radio" name="fifth_drug_second_line" title="drug" value="631|22" />50mg
+        <input type="radio" name="fifth_drug_second_line" title="drug" value="631|141" />50mg
     </td>
     <td><input type="radio" value="4ml OD" name="fifth_second_line_dose"/>4ml OD</br>
         <input type="radio" value="1 tab BD" name="fifth_second_line_dose"/>1 tab BD
@@ -380,7 +380,7 @@
     <td>Nevirapine (NVP)</td>
     <td>10-13.9kg</td>
     <td><input type="radio" name="fifth_drug_third_line" title="drug" value="631|140" />Syrup</br>
-        <input type="radio" name="fifth_drug_third_line" title="drug" value="631|22" />50mg
+        <input type="radio" name="fifth_drug_third_line" title="drug" value="631|141" />50mg
     </td>
     <td><input type="radio" value="5ml OD" name="fifth_third_line_dose"/>5ml OD</br>
         <input type="radio" value="1 tab BD" name="fifth_third_line_dose"/>1 tab BD
@@ -396,7 +396,7 @@
     <td>Nevirapine (NVP)</td>
     <td>14-19.9kg</td>
     <td><input type="radio"  name="fifth_drug_fourth_line" title="drug" value="631|140"/>Syrup</br>
-        <input type="radio"  name="fifth_drug_fourth_line" title="drug" value="631|22"/>50mg tab
+        <input type="radio"  name="fifth_drug_fourth_line" title="drug" value="631|141"/>50mg tab
     </td>
     <td><input type="radio" value="6ml BD" name="fifth_fourth_line_dose"/>6ml BD</br>
         <input type="radio" value="11/2 tab BD" name="fifth_fourth_line_dose"/>11/2 tab BD
@@ -411,7 +411,7 @@
 <tr class="hideRow" id="drug5row5">
     <td>Nevirapine (NVP)</td>
     <td>20-24.9kg</td>
-    <td><input type="radio"  name="fifth_drug_fifth_line" title="drug" value="631|22"/>50mg tab</td>
+    <td><input type="radio"  name="fifth_drug_fifth_line" title="drug" value="631|141"/>50mg tab</td>
     <td><input type="radio" value="2 tab OD" name="fifth_fifth_line_dose"/>2 tab OD</td>
     <td><input type="radio" name="fifth_fifth_line_requested" title="Requested" value="30" />30</td>
     <td><input type="text" name="other" value="" style="width:50px;"/></td>

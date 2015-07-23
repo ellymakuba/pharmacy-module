@@ -18,7 +18,7 @@
         <many-to-one name="outgoing" class="org.openmrs.module.pharmacy.model.PharmacyStoreOutgoing" property-ref="uuid" column="pharmacy_inventory_outgoing_uuid"/>
         <many-to-one name="category"  property-ref="uuid" column="pharmacy_category_uuid"/>
         <many-to-one name="incoming" property-ref="uuid" column="pharmacy_inventory_incoming_uuid" not-null="false"/>
-        <property name="batchNo" type="java.lang.Integer" column="batch_no" length="255"/>
+        <property name="batchNo" type="java.lang.String" column="batch_no" length="255"/>
         <property name="s11" type="java.lang.Integer" column="s11_no"  length="255"/>
         <property name="deliveryNo" type="java.lang.Integer" column="delivery_no" length="255"/>
         <many-to-one name="supplier" property-ref="uuid" column="supplier_uuid" not-null="false"/>

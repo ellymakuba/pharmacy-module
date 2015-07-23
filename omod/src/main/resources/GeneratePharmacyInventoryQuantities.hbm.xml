@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+    <class name="org.openmrs.module.pharmacy.model.GeneratePharmacyInventoryQuantities" table="pharmacy_inventory_generated_daily">
+        <cache usage="read-write"/>
+        <id name="id" type="int" column="inventory_generation_id" unsaved-value="0">
+            <generator class="org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator"/>
+        </id>
+        <many-to-one name="drug" property-ref="uuid" column="drug"></many-to-one>
+        <property name="dateCreated" type="java.util.Date" column="datecreated"/>
+        <property name="stockQuantities" type="java.lang.Integer" column="quantities"/>
+        <property name="uuid" type="string" length="38" not-null="true"  unique="true"/>
+        <property name="pharmacyLocationUUID" type="java.lang.String" column="pharmacy_location_uuid"></property>
+    </class>
+</hibernate-mapping>

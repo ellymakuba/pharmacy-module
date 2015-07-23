@@ -14,11 +14,13 @@
     <orderEntry type="module" module-name="pharmacy-api" />
     <orderEntry type="library" name="Maven: org.json:json:20090211" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:1.6.1" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:itextpdf:5.3.4" level="project" />
     <orderEntry type="library" name="Maven: org.json:json-simple:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.avalon.framework:avalon-framework:4.2.0" level="project" />
     <orderEntry type="library" name="Maven: net.sf.barcode4j:barcode4j:2.0" level="project" />
     <orderEntry type="library" name="Maven: avalon-framework:avalon-framework-impl:4.2.0" level="project" />
-    <orderEntry type="library" name="Maven: com.itextpdf:itextpdf:5.3.4" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.geronimo.specs:geronimo-servlet_2.4_spec:1.1.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.geronimo.specs:geronimo-jsp_2.0_spec:1.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.openmrs.api:openmrs-api:1.6.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: antlr:antlr:2.7.6" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.databene:databene-benerator:0.5.5" level="project" />

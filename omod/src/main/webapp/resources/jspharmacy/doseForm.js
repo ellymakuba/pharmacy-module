@@ -58,7 +58,7 @@ $j("form#doseForm").submit(function () {
         dataString = $j("#doseForm").serialize();
         $j.ajax({
             type:"POST",
-            url:"doseProcessor.form",
+            url:"doseProcessor.form?name="+$j('#doseName').val(),
             data:dataString,
             success:function () {
                 AutoReload();

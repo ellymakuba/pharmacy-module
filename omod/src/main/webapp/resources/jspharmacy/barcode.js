@@ -55,10 +55,8 @@ function showImage(src) {
     $j("#parent_div_2").show();
 }
 function getDrugFilter() {
-    $j.getJSON(
-        "drugDetails.form?drop=drop&bar=bar",
+    $j.getJSON("drop.form?bar=bar",
         function (result) {
-
             $j("#barcodedrug").get(0).options.length = 0;
             $j("#barcodedrug").get(0).options[0] = new Option("Select",
                 "-1");

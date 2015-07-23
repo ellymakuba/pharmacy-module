@@ -679,7 +679,7 @@ public interface PharmacyDAO {
      */
     @Transactional(readOnly=true)
     public List<PharmacyEncounter> getEncountersRange(Date from, Date to,String location);
-    public List<PharmacyEncounter>  getCurrentPatientRegimen(String patientUUID);
+    public PharmacyEncounter  getCurrentPatientRegimen(String patientUUID);
     public Integer getNumberOfPatientsOnRegimen(Date startDate,Date endDate,String regimenCode);
     public String  getPatientByIdentifier(String identifier);
     /**
@@ -706,4 +706,13 @@ public interface PharmacyDAO {
     public Double getDrugTotalCashCollectedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID);
     public List<DrugExtra> getDrugExtraByPharmacyEncounter(PharmacyEncounter encounter);
     public List<PharmacyEncounter> getUnclearedPharmacyEncountersListByPersonID(Integer personID);
+    public List<PharmacyStore> getInventoryByLocation(String locationUUID);
+    public PharmacyStore getPharmacyStoreByDrugName(String locationUUID,Drug drug);
+    public List<PharmacyEncounter> getDetailedEncountersRange(Date minDate,Date maxDate,String location);
+    public List<S11> getS11WithinDateRange(PharmacyLocations location, Date startDate, Date endDate);
+    public boolean savePharmacyS11(S11 pharmacyS11);
+    public List<DrugTransactions>  getPharmacyDrugTransactionsByS11NO(String s11No,PharmacyLocations pharmacyLocation);
+    public boolean saveGeneratedInventoryQuantities(List<GeneratePharmacyInventoryQuantities> stockQuantities);
+    public GeneratePharmacyInventoryQuantities getDrugInventoryOpeningStockByDateAndLocation(Drug drug,Date startDate,Date endDate,String locationUUID);
+
 }

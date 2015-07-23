@@ -9,86 +9,70 @@ import java.util.Date;
  * @author Ampath Developers DrugTransactions
  */
 public class DrugTransactions extends BaseOpenmrsData {
-
     private Integer id;
-
     private Drug drugs;
-
     private Integer quantityIn;
-
     private double unitprice;
-
     private Integer quantityOut;
-
     private String comment;
-
     private PharmacyLocations location;
-
     private Date expireDate;
     private PharmacyCategory category;
+    private String s11;
+    private String batchNo;
 
+
+    public String getS11() {
+        return s11;
+    }
+    public void setS11(String s11) {
+        this.s11 = s11;
+    }
     /** default constructor */
     public DrugTransactions() {
     }
-
     /**
      * @return  id
      */
     public Integer getId() {
-
         return id;
     }
-
     /**
      * @param  id
      */
-
     public void setId(Integer id) {
-
         this.id = id;
 
     }
-
     public double getUnitprice() {
         return unitprice;
     }
-
     public void setUnitprice(double unitprice) {
         this.unitprice = unitprice;
     }
-
     /**
      * @return drug
      */
     public Drug getDrugs() {
-
         return drugs;
     }
-
     /**
      * @param drugs
      */
     public void setDrugs(Drug drugs) {
-
         this.drugs = drugs;
 
     }
-
     /**
      * @return comment
      */
     public String getComment() {
-
         return comment;
     }
-
-
-
     /**
      * @param comment
      */
     public void setComment(String comment) {
-
         this.comment = comment;
 
     }
@@ -96,12 +80,8 @@ public class DrugTransactions extends BaseOpenmrsData {
      * @param location
      */
     public void setLocation(PharmacyLocations location) {
-
         this.location = location;
-
     }
-
-
     /**
      * @return location
      */
@@ -181,4 +161,11 @@ public class DrugTransactions extends BaseOpenmrsData {
 
     }
 
+    public String getBatchNo() {
+        return batchNo;
+    }
+
+    public void setBatchNo(String batchNo) {
+        this.batchNo = batchNo;
+    }
 }

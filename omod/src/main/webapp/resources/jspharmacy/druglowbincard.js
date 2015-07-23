@@ -126,12 +126,9 @@ $j("#bincardform").click(function () {
 });
 
 function getData() {
-
-    $j
-        .getJSON(
-        "drugDetails.form?drop=drop",
+    $j.getJSON(
+        "drop.form",
         function (result) {
-
             $j("#bindrug").get(0).options.length = 0;
             $j("#bindrug").get(0).options[0] = new Option("Select",
                 "-1");
@@ -160,17 +157,10 @@ $j("#filterdruglow").autocomplete({
     search:function () {
         $j(this).addClass('working');
     },
-
     source:function (request, response) {
-
-        dataString = "searchDrug=" + request.term;
-
-        $j.getJSON("drugDetails.form?drop=drop&" + dataString, function (result) {
-
+        $j.getJSON("drop.form?searchDrug=" + request.term, function (result) {
             $j("#filterdruglow").removeClass('working');
-
             response($j.each(result, function (index, item) {
-
                 return {
                     label:item,
                     value:item
@@ -198,12 +188,9 @@ function getDrugFilter() {
 }
 
 function getDataLocation() {
-
-    $j
-        .getJSON(
-        "drugDetails.form?drop=location",
+    $j.getJSON(
+        "locationSelect.form",
         function (result) {
-
             $j("#location").get(0).options.length = 0;
             $j("#location").get(0).options[0] = new Option("Select",
                 "-1");

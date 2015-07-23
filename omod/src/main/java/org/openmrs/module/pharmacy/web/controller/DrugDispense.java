@@ -95,7 +95,7 @@ public class DrugDispense {
         service = Context.getService(PharmacyService.class);
         pharmacyLocationUserses = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         sizeUsers = pharmacyLocationUserses.size();
-        drugName = request.getParameter("drug");
+        drugID = request.getParameter("drug");
 
         if (sizeUsers > 1) {
             locationVal = request.getSession().getAttribute("location").toString();
@@ -121,8 +121,9 @@ public class DrugDispense {
         gregorianCalendar.set(currentDate.get(currentDate.YEAR), currentDate.get(currentDate.MONTH),
         currentDate.get(currentDate.DAY_OF_MONTH));
         json = new JSONObject();
-        drugObject = Context.getConceptService().getDrugByNameOrId(drugName);
-        DrugDispenseSettings currentSetBatch=service.getDrugDispenseSettingsByDrugIdAndLocation(drugObject.getDrugId(),location.getUuid());
+        //drugObject = Context.getConceptService().getDrugByNameOrId(drugID);
+
+        DrugDispenseSettings currentSetBatch=service.getDrugDispenseSettingsByDrugIdAndLocation(Integer.valueOf(drugID),location.getUuid());
         if(currentSetBatch !=null){
             datad2=new JSONArray();
             datad2.put(currentSetBatch.getUuid());
@@ -145,7 +146,7 @@ public class DrugDispense {
             datad2.put("None");
             json.accumulate("aaData", datad2);
         }
-        drugName = null;
+
         json.accumulate("iTotalRecords", json.getJSONArray("aaData").length());
         json.accumulate("iTotalDisplayRecords", json.getJSONArray("aaData").length());
         json.accumulate("iDisplayStart", 0);

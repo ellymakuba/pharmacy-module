@@ -221,8 +221,7 @@ $j("input[name=tbPatientID]").live("focus", function () {
             $j(this).addClass('working');
         },
         source:function (request, response) {
-            dataString = "searchPatient=" + request.term;
-            $j.getJSON("drugDetails.form?drop=patientSearch&" + dataString, function (result) {
+            $j.getJSON("patientSearch.form?patientSearch=" + request.term, function (result) {
                 $j("#drugdispense").removeClass('working');
                 response($j.each(result, function (index, item) {
                     return {
@@ -237,7 +236,7 @@ $j("input[name=tbPatientID]").live("focus", function () {
             var patient=ui.item.value;
             $j.ajax({
                 type:"GET",
-                url:"drugDetails.form?drop=patientLastName&patientToFind="+patient,
+                url:"patientLastName.form?patientToFind="+patient,
                 data:patient,
                 dataType:"json",
                 success:function (result) {

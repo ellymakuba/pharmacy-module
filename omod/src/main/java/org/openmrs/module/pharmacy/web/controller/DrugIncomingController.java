@@ -1,8 +1,13 @@
 package org.openmrs.module.pharmacy.web.controller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.JSONArray;
+//import org.json.simple.JSONArray;
+//import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.ContainerFactory;
+import org.json.simple.parser.JSONParser;
 import org.openmrs.Drug;
 import org.openmrs.Role;
 import org.openmrs.api.ConceptService;
@@ -17,54 +22,32 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.*;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+
 @Controller
 public class DrugIncomingController {
+    private ContainerFactory containerFactory;
     private static final Log log = LogFactory.getLog(DrugIncomingController.class);
-    private JSONArray data;
-    private JSONArray datad;
     public PharmacyService service;
     String drop = null;
-    private boolean found = false;
-    private String uuid;
-    private String drugstrength;
-    private String drugunit;
-    private String formulation;
+    private boolean safeToSaveDrugTransactions = false;
+    private boolean safeToSavePharmacyStoreList = false;
     private String originalbindrug;
     private String dialog = null;
     private LocationService serviceLocation;
-    private String incomingmax = null;
-    private String incomingmin = null;
-    private String incomingbatch = null;
     private String incomings11 = null;
-    private String incomingexpire = null;
-    private String supplier = null;
-    private String deliveryno;
-    private String incomingnumber;
     private String incomingdrug;
-    private String incomingquantityin;
     private String filter = null;
     private String uuidfilter = null;
     private boolean exit = false;
     private ConceptService serviceDrugs;
-    private String category;
     private UserContext userService;
-    private String requisition;
-    private String issued;
-    private String authorized;
     private boolean editPharmacy = false;
     private boolean deletePharmacy = false;
-    private String supplierout;
     private String incomingdrugg;
-    private String originalbindrugg;
-    private String uuidg;
-    private String incomingnumberap;
-    private String incomingexpirea;
     private boolean approvePharmacy;
     private String[] incomingdrugArray;
     private String[] incomingquantityinArray,unitPriceArray,buyingPricearray;
@@ -72,20 +55,22 @@ public class DrugIncomingController {
     private List<PharmacyLocationUsers> pharmacyLocationUsersByUserName;
     private int size, size1;
     private JSONObject jsonObject;
-    private JSONArray jsonArray;
     private List<Drug> allDrugs;
     private List<PharmacyStoreIncoming> pStoreIncoming;
     private List<PharmacyStoreOutgoing> pStoreOutgoing;
     private PharmacyStoreIncoming pharmacyStoreIncoming;
     private DrugTransactions drugTransactions;
-    private PharmacyStore pharmacyStore;
     private String incomingexpirea2;
     private String[] dateArray,batchArray;
     private double unitprice;
     private Boolean batchNoExists;
-    private Boolean inventoryExists=false;
+    private Boolean drugExistsInInventory=false;
     private String[] stockTakeFormDrugsArray,stockTakeFormDrugUUIDsArray;
     private String[] stockTakeFormNewQuantitiesArray;
+    private String s11;
+    private Drug drugObject;
+    private org.json.JSONArray jsonArray,datad2;
+    private PharmacyStore pharmacyStore;
 
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/drugIncoming")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) {
@@ -98,93 +83,42 @@ public class DrugIncomingController {
         service = Context.getService(PharmacyService.class);
         String locationVal = null;
         pharmacyLocationUsersByUserName = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
-        size = pharmacyLocationUsersByUserName.size();
 
-        if (size > 1) {
-            locationVal = request.getSession().getAttribute("location").toString();
-
-        } else if (size == 1) {
-            locationVal = pharmacyLocationUsersByUserName.get(0).getLocation();
-
-
-        }
-
-
+        locationVal = request.getSession().getAttribute("location").toString();
         List<PharmacyStoreIncoming> List = service.getPharmacyStoreIncoming();
         int size = List.size();
         jsonObject = new JSONObject();
-        jsonArray = new JSONArray();
         response.setContentType("application/jsonObject");
-
 
         if (filter.length() > 2) {
             originalbindrug = filter;
-
             serviceLocation = Context.getLocationService();
             serviceDrugs = Context.getConceptService();
-
             allDrugs = serviceDrugs.getAllDrugs();
             size1 = allDrugs.size();
             for (int i = 0; i < size1; i++) {
-
                 uuidfilter = getString(allDrugs, i, originalbindrug);
-
                 if (uuidfilter != null)
                     break;
-
             }
         }
         try {
             if (dialog != null) {
-
                 for (int i = 0; i < size; i++) {
-
                     jsonObject.accumulate("aaData", getArrayDialog(List, i));
                 }
 
             } else {
                 for (int i = 0; i < size; i++) {
-
                     if (List.get(i).getLocation().getName().equalsIgnoreCase(locationVal)) {
-
-                        JSONArray val = getArray(List, i, locationVal);
+                        org.json.JSONArray val = getArray(List, i, locationVal);
                         if (val != null)
                             jsonObject.accumulate("aaData", val);
                     }
                     if (exit)
                         break;
-                    data = new JSONArray();
+                    org.json.JSONArray  data = new org.json.JSONArray();
                 }
-
-                if (!jsonObject.has("aaData")) {
-
-                    data = new JSONArray();
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-
-                    data.put("No entry");
-                    data.put("No entry");
-
-                    data.put("No entry");
-
-                    data.put("No entry");
-
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-                    data.put("No entry");
-                    jsonObject.accumulate("aaData", data);
-                }
-
             }
             exit = false;
 
@@ -202,380 +136,240 @@ public class DrugIncomingController {
         }
 
     }
-
-    @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/drugIncoming")
-    public synchronized void pageLoadd(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/addOrUpdateInventoryBatches")
+    public synchronized void addNewBatchForDrug(HttpServletRequest request, HttpServletResponse response) throws org.json.simple.parser.ParseException, JSONException {
         String locationVal = null;
-        String incomingedit;
-
-
-        incomingdrug = request.getParameter("incomingdrug");
-        incomingdrugg = request.getParameter("incomingdrugg");
-
-
-        incomingdrugArray = request.getParameterValues("incomingdrug");
-
-
-        categoryArray = request.getParameterValues("incomingcategory");
-        unitPriceArray=request.getParameterValues("unitPrice");
-        buyingPricearray=request.getParameterValues("buyingPrice");
-        incomingquantityinArray = request.getParameterValues("incomingquantityin");
-        dateArray = request.getParameterValues("date");
-        batchArray = request.getParameterValues("batchNo");
-
-
-        incomingquantityin = request.getParameter("incomingquantityin");
-
-        incomingmax = request.getParameter("incomingmax");
-        incomingmin = request.getParameter("incomingmin");
-
-        incomingnumber = request.getParameter("incomingnumber");
-
-        incomingnumberap = request.getParameter("incomingnumberap");
-        incomingbatch = request.getParameter("incomingbatch");
-        incomings11 = request.getParameter("incomings11");
-
-        incomingexpire = request.getParameter("incomingexpire");
-        incomingexpirea = request.getParameter("incomingexpirea");
-        incomingexpirea2 = request.getParameter("fromLocation");
-        userService = Context.getUserContext();
-        String incomingreason = request.getParameter("incomingreason");
-        String incominguuidvoid = request.getParameter("incominguuidvoid");
-        String incominguuidextra = request.getParameter("incominguuidextra");
-
-
-        requisition = request.getParameter("requisition");
-        issued = request.getParameter("issued");
-        authorized = request.getParameter("authorized");
-        //unitprice = Double.parseDouble(request.getParameter("unitprice"));
-
-        String destination = request.getParameter("location");
-        String location = request.getParameter("location");
-        supplier = request.getParameter("supplier");
-        supplierout = request.getParameter("supplierout");
-
-        category = request.getParameter("incomingcategory");
-        String transactions = request.getParameter("transactions");
+        String jsonObject = request.getParameter("jsonObject");
         service = Context.getService(PharmacyService.class);
         pharmacyLocationUsersByUserName = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
-        size = pharmacyLocationUsersByUserName.size();
-
-
-        if (size > 1) {
-            locationVal = request.getSession().getAttribute("location").toString();
-
-        } else if (size == 1) {
-            locationVal = pharmacyLocationUsersByUserName.get(0).getLocation();
-
-
-        }
+        locationVal = request.getSession().getAttribute("location").toString();
         serviceDrugs = Context.getConceptService();
-
-        deliveryno = request.getParameter("delivery");
-
-        incomingedit = request.getParameter("incomingedit");
-        String incominguuid = request.getParameter("incominguuid");
-        String incomingcom = request.getParameter("incomingcom");
         originalbindrug = incomingdrug;
-        originalbindrugg = incomingdrugg;
         serviceLocation = Context.getLocationService();
-
-        if (incomingdrugArray != null && incominguuid == null) {
-            incomingedit = "false";
-        }
-        if (incomingedit != null) {
-            if (incomingedit.equalsIgnoreCase("false")) {
-                if(transactions.equalsIgnoreCase("New stock")){
-                    pharmacyStoreIncoming = new PharmacyStoreIncoming();
-                    serviceLocation = Context.getLocationService();
-                    List<DrugTransactions> listDrugTransactions = new ArrayList<DrugTransactions>();
-                    List<PharmacyStore> listPharmacyStore = new ArrayList<PharmacyStore>();
-                    Date date = null;
-                    try {
-                        if (incomingexpirea2 != null) {
-                            date = new SimpleDateFormat("MM/dd/yyyy").parse(incomingexpirea2);
-                        }
-                    } catch (ParseException e) {
-
-                        log.error("Error generated", e);
+        List<DrugTransactions> listDrugTransactions = new ArrayList<DrugTransactions>();
+        List<PharmacyStore> listPharmacyStore = new ArrayList<PharmacyStore>();
+        List<PharmacyStore> pharmacyStoreListToSave = new ArrayList<PharmacyStore>();
+        List<DrugTransactions> drugTransactionListToSave = new ArrayList<DrugTransactions>();
+        JSONParser parser=new JSONParser();
+        Object obj=null;
+        PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
+        List<PharmacyStore> pharmacyStoreListToCompare=service.getPharmacyStoreByLocation(pharmacyLocations.getUuid());
+        obj = parser.parse(jsonObject);
+        org.json.simple.JSONArray inventoryInstanceArray = (org.json.simple.JSONArray)obj;
+            int inventoryInstanceArraySize=inventoryInstanceArray.size();
+            for(int i=0; i<inventoryInstanceArraySize; i++){
+                drugTransactions = new DrugTransactions();
+                pharmacyStore=new PharmacyStore();
+                org.json.simple.JSONArray rowInstance=(org.json.simple.JSONArray)inventoryInstanceArray.get(i);
+                for(int j=0; j<rowInstance.size(); j++){
+                    String myValues[]= exractKeyAndValue(rowInstance.get(j).toString());
+                    String key = myValues[0];
+                    String value=myValues[1];
+                    if(key.equalsIgnoreCase("incomingdrug")){
+                        Drug drug = Context.getConceptService().getDrugByNameOrId(value);
+                        drugTransactions.setDrugs(drug);
+                        pharmacyStore.setDrugs(drug);
                     }
-
-                    for (int y = 0; y < incomingdrugArray.length; y++) {
-                        drugTransactions = new DrugTransactions();
-                        int drugValue=serviceDrugs.getDrug(incomingdrugArray[y]).getDrugId();
-                        /*if(drugValue==156){
-                            drugValue=21;
-                        }
-                        if(drugValue==18){
-                            drugValue=154;
-                        }
-                        if(drugValue==153){
-                            drugValue=26;
-                        }
-                        if(drugValue==155){
-                            drugValue=39;
-                        }
-                        if(drugValue==129){
-                            drugValue=27;
-                        }  */
-                        drugTransactions.setDrugs(serviceDrugs.getDrug(drugValue));
-                        drugTransactions.setQuantityOut(0);
-                        drugTransactions.setQuantityIn(Integer.parseInt(incomingquantityinArray[y]));
+                    if(key.equalsIgnoreCase("incomingquantityin")){
+                        drugTransactions.setQuantityIn(Integer.valueOf(value));
+                        pharmacyStore.setQuantity(Integer.parseInt(value));
+                    }
+                    if(key.equalsIgnoreCase("incomings11")){
+                         s11=value;
+                    }
+                    if(key.equalsIgnoreCase("date")){
+                    try{
+                        Date date = new SimpleDateFormat("MM/dd/yyyy").parse(value);
                         drugTransactions.setexpireDate(date);
-                        drugTransactions.setCategory(service.getPharmacyCategoryByName(categoryArray[y]));
-                        drugTransactions.setComment("New entry");
-                        // drugTransactions.setUnitprice(unitprice);
-                        ;
-                        drugTransactions.setLocation(service.getPharmacyLocationsByName(locationVal));
-                        listDrugTransactions.add(drugTransactions);
-                        pharmacyStore = new PharmacyStore();
-                        pharmacyStore.setDrugs(serviceDrugs.getDrug(drugValue));
-                        pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationVal).getUuid());
-                        pharmacyStore.setQuantity(Integer.parseInt(incomingquantityinArray[y]));
-                        pharmacyStore.setQuantityIn(0);
-                        pharmacyStore.setQuantityOut(0);
-                        pharmacyStore.setChangeReason(null);
-                        pharmacyStore.setUnitPrice(Double.valueOf(unitPriceArray[y]));
-                        pharmacyStore.setBuyingPrice(Double.valueOf(buyingPricearray[y]));
-                        if(batchArray[y]==null)
-                            pharmacyStore.setBatchNo(0);
-                        else {
-                           pharmacyStore.setBatchNo(Integer.parseInt(batchArray[y]));
+                        pharmacyStore.setExpireDate(date);
                         }
-                        PharmacyLocations pharmacyLocations= service.getPharmacyLocationsByName(locationVal);
-                        List<PharmacyStore> pharmacyStore1 = service.getPharmacyInventory();
-                        int inventorySize=pharmacyStore1.size();
-                        inventoryExists=false;
-                        for (int j=0; j<inventorySize; j++){
-                            if(pharmacyStore1.get(j).getDrugs() != null) {
-                            if (pharmacyStore1.get(j).getDrugs().getName().equalsIgnoreCase(incomingdrugArray[y]) && pharmacyLocations.getUuid().equalsIgnoreCase(pharmacyStore1.get(j).getLocation()) && pharmacyLocations.getBatchSetting()==0) {
-                                inventoryExists=true;
-                                pharmacyStore1.get(j).setQuantity(pharmacyStore1.get(j).getQuantity()+Integer.parseInt(incomingquantityinArray[y]));
-                                service.savePharmacyInventory(pharmacyStore1.get(j));
+                        catch (ParseException e) {
+                            log.error("Error generated", e);
+                        }
+                    }
+                    if(key.equalsIgnoreCase("batchNo")){
+                        pharmacyStore.setBatchNo(value);
+                        drugTransactions.setBatchNo(value);
+                    }
+                    if(key.equalsIgnoreCase("buyingPrice")){
+                        pharmacyStore.setBuyingPrice(Double.valueOf(value));
+                    }
+                    if(key.equalsIgnoreCase("unitPrice")){
+                        pharmacyStore.setUnitPrice(Double.valueOf(value));
+                    }
 
-                            }
-                            }
-
-                        }
-                        //log.info("ooone is++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + inventoryExists);
-                        if(inventoryExists==true) {
-                            //code to do when the drug already exist in the database
-                        }
-                        //log.info("twoo batch is++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + inventoryExists);
-                        else{
-                            pharmacyStore.setDeliveryNo(0);
-                            pharmacyStore.setExpireDate(createDate(dateArray[y]));
-                            pharmacyStore.setMaxLevel(1000);
-                            pharmacyStore.setMinLevel(10);
-                            pharmacyStore.setS11(Integer.parseInt(incomings11));
-                            pharmacyStore.setSupplier(null);
-                            pharmacyStore.setCategory(service.getPharmacyCategoryByName(categoryArray[y]));
-                            pharmacyStore.setTransaction(service.getPharmacyTransactionTypesByName(transactions));
-                            pharmacyStore.setIncoming(null);
-                            listPharmacyStore.add(pharmacyStore);
-                            service.savePharmacyInventory(listPharmacyStore);
-                        }
-                    }
-                    service.saveDrugTransactions(listDrugTransactions);
                 }
-                else{
-                    if (!destination.equalsIgnoreCase(locationVal)) {
-                        pStoreIncoming = new ArrayList<PharmacyStoreIncoming>();
-                        pStoreOutgoing = new ArrayList<PharmacyStoreOutgoing>();
-                        pharmacyStoreIncoming = new PharmacyStoreIncoming();
-                        serviceLocation = Context.getLocationService();
-                        for (int y = 0; y < incomingdrugArray.length; y++) {
-                            PharmacyStoreIncoming phStoreIncoming = new PharmacyStoreIncoming();
-                            PharmacyStoreOutgoing pharmacyStoreOutgoing = new PharmacyStoreOutgoing();
-                            phStoreIncoming.setDrugs(serviceDrugs.getDrug(incomingdrugArray[y]));
-                            phStoreIncoming.setQuantityIn(Integer.parseInt(incomingquantityinArray[y]));
-                            phStoreIncoming.setMaxLevel(0);
-                            phStoreIncoming.setMinLevel(0);
-                            phStoreIncoming.setBatchNo(0);
-                            phStoreIncoming.setExpireDate(null);
-                            phStoreIncoming.setSupplier(null);
-                            phStoreIncoming.setS11(Integer.parseInt(incomings11));
-                            phStoreIncoming.setDestination(service.getPharmacyLocationsByName(destination));
-                            phStoreIncoming.setLocation(service.getPharmacyLocationsByName(locationVal));
-                            phStoreIncoming.setChangeReason(null);
-                            phStoreIncoming.setCategory(service.getPharmacyCategoryByName(categoryArray[y]));
-                            phStoreIncoming.setTransaction(service.getPharmacyTransactionTypesByName(transactions));
-                            phStoreIncoming.setStatus("Sent");
-                            phStoreIncoming.setRequested(Context.getUserService().getUserByUsername(Context.getAuthenticatedUser().getUsername()));
-                            pStoreIncoming.add(phStoreIncoming);
-                            pharmacyStoreOutgoing.setDrugs(serviceDrugs.getDrug(incomingdrugArray[y]));
-                            pharmacyStoreOutgoing.setQuantityIn(Integer.parseInt(incomingquantityinArray[y]));
-                            pharmacyStoreOutgoing.setMaxLevel(1000);
-                            pharmacyStoreOutgoing.setMinLevel(10);
-                            pharmacyStoreOutgoing.setBatchNo(0);
-                            pharmacyStoreOutgoing.setS11(Integer.parseInt(incomings11));
-                            pharmacyStoreOutgoing.setExpireDate(null);
-                            pharmacyStoreOutgoing.setDestination(service.getPharmacyLocationsByName(destination));
-                            pharmacyStoreOutgoing.setLocation(service.getPharmacyLocationsByName(locationVal));
-                            pharmacyStoreOutgoing.setChangeReason(null);
-                            pharmacyStoreOutgoing.setSupplier(null);
-                            pharmacyStoreOutgoing.setCategory(service.getPharmacyCategoryByName(categoryArray[y]));
-                            pharmacyStoreOutgoing.setTransaction(service.getPharmacyTransactionTypesByName(transactions));
-                            pharmacyStoreOutgoing.setStatus("New");
-                            pharmacyStoreOutgoing.setIncoming(phStoreIncoming);
-                            pharmacyStoreOutgoing.setRequested(Context.getUserService().getUserByUsername(Context.getAuthenticatedUser().getUsername()));
-                            pStoreOutgoing.add(pharmacyStoreOutgoing);
-                        }
-                        service.savePharmacyStoreIncoming(pStoreIncoming);
-                        service.savePharmacyStoreOutgoing(pStoreOutgoing);
+                drugTransactions.setLocation(service.getPharmacyLocationsByName(locationVal));
+                drugTransactions.setComment("New entry");
+                pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationVal).getUuid());
+                pharmacyStore.setMaxLevel(1000);
+                pharmacyStore.setMinLevel(10);
+                listDrugTransactions.add(drugTransactions);
+                listPharmacyStore.add(pharmacyStore);
+            }
+         for(PharmacyStore pharmacyStoreInstance: listPharmacyStore){
+             drugExistsInInventory=false;
+             if(pharmacyStoreInstance.getDrugs() !=null){
+                 if(pharmacyStoreListToCompare.size() > 0){
+                for(PharmacyStore pharmacyStoreListItem: pharmacyStoreListToCompare){
+                if(pharmacyStoreInstance.getDrugs().getDrugId() == pharmacyStoreListItem.getDrugs().getDrugId()){
+                    drugExistsInInventory=true;
+                    Integer totalQuantity= pharmacyStoreInstance.getQuantity()+ pharmacyStoreListItem.getQuantity();
+                    pharmacyStoreListItem.setQuantity(totalQuantity);
+                    if((pharmacyStoreInstance.getUnitPrice()) !=null){
+                    pharmacyStoreListItem.setUnitPrice(pharmacyStoreInstance.getUnitPrice());
                     }
-                }
-            } else if (incomingedit.equalsIgnoreCase("true")) {
-                if (!destination.equalsIgnoreCase(locationVal)) {
-                    pharmacyStoreIncoming = new PharmacyStoreIncoming();
-                    pharmacyStoreIncoming = service.getPharmacyStoreIncomingByUuid(incominguuid);
-                    if (userService.getAuthenticatedUser().getUserId().equals(pharmacyStoreIncoming.getCreator().getUserId())) {
-                        pharmacyStoreIncoming.setDrugs(serviceDrugs.getDrug(incomingdrug));
-                        pharmacyStoreIncoming.setQuantityIn(Integer.parseInt(incomingquantityin));
-                        serviceLocation = Context.getLocationService();
-                        pharmacyStoreIncoming.setDestination(service.getPharmacyLocationsByName(location));
-                        pharmacyStoreIncoming.setLocation(service.getPharmacyLocationsByName(locationVal));
-                        pharmacyStoreIncoming.setChangeReason(null);
-                        pharmacyStoreIncoming.setS11(Integer.parseInt(incomings11));
-                        if (category == null) {
-                            pharmacyStoreIncoming.setCategory(null);
-                        } else
-                         pharmacyStoreIncoming.setCategory(service.getPharmacyCategoryByName(category));
-                        pharmacyStoreIncoming.setTransaction(service.getPharmacyTransactionTypesByName(transactions));
-                        service.savePharmacyStoreIncoming(pharmacyStoreIncoming);
+                    if((pharmacyStoreInstance.getBuyingPrice()) !=null){
+                        pharmacyStoreListItem.setBuyingPrice(pharmacyStoreInstance.getBuyingPrice());
                     }
+                    if(pharmacyStoreInstance.getBatchNo() !=null){
+                    pharmacyStoreListItem.setBatchNo(pharmacyStoreInstance.getBatchNo());
+                    }
+                    pharmacyStoreListItem.setExpireDate(pharmacyStoreInstance.getExpireDate());
+                    pharmacyStoreListToSave.add(pharmacyStoreListItem);
+                    break;
                 }
             }
-        } else if (incominguuidvoid != null) {
-            pharmacyStoreIncoming = new PharmacyStoreIncoming();
-            pharmacyStoreIncoming = service.getPharmacyStoreIncomingByUuid(incominguuidvoid);
-            pharmacyStoreIncoming.setVoided(true);
-            pharmacyStoreIncoming.setVoidReason(incomingreason);
-            service.savePharmacyStoreIncoming(pharmacyStoreIncoming);
-
-        } else if (incominguuidextra != null) {
-            if (supplierout != null) {
-                //capture supplier related transactions
-                if (service.getPharmacyLocationsByName(destination) != service.getPharmacyLocationsByName(service
-                        .getPharmacyLocation())) {
-                    incomingnumber = incomingnumberap;
-                    Date date = null;
-                    try {
-                        if (incomingexpirea != null) {
-                            date = new SimpleDateFormat("MM/dd/yyyy").parse(incomingexpirea);
-                        }
-                    } catch (ParseException e) {
-                        log.error("Error generated", e);
-                    }
-                    PharmacyStoreApproved pharmacyStoreApprove = new PharmacyStoreApproved();
-                    pharmacyStoreApprove = service.getPharmacyStoreApprovedByUuid(incominguuidextra);
-                    pharmacyStoreApprove.setApproved(true);
-                    PharmacyStoreIncoming pharmacyStoreIncoming = new PharmacyStoreIncoming();
-                    pharmacyStoreIncoming = pharmacyStoreApprove.getIncoming();
-                    if (Integer.parseInt(incomingnumber) == pharmacyStoreIncoming.getQuantityIn()) {
-                        pharmacyStoreIncoming.setApproved(true);
-                        pharmacyStoreIncoming.setQuantityIn(0);
-                    } else {
-                        if (Integer.parseInt(incomingnumber) < pharmacyStoreIncoming.getQuantityIn()) {
-                            pharmacyStoreIncoming.setQuantityIn((pharmacyStoreIncoming.getQuantityIn() - Integer
-                                    .parseInt(incomingnumber)));
-                        }
-                    }
-                    pharmacyStore = new PharmacyStore();
-                    pharmacyStore.setDrugs(serviceDrugs.getDrugByUuid(uuid));
-                    drugTransactions = new DrugTransactions();
-                    drugTransactions.setDrugs(serviceDrugs.getDrugByUuid(uuid));
-                    drugTransactions.setQuantityOut(0);
-                    drugTransactions.setQuantityIn(Integer.parseInt(incomingnumber));
-                    drugTransactions.setexpireDate(date);
-                    drugTransactions.setCategory(pharmacyStoreApprove.getCategory());
-                    drugTransactions.setComment("New entry");
-                    drugTransactions.setLocation(service.getPharmacyLocationsByName(locationVal));
-                    service.saveDrugTransactions(drugTransactions);
-                    pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationVal).getUuid());
-                    pharmacyStore.setQuantity(Integer.parseInt(incomingnumber));
-                    pharmacyStore.setQuantityIn(0);
-                    pharmacyStore.setQuantityOut(0);
-                    pharmacyStore.setChangeReason(null);
-                    pharmacyStore.setBatchNo(Integer.parseInt(incomingbatch));
-                    pharmacyStore.setDeliveryNo(Integer.parseInt(deliveryno));
-                    pharmacyStore.setExpireDate(date);
-                    pharmacyStore.setMaxLevel(1000);
-                    pharmacyStore.setMinLevel(10);
-                    pharmacyStore.setS11(Integer.parseInt(incomings11));
-                    pharmacyStore.setSupplier(service.getPharmacySupplierByName(supplier));
-                    pharmacyStore.setCategory(pharmacyStoreApprove.getCategory());
-                    pharmacyStore.setTransaction(pharmacyStoreApprove.getTransaction());
-                    pharmacyStore.setIncoming(service.getPharmacyStoreIncomingByUuid(incominguuidextra));
-                    service.savePharmacyInventory(pharmacyStore);
-                    service.savePharmacyStoreApproved(pharmacyStoreApprove);
-                    service.savePharmacyStoreIncoming(pharmacyStoreIncoming);
+                if(drugExistsInInventory==false){
+                pharmacyStore=new PharmacyStore();
+                pharmacyStore.setDrugs(pharmacyStoreInstance.getDrugs());
+                pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationVal).getUuid());
+                pharmacyStore.setQuantity(pharmacyStoreInstance.getQuantity());
+                pharmacyStore.setQuantityIn(0);
+                pharmacyStore.setQuantityOut(0);
+                pharmacyStore.setChangeReason(null);
+                pharmacyStore.setMaxLevel(1000);
+                pharmacyStore.setMinLevel(10);
+                pharmacyStore.setS11(Integer.valueOf(s11));
+                pharmacyStore.setUnitPrice(pharmacyStoreInstance.getUnitPrice());
+                pharmacyStore.setExpireDate(pharmacyStoreInstance.getExpireDate());
+                pharmacyStore.setBuyingPrice(pharmacyStoreInstance.getBuyingPrice());
+                if(pharmacyStoreInstance.getBatchNo()==null)
+                    pharmacyStore.setBatchNo("0");
+                else {
+                    pharmacyStore.setBatchNo(pharmacyStoreInstance.getBatchNo());
                 }
-            } else if (supplier != null) {
-                pharmacyStoreIncoming = new PharmacyStoreIncoming();
-                pharmacyStoreIncoming = service.getPharmacyStoreIncomingByUuid(incominguuidextra);
-                if (pharmacyStoreIncoming.getLocation().getName().equalsIgnoreCase(locationVal)) {
-                    Date date = null;
-                    try {
-                        if (incomingexpire != null) {
-                            date = new SimpleDateFormat("MM/dd/yyyy").parse(incomingexpire);
-                        }
-                    } catch (ParseException e) {
-                        // TODO Auto-generated catch block
-                        log.error("Error generated", e);
-                    }
-                    if (Integer.parseInt(incomingnumber) == pharmacyStoreIncoming.getQuantityIn()) {
-                        pharmacyStoreIncoming.setApproved(true);
-                        pharmacyStoreIncoming.setQuantityIn(0);
-                    } else {
-                        if (Integer.parseInt(incomingnumber) < pharmacyStoreIncoming.getQuantityIn()) {
-                            pharmacyStoreIncoming.setQuantityIn((pharmacyStoreIncoming.getQuantityIn() - Integer.parseInt(incomingnumber)));
-                        }
-                    }
-                    pharmacyStoreIncoming.setBatchNo(Integer.parseInt(incomingbatch));
-                    pharmacyStoreIncoming.setDeliveryNo(Integer.parseInt(deliveryno));
-                    pharmacyStoreIncoming.setExpireDate(date);
-                    pharmacyStoreIncoming.setMaxLevel(100);
-                    pharmacyStoreIncoming.setMinLevel(10);
-                    pharmacyStoreIncoming.setSupplier(service.getPharmacySupplierByName(supplierout));
-                    pharmacyStore = new PharmacyStore();
-                    pharmacyStore.setDrugs(pharmacyStoreIncoming.getDrugs());
-                    DrugTransactions drugTransactions = new DrugTransactions();
-                    drugTransactions.setDrugs(pharmacyStoreIncoming.getDrugs());
-                    drugTransactions.setQuantityOut(0);
-                    drugTransactions.setQuantityIn(Integer.parseInt(incomingnumber));
-                    drugTransactions.setexpireDate(date);
-                    drugTransactions.setCategory(pharmacyStoreIncoming.getCategory());
-                    drugTransactions.setComment("New entry");
-                    drugTransactions.setLocation(service.getPharmacyLocationsByName(locationVal));
-                    service.saveDrugTransactions(drugTransactions);
-                    pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationVal).getUuid());
-                    pharmacyStore.setQuantity(Integer.parseInt(incomingnumber));
-                    pharmacyStore.setQuantityIn(0);
-                    pharmacyStore.setQuantityOut(0);
-                    pharmacyStore.setChangeReason(null);
-                    pharmacyStore.setBatchNo(Integer.parseInt(incomingbatch));
-                    pharmacyStore.setDeliveryNo(Integer.parseInt(deliveryno));
-                    pharmacyStore.setExpireDate(date);
-                    pharmacyStore.setMaxLevel(1000);
-                    pharmacyStore.setMinLevel(10);
-                    pharmacyStore.setS11(pharmacyStoreIncoming.getS11());
-                    pharmacyStore.setSupplier(service.getPharmacySupplierByName(supplier));                    //
-                    pharmacyStore.setCategory(pharmacyStoreIncoming.getCategory());
-                    pharmacyStore.setTransaction(pharmacyStoreIncoming.getTransaction());
-                    pharmacyStore.setIncoming(service.getPharmacyStoreIncomingByUuid(incominguuidextra));
-                    service.savePharmacyInventory(pharmacyStore);
-                    service.savePharmacyStoreIncoming(pharmacyStoreIncoming);
+                    pharmacyStoreListToSave.add(pharmacyStore);
                 }
             }
+            else{
+                pharmacyStore=new PharmacyStore();
+                pharmacyStore.setDrugs(pharmacyStoreInstance.getDrugs());
+                pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationVal).getUuid());
+                pharmacyStore.setQuantity(pharmacyStoreInstance.getQuantity());
+                pharmacyStore.setQuantityIn(0);
+                pharmacyStore.setQuantityOut(0);
+                pharmacyStore.setChangeReason(null);
+                pharmacyStore.setMaxLevel(1000);
+                pharmacyStore.setMinLevel(10);
+                pharmacyStore.setS11(Integer.valueOf(s11));
+                pharmacyStore.setUnitPrice(pharmacyStoreInstance.getUnitPrice());
+                pharmacyStore.setBuyingPrice(pharmacyStoreInstance.getBuyingPrice());
+                pharmacyStore.setExpireDate(pharmacyStoreInstance.getExpireDate());
+                if(pharmacyStoreInstance.getBatchNo()==null)
+                    pharmacyStore.setBatchNo("0");
+                else {
+                    pharmacyStore.setBatchNo(pharmacyStoreInstance.getBatchNo());
+                }
+                    pharmacyStoreListToSave.add(pharmacyStore);
+            }
+          }
+         }
+        for(DrugTransactions drugTransactionInstance: listDrugTransactions){
+            if(drugTransactionInstance.getDrugs() !=null){
+            drugTransactions = new DrugTransactions();
+            drugTransactions.setDrugs(drugTransactionInstance.getDrugs());
+            drugTransactions.setQuantityIn(drugTransactionInstance.getQuantityIn());
+            drugTransactions.setexpireDate(drugTransactionInstance.getExpireDate());
+            drugTransactions.setLocation(drugTransactionInstance.getLocation());
+            drugTransactions.setComment(drugTransactionInstance.getComment());
+            drugTransactions.setS11(s11);
+            drugTransactions.setBatchNo(drugTransactionInstance.getBatchNo());
+            drugTransactionListToSave.add(drugTransactions);
+            }
+        }
+        S11 pharmacyS11=new S11();
+        pharmacyS11.setLocation(service.getPharmacyLocationsByName(locationVal));
+        pharmacyS11.setS11No(s11);
+
+        service.saveDrugTransactions(drugTransactionListToSave);
+        service.savePharmacyInventory(pharmacyStoreListToSave);
+        service.savePharmacyS11(pharmacyS11);
+
+    }
+    @RequestMapping(method = RequestMethod.GET,value = "module/pharmacy/getBuyingAndSellingPriceOfSelectedDrug")
+    public void getBuyingAndSellingPriceOfSelectedDrug(HttpServletRequest request,HttpServletResponse response) throws JSONException {
+        String jsonResult = request.getParameter("drugName");
+        jsonObject = new JSONObject();
+        jsonArray = new org.json.JSONArray();
+
+        service = Context.getService(PharmacyService.class);
+        String locationVal=null;
+        locationVal = request.getSession().getAttribute("location").toString();
+        PharmacyLocations pharmacyLocation=service.getPharmacyLocationsByName(locationVal);
+        String extractedDrugName="";
+        try {
+            jsonObject=new JSONObject(jsonResult);
+            extractedDrugName=jsonObject.getString("drugName");
+            drugObject = Context.getConceptService().getDrugByNameOrId(extractedDrugName);
+            pharmacyStore=service.getPharmacyStoreByDrugName(pharmacyLocation.getUuid(),drugObject);
+
+            if(pharmacyStore !=null){
+            jsonArray.put("" + pharmacyStore.getBuyingPrice());
+            jsonArray.put("" + pharmacyStore.getUnitPrice());
+            jsonArray.put("" + pharmacyStore.getBatchNo());
+            jsonArray.put("" + pharmacyStore.getExpireDate());
+            jsonArray.put("" + pharmacyStore.getQuantity());
+            response.getWriter().print(jsonArray);
+             }
+            else{
+                jsonArray.put("");
+                jsonArray.put("");
+                response.getWriter().print(jsonArray);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
-    public synchronized JSONArray getArray(List<PharmacyStoreIncoming> pharmacyStore, int size, String location) {
+
+    @RequestMapping(method = RequestMethod.GET,value="module/pharmacy/getDrugTransactionsByS11")
+    public void getDrugTransactionsByS11(HttpServletRequest request,HttpServletResponse response) throws JSONException, IOException {
+        service = Context.getService(PharmacyService.class);
+        String s11=request.getParameter("s11");
+        String locationName= request.getSession().getAttribute("location").toString();
+
+
+
+        PharmacyLocations location=service.getPharmacyLocationsByName(locationName);
+        List<DrugTransactions> drugTransactionsList=service.getPharmacyDrugTransactionsByS11NO(s11,location);
+        jsonObject=new JSONObject();
+        for(DrugTransactions drugTransactionInstance: drugTransactionsList){
+            jsonArray=new org.json.JSONArray();
+            jsonArray.put(""+drugTransactionInstance.getDrugs().getName());
+            jsonArray.put(""+drugTransactionInstance.getQuantityIn());
+            jsonArray.put(""+drugTransactionInstance.getBatchNo());
+            jsonArray.put(""+drugTransactionInstance.getDateCreated());
+            jsonArray.put(""+drugTransactionInstance.getCreator().getGivenName());
+            try {
+                jsonObject.accumulate("aaData",jsonArray);
+            } catch (JSONException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+        jsonObject.accumulate("iTotalRecords", jsonObject.getJSONArray("aaData").length());
+        jsonObject.accumulate("iTotalDisplayRecords", jsonObject.getJSONArray("aaData").length());
+        jsonObject.accumulate("iDisplayStart", 0);
+        jsonObject.accumulate("iDisplayLength", 10);
+        response.getWriter().print(jsonObject);
+
+    }
+
+    public synchronized org.json.JSONArray getArray(List<PharmacyStoreIncoming> pharmacyStore, int size, String location) {
         if (filter.length() > 2) {
             if ((uuidfilter.equalsIgnoreCase(pharmacyStore.get(size).getDrugs().getUuid()))
                     && (!pharmacyStore.get(size).getApproved())) {
                 if (pharmacyStore.get(size).getLocation().getName().equalsIgnoreCase(location)) {
-                    data = new JSONArray();
+                    org.json.JSONArray data = new org.json.JSONArray();
                     Collection<Role> xvc = userService.getAuthenticatedUser().getAllRoles();
                     for (Role rl : xvc) {
                         if ((rl.getRole().equals("Pharmacy Administrator")) || (rl.getRole().equals("Provider"))
@@ -639,7 +433,7 @@ public class DrugIncomingController {
         } else {
             if ((pharmacyStore.get(size).getLocation().getName().equalsIgnoreCase(location))
                     && (!pharmacyStore.get(size).getApproved())) {
-                data = new JSONArray();
+                org.json.JSONArray data = new org.json.JSONArray();
                 Collection<Role> xvc = userService.getAuthenticatedUser().getAllRoles();
                 for (Role rl : xvc) {
                     if ((rl.getRole().equals("Pharmacy Administrator")) || (rl.getRole().equals("Provider"))
@@ -700,8 +494,8 @@ public class DrugIncomingController {
         }
         return null;
     }
-    public synchronized JSONArray getArrayDialog(List<PharmacyStoreIncoming> pharmacyStore, int size) {
-        datad = new JSONArray();
+    public synchronized org.json.JSONArray getArrayDialog(List<PharmacyStoreIncoming> pharmacyStore, int size) {
+        org.json.JSONArray datad = new org.json.JSONArray();
         datad.put(pharmacyStore.get(size).getDrugs().getName());
         datad.put(pharmacyStore.get(size).getQuantityIn());
         datad.put("");
@@ -739,5 +533,23 @@ public class DrugIncomingController {
             log.error("Error generated", e);
         }
         return date;
+    }
+    public synchronized String[] exractKeyAndValue(String jsonText) {
+        String value = "";
+        String key="";
+        JSONParser parser = new JSONParser();
+        try {
+            Map json = (Map) parser.parse(jsonText,containerFactory);
+            Iterator iter = json.entrySet().iterator();
+            while (iter.hasNext()) {
+                Map.Entry entry = (Map.Entry) iter.next();
+                key+=entry.getKey();
+                value+=entry.getValue();
+            }
+        } catch (Exception pe) {
+            log.info(pe);
+        }
+        String myvals[]={key,value};
+        return myvals;
     }
 }

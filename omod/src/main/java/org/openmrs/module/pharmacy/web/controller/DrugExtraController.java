@@ -25,30 +25,20 @@ import java.util.List;
 
 @Controller
 public class DrugExtraController {
-
     private static final Log log = LogFactory.getLog(DrugExtraController.class);
-
     private JSONArray drugStrengthA;
-
     public PharmacyService service;
-
     private boolean found = false;
-
-    private JSONArray supplierNames;
-
+    private JSONArray drugExtraProperties;
     private UserContext userService;
-
     private boolean editPharmacy = false;
-
     private boolean deletePharmacy = false;
-
     private JSONArray datad2;
     private JSONObject jsonObject;
-    private List<DrugExtra> pharmacySupplier;
+    private List<PharmacyEncounter> encountersList;
     private int size;
     private JSONArray jsonArray;
     private DrugExtra pharmacySupplier1;
-
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/revolveAdult")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) throws ParseException {
         userService = Context.getUserContext();
@@ -57,25 +47,17 @@ public class DrugExtraController {
         String uuid = request.getParameter("nameuuid");
         String drop = request.getParameter("drop");
         service = Context.getService(PharmacyService.class);
-
         String locationVal = null;
-
         List<PharmacyLocationUsers> listUsers = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         int sizeUsers = listUsers.size();
-
-
         if (sizeUsers > 1) {
             locationVal = request.getSession().getAttribute("location").toString();
 
         } else if (sizeUsers == 1) {
             locationVal = listUsers.get(0).getLocation();
 
-
         }
-
-         //log.info("the current location is ++++++++++++++++++++++++++++++++++++++++++++++++++"+ quant);
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-
         Date minDate = null;
         Date maxDate=null;
         try {
@@ -84,115 +66,96 @@ public class DrugExtraController {
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        pharmacySupplier = service.getDrugExtraRange(minDate,maxDate);
-        size = pharmacySupplier.size();
+        PharmacyLocations locationInstance=service.getPharmacyLocationsByName(locationVal);
+        encountersList = service.getDetailedEncountersRange(minDate,maxDate,locationInstance.getUuid());
+        size = encountersList.size();
         jsonObject = new JSONObject();
-        jsonArray = new JSONArray();
+
         try {
-            if (drop != null) {
-                if (drop.equalsIgnoreCase("drop")) {
-                    if (size != 0) {
-                        for (int i = 0; i < size; i++) {
-                            jsonArray.put("" + getDropDown(pharmacySupplier, i));
+            for(PharmacyEncounter encounterInstance:encountersList){
+                List<PharmacyOrders> pharmacyOrders=service.getPharmacyOrdersByEncounterId(encounterInstance);
+                String drugsIssuedToPatient="";
+                Double cashWaived=0.0;
+                Double cashDiscounted=0.0;
+                List<DrugExtra> drugExtraList=service.getUnprocessedReceiptsByEncounterUUID(encounterInstance.getUuid());
+                for(DrugExtra drugExtra:drugExtraList){
+                    cashWaived=cashWaived+drugExtra.getAmountw();
+                    cashDiscounted=cashDiscounted+drugExtra.getDiscount();
+                }
+                for (PharmacyOrders orderInstance:pharmacyOrders)
+                {
+                    if(orderInstance.getConcept() !=null)
+                    {
+                        List<PharmacyObs> listObsConcepts =service.getPharmacyObsByPharmacyOrder(orderInstance);
+                        int lastItem=listObsConcepts.size()-1;
+                        for (int y = 0; y < listObsConcepts.size(); y++)
+                        {
+                            if(y==lastItem)
+                            {
+                                drugsIssuedToPatient=drugsIssuedToPatient +listObsConcepts.get(y).getValue_drug().getName().toString() ;
+                            }
+                            else
+                            {
+                                drugsIssuedToPatient=drugsIssuedToPatient +listObsConcepts.get(y).getValue_drug().getName().toString()+", " ;
+                            }
+
                         }
-                    } else {
-                        jsonArray.put("" + null);
-                    }
-                    response.getWriter().print(jsonArray);
-                }
-
-            } else {
-                if (size != 0) {
-                    for (int i = 0; i < size; i++) {
-                        jsonObject.accumulate("aaData", getArray(pharmacySupplier, i,locationVal));
                     }
                 }
-                if (!jsonObject.has("aaData")) {
-                    datad2 = new JSONArray();
-                    datad2.put("None");
-                    datad2.put("None");
-                    datad2.put("None");
-                    datad2.put("None");
-                    datad2.put("None");
-                    datad2.put("None");
-                    jsonObject.accumulate("aaData", datad2);
 
-                }
-                jsonObject.accumulate("iTotalRecords", jsonObject.getJSONArray("aaData").length());
-                jsonObject.accumulate("iTotalDisplayRecords", jsonObject.getJSONArray("aaData").length());
-                jsonObject.accumulate("iDisplayStart", 0);
-                jsonObject.accumulate("iDisplayLength", 10);
-                response.getWriter().print(jsonObject);
+                jsonArray = new JSONArray();
+                jsonArray.put(""+encounterInstance.getPerson().getPatientId());
+                jsonArray.put(""+encounterInstance.getPerson().getPatientIdentifier());
+                jsonArray.put(drugsIssuedToPatient);
+                jsonArray.put(cashWaived);
+                jsonArray.put(cashDiscounted);
+                jsonArray.put(encounterInstance.getCreator());
+                jsonArray.put(""+encounterInstance.getDateCreated());
+                jsonObject.accumulate("aaData",jsonArray);
+
             }
+            jsonObject.accumulate("iTotalRecords", jsonObject.getJSONArray("aaData").length());
+            jsonObject.accumulate("iTotalDisplayRecords", jsonObject.getJSONArray("aaData").length());
+            jsonObject.accumulate("iDisplayStart", 0);
+            jsonObject.accumulate("iDisplayLength", 10);
+            response.getWriter().print(jsonObject);
             response.flushBuffer();
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
             log.error("Error generated", e);
         }
-
     }
-
-
     public  Date fromSubmitString2Date(String date) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
         return dateFormat.parse(date);
     }
-
     @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/revolveAdult")
     public synchronized void pageLoadd(HttpServletRequest request, HttpServletResponse response) throws ParseException {
         String locationVal = null;
-
         service = Context.getService(PharmacyService.class);
         List<PharmacyLocationUsers> listUsers = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         int sizeUsers = listUsers.size();
-
-
         if (sizeUsers > 1) {
             locationVal = request.getSession().getAttribute("location").toString();
 
         } else if (sizeUsers == 1) {
             locationVal = listUsers.get(0).getLocation();
-
-
         }
 
     }
 
-    public synchronized JSONArray getArray(List<DrugExtra> supplierNamee, int size,String val) throws JSONException {
-
-        supplierNames = new JSONArray();
-
-        Collection<Role> xvc = userService.getAuthenticatedUser().getAllRoles();
-        for (Role rl : xvc) {
-
-            if ((rl.getRole().equals("Pharmacy Administrator")) || (rl.getRole().equals("Provider")) || (rl.getRole().equals("	Authenticated "))) {
-
-                editPharmacy = true;
-                deletePharmacy = true;
-            }
-
-
-            if (rl.hasPrivilege("Edit Pharmacy")) {
-                editPharmacy = true;
-            }
-
-            if (rl.hasPrivilege("Delete Pharmacy")) {
-                deletePharmacy = true;
-            }
-
-        }
-        int quant=findDrugQuantity(supplierNamee.get(size).getDrug().getDrugId(),val);
-
-        supplierNames.put(supplierNamee.get(size).getReceipt());
-        supplierNames.put(quant);
-        supplierNames.put(supplierNamee.get(size).getDrug().getName());
-        supplierNames.put(supplierNamee.get(size).getAmount());
-        supplierNames.put(supplierNamee.get(size).getAmountw());
-        supplierNames.put(supplierNamee.get(size).getDateCreated().toString());
-        supplierNames.put(supplierNamee.get(size).getCreator().getUsername());
-
-        return supplierNames;
+    public synchronized JSONArray getArray(List<DrugExtra> drugExtra, int size,String val) throws JSONException {
+        drugExtraProperties = new JSONArray();
+        //int quant=findDrugQuantity(drugExtra.get(size).getDrug().getDrugId(),val);
+        drugExtraProperties.put(drugExtra.get(size).getPatientId());
+        drugExtraProperties.put(drugExtra.get(size).getPatientId());
+        drugExtraProperties.put(drugExtra.get(size).getPatientId());
+        drugExtraProperties.put(drugExtra.get(size).getPatientId());
+        drugExtraProperties.put(drugExtra.get(size).getPatientId());
+        drugExtraProperties.put(drugExtra.get(size).getPatientId());
+        drugExtraProperties.put(drugExtra.get(size).getPatientId());
+        return drugExtraProperties;
     }
 
     public synchronized int getDropDown(List<DrugExtra> supplierNamee, int size) {

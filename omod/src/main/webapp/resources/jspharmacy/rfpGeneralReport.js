@@ -28,7 +28,6 @@ $j("form#reportform").submit(function () {
                     iTotal[5] += Number(aaData[i][11]);
                     iTotal[6] += Number(aaData[i][12]);
                 }
-
                 /* Modify the footer row to match what we want */
                 var nCells = nRow.getElementsByTagName('th');
                 nCells[0].innerHTML="Totals";

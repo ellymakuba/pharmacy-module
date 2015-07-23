@@ -11,7 +11,7 @@ public class DrugDispenseSettings extends BaseOpenmrsData {
     private Drug drugId;
     private Integer value;
     private double amount;
-    private Integer batchId;
+    private String batchId;
     private PharmacyGeneralVariables option;
     private PharmacyLocations location;
     private PharmacyStore inventoryId;
@@ -116,7 +116,7 @@ public class DrugDispenseSettings extends BaseOpenmrsData {
     /**
      * @return  batchId
      */
-    public Integer getBatchId() {
+    public String getBatchId() {
 
         return batchId;
     }
@@ -125,7 +125,7 @@ public class DrugDispenseSettings extends BaseOpenmrsData {
      * @param  batchId
      */
 
-    public void setBatchId(Integer batchId) {
+    public void setBatchId(String batchId) {
 
         this.batchId = batchId;
 

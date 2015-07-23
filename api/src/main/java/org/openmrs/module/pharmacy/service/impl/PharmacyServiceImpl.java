@@ -546,7 +546,7 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public List<PharmacyEncounter> getEncountersRange(Date from, Date to,String location) {
         return pharmacyDAO.getEncountersRange(from,to,location);
     }
-    public List<PharmacyEncounter> getCurrentPatientRegimen(String patientUUID){
+    public PharmacyEncounter getCurrentPatientRegimen(String patientUUID){
         return pharmacyDAO.getCurrentPatientRegimen(patientUUID);
     }
     public Integer getNumberOfPatientsOnRegimen(Date startDate,Date endDate,String regimenCode){
@@ -850,5 +850,29 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     }
     public List<PharmacyEncounter> getUnclearedPharmacyEncountersListByPersonID(Integer personID){
         return pharmacyDAO.getUnclearedPharmacyEncountersListByPersonID(personID);
+    }
+    public List<PharmacyStore> getInventoryByLocation(String locationUUID){
+         return pharmacyDAO.getInventoryByLocation(locationUUID);
+    }
+    public PharmacyStore getPharmacyStoreByDrugName(String locationUUID,Drug drug){
+        return pharmacyDAO.getPharmacyStoreByDrugName(locationUUID,drug);
+    }
+    public List<PharmacyEncounter> getDetailedEncountersRange(Date minDate,Date maxDate,String location){
+        return pharmacyDAO.getDetailedEncountersRange(minDate,maxDate,location);
+    }
+    public List<S11> getS11WithinDateRange(PharmacyLocations location, Date startDate, Date endDate){
+        return pharmacyDAO.getS11WithinDateRange(location,startDate,endDate);
+    }
+    public boolean savePharmacyS11(S11 pharmacyS11){
+        return pharmacyDAO.savePharmacyS11(pharmacyS11);
+    }
+    public List<DrugTransactions>  getPharmacyDrugTransactionsByS11NO(String s11No,PharmacyLocations pharmacyLocation){
+        return pharmacyDAO.getPharmacyDrugTransactionsByS11NO(s11No,pharmacyLocation);
+    }
+    public boolean saveGeneratedInventoryQuantities(List<GeneratePharmacyInventoryQuantities> stockQuantities){
+        return pharmacyDAO.saveGeneratedInventoryQuantities(stockQuantities);
+    }
+    public GeneratePharmacyInventoryQuantities getDrugInventoryOpeningStockByDateAndLocation(Drug drug,Date startDate,Date endDate,String locationUUID){
+        return pharmacyDAO.getDrugInventoryOpeningStockByDateAndLocation(drug,startDate,endDate,locationUUID);
     }
 }

@@ -3,6 +3,9 @@ package org.openmrs.module.pharmacy.web.controller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.openmrs.Role;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.UserContext;
 import org.openmrs.module.pharmacy.model.PharmacyLocationUsers;
@@ -13,18 +16,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 @Controller
 public class PharmacyLocationController {
     public boolean checked;
     private static final Log log = LogFactory.getLog(PharmacyLocationController.class);
-
     public PharmacyService service;
-
     private UserContext userService;
     private List<PharmacyLocationUsers> pharmacyLocationUsersByUserName;
     private int size;
+    private boolean setLocation = false;
+    private JSONArray jsonArray;
+    private List<PharmacyLocationUsers> pharmacyLocationUsers;
+    private JSONObject jsonObject;
 
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/locationSetter")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) {
@@ -86,6 +93,31 @@ public class PharmacyLocationController {
             // TODO Auto-generated catch block
             log.error("Error generated", e);
         }
+
+    }
+    @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/getLocations")
+    public void getAllowedUserLocations(HttpServletRequest request, HttpServletResponse response) throws JSONException, IOException {
+        service=Context.getService(PharmacyService.class) ;
+        String name = Context.getAuthenticatedUser().getUsername();
+        List <PharmacyLocationUsers> allowedLocationsForCurrentUser=service.getPharmacyLocationUsersByUserName(name);
+        jsonArray=new JSONArray();
+        jsonObject=new JSONObject();
+        if(allowedLocationsForCurrentUser.size() > 0){
+            for(PharmacyLocationUsers locationUser: allowedLocationsForCurrentUser)
+            {
+                jsonArray.put(""+locationUser.getLocation());
+            }
+        }
+        else {
+            jsonArray.put("");
+        }
+        response.getWriter().print(jsonArray);
+    }
+    public String getDropDownLocation(List<PharmacyLocationUsers> list2, int size, String name) {
+        if (list2.get(size).getUserName().equalsIgnoreCase(name)) {
+            return list2.get(size).getLocation();
+        } else
+            return "null";
 
     }
 }

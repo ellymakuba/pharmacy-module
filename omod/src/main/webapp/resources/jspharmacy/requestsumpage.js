@@ -18,7 +18,6 @@ $j("#spinner").hide();
 $j.getJSON("locationSetter.form", function (result) {
     if (result == "none") {
         $j("#errorDiv").show();
-
         $j("#errorDiv").delay(5000).hide("slow");
         $j("#spinner").delay(5000).hide("slow");
     }

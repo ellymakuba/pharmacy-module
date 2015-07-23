@@ -169,12 +169,6 @@ public class TBFormController {
                 PharmacyOrders pharmacyOrders = new PharmacyOrders();
                 observations=new PharmacyObs();
                 if(dispensedModel.get(i).getDrug() !=null) {
-                    //drugExtra.setPharmacyEncounter(pharmacyEncounter);
-                    //drugExtra.setDrug(dispensedModel.get(i).getDrug());
-                    //drugExtra.setPharmacyLocations(service.getPharmacyLocationsByName(locationVal));
-                    //drugExtra.setQuantitysold(dispensedModel.get(i).getQuantitysold());
-                    //drugExtra.setAmount(dispensedModel.get(i).getAmount());
-                   // listDrugExtra.add(drugExtra);
 
                     pharmacyOrders.setAutoEndDate(null);
                     pharmacyOrders.setConcept(dispensedModel.get(i).getDrug().getConcept().getConceptId().toString());

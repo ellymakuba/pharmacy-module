@@ -12,67 +12,34 @@
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
 package org.openmrs.module.pharmacy.model;
-
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Drug;
 import org.openmrs.User;
-
 import java.util.Date;
-
-
 /**
  * @author Ampath Developers PharmacyStoreIncoming
  */
 public class PharmacyStoreIncoming extends BaseOpenmrsData {
-
     private Integer id;
-
     private Drug drug;
-
     private Integer quantityIn;
-
-
-
     private Integer maxLevel;
-
     private Integer minLevel;
-
     private Integer batchNo;
     private Integer s11;
     private Integer deliveryNo;
-
     private Date expireDate;
-
-
     private boolean approved;
-
-
     private String changeReason;
     private String status;
-
     private PharmacyLocations location;
-
-
     private PharmacyLocations destination;
-
-
     private PharmacySupplier supplier;
-
-
     private PharmacyTransactionTypes transaction;
-
-
     private PharmacyCategory category;
-
-
-
     private User requested;
     private User issued;
     private User authorized;
-
-
-
-
     /** default constructor */
     public PharmacyStoreIncoming() {
     }

@@ -31,12 +31,18 @@ $j("form#dispensedform").submit(function () {
                     /* Modify the footer row to match what we want */
                     var nCells = nRow.getElementsByTagName('th');
                     nCells[0].innerHTML="Totals";
-                    nCells[3].innerHTML = iTotal[0];
-                    nCells[4].innerHTML = iTotal[1];
+                    nCells[2].innerHTML = iTotal[0];
+                    nCells[3].innerHTML = iTotal[1];
                 },
                 sAjaxSource: "revolveAdult.form?" + "datefrom=" + $j('#datefrom').val() + "&dateto=" + $j('#dateto').val(),
                 //sAjaxSource: "revolveAdult.form",
-                "fnServerData":fnDataTablesPipeline
+                "fnServerData":fnDataTablesPipeline,
+                "aoColumnDefs":[
+                    {
+                        "bVisible":false,
+                        "aTargets":[ 0 ]
+                    }
+                ]
 
             });
         var oFormObject = document.forms['dispensedform'];

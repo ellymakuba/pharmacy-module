@@ -174,27 +174,6 @@ $j('#tinventoryset').delegate(' tbody td  input', 'click', function () {
     var batchaData = binTable2.fnGetData(nTrIn);
     oFormObjectForm.elements['inventoryNo'].value = batchaData[0];
 });
-$j("form#dispensevoid").submit(function () {
-    if ($j("#dispensevoid").valid()) {
-        dataString = $j("#dispensevoid").serialize();
-        var strUser = $j("#dispensedrug").val();
-        dataString += "&dispensedrug=" + strUser;
-        $j.ajax({
-            type:"POST",
-            url:"drugDispense.form",
-            data:dataString,
-            success:function () {
-                $j("#dispensevoid").hide();//
-                var oFormObject = document.forms['dispensevoid'];
-                oFormObject.elements["dispenseuuidvoid"].value = "";
-                oFormObject.elements["dispensereason"].value = "";
-                var strUser = $j("#dispensedrug").val();
-                SetDispenseTable(strUser);
-            }
-        });
-        return false;
-    }
-});
 $j("form#dispenseextra").submit(function () {
     var drugId;
     var inventoryNO=$j("#inventoryNo").val();
@@ -275,7 +254,7 @@ $j("#outgoingform").click(function () {
 });
 function getDataDrug() {
     $j.getJSON(
-        "drugDetails.form?drop=drop",
+        "drop.form",
         function (result) {
             $j("#outgoingdrug").get(0).options.length = 0;
             $j("#outgoingdrug").get(0).options[0] = new Option("Select","-1");
@@ -287,7 +266,7 @@ function getDataDrug() {
         });
 }
 function getDataLocation() {
-    $j.getJSON( "drugDetails.form?drop=location",
+    $j.getJSON( "locationSelect.form",
         function (result) {
             $j("#location").get(0).options.length = 0;
             $j("#location").get(0).options[0] = new Option("Select", "-1");
@@ -297,7 +276,7 @@ function getDataLocation() {
         });
 }
 function getDataLocationTwo() {
-    $j.getJSON("drugDetails.form?drop=location", function (result) {
+    $j.getJSON("locationSelect.form", function (result) {
         $j("#destination").get(0).options.length = 0;
         $j("#destination").get(0).options[0] = new Option("Select", "-1");
         $j.each(result, function (index, value) { //bincard"stateList
@@ -351,11 +330,25 @@ $j("#dispensedrug").autocomplete({
     },
     minLength:3,
     select:function (event, ui) {
-        $j.getJSON("pharmacyDrugIDRequest.form?drugName="+encodeURIComponent(ui.item.label),function(result) {
+        var drugNameToLoad= ui.item.label;
+        var json={drugName:drugNameToLoad};
+        $j.ajax({
+            type:"GET",
+            url:"pharmacyDrugIDRequest.form",
+            async:false,
+            data:{"drugDetails":JSON.stringify(json)},
+            dataType:"json",
+            success:function(result){
+                var drugId = result;
+                setTable(drugId);
+                SetDispenseTable(drugId);
+            }
+        })
+       /* $j.getJSON("pharmacyDrugIDRequest.form?drugName="+encodeURIComponent(ui.item.label),function(result) {
             var drugId = result;
             setTable(drugId);
             SetDispenseTable(drugId);
-        });
+        }); */
     },
     open:function () {
         $j(this).removeClass("ui-corner-all").addClass("ui-corner-top");
@@ -374,20 +367,28 @@ $j('#tinventoryset').delegate('tbody tr', 'click', function (){
     var batchaData = binTable2.fnGetData(clickedRow);
     var drugId;
     var inventoryNO=batchaData[0];
-    var newQuantity=$j("input[name='newQuantity']").val();
-
-    $j.getJSON("pharmacyDrugIDRequest.form?drugName="+encodeURIComponent($j("#dispensedrug").val()),function(result) {
+    var drugNameToLoad= $j("#dispensedrug").val();
+    var json={drugName:drugNameToLoad};
+    $j.ajax({
+        type:"GET",
+        url:"pharmacyDrugIDRequest.form",
+        async:false,
+        data:{"drugDetails":JSON.stringify(json)},
+        dataType:"json",
+        success:function(result){
         drugId = result;
         var drug = $j("#dispensedrug").val();
         dataString = "&dispensedrug=" + drug +"&drugID="+drugId;
         $j.ajax({
             type:"POST",
-            url:"drugDispenseRequest.form?inventoryNo="+inventoryNO+"&dispensedrug=" + drug+"&drugID="+drugId+"&newQuantity="+newQuantity,
+            url:"drugDispenseRequest.form?inventoryNo="+inventoryNO+"&dispensedrug=" + drug+"&drugID="+drugId,
             data:{datas:JSON.stringify(dataString) },
             dataType:"json",
+            async:false,
             success:function () {
-                SetDispenseTable(drug);
+                SetDispenseTable(drugId);
             }
         });
+        }
     });
 });

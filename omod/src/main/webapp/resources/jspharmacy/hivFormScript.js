@@ -295,14 +295,11 @@ $j(document)
 
                 }
 
-                $j.getJSON("drugDetails.form?drop=drug&id="
+                $j.getJSON("drug.form?id="
                     + drugId, function (result) {
-
                     $j.each(result, function (index, value) { //bincard"stateList
                         if (index == 0) {
-
                             name = value;
-
                         }
 
                         if (index == 1)

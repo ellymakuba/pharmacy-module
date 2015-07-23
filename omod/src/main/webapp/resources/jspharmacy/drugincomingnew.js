@@ -712,82 +712,20 @@ function change() {
     getDataTotal(strUser);
 }
 
-/*
- $j("#incomingdrug").autocomplete({
- search : function() {
- $j(this).addClass('working');
- },
-
- source : function(request, response) {
-
- dataString = "searchDrug=" + request.term;
-
- $j.getJSON("drugDetails.form?drop=drop&" + dataString, function(result) {
-
- $j("#incomingdrug").removeClass('working');
-
- response($j.each(result, function(index, item) {
-
- return {
- label : item,
- value : item
- }
- }));
-
- });
-
- },
- minLength : 3,
- select : function(event, ui) {
-
-
-
- // log( ui.item ?
- // "Selected: " + ui.item.label :
- // "Nothing selected, input was " + this.value);
- },
- open : function() {
- $j(this).removeClass("ui-corner-all").addClass("ui-corner-top");
- },
- close : function() {
- $j(this).removeClass("ui-corner-top").addClass("ui-corner-all");
- }
- });
- */
-
-
-//
-//$j("input[name=date]").live("focus", function () {
-//
-//
-//    $j(this).datepicker();
-//
-//});
-//$j('#filterdrug').change( function() { binTable.fnFilter( $j(this).val() ); } );
 $j("input[name=incomingdrug]").live("focus", function () {
-
-
     $j(this).autocomplete({
         search:function () {
-            $j(this).addClass('working');
-        },
+            $j(this).addClass('working');   },
 
         source:function (request, response) {
-
-            dataString = "searchDrug=" + request.term;
-
-            $j.getJSON("drugDetails.form?drop=drop&" + dataString, function (result) {
-
+            $j.getJSON("drop.form?searchDrug=" + request.term, function (result) {
                 $j("#incomingdrug").removeClass('working');
-
                 response($j.each(result, function (index, item) {
-
                     return {
                         label:item,
                         value:item
                     }
                 }));
-
             });
 
         },
@@ -858,13 +796,9 @@ function getDrugFilter() {
 
 }
 function getDataLocation() {
-
-    $j
-        .getJSON(
-        "drugDetails.form?drop=locationAll",
+    $j.getJSON(
+        "locationAll.form",
         function (result) {
-
-
             $j("#location").get(0).options.length = 0;
             $j("#location").get(0).options[0] = new Option("Select",
                 "-1");
@@ -901,10 +835,8 @@ function getDataTotal(drug) {
 }
 
 function getDataLocationTwo() {
-
-    $j
-        .getJSON(
-        "drugDetails.form?drop=location",
+    $j.getJSON(
+        "locationSelect.form",
         function (result) {
             $j("#destination").get(0).options.length = 0;
             $j("#destination").get(0).options[0] = new Option("Select",
@@ -921,12 +853,9 @@ function getDataLocationTwo() {
 
 }
 function getDataSupplier() {
-
-    $j
-        .getJSON(
+    $j.getJSON(
         "supplierName.form?drop=drop",
         function (result) {
-
             $j("#supplier").get(0).options.length = 0;
             $j("#supplier").get(0).options[0] = new Option("Select",
                 "-1");

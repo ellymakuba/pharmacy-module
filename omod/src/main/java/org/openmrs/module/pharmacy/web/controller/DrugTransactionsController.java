@@ -70,11 +70,7 @@ public class DrugTransactionsController {
 
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/drugTransactions")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) {
-
-
         String locationVal = null;
-
-
         service = Context.getService(PharmacyService.class);
         locationUsersByUserName = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         sizeUsers = locationUsersByUserName.size();

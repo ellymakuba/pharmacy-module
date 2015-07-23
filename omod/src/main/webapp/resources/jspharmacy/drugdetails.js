@@ -33,13 +33,10 @@ function fnFormatDetails(nTr) {
 
 }
 function getData() {
-
     $j.getJSON("drugName.form?drop=drop", function (result) {
-
         $j("#drugsname").get(0).options.length = 0;
         $j("#drugsname").get(0).options[0] = new Option("Select", "-1");
-        $j
-            .each(result,
+        $j.each(result,
             function (index, value) { //bincard"stateList
 
                 $j("#drugsname").get(0).options[$j("#drugsname").get(

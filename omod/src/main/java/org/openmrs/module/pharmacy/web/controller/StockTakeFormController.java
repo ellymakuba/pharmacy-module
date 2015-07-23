@@ -30,7 +30,6 @@ public class StockTakeFormController {
     @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/postStockTakeFormRequest")
     public synchronized void postStockTakeFormRequest(HttpServletRequest request, HttpServletResponse response) {
          String jsonText = request.getParameter("values");
-        System.out.println("postStockTakeFormRequest+++++++++++++*******************************************************"+jsonText);
         service = Context.getService(PharmacyService.class);
 
         Object obj = null;
@@ -58,6 +57,11 @@ public class StockTakeFormController {
                     if(key.equalsIgnoreCase("stockTakeFormunitPrice") && pharmacyStore !=null){
                         if(value !="" && value.length()>0){
                             pharmacyStore.setUnitPrice(Double.valueOf(value));
+                        }
+                    }
+                    if(key.equalsIgnoreCase("stockTakeFormBuyingPrice") && pharmacyStore !=null){
+                        if(value !="" && value.length()>0){
+                            pharmacyStore.setBuyingPrice(Double.valueOf(value));
                         }
                     }
                   service.savePharmacyInventory(pharmacyStore);

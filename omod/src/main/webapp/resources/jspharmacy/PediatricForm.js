@@ -320,8 +320,7 @@ $j("input[title='drug']").live('click',function(){
 });
 $j("#patientId").autocomplete({
     source:function (request, response) {
-        dataString = "searchPatient=" + request.term;
-        $j.getJSON("drugDetails.form?drop=patientSearch&" + dataString, function (result) {
+        $j.getJSON("patientSearch.form?patientSearch=" + request.term, function (result) {
             response($j.each(result, function (index, item) {
                 return {
                     label:item,
@@ -335,27 +334,45 @@ $j("#patientId").autocomplete({
         var patient=ui.item.value;
         $j.ajax({
             type:"GET",
-            url:"drugDetails.form?drop=patientLastName&patientToFind="+patient,
+            url:"patientLastName.form?patientToFind="+patient,
             data:patient,
             success:function (result) {
                 document.getElementById("patientName").value=result;
-                $j("#currentRegimen").val()=="";
-                $j.getJSON("dispense.form?patientUUIDToFindRegimen=" +patient, function(data) {
-                    if(jQuery.isEmptyObject(data)){
-                        pRegimen="";
-                        $j("#currentRegimen").val("Not given");
-                    }
-                    else{
-                        $j.each(data, function(key, val) {
-                            var strv= val.toString();
-                            pRegimen=strv;
-                            $j("#currentRegimen").val(strv);
+                               $j("#currentRegimen").val()=="";
+                                $j.ajax({
+                                           type:"GET",
+                                           url:"getPatientSummaryDetails.form?patientUUID="+patient,
+                                           async:false,
+                                           dataType:"json",
+                                           success:function(result){
+                                           if(result ==""){
+                                                pRegimen="";
+                                                $j("#currentRegimen").val("Not given");
+                                           }
+                                           else{
+                                               pharmacyEncounterPropeties= result.toString().split(",");
+                                                pRegimen=pharmacyEncounterPropeties[0];
+                                                $j("#currentRegimen").val(pharmacyEncounterPropeties[0]);
 
-                        });
-                    }
-                });
+                                               var currentRegimen=pharmacyEncounterPropeties[0];
+                                               var lastVisitDate=pharmacyEncounterPropeties[1];
+                                               var nextVisitDate= pharmacyEncounterPropeties[2];
+                                               var numberOfDaysToStockOut= pharmacyEncounterPropeties[3];
+                                               var remainingStock= pharmacyEncounterPropeties[4];
+                                                $j("#patientSummaryDialog").empty();
+                                                $j('<dl><dt></dt><dd >' +  "Current Regimen:  " +currentRegimen+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
+                                                $j('<dl><dt></dt><dd >' +  "last Visit Date:  " +lastVisitDate+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
+                                                $j('<dl><dt></dt><dd >' +  "next Visit Date:  " +nextVisitDate+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
+                                                $j('<dl><dt></dt><dd >' +  "Number of days To stock out:  " +numberOfDaysToStockOut+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
+                                                $j('<dl><dt></dt><dd >' +  "Remaining Stock:  " +remainingStock+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
+                                                $j("#patientSummaryDialog").dialog("open");
 
-                $j("#dataSection").show();
+                                           }
+
+                                           }
+                                       })
+
+                               $j("#dataSection").show();
             }
         });
 
@@ -426,7 +443,7 @@ $j("#noofmonths").change(function () {
 function addays(myDate, days) {
     return new Date(myDate.getTime() + days * 24 * 60 * 60 * 1000);
 }
-
+/*
 $j("#prescriber").autocomplete({
     search:function () {
         $j(this).addClass('working');
@@ -452,7 +469,7 @@ $j("#prescriber").autocomplete({
     close:function () {
         $j(this).removeClass("ui-corner-top").addClass("ui-corner-all");
     }
-});
+});*/
 
 function checkHivPedsForm(val,reg){
     cRegimen=val;
@@ -542,11 +559,11 @@ function validateHivPedsForm(){
     }
     if ($j("#nextvisit").val()=="") {
         message+="Error:No Next visit date "+"<br/>";
-    }
+    }/*
     if ($j("#prescriber").val()=="") {
         message+="Error:Give the  prescriber "+"<br/>";
 
-    }
+    }*/
     return num;
 }
 
@@ -1017,8 +1034,13 @@ function processForm(){
                                     }
                                 },
                                 success:function () {
-                                    $j('#pediatricFormDiv').replaceWith("<div id='red'>Data saved<div>");
-                                    $j("#red").delay(5000).hide("slow");
+                                   document.getElementById("pediatricForm").reset();
+                                    $j("#successDialog").empty();
+                                    $j('<dl><dt></dt><dd >' +  "Dispensed successfuly" + '</dd></dl> ').appendTo('#successDialog');
+                                    $j("#successDialog").dialog("open");
+                                    setTimeout(function() {
+                                         $j('#successDialog').dialog("close");
+                                     }, 2000);
                                 }
                             });
                         }

@@ -903,6 +903,16 @@ $j("#requestsum").click(function () {
     hideInactiveDivElements();
     $j("#requestsumpage").show();hideInactiveDivElements();
 });
+$j("#s11").click(function () {
+    $j("#spinner").show();
+    $j('#west_panel_content').empty();
+    $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/s11_reports.jsp #reportS11', function () {
+        $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/s11_reports.js", function () {
+
+        });
+    });
+    hideInactiveDivElements();
+});
 
 /*View to choose location*/
 $j("#rfpreport").click(function () {
@@ -975,6 +985,15 @@ $j("#dincoming").click(function () {
             $j('#west_panel_content').empty();
             $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/incoming.jsp #dtab_1', function () {
                 $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/drugincoming.js", function () {
+                    $j('#date').datepicker({changeMonth:true,changeYear:true,yearRange: "2015:2025"});
+                    $j(".myDate").live('focus', function(){
+                        var $jthis = $j(this);
+                         if(!$jthis.data('datepicker')) {
+                            $jthis.removeClass("hasDatepicker");
+                            $jthis.datepicker({changeMonth:true,changeYear:true,yearRange: "2015:2025"});
+                            $jthis.datepicker("show");
+                        }
+                    });
                 });
             });
             var data = '<strong>Drug  requests: Location4-' + result + '</strong>';
@@ -1083,6 +1102,29 @@ $j("#dtransactions").click(function () {
         }
     });
 });
+$j("#stockTransfer").click(function () {
+    $j("#spinner").show();
+    $j.getJSON("locationSetter.form", function (result) {
+        if (result == "none") {
+            $j("#errorDiv").show();
+            $j("#errorDiv").delay(5000).hide("slow");
+            $j("#spinner").delay(5000).hide("slow");
+        }
+        else {
+            $j('#west_panel_content').empty();
+            $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/stockTransfer.jsp', function () {
+                $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/stockTransfer.js", function () {
+                });
+            });
+            var data = '<strong>Drug transactions: Location8-' + result + '</strong>';
+            $j('#intransactionslocation').empty();
+            $j(data).appendTo(' #intransactionslocation');
+            hideInactiveDivElements();
+            CloseAll();
+            $j("#transactionsLogs").show("slow");
+        }
+    });
+});
 $j("#dmanager").click(function () {
     $j("#spinner").show();
     $j.getJSON("locationSetter.form", function (result) {
@@ -1103,6 +1145,29 @@ $j("#dmanager").click(function () {
             hideInactiveDivElements();
             CloseAll();
             $j("#doseManagement").show();
+        }
+    });
+});
+$j("#systemStockQuantitiesForm").click(function () {
+    $j("#spinner").show();
+    $j.getJSON("locationSetter.form", function (result) {
+        if (result == "none") {
+            $j("#errorDiv").show();
+            $j("#errorDiv").delay(5000).hide("slow");
+            $j("#spinner").delay(5000).hide("slow");
+        }
+        else {
+            $j('#west_panel_content').empty();
+            $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/systemStockQuantities.jsp', function () {
+                $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/systemStockQuantities.js", function () {
+                });
+            });
+            var data = '<strong>Drug transactions: Location9-' + result + '</strong>';
+            $j('#intransactionslocation').empty();
+            $j(data).appendTo(' #intransactionslocation');
+            hideInactiveDivElements();
+            CloseAll();
+            $j("#systemStock").show();
         }
     });
 });
@@ -1277,6 +1342,25 @@ $j("#errorDialog").dialog({
         }
     }
 });
+$j("#patientSummaryDialog").dialog({
+    autoOpen:false,
+    height:350,
+    width:450,
+    cache:false,
+    modal:true,
+    buttons:{
+        Ok:function () {
+            $j(this).dialog('close');
+        }
+    }
+});
+$j("#successDialog").dialog({
+    autoOpen:false,
+    height:150,
+    width:300,
+    cache:false,
+    modal:true
+});
 $j("#psychiatry").click(function () {
     $j("#spinner").show();
     $j.getJSON("locationSetter.form", function (result) {
@@ -1409,8 +1493,9 @@ CloseDialog();
 
         </div>
     </div>
-
+    <div id="successDialog" title="Success"></div>
     <div id="errorDialog" title="Error"></div>
+    <div id="patientSummaryDialog" title="patient Summary"></div>
     <DIV id="psychiatrysec">
         <DIV class="ui-layout-content ui-widget-content ui-corner-bottom" style="border-top: 0; padding-bottom: 1em;">
             <fieldset id="parent_field">
@@ -1592,7 +1677,8 @@ CloseDialog();
                 %>
                 <LI><A href="#" id="fmapreport">F-map Report</A></LI>
                 <LI><A href="#" id="dsdr">DSDR Report</A></LI>
-                <LI><A href="#" id="requestsum">Detailed Dispensed Drugs Report</A></LI>
+                <LI><A href="#" id="requestsum">Patient Discounts & Waivers</A></LI>
+                <LI><A href="#" id="s11">View S11 Reports</A></LI>
                 <% } %>
             </UL>
         </div>
@@ -1609,11 +1695,7 @@ CloseDialog();
             <div id="ui8">
                 <UL>
                     <LI><A href="#" id="dincoming">Add new Inventory</A> </LI>
-                    <LI><A href="#" id="doutgoing">Approve requests from other sites</A></LI>
-                    <LI><A href="#" id="dapproved">Approved Requests</A></LI>
-                    <LI><A href="#" id="stockTakeForm">Stock take Form</A></LI>
                     <LI><A href="#" id="dtransactions">Transactions Logs</A></LI>
-                    <LI><A href="#" id="dmanager">Dose Management</A></LI>
                 </UL>
             </div>
         </div>
@@ -1630,8 +1712,10 @@ CloseDialog();
             <div class="ui-layout-content">
                 <div id="ui38">
                     <%  if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin")){ %>
-                    <LI><A href="#" id="Asupplier">Suppliers</A></LI>
+                    <LI><A href="#" id="stockTakeForm">Stock take Form</A></LI>
+                    <LI><A href="#" id="stockTransfer">Stock Transfers</A></LI>
                     <LI><A href="#" id="tt">Transaction Types</A></LI>
+                    <LI><A href="#" id="dmanager">Dose Management</A></LI>
                     <LI><A href="#" id="DCategories">Drug Categories</A> </LI>
                     <LI><A href="#" id="Dmaxmin">Drug Max Min setter</A></LI>
                     <LI><A href="#" id="DGeneral">Dispense variables</A></LI>
@@ -1687,5 +1771,7 @@ CloseDialog();
     </div>
 </DIV>
 </body>
-
+<script type="text/javascript">
+    $j('.datePickerClass').datepicker();
+</script>
 </html>

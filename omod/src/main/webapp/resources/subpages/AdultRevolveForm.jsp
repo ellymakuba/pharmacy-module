@@ -30,10 +30,10 @@
             <th width="4%">Recipt NO</th>
             <th>PatientID</th>
             <th>Medication</th>
-            <th>Paid Amount</th>
-            <th>Waived Amount</th>
-            <th>Date Dispensed</th>
+            <th>Amount Waived</th>
+            <th>Amount Discounted</th>
             <th>Dispensed By</th>
+            <th>Date Dispensed</th>
         </tr>
         </thead>
         <tbody>

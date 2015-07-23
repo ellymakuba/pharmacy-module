@@ -2,13 +2,11 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping>
-    <class name="org.openmrs.module.pharmacy.model.DrugExtra"
-           table="pharmacy_drug_extra">
+    <class name="org.openmrs.module.pharmacy.model.DrugExtra" table="pharmacy_drug_extra">
         <cache usage="read-write"/>
 
         <id name="id" type="int" column="pharmacy_drug_extra_id" unsaved-value="0">
-            <generator
-                    class="org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator"/>
+            <generator class="org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator"/>
         </id>
         <discriminator column="pharmacy_drug_extra_id" insert="false"/>
         <many-to-one name="pharmacyEncounter" class="org.openmrs.module.pharmacy.model.PharmacyEncounter" property-ref="uuid" column="encounter_uuid" />

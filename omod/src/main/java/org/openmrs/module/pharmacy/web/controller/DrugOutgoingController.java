@@ -421,9 +421,9 @@ public class DrugOutgoingController {
             pharmacyStoreOutgoing.setMinLevel(0);
         }
         if (outgoingbatch != null) {
-            pharmacyStoreOutgoing.setBatchNo(Integer.parseInt(outgoingbatch));
+            pharmacyStoreOutgoing.setBatchNo(outgoingbatch);
         } else if (outgoingbatch == null) {
-            pharmacyStoreOutgoing.setBatchNo(0);
+            pharmacyStoreOutgoing.setBatchNo("0");
         }
         if (outgoings11 != null) {
             pharmacyStoreOutgoing.setS11(Integer.parseInt(outgoings11));
@@ -473,10 +473,10 @@ public class DrugOutgoingController {
         pharmacyStoreOutgoing.setMaxLevel(0);
         pharmacyStoreOutgoing.setMinLevel(0);
         if (outgoingbatch != null) {
-            pharmacyStoreOutgoing.setBatchNo(Integer.parseInt(outgoingbatch));
+            pharmacyStoreOutgoing.setBatchNo(outgoingbatch);
 
         } else if (outgoingbatch == null) {
-            pharmacyStoreOutgoing.setBatchNo(0);
+            pharmacyStoreOutgoing.setBatchNo("0");
         }
 
         if (outgoings11 != null) {

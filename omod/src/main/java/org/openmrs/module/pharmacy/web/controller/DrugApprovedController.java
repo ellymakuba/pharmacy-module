@@ -32,62 +32,34 @@ import java.util.List;
 public class DrugApprovedController {
 
     private static final Log log = LogFactory.getLog(DrugApprovedController.class);
-
     private JSONArray data;
-
     private JSONArray datad;
-
     public PharmacyService service;
-
     String drop = null;
-
     private boolean found = false;
-
     private String uuid;
     private String formulation;
-
     private String originalbindrug;
-
     private String dialog = null;
-
     private LocationService serviceLocation;
-
     private String filter = null;
-
     private String uuidfilter = null;
-
     private String approveddrug, approvedquantityin, approvedmax, approvedbatch, approveds11, approvedmin, approvednumber;
-
     private boolean exit = false;
-
     private String answers;
-
     private String uuid1;
-
     private String uuid2;
-
     private String uuid3;
-
     private String uuid4;
-
     private ConceptService serviceDrugs;
-
     private UserContext userService;
-
     private String requisition;
-
     private String issued;
-
     private String authorized;
-
     private boolean editPharmacy = false;
-
     private boolean deletePharmacy = false;
-
     private List<PharmacyLocationUsers> pharmacyLocationUsersByUserName;
-
     private int sizeUsers;
-
     private List<PharmacyStoreApproved> pharmacyStoreApproved;
     private int size, size1;
     private List<Drug> allDrugs;
@@ -334,10 +306,10 @@ public class DrugApprovedController {
                 }
 
                 if (approvedbatch != null) {
-                    pharmacyStoreApprovedObject.setBatchNo(Integer.parseInt(approvedbatch));
+                    pharmacyStoreApprovedObject.setBatchNo(approvedbatch);
 
                 } else if (approvedbatch == null) {
-                    pharmacyStoreApprovedObject.setBatchNo(0);
+                    pharmacyStoreApprovedObject.setBatchNo("0");
                 }
 
                 if (approveds11 != null) {
@@ -390,10 +362,10 @@ public class DrugApprovedController {
                     pharmacyStoreApprovedObject.setMinLevel(0);
 
                     if (approvedbatch != null) {
-                        pharmacyStoreApprovedObject.setBatchNo(Integer.parseInt(approvedbatch));
+                        pharmacyStoreApprovedObject.setBatchNo(approvedbatch);
 
                     } else if (approvedbatch == null) {
-                        pharmacyStoreApprovedObject.setBatchNo(0);
+                        pharmacyStoreApprovedObject.setBatchNo("0");
                     }
 
                     if (approveds11 != null) {

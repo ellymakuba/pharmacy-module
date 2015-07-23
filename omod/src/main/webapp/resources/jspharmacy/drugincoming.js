@@ -10,6 +10,7 @@ var myResult;
 var oCache = {
     iCacheLower:-1
 };
+var rowCounter = document.getElementById("tableincoming").rows.length+1;
 function addRow(tableID) {
     var table = document.getElementById(tableID);
     var rowCount = table.rows.length;
@@ -22,6 +23,24 @@ function addRow(tableID) {
         switch(newcell.childNodes[0].type) {
             case "text":
                 newcell.childNodes[0].value = "";
+                if(newcell.childNodes[0].name=="incomingdrug"){
+                    newcell.childNodes[0].id="incomingdrug_" + rowCounter;
+                }
+                if(newcell.childNodes[0].name=="incomingquantityin"){
+                    newcell.childNodes[0].id="incomingquantityin_" + rowCounter;
+                }
+                if(newcell.childNodes[0].name=="date"){
+                    newcell.childNodes[0].id="date_" + rowCounter;
+                }
+                if(newcell.childNodes[0].name=="batchNo"){
+                    newcell.childNodes[0].id="batchNo_" + rowCounter;
+                }
+                if(newcell.childNodes[0].name=="buyingPrice"){
+                    newcell.childNodes[0].id="buyingPrice_" + rowCounter;
+                }
+                if(newcell.childNodes[0].name=="unitPrice"){
+                    newcell.childNodes[0].id="unitPrice_" + rowCounter;
+                }
                 break;
             case "checkbox":
                 newcell.childNodes[0].checked = false;
@@ -31,6 +50,7 @@ function addRow(tableID) {
                 break;
         }
     }
+    rowCounter ++ ;
 }
 function deleteRow(tableID) {
     try {
@@ -48,13 +68,16 @@ function deleteRow(tableID) {
         alert(e);
     }
 }
+function removeRows() {
+    $j("#tableincoming").find("tr:gt(1)").remove();
+}
 $j("#transactions").change(function (){
     if($j("#transactions").val()=="New Stock")
     {
-     $j(".hidable").show();
+        $j(".hidable").show();
     }
     else{
-      $j(".hidable").hide();
+        $j(".hidable").hide();
     }
 })
 $j("#incomingperm").hide();//
@@ -71,7 +94,8 @@ $j("#incomingextrain").validate({
 getDataCategory();
 getDataLocation();
 getDataTransactionType();
-$j("#date").datepicker();
+//$j("#date").datepicker();
+
 $j('#btnAdd').click(function () {
     var num = $j('.clonedInput').length;
     var newNum = new Number(num + 1);
@@ -140,13 +164,7 @@ function fnDetails(nTr) {
     else {
     }
 }
-$j(function () {
-    $j("#incomingexpire").datepicker();
-});
 
-$j(function () {
-    $j("#fromLocation").datepicker();
-});
 dialog = $j("#dialog-confirm").dialog({
     resizable:false,
     height:140,
@@ -313,10 +331,10 @@ function getUsers() {
             $j("#authorized").get(0).options.length = 0;
             $j("#authorized").get(0).options[0] = new Option("Select","-1");
             $j.each(result,function (index, value) {
-                    $j("#requisition").get(0).options[$j("#requisition").get(0).options.length] = new Option( value, value);
-                    $j("#issued").get(0).options[$j("#issued").get(0).options.length] = new Option( value, value);
-                    $j("#authorized").get(0).options[$j("#authorized").get(0).options.length] = new Option(value, value);
-                });
+                $j("#requisition").get(0).options[$j("#requisition").get(0).options.length] = new Option( value, value);
+                $j("#issued").get(0).options[$j("#issued").get(0).options.length] = new Option( value, value);
+                $j("#authorized").get(0).options[$j("#authorized").get(0).options.length] = new Option(value, value);
+            });
         });
 }
 
@@ -371,7 +389,7 @@ $j("#detailsformValin").dialog({
             $j(this).dialog('close');
             $j.ajax({
                 type:"POST",
-                url:"drugIncoming.form",
+                url:"addOrUpdateInventoryBatches.form",
                 data:dataStringValin,
                 success:function () {
                     close();
@@ -463,7 +481,6 @@ function close() {
 
 
 $j("form#incoming").submit(function () {
-
     $j("#incomingperm").hide();
     if ($j("#incoming").valid()) {
         dataStringValinData = $j("#incoming").serialize();
@@ -483,25 +500,116 @@ $j("form#incoming").submit(function () {
 
 
         }
-
-
         $j("#detailsformValinT").dialog("open");
-
-
         return false;
     }
 });
 $j("form#s11").submit(function () {
-    dataStringValin = $j("#s11").serialize();
-    var myResult = dataStringValin.split("&");
-    $j("#detailsformValin").empty();
-    $j("#detailsformValin").dialog("open");
-    return false;
-
+    $j("#errorDialog").empty();
+    var categoryNotSelected=false;
+    var productWithNoSelectedCategory=0;
+    var quantityNotEntered=false;
+    var jsonS11Data = [];
+    var dateNotEntered=false;
+    var batchNoNotEntered=false;
+    var buyingPriceNotEntered=false;
+    var sellingPriceNotEntered=false;
+    $j('#s11').find('tr').each(function(){
+        var rowObject=[];
+        $j(this).find('td').each(function(){
+            var obj = {}
+            var td=$j(this).find('input,select');
+            var key = td.attr('name');
+            var val = td.val();
+            obj[key] = val;
+            rowObject.push(obj);
+        });
+        jsonS11Data.push(rowObject);
+    });
+    $j("select[name='incomingcategory'] option:selected").each(function(){
+        productWithNoSelectedCategory=productWithNoSelectedCategory+1;
+        if($j(this).val()==-1){
+             categoryNotSelected=true;
+        }
+    })
+    $j("input[name='incomingquantityin']").each(function(){
+        if($j(this).val()==""){
+            quantityNotEntered=true;
+        }
+    })
+    $j("input[name='date']").each(function(){
+        if($j(this).val()==""){
+            dateNotEntered=true;
+        }
+    })
+    $j("input[name='batchNo']").each(function(){
+        if($j(this).val()==""){
+            batchNoNotEntered=true;
+        }
+    })
+    $j("input[name='buyingPrice']").each(function(){
+        if($j(this).val()==""){
+            buyingPriceNotEntered=true;
+        }
+    })
+    $j("input[name='unitPrice']").each(function(){
+        if($j(this).val()==""){
+            sellingPriceNotEntered=true;
+        }
+    })
+    if ($j("#incomings11").val() =="") {
+        $j('<dl><dt></dt><dd >' + "Info: " + "please enter the s11 number" + '</dd></dl></br>').appendTo('#errorDialog');
+        $j("#errorDialog").dialog("open");
+    }
+    else if ($j("#transactions option:selected").val()==-1) {
+        //$j("#mySelect option[value='3']").attr('selected', 'selected');
+        $j('<dl><dt></dt><dd >' + "Info: " + "please select transaction type" + '</dd></dl></br>').appendTo('#errorDialog');
+        $j("#errorDialog").dialog("open");
+    }
+    else if ($j("#location option:selected").val()==-1) {
+        $j('<dl><dt></dt><dd >' + "Info: " + "please select site you are requesting stock" + '</dd></dl></br>').appendTo('#errorDialog');
+        $j("#errorDialog").dialog("open");
+    }
+    else if(categoryNotSelected==true){
+        $j('<dl><dt></dt><dd >' + "Info: " + "Choose category for product " + '</dd></dl></br>').appendTo('#errorDialog');
+        $j("#errorDialog").dialog("open");
+    }
+    else if(quantityNotEntered==true){
+        $j('<dl><dt></dt><dd >' + "Info: " + "Please make sure to enter quantities for all the drugs " + '</dd></dl></br>').appendTo('#errorDialog');
+        $j("#errorDialog").dialog("open");
+    }
+    else if(dateNotEntered==true){
+        $j('<dl><dt></dt><dd >' + "Info: " + "Please make sure to enter expiry dates for all the drugs " + '</dd></dl></br>').appendTo('#errorDialog');
+        $j("#errorDialog").dialog("open");
+    }
+    else if(batchNoNotEntered==true){
+        $j('<dl><dt></dt><dd >' + "Info: " + "Please make sure to enter batch numbers for all the drugs " + '</dd></dl></br>').appendTo('#errorDialog');
+        $j("#errorDialog").dialog("open");
+    }
+    else if(buyingPriceNotEntered==true){
+        $j('<dl><dt></dt><dd >' + "Info: " + "Please make sure to enter buying prices for all the drugs " + '</dd></dl></br>').appendTo('#errorDialog');
+        $j("#errorDialog").dialog("open");
+    }
+    else if(sellingPriceNotEntered==true){
+        $j('<dl><dt></dt><dd >' + "Info: " + "Please make sure to enter selling price for all the drugs " + '</dd></dl></br>').appendTo('#errorDialog');
+        $j("#errorDialog").dialog("open");
+    }
+    else{
+    $j.ajax({
+        type:"POST",
+        dataType:"json",
+        url:"addOrUpdateInventoryBatches.form",
+        data:{jsonObject:JSON.stringify(jsonS11Data)},
+        success:function(result){
+            document.getElementById("s11").reset();
+            removeRows();
+        }
+    })
+    }
+   return false;
 });
 
 function clear_form_elements(ele) {
-
     $j(ele).find(':input').each(function () {
         switch (this.type) {
             case 'password':
@@ -517,7 +625,6 @@ function clear_form_elements(ele) {
                 this.checked = false;
         }
     });
-
 }
 $j("#detailsformin").dialog({
     autoOpen:false,
@@ -533,40 +640,21 @@ $j("#detailsformin").dialog({
                 url:"drugIncoming.form",
                 data:dataString,
                 success:function () {
-
                     closeExtra();
                 }
             });
-
-
-//			AutoReload();
         },
         Cancel:function () {
             closeExtra();
             $j(this).dialog('close');
-//			var newElement = "<tr class='ui-dform-tr'><td class='ui-dform-td'><input type='checkbox' name='DRUGS|90900#7' class='ui-dform-checkbox' value='2281' style='width: 100px;'> <label class='ui-dform-label'>FLUOXETINE (PROZAC)</label> </td> </tr>";
-//
-
-//		     $j('#driugdiv').append(newElement);
-
-//		     $j("#test").append(newElement);
-//
-
-
-            // $j(this).append(newElem);
-
             $j('#in').after("<label>Quantity in</label> ");
-//			$j(this).dialog( 'close');
         }
     }
 });
 
 function closeExtra() {
-
-
     AutoReload();
     $j("#incoming").hide();//
-
     clear_form_elements("#incomingextrain");
     clear_form_elements("#Permissionincoming");
     $j("#incomingform").show();
@@ -574,74 +662,19 @@ function closeExtra() {
     $j("#tincoming").show();//
     $j("#incomingextrain").hide();
     $j("#incomingperm").hide();
-
-
 }
-$j("form#incomingextrain").submit(function () {
 
-
-
-    // we want to store the values from the form input box, then send via ajax below
-    if ($j("#incomingextrain").valid()) {
-        dataString = $j("#incomingextrain").serialize();
-        dataPerm = $j("#Permissionincoming").serialize();
-        dataString += "&" + dataPerm;
-        var myResult = dataString.split("&");
-
-        $j("#detailsformin").empty();
-        for (i = 0; i < myResult.length; i++) {
-            if (i == 0)
-                $j('<dl><dt></dt><dd > -' + "Supplier " + myResult[i].substring(myResult[i].indexOf("=")) + '</dd></dl> ').appendTo('#detailsformin');
-            else if (i == 1)
-                $j('<dl><dt></dt><dd > -' + "Incoming quantity " + myResult[i].substring(myResult[i].indexOf("=")) + '</dd></dl> ').appendTo('#detailsformin');
-            else if (i == 2)
-                $j('<dl><dt></dt><dd > -' + "Batch No " + myResult[i].substring(myResult[i].indexOf("=")) + '</dd></dl> ').appendTo('#detailsformin');
-            else if (i == 3)
-                $j('<dl><dt></dt><dd > -' + "S11 No" + myResult[i].substring(myResult[i].indexOf("=")) + '</dd></dl> ').appendTo('#detailsformin');
-            else if (i == 4)
-                $j('<dl><dt></dt><dd > -' + "Expire Date " + myResult[i].substring(myResult[i].indexOf("=")) + '</dd></dl> ').appendTo('#detailsformin');
-            else if (i == 5)
-                $j('<dl><dt></dt><dd > -' + "Delivery No " + myResult[i].substring(myResult[i].indexOf("=")) + '</dd></dl> ').appendTo('#detailsformin');
-            else if (i == 6)
-                $j('<dl><dt></dt><dd > -' + "Drug " + myResult[i].substring(myResult[i].indexOf("=")) + '</dd></dl> ').appendTo('#detailsformin');
-
-            else if (i == 9)
-                $j('<dl><dt></dt><dd > -' + "Requested By" + myResult[i].substring(myResult[i].indexOf("=")) + '</dd></dl> ').appendTo('#detailsformin');
-
-            else if (i == 11)
-                $j('<dl><dt></dt><dd > -' + "Issued By " + myResult[i].substring(myResult[i].indexOf("=")) + '</dd></dl> ').appendTo('#detailsformin');
-            else if (i == 13)
-                $j('<dl><dt></dt><dd > -' + "Authorized By " + myResult[i].substring(myResult[i].indexOf("=")) + '</dd></dl> ').appendTo('#detailsformin');
-
-
-            $j('<form id="test" name="test" ><div id="in"></div></form>').appendTo('#detailsformin');
-
-
-        }
-
-
-        $j("#detailsformin").dialog("open");
-
-
-        return false;
-    }
-});
 $j("form#incomingvoid").submit(function () {
-    // we want to store the values from the form input box, then send via ajax below
     if ($j("#incomingvoid").valid()) {
         dataString = $j("#incomingvoid").serialize();
         $j.ajax({
             type:"POST",
             url:"drugIncoming.form",
             data:dataString,
-
-
             success:function () {
                 $j("#incomingvoid").hide();//
                 AutoReload();
                 var oFormObject = document.forms['incomingvoid'];
-
-
                 oFormObject.elements["incominguuidvoid"].value = "";
                 oFormObject.elements["incomingreason"].value = "";
             }
@@ -650,20 +683,17 @@ $j("form#incomingvoid").submit(function () {
     }
 });
 function change() {
-
     var e = document.getElementById("incomingdrug");
     var strUser = e.options[e.selectedIndex].value;
-
     getDataTotal(strUser);
 }
 $j("input[name=incomingdrug]").live("focus", function () {
     $j(this).autocomplete({
         search:function () {
-            $j(this).addClass('working');
-        },
+            $j(this).addClass('working');         },
         source:function (request, response) {
-            dataString = "searchDrug=" + request.term;
-            $j.getJSON("drugDetails.form?drop=drop&" + dataString, function (result) {
+           // dataString = "searchDrug=" + request.term;
+            $j.getJSON("getDrugForAutocomplete.form?searchDrug=" +request.term, function (result) {
                 $j("#incomingdrug").removeClass('working');
                 response($j.each(result, function (index, item) {
                     return {
@@ -677,6 +707,32 @@ $j("input[name=incomingdrug]").live("focus", function () {
         },
         minLength:3,
         select:function (event, ui) {
+            var itemID=$j(this).attr('id');
+            var idExtract=itemID.substring(itemID.indexOf("_")+1);
+            var inventoryPropeties={};
+            var drugNameToLoad= ui.item.label;
+            var json={drugName:drugNameToLoad};
+            $j.ajax({
+                    type:"GET",
+                    url:"getBuyingAndSellingPriceOfSelectedDrug.form",
+                    async:false,
+                    data:{"drugName":JSON.stringify(json)},
+                    dataType:"json",
+                    success:function(data){
+                        inventoryPropeties= data.toString().split(",");
+                        var buyingPrice=inventoryPropeties[0];
+                        var sellingPrice=inventoryPropeties[1];
+
+                        if(idExtract =="incomingdrug") {
+                            document.getElementById("buyingPrice").value=buyingPrice;
+                            document.getElementById("unitPrice").value=sellingPrice;
+                        }
+                        else{
+                            document.getElementById("buyingPrice_"+idExtract).value=buyingPrice;
+                            document.getElementById("unitPrice_"+idExtract).value=sellingPrice;
+                        }
+                    }
+            })
         },
         open:function () {
             $j(this).removeClass("ui-corner-all").addClass("ui-corner-top");
@@ -692,35 +748,21 @@ $j("input[name=incomingdrug]").live("focus", function () {
 
 $j("#filterdrug").autocomplete({
     search:function () {
-        $j(this).addClass('working');
-    },
-
+        $j(this).addClass('working');    },
     source:function (request, response) {
-
-        dataString = "searchDrug=" + request.term;
-
-        $j.getJSON("drugDetails.form?drop=drop&" + dataString, function (result) {
-
+        $j.getJSON("drop.form?searchDrug=" + request.term, function (result) {
             $j("#filterdrug").removeClass('working');
-
             response($j.each(result, function (index, item) {
-
                 return {
                     label:item,
                     value:item
                 }
             }));
-
         });
-
     },
     minLength:3,
     select:function (event, ui) {
-
         binTable.fnFilter(ui.item.label);
-        // log( ui.item ?
-        // "Selected: " + ui.item.label :
-        // "Nothing selected, input was " + this.value);
     },
     open:function () {
         $j(this).removeClass("ui-corner-all").addClass("ui-corner-top");
@@ -730,146 +772,86 @@ $j("#filterdrug").autocomplete({
     }
 });
 function getDataDrug() {
-
-
 }
 function getDrugFilter() {
-
-
 }
 function getDataLocation() {
-
-    $j
-        .getJSON(
-        "drugDetails.form?drop=locationAll",
-        function (result) {
-
+    $j.getJSON("getAllLocations.form",function (result) {
             $j("#location1").get(0).options.length = 0;
-            $j("#location1").get(0).options[0] = new Option("Select",
-                "-1");
-            $j("#location").get(0).options.length = 0;
-            $j("#location").get(0).options[0] = new Option("Select",
-                "-1");
-
-            $j.each(
-                result,
-                function (index, value) { //bincard"stateList
-
+            $j("#location1").get(0).options[0] = new Option("Select","-1");
+            $j.each(result,function (index, value) {
                     $j("#location").get(0).options[$j("#location").get(0).options.length] = new Option(value, value);
                     $j("#location1").get(0).options[$j("#location1").get(0).options.length] = new Option(value, value);
-
-
                 });
-
         });
 
-
 }
-
-
 function getDataTotal(drug) {
-
     var url = "transactionsName.form?drop=totalTwo&drug=" + drug;
-    $j
-        .getJSON(url
-        ,
-        function (result) {
-
+    $j.getJSON(url,function (result) {
             var oFormObject = document.forms['incoming'];
-
             oFormObject.elements["totalstore"].value = result;
         });
 
-
 }
-
 function getDataLocationTwo() {
-
-    $j
-        .getJSON(
-        "drugDetails.form?drop=location",
-        function (result) {
+    $j.getJSON("locationSelect.form",function (result) {
             $j("#destination").get(0).options.length = 0;
-            $j("#destination").get(0).options[0] = new Option("Select",
-                "-1");
-            $j.each(
-                result,
-                function (index, value) { //bincard"stateList
-
+            $j("#destination").get(0).options[0] = new Option("Select","-1");
+            $j.each(result,function (index, value) { //bincard"stateList
                     $j("#destination").get(0).options[$j("#destination").get(0).options.length] = new Option(value, value);
                 });
-
         });
-
-
 }
 function getDataSupplier() {
-
-    $j
-        .getJSON(
-        "supplierName.form?drop=drop",
-        function (result) {
-
+    $j.getJSON("supplierName.form?drop=drop",function (result) {
             $j("#supplier").get(0).options.length = 0;
-            $j("#supplier").get(0).options[0] = new Option("Select",
-                "-1");
-            $j
-                .each(
-                result,
-                function (index, value) { //bincard"stateList
-
+            $j("#supplier").get(0).options[0] = new Option("Select","-1");
+            $j.each(result,function (index, value) { //bincard"stateList
                     $j("#supplier").get(0).options[$j(
                         "#supplier").get(0).options.length] = new Option(
                         value, value);
-                });
-
+            });
         });
-
-
 }
-
 function getDataCategory() {
-
-    $j.getJSON(
-        "categoryName.form?drop=drop",
+    $j.getJSON("categoryName.form?drop=drop",
         function (result) {
-
             $j("#incomingcategory").get(0).options.length = 0;
-            $j("#incomingcategory").get(0).options[0] = new Option("Select",
-                "-1");
-            $j("#incomingcategory1").get(0).options.length = 0;
-            $j("#incomingcategory1").get(0).options[0] = new Option("Select",
-                "-1");
-            $j
-                .each(
-                result,
-                function (index, value) { //bincard"stateList
-
-                    $j("#incomingcategory").get(0).options[$j(
-                        "#incomingcategory").get(0).options.length] = new Option(
-                        value, value);
-                    $j("#incomingcategory1").get(0).options[$j(
-                        "#incomingcategory1").get(0).options.length] = new Option(
-                        value, value);
+            $j("#incomingcategory").get(0).options[0] = new Option("Select","-1");
+            $j.each(result,function (index, value) {
+                    $j("#incomingcategory").get(0).options[$j("#incomingcategory").get(0).options.length] = new Option(value, value);
                 });
-
         });
-
-
 }
 function getDataTransactionType() {
     $j.getJSON("transactionsName.form?drop=drop",function (result) {
-            $j("#transactions").get(0).options.length = 0;
-            $j("#transactions").get(0).options[0] = new Option("Select","-1");
-            $j("#transactions1").get(0).options.length = 0;
-            $j("#transactions1").get(0).options[0] = new Option("Select","-1");
-            $j.each(result,function (index, value) {
-                    $j("#transactions").get(0).options[$j("#transactions").get(0).options.length] = new Option( value, value);
-                    $j("#transactions1").get(0).options[$j("#transactions1").get(0).options.length] = new Option( value, value);
-                });
+        $j("#transactions").get(0).options.length = 0;
+        $j("#transactions").get(0).options[0] = new Option("Select","-1");
+        $j.each(result,function (index, value) {
+            $j("#transactions").get(0).options[$j("#transactions").get(0).options.length] = new Option( value, value);
         });
+    });
 }
 function show() {
     // $j("#incoming").show("slow");
 
 }
+$j('#tableincoming').delegate(' tr td a', 'click', function(e){
+    e.preventDefault();
+    try {
+        var table = document.getElementById("tableincoming");
+        var rowCount = table.rows.length;
+        if(rowCount <= 2) {
+            alert("Cannot delete all the rows.");
+            //break;
+        }
+        else{
+            $j(this).closest('tr').remove();
+        }
+
+    }catch(e) {
+        alert(e);
+    }
+
+});

@@ -20,25 +20,19 @@ function AutoReload() {
 
 }
 function getData() {
-
-    $j.getJSON("drugDetails.form?drop=drop", function (result) {
-
+    $j.getJSON("drop.form", function (result) {
         $j("#dosesdrug").get(0).options.length = 0;
         $j("#dosesdrug").get(0).options[0] = new Option("Select", "-1");
-        $j
-            .each(result,
+        $j.each(result,
             function (index, value) { //bincard"stateList
-
                 $j("#dosesdrug").get(0).options[$j("#dosesdrug").get(
                     0).options.length] = new Option(value,
                     value);
             });
 
     });
-
     $j.getJSON("drugFrequency.form?drop=drop",
         function (result) {
-
             $j("#dosesfrequency").get(0).options.length = 0;
             $j("#dosesfrequency").get(0).options[0] = new Option("Select",
                 "-1");

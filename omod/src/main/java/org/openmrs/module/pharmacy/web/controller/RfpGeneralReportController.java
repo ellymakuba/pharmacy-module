@@ -2,6 +2,7 @@ package org.openmrs.module.pharmacy.web.controller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -97,7 +98,7 @@ public class RfpGeneralReportController {
             jsonObject.accumulate("iTotalRecords", jsonObject.getJSONArray("aaData").length());
             jsonObject.accumulate("iTotalDisplayRecords", jsonObject.getJSONArray("aaData").length());
             jsonObject.accumulate("iDisplayStart", 0);
-            jsonObject.accumulate("iDisplayLength", 10);
+            jsonObject.accumulate("iDisplayLength", 1000);
             response.getWriter().print(jsonObject);
 
             response.flushBuffer();
@@ -201,10 +202,15 @@ public class RfpGeneralReportController {
 
         }
 
-        Double myValues[]=findDrugQuantity(supplierNamee.get(size).getDrug().getDrugId(),val,s,e,supplierNamee.get(size).getPharmacyEncounter().getUuid());
+        Double myValues[]= new Double[0];
+        try {
+            myValues = findDrugQuantity(supplierNamee.get(size).getDrug().getDrugId(),val,s,e,supplierNamee.get(size).getPharmacyEncounter().getUuid());
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+        }
         supplierNames.put(supplierNamee.get(size).getDrug().getName());
         supplierNames.put(myValues[0]);
-        supplierNames.put("");
+        supplierNames.put(myValues[10]);
         supplierNames.put("");
         supplierNames.put("");
         supplierNames.put(myValues[1]);
@@ -225,7 +231,7 @@ public class RfpGeneralReportController {
     public synchronized boolean getCheck(List<DrugExtra> supplierNamee, int size, String names) {
         return true;
     }
-    public Double []findDrugQuantity(Integer drugId,String val,Date startDate,Date endDate,String encounterUUID){
+    public Double []findDrugQuantity(Integer drugId,String val,Date startDate,Date endDate,String encounterUUID) throws ParseException {
         String locationUUID=service.getPharmacyLocationsByName(val).getUuid();
         Drug drug = Context.getConceptService().getDrugByNameOrId(drugId.toString());
         DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(drugId,locationUUID);
@@ -277,8 +283,15 @@ public class RfpGeneralReportController {
             discount=service.getDiscountOnDrugsWithinPeriodRange(startDate,endDate,drugId.toString(),locationUUID);
         }
         cashExpectedLessW=cashExpectedLessW-discount;
-        Double myVals[] = {quantity,quantityFromStore,unitPrice,quantitySold,amountWaived,count,countDispensed,cashExpected,discount,cashExpectedLessW};
 
+        double openingStock=0.0;
+        DateTime sDate=new DateTime(startDate);
+        DateTime sDatePlusOneDay=sDate.plusDays(1);
+        Date formatedDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(sDatePlusOneDay.toString());
+        if(service.getDrugInventoryOpeningStockByDateAndLocation(drug,startDate,formatedDate,locationUUID) !=null){
+           openingStock= service.getDrugInventoryOpeningStockByDateAndLocation(drug,startDate,formatedDate,locationUUID).getStockQuantities();
+        }
+        Double myVals[] = {quantity,quantityFromStore,unitPrice,quantitySold,amountWaived,count,countDispensed,cashExpected,discount,cashExpectedLessW,openingStock};
         return myVals;
     }
 }

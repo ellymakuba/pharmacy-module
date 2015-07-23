@@ -19,8 +19,7 @@
             </fieldset>
         </form>
     </DIV>
-    <table cellpadding="0" cellspacing="0" border="0" class="display"
-           id="treport">
+    <table cellpadding="0" cellspacing="0" border="0" class="display" id="treport">
         <button type="button" id="export" style="background-color: #FF884D;"  >Export to excel</button>
         <thead>
         <tr>

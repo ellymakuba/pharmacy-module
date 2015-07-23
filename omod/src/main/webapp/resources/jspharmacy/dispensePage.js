@@ -106,7 +106,7 @@ var patienteEncounters = $j('#pencounters').dataTable({
     "fnServerData":fnDataTablesPipeline2
 });
 function getDataForms() {
-    $j.getJSON("drugDetails.form?drop=forms", function (result) {
+    $j.getJSON("forms.form", function (result) {
         $j("#formVal").get(0).options.length = 0;
         $j("#formVal").get(0).options[0] = new Option("Select",
             "-1");
@@ -1171,9 +1171,7 @@ function months_between(date1, date2) {
 }
 
 function getDrugDispense(drug) {
-
-    $j.getJSON("drugDetails.form?drop=drug&id=" + drug, function (result) {
-
+    $j.getJSON("drug.form?id=" + drug, function (result) {
         $j.each(result, function (index, value) { //bincard"stateList
 
         });

@@ -1,5 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head><title>Adult HIV Prescription form</title>
     <style type="text/css">
@@ -285,9 +284,9 @@
     </td>
     <td><input type="text" name="otherR" value="" style="width:50px;"/></td>
     <td><input type="text" name="PillCount" value="" style="width:50px;"/> </td>
-    <td><input type="radio" name="fifteenth_requested" title="dispensed" value="30" />30
-        <input type="radio" name="fifteenth_requested" title="dispensed" value="60" />60
-        <input  type="radio" name="fifteenth_requested" title="dispensed" value="90" />90
+    <td><input type="radio" name="fifteenth_dispensed" title="dispensed" value="30" />30
+        <input type="radio" name="fifteenth_dispensed" title="dispensed" value="60" />60
+        <input  type="radio" name="fifteenth_dispensed" title="dispensed" value="90" />90
     </td>
     <td><input type="text" name="Quantity" value="" title="qnty" style="width:50px;"/> </td>
 </tr>

@@ -541,7 +541,7 @@ public class HighBincardController {
 
                     pharmacyStore.setExpireDate(date2);
 
-                    pharmacyStore.setBatchNo(Integer.parseInt(binbatch));
+                    pharmacyStore.setBatchNo(binbatch);
                     pharmacyStore.setDeliveryNo(Integer.parseInt(deliveryno));
                     pharmacyStore.setS11(Integer.parseInt(bins11));
 

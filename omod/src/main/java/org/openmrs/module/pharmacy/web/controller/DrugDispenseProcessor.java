@@ -36,26 +36,18 @@ public class DrugDispenseProcessor {
     private String drugName;
     private String inventoryNo;
     private Calendar readDate;
-    private String voiduuid;
-    private String voidreason;
-    private String uuidedit;
-    private String dispenseedit;
-    private UserContext userService;
     private boolean editPharmacy = false;
     private boolean deletePharmacy = false;
     private String days;
     private String amount;
     private String dose = null;
     private String option;
-    private Integer b;
     private String quantity;
     private String form;
     private String front;
     private String back;
-    private boolean found;
     private String drugID;
     private List<PharmacyLocationUsers> pharmacyLocationUserses;
-    private int sizeUsers;
     private DrugDispenseSettings drugDispense;
     @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/drugDispenseRequest")
     public synchronized void drugExtraFormProcessor(HttpServletRequest request, HttpServletResponse response) {
@@ -63,14 +55,12 @@ public class DrugDispenseProcessor {
         days= "2"; //inventory
         drugID=request.getParameter("drugID");
         inventoryNo=request.getParameter("inventoryNo");
-        drugName=request.getParameter("dispensedrug");
         option="tablets";
         amount="1";
         quantity="1";
         form="Tablets";
         back="a";
         front="a";
-         log.info("inventotryNO is+++++++++++++++++++++++++++++++++++++++++++++++"+inventoryNo);
         String locationVal = null;
         List<PharmacyLocationUsers> listUsers = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         int sizeUsers = listUsers.size();
@@ -89,12 +79,13 @@ public class DrugDispenseProcessor {
         calendar = new GregorianCalendar();
         gregorianCalendar.set(currentDate.get(currentDate.YEAR), currentDate.get(currentDate.MONTH),
         currentDate.get(currentDate.DAY_OF_MONTH));
+        System.out.println("drugID in from drug dispensesetting is++++++++++++++++++++++++++++++++++"+drugID);
         DrugDispenseSettings drugDispenseSettings1 = service.getDrugDispenseSettingsByDrugIdAndLocation(Integer.valueOf(drugID),pharmacyLocations.getUuid());
         if (drugDispenseSettings1 ==null) {
             drugDispense = new DrugDispenseSettings();
             drugDispense.setBatchId(service.getPharmacyInventoryByUuid(inventoryNo).getBatchNo());
             drugDispense.setInventoryId(service.getPharmacyInventoryByUuid(inventoryNo));
-            drugDispense.setDrugId(Context.getConceptService().getDrugByNameOrId(drugName));
+            drugDispense.setDrugId(Context.getConceptService().getDrugByNameOrId(drugID));
             drugDispense.setLocation(service.getPharmacyLocationsByName(locationVal));
             drugDispense.setOption(service.getPharmacyGeneralVariablesByName(option));
             drugDispense.setValue(Integer.parseInt(days));
@@ -108,7 +99,7 @@ public class DrugDispenseProcessor {
             drugDispense =drugDispenseSettings1;
             drugDispense.setBatchId(service.getPharmacyInventoryByUuid(inventoryNo).getBatchNo());
             drugDispense.setInventoryId(service.getPharmacyInventoryByUuid(inventoryNo));
-            drugDispense.setDrugId(Context.getConceptService().getDrugByNameOrId(drugName));
+            drugDispense.setDrugId(Context.getConceptService().getDrugByNameOrId(drugID));
             drugDispense.setLocation(service.getPharmacyLocationsByName(locationVal));
             drugDispense.setOption(service.getPharmacyGeneralVariablesByName(option));
             drugDispense.setValue(Integer.parseInt(days));

@@ -8,7 +8,7 @@ $j.getJSON('drugBincard.form', function (data) {
                 '<td><input type="text" name="stockTakeFormQuantity" style="width:50px;" id="stockTakeFormQuantity_'+idx+'" readonly  value="' +vals[3]+'"/>' +'</td>' +
                 '<td><input type="text" name="stockTakeFormExpiryDate" id="stockTakeFormExpiryDate_'+idx+'" readonly style="width:100px" value="'+vals[4]+'"/></td>'+
                 '<td><input type="text"  name="stockTakeFormBatchNo" style="width:80px;" id="stockTakeFormBatchNo_'+idx+'" value="'+vals[5]+'" /></td>'+
-                '<td><input type="text" name="stockTakeFormDrugID" id="stockTakeFormDrugID_'+idx+'" style="width:80px;" readonly value="'+vals[6]+'" /></td>' +
+                '<td><input type="text" name="stockTakeFormBuyingPrice" id="stockTakeFormBuyingPrice_'+idx+'" style="width:80px;" value="'+vals[9]+'" /></td>' +
                 '<td><input type="text" name="stockTakeFormunitPrice" style="width:50px;" value="'+vals[7]+'" id="stockTakeFormunitPrice_'+idx+'"/></td> '+
                 '<td><input type="text" name="stockTakeFormDose" style="width:80px;" value="'+vals[8]+'" id="stockTakeFormDose_'+idx+'"/></td> '+
                 '<td><input type="text" name="stockTakeFormNewQuantity" id="stockTakeFormNewQuantity" value="" style="width:80px;" </td></tr>');

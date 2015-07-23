@@ -16,24 +16,22 @@ $j("#hidelocation").click(function () {
     $j("#locationForm").hide();
 });
 $j("#locationForm").submit(function () {
-        dataString = $j("#locationForm").serialize();
         var e = document.getElementById("locationsVal");
         var selectedLocation = e.options[e.selectedIndex].value;
             $j.ajax({
                 type:"POST",
                 url:"locationSetter.form?selectedLocation="+selectedLocation,
-                data:dataString,
                 success:function (data) {
                 }
             });
     return true;
 });
 function getDataLocation() {
-    $j.getJSON("drugDetails.form?drop=location",function (result) {
+    $j.getJSON("getLocations.form",function (result) {
         if (result == "") {
             $j("#spinner").hide();
             $j("#errorDialog").empty();
-            $j('<dl><dt></dt><dd >' + "Info: " + "No locations set for you contact your admin" + '</dd></dl> ').appendTo('#errorDialog');
+            $j('<dl><dt></dt><dd >' + "Info: " + "No locations set for you, contact your admin" + '</dd></dl> ').appendTo('#errorDialog');
             $j("#errorDialog").dialog("open");
         }
         else {

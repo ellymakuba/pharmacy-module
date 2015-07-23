@@ -9,10 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
-import org.openmrs.Drug;
-import org.openmrs.Person;
-import org.openmrs.Role;
-import org.openmrs.User;
+import org.openmrs.*;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.UserService;
 import org.openmrs.api.context.Context;
@@ -158,7 +155,7 @@ public class dispenseController {
         String formtype = request.getParameter("formtype");
         String drugID = request.getParameter("drugCheck");
         String totVal = request.getParameter("total");
-        String patientUUIDToFindRegimen=request.getParameter("patientUUIDToFindRegimen");
+
         //get openmrs variables
         service = Context.getService(PharmacyService.class);
         patientService = Context.getEncounterService();
@@ -334,15 +331,7 @@ public class dispenseController {
                 jsonObject.accumulate("iDisplayLength", 10);
                 response.getWriter().print(jsonObject);
             }
-            else if (patientUUIDToFindRegimen != null) {
-                String patientID=service.getPatientByIdentifier(patientUUIDToFindRegimen) ;
-                list=service.getCurrentPatientRegimen(patientID);
-                jsonObject= new JSONObject();
-                if(list !=null){
-                    jsonObject.accumulate("aaData",list.get(0).getRegimenName());
-                }
-                response.getWriter().print(jsonObject);
-            } else if (passUserId != null) {
+             else if (passUserId != null) {
                 jsonArray = new JSONArray();
                 jsonArray.put(Context.getUserContext().getAuthenticatedUser().getSystemId());
                 response.getWriter().print(jsonArray);
@@ -394,6 +383,52 @@ public class dispenseController {
             log.error("Error generated"+e.getLocalizedMessage());
         }
     }
+    @RequestMapping(method=RequestMethod.GET,value="module/pharmacy/getPatientSummaryDetails")
+    public void getPatientSummaryDetails(HttpServletRequest request,HttpServletResponse response) throws JSONException, IOException {
+        String patientUUID=request.getParameter("patientUUID");
+        service = Context.getService(PharmacyService.class);
+        String patientID=service.getPatientByIdentifier(patientUUID) ;
+        Patient patient=Context.getPatientService().getPatient(Integer.valueOf(patientID));
+        PharmacyEncounter patientLastEncounter=service.getLastPharmacyEncounterByPatientUUID(patient);
+        jsonObject= new JSONObject();
+        jsonArray=new JSONArray();
+        if(patientLastEncounter !=null){
+            Date realDate=new Date();
+            SimpleDateFormat todaysDate=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            String dateFormat=todaysDate.format(realDate.getTime());
+            Date actualDate=null;
+            try {
+                actualDate=todaysDate.parse(dateFormat);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            int DaysInMillSec= 1000 * 60 * 60 * 24;
+
+            long largeDate=patientLastEncounter.getNextVisitDate().getTime()/DaysInMillSec;
+            long smallDate=actualDate.getTime()/DaysInMillSec;
+            long DiffInDays=largeDate-smallDate;
+            SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            String dateFormated=fmt.format(patientLastEncounter.getNextVisitDate().getTime());
+            Date expNextDateOfVisit= null;
+            try {
+                expNextDateOfVisit = fmt.parse(dateFormated);
+            } catch (ParseException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            int drugsPerDay=2;
+            SimpleDateFormat fmtDate=new SimpleDateFormat("dd/MM/yyyy");
+            String formatedLastVisitDate=fmtDate.format(patientLastEncounter.getDateCreated().getTime());
+            String formatedNextVisitDate=fmtDate.format(patientLastEncounter.getNextVisitDate().getTime());
+            //jsonArray.put(list.get(0).getNextVisitDate());
+            jsonArray.put(patientLastEncounter.getRegimenName());
+            jsonArray.put(formatedLastVisitDate);
+            jsonArray.put(formatedNextVisitDate);
+            jsonArray.put(DiffInDays);
+            jsonArray.put(DiffInDays*drugsPerDay);
+        }
+        response.getWriter().print(jsonArray);
+
+    }
     @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/dispense")
     public synchronized void pageLoadd(HttpServletRequest request, HttpServletResponse response) {
         String transactionsName = request.getParameter("transactionsname");
@@ -430,13 +465,9 @@ public class dispenseController {
             }
 
         } else if (transactionsUuidVoid != null) {
-
-
             pharmacyTransactionTypes = service.getPharmacyTransactionTypesByUuid(transactionsUuidVoid);
-
             pharmacyTransactionTypes.setVoided(true);
             pharmacyTransactionTypes.setVoidReason(transactionsReason);
-
             service.savePharmacyTransactionTypes(pharmacyTransactionTypes);
 
         }

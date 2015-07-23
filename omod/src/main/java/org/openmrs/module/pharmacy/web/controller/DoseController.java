@@ -93,6 +93,7 @@ public class DoseController {
         String edit = request.getParameter("doseEdit");
         String uuid = request.getParameter("doseUUID");
         userService = Context.getUserContext();
+        service = Context.getService(PharmacyService.class);
         if (edit != null) {
             if (edit.equalsIgnoreCase("false")) {
                 doseList = service.getPharmacyDose();

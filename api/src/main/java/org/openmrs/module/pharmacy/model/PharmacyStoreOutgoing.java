@@ -24,56 +24,27 @@ import java.util.Date;
  * @author Ampath Developers PharmacyStoreOutgoing
  */
 public class PharmacyStoreOutgoing extends BaseOpenmrsData {
-
     private Integer id;
-
     private Drug drug;
-
     private Integer quantityIn;
-
-
-
     private Integer maxLevel;
-
     private Integer minLevel;
-
-    private Integer batchNo;
+    private String batchNo;
     private Integer s11;
     private Integer deliveryNo;
-
     private Date expireDate;
-
-
     private String changeReason;
     private String status;
-
     private PharmacyLocations location;
-
-
     private PharmacyLocations destination;
-
-
     private PharmacySupplier supplier;
-
-
     private PharmacyTransactionTypes transaction;
     private PharmacyStoreIncoming incoming;
-
     private PharmacyCategory category;
-
     private boolean approved;
-
-
-
-
     private User requested;
     private User issued;
     private User authorized;
-
-
-
-
-
     /** default constructor */
     public PharmacyStoreOutgoing() {
     }
@@ -82,7 +53,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @return  id
      */
     public Integer getId() {
-
         return id;
     }
 
@@ -91,43 +61,26 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      */
 
     public void setId(Integer id) {
-
         this.id = id;
 
     }
-
-
-
-
-
-
-
     /**
      * @param status
      */
     public void setStatus(String status) {
-
         this.status = status;
 
     }
-
     /**
      * @return status
      */
     public String getStatus() {
-
         return status;
     }
-
-
-
-
-
     /**
      * @return  requested
      */
     public User getRequested() {
-
         return requested;
     }
 
@@ -136,7 +89,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      */
 
     public void setRequested(User requested) {
-
         this.requested = requested;
 
     }
@@ -144,7 +96,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @return  issued
      */
     public User getIssued() {
-
         return issued;
     }
 
@@ -153,7 +104,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      */
 
     public void setIssued(User issued) {
-
         this.issued = issued;
 
     }
@@ -161,7 +111,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @return  authorized
      */
     public User getAuthorized() {
-
         return authorized;
     }
 
@@ -170,18 +119,13 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      */
 
     public void setAuthorized(User authorized) {
-
         this.authorized = authorized;
 
     }
-
-
-
     /**
      * @return approved
      */
     public boolean getApproved() {
-
         return approved;
     }
 
@@ -189,7 +133,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @param  num
      */
     public void setApproved(boolean num) {
-
         this.approved = num;
 
     }
@@ -197,14 +140,12 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @return drug
      */
     public Drug getDrugs() {
-
         return drug;
     }
     /**
      * @return  deliveryNo
      */
     public Integer getDeliveryNo() {
-
         return deliveryNo;
     }
 
@@ -213,7 +154,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      */
 
     public void setDeliveryNo(Integer DeliveryNo) {
-
         this.deliveryNo = DeliveryNo;
 
     }
@@ -223,7 +163,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @param drugsId
      */
     public void setDrugs(Drug drugsId) {
-
         this.drug = drugsId;
 
     }
@@ -232,7 +171,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @param quantityIn
      */
     public void setQuantityIn(int quantityIn) {
-
         this.quantityIn = quantityIn;
 
     }
@@ -241,7 +179,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @return quantityIn
      */
     public Integer getQuantityIn() {
-
         return quantityIn;
     }
 
@@ -250,7 +187,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @param maxLevel
      */
     public void setMaxLevel(int maxLevel) {
-
         this.maxLevel = maxLevel;
 
     }
@@ -259,14 +195,12 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @return maxLevel
      */
     public Integer getMaxLevel() {
-
         return maxLevel;
     }
     /**
      * @param minLevel
      */
     public void setMinLevel(int minLevel) {
-
         this.minLevel = minLevel;
 
     }
@@ -275,7 +209,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @return minLevel
      */
     public Integer getMinLevel() {
-
         return minLevel;
     }
 
@@ -285,8 +218,7 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
     /**
      * @param batchNo
      */
-    public void setBatchNo(int batchNo) {
-
+    public void setBatchNo(String batchNo) {
         this.batchNo = batchNo;
 
     }
@@ -294,8 +226,7 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
     /**
      * @return batchNo
      */
-    public Integer getBatchNo() {
-
+    public String getBatchNo() {
         return batchNo;
     }
 
@@ -304,7 +235,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @param s11
      */
     public void setS11(int s11) {
-
         this.s11 = s11;
 
     }
@@ -313,7 +243,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @return s11
      */
     public Integer getS11() {
-
         return s11;
     }
 
@@ -321,7 +250,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @param expireDate
      */
     public void setExpireDate(Date expireDate) {
-
         this.expireDate = expireDate;
 
     }
@@ -330,7 +258,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @return expireDate
      */
     public Date getExpireDate() {
-
         return expireDate;
     }
 
@@ -338,7 +265,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @param changeReason
      */
     public void setChangeReason(String changeReason) {
-
         this.changeReason = changeReason;
 
     }
@@ -347,7 +273,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @return changeReason
      */
     public String getChangeReason() {
-
         return changeReason;
     }
 
@@ -356,7 +281,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @param location
      */
     public void setLocation(PharmacyLocations location) {
-
         this.location = location;
 
     }
@@ -365,7 +289,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @return location
      */
     public PharmacyLocations getLocation() {
-
         return location;
     }
 
@@ -374,7 +297,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @param destination
      */
     public void setDestination(PharmacyLocations destination) {
-
         this.destination = destination;
 
     }
@@ -383,7 +305,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @return location
      */
     public PharmacyLocations getDestination() {
-
         return destination;
     }
 
@@ -392,7 +313,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @param supplier
      */
     public void setSupplier(PharmacySupplier supplier) {
-
         this.supplier = supplier;
 
     }
@@ -401,7 +321,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @return supplier
      */
     public PharmacySupplier getSupplier() {
-
         return supplier;
     }
 
@@ -411,7 +330,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @param transaction
      */
     public void setTransaction(PharmacyTransactionTypes transaction) {
-
         this.transaction = transaction;
 
     }
@@ -420,7 +338,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @return supplier
      */
     public PharmacyTransactionTypes getTransaction() {
-
         return transaction;
     }
 
@@ -428,7 +345,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @param incoming
      */
     public void setIncoming(PharmacyStoreIncoming incoming) {
-
         this.incoming = incoming;
 
     }
@@ -437,7 +353,6 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @return incoming
      */
     public PharmacyStoreIncoming getIncoming() {
-
         return incoming;
     }
 
@@ -445,11 +360,9 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
      * @param category
      */
     public void setCategory(PharmacyCategory category) {
-
         this.category = category;
 
     }
-
     /**
      * @return category
      */

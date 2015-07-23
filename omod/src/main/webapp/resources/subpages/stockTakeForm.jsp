@@ -26,8 +26,8 @@
                         <th>Quantity</th>
                         <th>Expiry Date</th>
                         <th>Batch No</th>
-                        <th>Drug ID</th>
-                        <th>Unit Price</th>
+                        <th>Buying Price</th>
+                        <th>Selling Price</th>
                         <th>Dose</th>
                         <th>New Quantity</th>
                     </tr>

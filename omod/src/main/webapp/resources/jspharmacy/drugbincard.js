@@ -503,15 +503,9 @@ $j("input[name=bindrug]").live("focus", function () {
         },
 
         source:function (request, response) {
-
-            dataString = "searchDrug=" + request.term;
-
-            $j.getJSON("drugDetails.form?drop=drop&" + dataString, function (result) {
-
+            $j.getJSON("drop.form?searchDrug=" + request.term, function (result) {
                 $j("#bindrug").removeClass('working');
-
                 response($j.each(result, function (index, item) {
-
                     return {
                         label:item,
                         value:item
@@ -539,15 +533,11 @@ $j("input[name=bindrug]").live("focus", function () {
 
 });
 function getData() {
-
-    $j
-        .getJSON(
-        "drugDetails.form?drop=drop",
+    $j.getJSON(
+        "drop.form?",
         function (result) {
-
             $j("#bindrug").get(0).options.length = 0;
-            $j("#bindrug").get(0).options[0] = new Option("Select",
-                "-1");
+            $j("#bindrug").get(0).options[0] = new Option("Select", "-1");
             $j
                 .each(
                 result,
@@ -609,19 +599,11 @@ function getDrugCategory() {
 
 $j("#filterdrugbin").autocomplete({
     search:function () {
-        $j(this).addClass('working');
-    },
-
+        $j(this).addClass('working');    },
     source:function (request, response) {
-
-        dataString = "searchDrug=" + request.term;
-
-        $j.getJSON("drugDetails.form?drop=drop&" + dataString, function (result) {
-
+        $j.getJSON("drop.form?searchDrug=" + request.term, function (result) {
             $j("#filterdrugbin").removeClass('working');
-
             response($j.each(result, function (index, item) {
-
                 return {
                     label:item,
                     value:item
@@ -653,11 +635,9 @@ function getDrugFilter() {
 }
 
 function getDataLocation() {
-
     $j.getJSON(
-        "drugDetails.form?drop=location",
+        "locationSelect.form",
         function (result) {
-
             $j("#location").get(0).options.length = 0;
             $j("#location").get(0).options[0] = new Option("Select",
                 "-1");

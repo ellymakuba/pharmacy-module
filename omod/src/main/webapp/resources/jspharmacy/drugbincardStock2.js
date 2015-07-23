@@ -127,8 +127,7 @@ $j("#filterdrugstock").autocomplete({
         $j(this).addClass('working');
     },
     source:function (request, response) {
-        dataString = "searchDrug=" + request.term;
-        $j.getJSON("drugDetails.form?drop=drop&" + dataString, function (result) {
+        $j.getJSON("drop.form?searchDrug=" + request.term, function (result) {
             $j("#filterdrugstock").removeClass('working');
             response($j.each(result, function (index, item) {
                 return {

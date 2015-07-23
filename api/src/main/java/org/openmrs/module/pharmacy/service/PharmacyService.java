@@ -478,7 +478,7 @@ public interface PharmacyService extends OpenmrsService {
     @Transactional(readOnly=true)
     public List<DrugExtra> getDrugRange(Date minDate, Date maxDate,String locationUUID);
     public List<PharmacyEncounter> getEncountersRange(Date f,Date t,String loc);
-    public List<PharmacyEncounter>  getCurrentPatientRegimen(String patientUUID);
+    public PharmacyEncounter  getCurrentPatientRegimen(String patientUUID);
     public Integer getNumberOfPatientsOnRegimen(Date startDate,Date endDate,String regimenCode);
     public String  getPatientByIdentifier(String identifier);
     public List<PharmacyStoreIncoming> getDrugQuantityAfterLastStockTake(Date minDate, Date maxDate,String uuid);
@@ -757,7 +757,6 @@ public interface PharmacyService extends OpenmrsService {
      * @return one pharmacyDrugOrderExtra object by uuid
      */
     public PharmacyDrugOrderExtra getPharmacyDrugOrderExtraByUuid(String uuid);
-
     public PharmacyStore getBatchNoByNo(int batchno);
     public PharmacyTemporaryInventory saveTemporaryInventory(PharmacyTemporaryInventory pharmacyTemporaryInventory);
     public List<PharmacyEncounter> getPharmacyEncounterListByLocationUUID(String locationUUID);
@@ -770,4 +769,12 @@ public interface PharmacyService extends OpenmrsService {
     public Double getDrugTotalCashCollectedWithinPeriodRange(Date startDate,Date endDate, Integer drugID,String locationUUID);
     public List<DrugExtra> getDrugExtraByPharmacyEncounter(PharmacyEncounter encounter);
     public List<PharmacyEncounter> getUnclearedPharmacyEncountersListByPersonID(Integer personID);
+    public List<PharmacyStore> getInventoryByLocation(String locationUUID);
+    public PharmacyStore getPharmacyStoreByDrugName(String locationUUID,Drug drug);
+    public List<PharmacyEncounter> getDetailedEncountersRange(Date minDate,Date maxDate,String location);
+    public List<S11> getS11WithinDateRange(PharmacyLocations location, Date startDate, Date endDate);
+    public boolean savePharmacyS11(S11 pharmacyS11);
+    public List<DrugTransactions>  getPharmacyDrugTransactionsByS11NO(String s11No,PharmacyLocations pharmacyLocation);
+    public boolean saveGeneratedInventoryQuantities(List<GeneratePharmacyInventoryQuantities> stockQuantities);
+    public GeneratePharmacyInventoryQuantities getDrugInventoryOpeningStockByDateAndLocation(Drug drug,Date startDate,Date endDate,String locationUUID);
 }
