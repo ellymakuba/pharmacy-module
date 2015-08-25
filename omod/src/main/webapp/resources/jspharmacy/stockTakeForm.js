@@ -10,6 +10,7 @@ $j.getJSON('drugBincard.form', function (data) {
                 '<td><input type="text"  name="stockTakeFormBatchNo" style="width:80px;" id="stockTakeFormBatchNo_'+idx+'" value="'+vals[5]+'" /></td>'+
                 '<td><input type="text" name="stockTakeFormBuyingPrice" id="stockTakeFormBuyingPrice_'+idx+'" style="width:80px;" value="'+vals[9]+'" /></td>' +
                 '<td><input type="text" name="stockTakeFormunitPrice" style="width:50px;" value="'+vals[7]+'" id="stockTakeFormunitPrice_'+idx+'"/></td> '+
+                 '<td><input type="text" name="stockTakeFormunitsPerPack" style="width:50px;" value="'+vals[10]+'" id="stockTakeUnitsPerPack_'+idx+'"/></td> '+
                 '<td><input type="text" name="stockTakeFormDose" style="width:80px;" value="'+vals[8]+'" id="stockTakeFormDose_'+idx+'"/></td> '+
                 '<td><input type="text" name="stockTakeFormNewQuantity" id="stockTakeFormNewQuantity" value="" style="width:80px;" </td></tr>');
 
@@ -29,6 +30,7 @@ function updateInventoryDetails(){
         })
         jsonStockTakeData.push(rowObject);
     });
+    if(confirm("Are you sure you want to update the inventory values")){
     $j.ajax({
         type:"POST",
         url:"postStockTakeFormRequest.form",
@@ -37,4 +39,5 @@ function updateInventoryDetails(){
             window.location.reload(true);
         }
     });
+    }
 }

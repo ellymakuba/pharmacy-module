@@ -1,24 +1,68 @@
 package org.openmrs.module.pharmacy.web.controller;
 
-/**
- * Created with IntelliJ IDEA.
- * User: nelson
- * Date: 12/28/12
- * Time: 11:00 AM
- * To change this template use File | Settings | File Templates.
- */
+import org.openmrs.Drug;
+
 public class ObsProcessor {
-
-
     private String concept;
-
     private String conceptAnswer;
     private String conceptCodedAnswer;
-
-
-
+    private String valueText;
+    private String valueCoded;
+    private String obsGroupID;
+    private String valueNumeric;
+    private String comment;
+    private Drug valueDrug;
+    private Integer rowCounter;
     /** default constructor */
     public ObsProcessor() {
+    }
+
+    public Integer getRowCounter() {
+        return rowCounter;
+    }
+
+    public void setRowCounter(Integer rowCounter) {
+        this.rowCounter = rowCounter;
+    }
+
+    public Drug getValueDrug() {
+        return valueDrug;
+    }
+
+    public void setValueDrug(Drug valueDrug) {
+        this.valueDrug = valueDrug;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getValueNumeric() {
+        return valueNumeric;
+    }
+
+    public void setValueNumeric(String valueNumeric) {
+        this.valueNumeric = valueNumeric;
+    }
+
+    public String getObsGroupID() {
+        return obsGroupID;
+    }
+
+    public void setObsGroupID(String obsGroupID) {
+        this.obsGroupID = obsGroupID;
+    }
+
+    public String getValueCoded() {
+        return valueCoded;
+    }
+
+    public void setValueCoded(String valueCoded) {
+        this.valueCoded = valueCoded;
     }
 
     /**
@@ -58,6 +102,13 @@ public class ObsProcessor {
 
     }
 
+    public String getValueText() {
+        return valueText;
+    }
+
+    public void setValueText(String valueText) {
+        this.valueText = valueText;
+    }
 
     public String getConceptCodedAnswer() {
         return conceptCodedAnswer;

@@ -140,7 +140,7 @@ public class TBFormController {
                 }
                 dispensedModel.add(drugExtra);
             }
-            PharmacyEncounter pharmacyEncounter = new PharmacyEncounter();
+            pharmacyEncounter = new PharmacyEncounter();
             String date_s = "2000-01-18 00:00:00.0";
             SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             Date date1 = null;
@@ -163,13 +163,10 @@ public class TBFormController {
             pharmacyEncounter.setDisplay(1);
             service.savePharmacyEncounter(pharmacyEncounter);
 
-
             for(int i=0; i<dispensedModel.size(); i++){
-                DrugExtra drugExtra = new DrugExtra();
                 PharmacyOrders pharmacyOrders = new PharmacyOrders();
                 observations=new PharmacyObs();
                 if(dispensedModel.get(i).getDrug() !=null) {
-
                     pharmacyOrders.setAutoEndDate(null);
                     pharmacyOrders.setConcept(dispensedModel.get(i).getDrug().getConcept().getConceptId().toString());
                     pharmacyOrders.setDiscontinued(false);
@@ -179,14 +176,12 @@ public class TBFormController {
                     pharmacyOrders.setStartDate(null);
                     pharmacyOrders.setPharmacyEncounter(pharmacyEncounter);
                     listPharmacyOrders.add(pharmacyOrders);
+
                     PharmacyDrugOrder pharmacyDrugOrder = new PharmacyDrugOrder();
-                    //pharmacyDrugOrder.setDose(CheckIfDoubleNull(c.get(2).getDose()));
-                    //pharmacyDrugOrder.setDrugUuid(drugExtra);
                     pharmacyDrugOrder.setDrugInventoryUuid(service.getDrugDispenseSettingsByDrugId(dispensedModel.get(i).getDrug()).getInventoryId());
                     pharmacyDrugOrder.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));
                     pharmacyDrugOrder.setEquivalentDailyDose(0);
                     pharmacyDrugOrder.setFormName(encounterProcessor.getForm());
-                    //pharmacyDrugOrder.setFrequency(CheckIfStringNull(c.get(2).getFrequency()));
                     Calendar cal=new GregorianCalendar();
                     SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     String dateFormated=fmt.format(cal.getTime());
@@ -201,7 +196,6 @@ public class TBFormController {
                     pharmacyDrugOrder.setOrderUuid(pharmacyOrders);
                     pharmacyDrugOrder.setQuantityPrescribed(dispensedModel.get(i).getQuantitysold());
                     pharmacyDrugOrder.setQuantityGiven(dispensedModel.get(i).getQuantitysold());
-                    //pharmacyDrugOrder.setUnits(CheckIfStringNull(c.get(2).getUnits()));
                     listPharmacyDrugOrders.add(pharmacyDrugOrder);
 
                     observations.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));
@@ -215,10 +209,10 @@ public class TBFormController {
                 }
 
             }
-            //service.saveDrugExtra(listDrugExtra);
-            service.savePharmacyObs(listPharmacyObs);
             service.savePharmacyOrders(listPharmacyOrders);
             service.savePharmacyDrugOrders(listPharmacyDrugOrders);
+            service.savePharmacyObs(listPharmacyObs);
+
         }
         catch (org.json.simple.parser.ParseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

@@ -105,7 +105,7 @@ public class DrugDispenseStore {
                 json = new JSONObject();
                 Drug drugToSelect=Context.getConceptService().getDrugByNameOrId(dialog);
                 PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
-                pharmacyStoreList = service.getPharmacyStoreByNameAndLocation(drugToSelect.getName(),pharmacyLocations.getUuid());
+                pharmacyStoreList = service.getPharmacyStoreByNameAndLocation(drugToSelect.getName(),pharmacyLocations);
                 size2 = pharmacyStoreList.size();
                 for (int i = 0; i < size2; i++) {
                     DateTime x = new DateTime(pharmacyStoreList.get(i).getExpireDate());
@@ -328,7 +328,7 @@ public class DrugDispenseStore {
     }
 
     public synchronized JSONArray getArray(List<PharmacyStore> pharmacyStore, int size, String id, String location) {
-        if (service.getPharmacyLocationsByUuid(pharmacyStore.get(size).getLocation()).getName().equalsIgnoreCase(location)) {
+        if (pharmacyStore.get(size).getLocation().getName().equalsIgnoreCase(location)) {
             log.info("drug is not in location one ++++++++++++++++++++++++++++++++++++++++++++++"+pharmacyStore.get(size).getDrugs().getDrugId());
             if (dialog != null) {
                 log.info("drug is not in location two ++++++++++++++++++++++++++++++++++++++++++++++"+pharmacyStore.get(size).getDrugs().getDrugId());

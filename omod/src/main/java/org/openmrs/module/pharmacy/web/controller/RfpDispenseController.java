@@ -653,7 +653,7 @@ public class RfpDispenseController {
                     }
                     else{
                         PharmacyDrugOrder pharmacyDrugOrder = new PharmacyDrugOrder();
-                        pharmacyDrugOrder.setDose(1900);
+                        pharmacyDrugOrder.setDose("1900");
                         pharmacyDrugOrder.setDrugUuid(drugExtraToUpdate);
                         pharmacyDrugOrder.setDrugInventoryUuid(service.getDrugDispenseSettingsByDrugId(dispensedModel.get(i).getDrug()).getInventoryId());
                         pharmacyDrugOrder.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));

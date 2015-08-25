@@ -25,89 +25,47 @@ import java.util.*;
 
 @Controller
 public class LowBincardController {
-
     private static final Log log = LogFactory.getLog(LowBincardController.class);
-
     private JSONArray data;
-
     private JSONArray datad;
-
     public PharmacyService service;
-
     String drop = null;
-
     private boolean found = false;
-
     private String uuid;
-
     private String drugstrength;
-
     private String drugunit;
-
     private String formulation;
-
     private String originalbindrug;
-
     private String dialog = null;
-
     private LocationService serviceLocation;
-
     private PharmacyStoreIncoming pharmacyStoreIncoming = null;
-
     private PharmacyStoreOutgoing pharmacyStoreOutgoing = null;
-
-    private Location locationClass = null;
-
+    private PharmacyLocations locationClass = null;
     private Date dateVal = null;
-
     private int inVal = 0;
-
     private int outVal = 0;
-
     private int totalVal = 0;
-
     private String filter = null;
-
     private String uuidfilter = null;
-
     private boolean exit = false;
-
     private String bindrug;
-
     private String binquantityin;
-
     private String binmax;
-
     private String binmin;
-
     private String incomingnumber;
-
     private String binnumber;
-
     private String binbatch;
-
     private String bins11;
-
     private String deliveryno;
-
     private String uuiddialog;
-
     private Calendar currentDate;
-
     private Calendar readDate;
-
     private Date dateC;
-
     private GregorianCalendar one;
-
     private GregorianCalendar two;
-
     private ConceptService serviceDrugs;
-
     private UserContext userService;
-
     private boolean editPharmacy = false;
-
     private boolean deletePharmacy = false;
     private List<PharmacyLocationUsers> pharmacyLocationUsersByUserName;
     private int sizeUsers;
@@ -182,8 +140,7 @@ public class LowBincardController {
 
                 for (int i = 0; i < size; i++) {
 
-                    if (service.getPharmacyLocationsByUuid(pharmacyInventory.get(i).getLocation()).getName()
-                            .equalsIgnoreCase(locationVal)) {
+                    if (pharmacyInventory.get(i).getLocation().getName().equalsIgnoreCase(locationVal)) {
                         JSONArray val = getArrayDialog(pharmacyInventory, i, locationVal);
                         if (val != null)
                             jsonObject.accumulate("aaData", val);
@@ -196,9 +153,7 @@ public class LowBincardController {
             } else {
                 for (int i = 0; i < size; i++) {
 
-                    if (service.getPharmacyLocationsByUuid(pharmacyInventory.get(i).getLocation()).getName()
-                            .equalsIgnoreCase(locationVal)) {
-
+                    if (pharmacyInventory.get(i).getLocation().getName().equalsIgnoreCase(locationVal)) {
                         JSONArray val = getArray(pharmacyInventory, i, locationVal);
                         if (val != null)
                             jsonObject.accumulate("aaData", val);
@@ -321,7 +276,7 @@ public class LowBincardController {
         }
 
         if (location != null) {
-            locationClass = serviceLocation.getLocation(location);
+            locationClass = service.getPharmacyLocationsByName(location);
 
         }
 
@@ -386,12 +341,8 @@ public class LowBincardController {
                     pharmacyStore.setQuantityIn(inVal);
                     pharmacyStore.setQuantityOut(outVal);
                     pharmacyStore.setChangeReason(bincom);
-
-                    pharmacyStore.setLocation(locationClass.getUuid());
-
-
+                    pharmacyStore.setLocation(locationClass);
                     pharmacyStore.setExpireDate(new Date());
-
                     pharmacyStore.setIncoming(pharmacyStoreIncoming);
                     pharmacyStore.setOutgoing(pharmacyStoreOutgoing);
 
@@ -442,7 +393,7 @@ public class LowBincardController {
 
                             pharmacyStore.setChangeReason(bincom);
 
-                            pharmacyStore.setLocation(service.getPharmacyLocationsByName(location).getUuid());
+                            pharmacyStore.setLocation(service.getPharmacyLocationsByName(location));
                             pharmacyStore.setExpireDate(dateVal);
 
                             if (pharmacyStoreIncoming != null) {
@@ -558,9 +509,7 @@ public class LowBincardController {
         if (filter.length() > 2) {
 
             if (uuidfilter.equalsIgnoreCase(pharmacyStore.get(size).getDrugs().getUuid())) {
-                if (service.getPharmacyLocationsByUuid(pharmacyStore.get(size).getLocation()).getName()
-                        .equalsIgnoreCase(location)) {
-
+                if (pharmacyStore.get(size).getLocation().getName().equalsIgnoreCase(location)) {
                     readDate.setTime(pharmacyStore.get(size).getExpireDate());
 
                     two.set(readDate.get(readDate.YEAR), readDate.get(readDate.MONTH), readDate.get(readDate.DAY_OF_MONTH));
@@ -637,8 +586,7 @@ public class LowBincardController {
         } else {
 
 
-            if (service.getPharmacyLocationsByUuid(pharmacyStore.get(size).getLocation()).getName()
-                    .equalsIgnoreCase(location)) {
+            if (pharmacyStore.get(size).getLocation().getName().equalsIgnoreCase(location)) {
 
                 readDate.setTime(pharmacyStore.get(size).getExpireDate());
 
@@ -718,8 +666,7 @@ public class LowBincardController {
     }
 
     public synchronized JSONArray getArrayDialog(List<PharmacyStore> pharmacyStore, int size, String location) {
-        if (service.getPharmacyLocationsByUuid(pharmacyStore.get(size).getLocation()).getName()
-                .equalsIgnoreCase(location)) {
+        if (pharmacyStore.get(size).getLocation().getName().equalsIgnoreCase(location)) {
             if (uuiddialog != null) {
 
                 if (service.getPharmacyStoreOutgoingByUuid(uuiddialog).getDrugs().getUuid()

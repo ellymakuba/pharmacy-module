@@ -1,9 +1,62 @@
-
+function fnDataTablesPipeline2(sSource, aoData, fnCallback) {
+    var iPipe = 5;
+    var bNeedServer = false;
+    var sEcho = fnGetKey(aoData, "sEcho");
+    var iRequestStart = fnGetKey(aoData, "iDisplayStart");
+    var iRequestLength = fnGetKey(aoData, "iDisplayLength");
+    var iRequestEnd = iRequestStart + iRequestLength;
+    oCache.iDisplayStart = iRequestStart;
+    bNeedServer = true;
+    if (oCache.lastRequest && !bNeedServer) {
+        for (var i = 0, iLen = aoData.length; i < iLen; i++) {
+            if (aoData[i].name != "iDisplayStart" && aoData[i].name != "iDisplayLength" && aoData[i].name != "sEcho") {
+                if (aoData[i].value != oCache.lastRequest[i].value) {
+                    bNeedServer = true;
+                    break;
+                }
+            }
+        }
+    }
+    oCache.lastRequest = aoData.slice();
+    if (bNeedServer) {
+        if (iRequestStart < oCache.iCacheLower) {
+            iRequestStart = iRequestStart - (iRequestLength * (iPipe - 1));
+            if (iRequestStart < 0) {
+                iRequestStart = 0;
+            }
+        }
+        oCache.iCacheLower = iRequestStart;
+        oCache.iCacheUpper = iRequestStart + (iRequestLength * iPipe);
+        oCache.iDisplayLength = fnGetKey(aoData, "iDisplayLength");
+        fnSetKey(aoData, "iDisplayStart", iRequestStart);
+        fnSetKey(aoData, "iDisplayLength", iRequestLength * iPipe);
+        $j.getJSON(sSource, aoData, function (json) {
+            /* Callback processing */
+            oCache.lastJson = jQuery.extend(true, {}, json);
+            if (oCache.iCacheLower != oCache.iDisplayStart) {
+                json.aaData.splice(0, oCache.iDisplayStart - oCache.iCacheLower);
+            }
+            json.aaData.splice(oCache.iDisplayLength, json.aaData.length);
+            fnCallback(json)
+        });
+    }
+    else {
+        json = jQuery.extend(true, {}, oCache.lastJson);
+        json.sEcho = sEcho;
+        /* Update the echo for each response */
+        json.aaData.splice(0, iRequestStart - oCache.iCacheLower);
+        json.aaData.splice(iRequestLength, json.aaData.length);
+        fnCallback(json);
+        return;
+    }
+}
 $j("#datePicker").datepicker();
 $j("#datePicker").datepicker().datepicker('setDate',new Date());
 $j("#nextvisit").datepicker();
 var pRegimen;
+var pRegimenCode;
 var cRegimen;
+var patientEncountersDatatable;
 $j("#dataSection").hide();
 var drugConcepts = [
     [6467],
@@ -157,7 +210,7 @@ $j("#patientId").autocomplete({
     },
     minLength:3,
     select:function (event, ui) {
-        var patient=ui.item.value;
+            var patient=ui.item.value;
         var pharmacyEncounterPropeties={};
         $j.ajax({
             type:"GET",
@@ -175,11 +228,13 @@ $j("#patientId").autocomplete({
                             success:function(result){
                             if(result ==""){
                                  pRegimen="";
+                                 pRegimenCode="";
                                  $j("#currentRegimen").val("Not given");
                             }
                             else{
                                 pharmacyEncounterPropeties= result.toString().split(",");
                                  pRegimen=pharmacyEncounterPropeties[0];
+                                 pRegimenCode=pharmacyEncounterPropeties[0];
                                  $j("#currentRegimen").val(pharmacyEncounterPropeties[0]);
 
                                 var currentRegimen=pharmacyEncounterPropeties[0];
@@ -202,6 +257,29 @@ $j("#patientId").autocomplete({
 
                 $j("#dataSection").show();
             }
+        });
+        patientEncountersDatatable=$j('#patientEncounters').dataTable({
+        bJQueryUI:true,
+        bRetrieve:true,
+        bServerSide:true,
+        bProcessing:true,
+        sAjaxSource:"patientEncountersByIdentifier.form?identifier=" +patient,
+        "fnServerData":fnDataTablesPipeline2,
+        "fnRowCallback":function (nRow, aData, iDisplayIndex) {
+        var htm="<ul>";
+        if(aData[0]=="Edit"){
+        htm += '<li> <a href="#"  id="editS">Edit</a></li>';
+        }
+        htm += '</ul>';
+        $j('td:eq(0)', nRow).html(htm);
+         return nRow;
+        } ,
+        "aoColumnDefs":[
+        {
+         "bVisible":false,
+        "aTargets":[ 6 ]
+        }
+        ]
         });
 
     },
@@ -315,7 +393,7 @@ function checkHivForm(val,reg){
 
     } */
     cRegimen=val;
-    if(reg !=pRegimen && pRegimen !="")
+    if(reg !=pRegimen && pRegimen !="" && reg !="OI")
     {
         if($j("#regimenchange").is(':checked') || pRegimen =="undefined"){
             return true;
@@ -641,7 +719,11 @@ function regimenFilter(val){
         regimenN='ABC/3TC/EFV';
         regimenC='PA1B'
     }
-
+     if(regimen.length>splicedRegimen.length && splicedRegimen.length ==0)
+         {
+             regimenNam='OI';
+             regimenCod='OI';
+         }
     return [regimenC,regimenN];
 }
 
@@ -836,6 +918,10 @@ function processForm(){
             var regimenCode= regimens[0];
             var regimenName=regimens[1];
             var regimenVals;
+            if(regimenName=="OI" && pRegimen !="OI" && pRegimen !="" && pRegimen !="undefined"){
+                regimenName=pRegimen;
+                regimenCode=pRegimenCode;
+            }
             if(regimenName==""){
                 $j.ajax({
                     type:"GET",
@@ -843,9 +929,9 @@ function processForm(){
                     async:false,
                     success:function (result) {
                         if(result.toString() !=""){
-                            regimenVals=JSON.parse(result);
-                            regimenName=regimenVals.regimenNam;
-                            regimenCode=regimenVals.regimenCod;
+                        regimenVals=JSON.parse(result);
+                        regimenName=regimenVals.regimenNam;
+                        regimenCode=regimenVals.regimenCod;
                         }
                     }
                 });
@@ -876,6 +962,7 @@ function processForm(){
                                 },
                                 success:function () {
                                     document.getElementById("adultHIVForm").reset();
+                                    $j("#dataSection").hide();
                                     $j("#successDialog").empty();
                                     $j('<dl><dt></dt><dd >' +  "Dispensed successfuly" + '</dd></dl> ').appendTo('#successDialog');
                                     $j("#successDialog").dialog("open");

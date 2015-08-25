@@ -1,9 +1,65 @@
-
+var trData;
+function fnDataTablesPipeline2(sSource, aoData, fnCallback) {
+    var iPipe = 5;
+    var bNeedServer = false;
+    var sEcho = fnGetKey(aoData, "sEcho");
+    var iRequestStart = fnGetKey(aoData, "iDisplayStart");
+    var iRequestLength = fnGetKey(aoData, "iDisplayLength");
+    var iRequestEnd = iRequestStart + iRequestLength;
+    oCache.iDisplayStart = iRequestStart;
+    bNeedServer = true;
+    if (oCache.lastRequest && !bNeedServer) {
+        for (var i = 0, iLen = aoData.length; i < iLen; i++) {
+            if (aoData[i].name != "iDisplayStart" && aoData[i].name != "iDisplayLength" && aoData[i].name != "sEcho") {
+                if (aoData[i].value != oCache.lastRequest[i].value) {
+                    bNeedServer = true;
+                    break;
+                }
+            }
+        }
+    }
+    oCache.lastRequest = aoData.slice();
+    if (bNeedServer) {
+        if (iRequestStart < oCache.iCacheLower) {
+            iRequestStart = iRequestStart - (iRequestLength * (iPipe - 1));
+            if (iRequestStart < 0) {
+                iRequestStart = 0;
+            }
+        }
+        oCache.iCacheLower = iRequestStart;
+        oCache.iCacheUpper = iRequestStart + (iRequestLength * iPipe);
+        oCache.iDisplayLength = fnGetKey(aoData, "iDisplayLength");
+        fnSetKey(aoData, "iDisplayStart", iRequestStart);
+        fnSetKey(aoData, "iDisplayLength", iRequestLength * iPipe);
+        $j.getJSON(sSource, aoData, function (json) {
+            /* Callback processing */
+            oCache.lastJson = jQuery.extend(true, {}, json);
+            if (oCache.iCacheLower != oCache.iDisplayStart) {
+                json.aaData.splice(0, oCache.iDisplayStart - oCache.iCacheLower);
+            }
+            json.aaData.splice(oCache.iDisplayLength, json.aaData.length);
+            fnCallback(json)
+        });
+    }
+    else {
+        json = jQuery.extend(true, {}, oCache.lastJson);
+        json.sEcho = sEcho;
+        /* Update the echo for each response */
+        json.aaData.splice(0, iRequestStart - oCache.iCacheLower);
+        json.aaData.splice(iRequestLength, json.aaData.length);
+        fnCallback(json);
+        return;
+    }
+}
 $j("#datePicker").datepicker();
 $j("#datePicker").datepicker().datepicker('setDate',new Date());
 $j("#nextvisit").datepicker();
 var pRegimen;
+var pRegimenCode;
 var cRegimen;
+var code;
+var name;
+var patientEncountersDatatable;
 $j("#dataSection").hide();
 var drugConcepts = [
     [6467],
@@ -39,7 +95,7 @@ $j.getJSON("drugBincard.form?selectDose=doseSelect",function (result) {
         $j("#pediatricFormDose1,#pediatricFormDose2").append($j("<option></option>").attr("value",index).text(value));
     });
 });
-$j(".hideRow").hide();
+
 $j("input[name='dispenseForm_medication']").live("focus", function () {
     $j(this).autocomplete({
         source:function (request, response) {
@@ -96,7 +152,8 @@ $j("input[name='dispenseForm_medication']").live("blur", function () {
         document.getElementById('h_'+idExtract).value="";
     }
 })
-$j("#weight") .change(function () {
+
+/* $j("#weight") .change(function () {
     $j(".viewRow").removeClass('viewRow').addClass('hideRow');
     $j(".hideRow").hide();
 
@@ -272,7 +329,7 @@ $j("#weight") .change(function () {
         $j("#drug12row7").removeClass('hideRow').addClass('viewRow');
         $j(".viewRow").show();
     }
-});
+}); */
 $j("input[title='drug']").live('click',function(){
     if($j(this).attr('checked')==false){
         $j(this).closest('tr').removeClass('display');
@@ -334,48 +391,68 @@ $j("#patientId").autocomplete({
         var patient=ui.item.value;
         $j.ajax({
             type:"GET",
+            async:false,
             url:"patientLastName.form?patientToFind="+patient,
-            data:patient,
             success:function (result) {
                 document.getElementById("patientName").value=result;
-                               $j("#currentRegimen").val()=="";
-                                $j.ajax({
-                                           type:"GET",
-                                           url:"getPatientSummaryDetails.form?patientUUID="+patient,
-                                           async:false,
-                                           dataType:"json",
-                                           success:function(result){
-                                           if(result ==""){
-                                                pRegimen="";
-                                                $j("#currentRegimen").val("Not given");
-                                           }
-                                           else{
-                                               pharmacyEncounterPropeties= result.toString().split(",");
-                                                pRegimen=pharmacyEncounterPropeties[0];
-                                                $j("#currentRegimen").val(pharmacyEncounterPropeties[0]);
-
-                                               var currentRegimen=pharmacyEncounterPropeties[0];
-                                               var lastVisitDate=pharmacyEncounterPropeties[1];
-                                               var nextVisitDate= pharmacyEncounterPropeties[2];
-                                               var numberOfDaysToStockOut= pharmacyEncounterPropeties[3];
-                                               var remainingStock= pharmacyEncounterPropeties[4];
-                                                $j("#patientSummaryDialog").empty();
-                                                $j('<dl><dt></dt><dd >' +  "Current Regimen:  " +currentRegimen+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
-                                                $j('<dl><dt></dt><dd >' +  "last Visit Date:  " +lastVisitDate+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
-                                                $j('<dl><dt></dt><dd >' +  "next Visit Date:  " +nextVisitDate+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
-                                                $j('<dl><dt></dt><dd >' +  "Number of days To stock out:  " +numberOfDaysToStockOut+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
-                                                $j('<dl><dt></dt><dd >' +  "Remaining Stock:  " +remainingStock+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
-                                                $j("#patientSummaryDialog").dialog("open");
-
-                                           }
-
-                                           }
-                                       })
-
+                $j("#currentRegimen").val()=="";
+                $j.ajax({
+                        type:"GET",
+                        url:"getPatientSummaryDetails.form?patientUUID="+patient,
+                        async:false,
+                        dataType:"json",
+                        success:function(result){
+                           if(result ==""){
+                           pRegimen="";
+                           pRegimenCode="";
+                           $j("#currentRegimen").val("Not given");
+                           }
+                          else{
+                              pharmacyEncounterPropeties= result.toString().split(",");
+                              pRegimen=pharmacyEncounterPropeties[0];
+                              pRegimenCode=pharmacyEncounterPropeties[4];
+                              $j("#currentRegimen").val(pharmacyEncounterPropeties[0]);
+                              var currentRegimen=pharmacyEncounterPropeties[0];
+                              var lastVisitDate=pharmacyEncounterPropeties[1];
+                              var nextVisitDate= pharmacyEncounterPropeties[2];
+                              var numberOfDaysToStockOut= pharmacyEncounterPropeties[3];
+                              var remainingStock= pharmacyEncounterPropeties[4];
+                              $j("#patientSummaryDialog").empty();
+                              $j('<dl><dt></dt><dd >' +  "Current Regimen:  " +currentRegimen+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
+                              $j('<dl><dt></dt><dd >' +  "last Visit Date:  " +lastVisitDate+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
+                              $j('<dl><dt></dt><dd >' +  "next Visit Date:  " +nextVisitDate+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
+                              $j('<dl><dt></dt><dd >' +  "Number of days To stock out:  " +numberOfDaysToStockOut+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
+                              $j("#patientSummaryDialog").dialog("open");
+                              }
+                              }
+                              })
                                $j("#dataSection").show();
             }
         });
-
+    patientEncountersDatatable=$j('#patientEncounters').dataTable({
+            bJQueryUI:true,
+            bRetrieve:true,
+            bServerSide:true,
+            bProcessing:true,
+            sAjaxSource:"patientEncountersByIdentifier.form?identifier=" +patient,
+            "fnServerData":fnDataTablesPipeline2,
+            "fnRowCallback":function (nRow, aData, iDisplayIndex) {
+                var htm="<ul>";
+                if(aData[6]=="Edit"){
+                    htm += '<li> <a href="#"  id="edit">Edit</a></li>';
+                }
+                htm += '</ul>';
+                $j('td:eq(7)', nRow).html(htm);
+                return nRow;
+            } ,
+            "aoColumnDefs":[
+            {
+               "bVisible":false,
+               "aTargets":[ 0 ]
+             }
+               ]
+              });
+              patientEncountersDatatable.fnDraw();
     },
     open:function () {
         $j(this).removeClass("ui-corner-all").addClass("ui-corner-top");
@@ -473,7 +550,7 @@ $j("#prescriber").autocomplete({
 
 function checkHivPedsForm(val,reg){
     cRegimen=val;
-    if(reg !=pRegimen && pRegimen !="")
+    if(reg !=pRegimen && pRegimen !="" && reg !="OI")
     {
         if($j("#regimenchange").is(':checked') || pRegimen =="undefined"){
             return true;
@@ -577,9 +654,7 @@ function checkHivRegimen(val)
     var dapsonePosition=splicedRegimen.indexOf('92');
     var isoniazidPosition=splicedRegimen.indexOf('656');
     var isRegimenValid = false ;
-    for (numbersCounter = 0 ;
-         numbersCounter < drugConcepts.length ;
-         numbersCounter ++ )
+    for (numbersCounter = 0 ; numbersCounter < drugConcepts.length;numbersCounter ++)
     {
         if(septrinPosition>=0 || dapsonePosition>=0 || isoniazidPosition>=0){
             if(septrinPosition>=0)
@@ -600,9 +675,7 @@ function checkHivRegimen(val)
         lengthOfCurrentRegimenUnderTest = currNumber.length ;
         if(lengthOfCurrentRegimenUnderTest != splicedRegimen.length)
             continue ;
-        for(regimenCounter = 0 ;
-            regimenCounter < splicedRegimen.length ;
-            regimenCounter++ ) {
+        for(regimenCounter = 0 ;regimenCounter < splicedRegimen.length;regimenCounter++ ) {
             if(!contains(splicedRegimen[regimenCounter], currNumber)) {
                 isRegimenValid = false ;
                 break ;
@@ -639,7 +712,6 @@ function checkHivRegimen(val)
 }
 
 function contains(needle, haystack) {
-
     for (i = 0 ; i < haystack.length; i++)
     {
         if(needle == haystack[i])
@@ -650,16 +722,14 @@ function contains(needle, haystack) {
 }
 function regimenFilter(val){
     regimen=val;
-    splicedRegimen=val;
+    splicedRegimen=val.slice(0);
     var septrinPosition=regimen.indexOf('916');
     var dapsonePosition=regimen.indexOf('92');
     var isoniazidPosition=regimen.indexOf('656');
     var positionOfEquity = 1000 ;
     var regimenCod='';
     var regimenNam='';
-    for (numbersCounter = 0 ;
-         numbersCounter < drugConcepts.length ;
-         numbersCounter ++ )
+    for (numbersCounter = 0 ;numbersCounter < drugConcepts.length ;numbersCounter ++ )
     {
         if(septrinPosition>=0 || dapsonePosition>=0 || isoniazidPosition>=0){
             if(septrinPosition>=0)
@@ -688,6 +758,7 @@ function regimenFilter(val){
         }
 
     }
+
     if(positionOfEquity < 3){
         if($j("#patienttype1").is(':checked')){
             regimenNam='AZT/3TC/NVP';
@@ -803,10 +874,11 @@ function regimenFilter(val){
         regimenNam='ABC/3TC/EFV';
         regimenCod='CF1B';
     }
-    else{
-        regimenNam='';
-        regimenCod=''
-    }
+     if(regimen.length>splicedRegimen.length && splicedRegimen.length ==0)
+     {
+         regimenNam='OI';
+         regimenCod='OI';
+     }
     return [regimenCod,regimenNam];
 }
 
@@ -989,12 +1061,15 @@ function processForm(){
         }).get();
         var drugs = (drugid).toString().split(",");
         var ans=checkHivRegimen(drugid);
-        if(ans==true)  {
-
+        if(ans==true){
             var regimens=regimenFilter(drugid);
             var regimenCode= regimens[0];
             var regimenName=regimens[1];
             var regimenVals;
+            if(regimenName=="OI" && pRegimen !="OI" && pRegimen !="" && pRegimen !="undefined"){
+            regimenName=pRegimen;
+            regimenCode=pRegimenCode;
+            }
             if(regimenName==""){
                 $j.ajax({
                     type:"GET",
@@ -1002,9 +1077,9 @@ function processForm(){
                     async:false,
                     success:function (result) {
                         if(result.toString() !=""){
-                            regimenVals=JSON.parse(result);
-                            regimenName=regimenVals.regimenNam;
-                            regimenCode=regimenVals.regimenCod;
+                         regimenVals=JSON.parse(result);
+                          regimenName=regimenVals.regimenNam;
+                          regimenCode=regimenVals.regimenCod;
                         }
                     }
                 });
@@ -1035,6 +1110,7 @@ function processForm(){
                                 },
                                 success:function () {
                                    document.getElementById("pediatricForm").reset();
+                                   $j("#dataSection").hide();
                                     $j("#successDialog").empty();
                                     $j('<dl><dt></dt><dd >' +  "Dispensed successfuly" + '</dd></dl> ').appendTo('#successDialog');
                                     $j("#successDialog").dialog("open");
@@ -1067,3 +1143,26 @@ function processForm(){
     }
     return false;
 }
+/*
+$j("table").delegate("#patientEncounters tbody tr td:nth-child(4)","mouseover",function(){
+    var drugsIssuedArray={};
+    var tr = this.parentNode;
+    var trContent=patientEncountersDatatable.fnGetData(tr);
+    drugsIssuedArray =trContent[3].split(',');
+    alert(" drugsIssuedArray "+drugsIssuedArray);
+
+})*/
+$j("table").delegate("#patientEncounters tbody tr :last-child","click",function(){
+    document.getElementById("pediatricForm").reset();
+    var tr = this.parentNode;
+    trData=patientEncountersDatatable.fnGetData(tr);
+    if(confirm("Are you sure you want to delete this encounter "+trData[3])){
+    $j.ajax({
+    type:"GET",
+    url:"patientEncounterDetailsVoid.form?encounterUUID="+trData[0],
+    async:false,
+    success:function(result){
+    }
+})
+}
+})

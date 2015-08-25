@@ -28,5 +28,6 @@
         <property name="paymentStatus" type="java.lang.Integer" column="paid"/>
         <property name="totalAmount" type="java.lang.Double" column="totalAmount"/>
         <property name="discount" type="java.lang.Double" column="discount"/>
+        <property name="comment" type="java.lang.String" column="comments" length="255"/>
     </class>
 </hibernate-mapping>

@@ -412,7 +412,7 @@ public class CadiovascularController {
                 pharmacyOrders.setPharmacyEncounter(pharmacyEncounter);
                 listPharmacyOrders.add(pharmacyOrders);
                 PharmacyDrugOrder pharmacyDrugOrder = new PharmacyDrugOrder();
-                pharmacyDrugOrder.setDose(0);
+                pharmacyDrugOrder.setDose("0");
                 pharmacyDrugOrder.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));
                 pharmacyDrugOrder.setDrugInventoryUuid(service.getDrugDispenseSettingsByDrugId(c.get(0).getDrug()).getInventoryId());
                 pharmacyDrugOrder.setEquivalentDailyDose(CheckIfIntNull(c.get(1).getDailyDose()));

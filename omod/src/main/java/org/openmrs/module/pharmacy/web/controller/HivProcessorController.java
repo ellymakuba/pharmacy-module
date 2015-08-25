@@ -652,7 +652,7 @@ public class HivProcessorController {
                 pharmacyOrders.setPharmacyEncounter(pharmacyEncounter);
                 listPharmacyOrders.add(pharmacyOrders);
                 PharmacyDrugOrder pharmacyDrugOrder = new PharmacyDrugOrder();
-                pharmacyDrugOrder.setDose(CheckIfDoubleNull(c.get(2).getDose()));
+                pharmacyDrugOrder.setDose(c.get(2).getDose());
                 pharmacyDrugOrder.setDrugUuid(drugExtra);
                 pharmacyDrugOrder.setDrugInventoryUuid(service.getDrugDispenseSettingsByDrugId(c.get(0).getDrug()).getInventoryId());
                 pharmacyDrugOrder.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));

@@ -47,7 +47,7 @@ public class DsdrController {
         }
         PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
         try {
-        inventoryItems=service.getPharmacyStoreByLocation(pharmacyLocations.getUuid());
+        inventoryItems=service.getPharmacyStoreByLocation(pharmacyLocations);
         jsonObject=new JSONObject();
         for(PharmacyStore pharmacyStore:inventoryItems)
         {

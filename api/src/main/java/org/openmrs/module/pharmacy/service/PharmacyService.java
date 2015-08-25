@@ -322,8 +322,8 @@ public interface PharmacyService extends OpenmrsService {
      * @return one pharmacyInventory object by uuid
      */
     public List<PharmacyStore> getPharmacyInventoryByCategory(PharmacyCategory uuid);
-    public List<Drug> getPharmacyInventoryByNameAndLocation(String name,String location);
-    public List<PharmacyStore> getPharmacyStoreByNameAndLocation(String name,String location);
+    public List<Drug> getPharmacyInventoryByNameAndLocation(String name,PharmacyLocations location);
+    public List<PharmacyStore> getPharmacyStoreByNameAndLocation(String name,PharmacyLocations location);
     /**
      * @return list pharmacyInventory object by uuid
      */
@@ -392,7 +392,7 @@ public interface PharmacyService extends OpenmrsService {
      * @return one pharmacyInventory object by uuid
      */
     @Transactional(readOnly=true)
-    public PharmacyStore getPharmacyInventoryByDrugUuid(String uuid,String location);
+    public PharmacyStore getPharmacyInventoryByDrugUuid(String uuid,PharmacyLocations location);
 
     /**
      * save pharmacyOrders
@@ -760,7 +760,7 @@ public interface PharmacyService extends OpenmrsService {
     public PharmacyStore getBatchNoByNo(int batchno);
     public PharmacyTemporaryInventory saveTemporaryInventory(PharmacyTemporaryInventory pharmacyTemporaryInventory);
     public List<PharmacyEncounter> getPharmacyEncounterListByLocationUUID(String locationUUID);
-    public List<PharmacyStore> getPharmacyStoreByLocation(String locationUUID);
+    public List<PharmacyStore> getPharmacyStoreByLocation(PharmacyLocations locationUUID);
     public PharmacyOrders getPharmacyOrderByEncounter(PharmacyEncounter uuid);
     public PharmacyObs getPharmacyObservationByPharmacyOrder(PharmacyOrders uuid);
     public PharmacyDrugOrder getPharmacyDrugOrdersByDrugExtraUUID(DrugExtra uuid);
@@ -770,11 +770,15 @@ public interface PharmacyService extends OpenmrsService {
     public List<DrugExtra> getDrugExtraByPharmacyEncounter(PharmacyEncounter encounter);
     public List<PharmacyEncounter> getUnclearedPharmacyEncountersListByPersonID(Integer personID);
     public List<PharmacyStore> getInventoryByLocation(String locationUUID);
-    public PharmacyStore getPharmacyStoreByDrugName(String locationUUID,Drug drug);
+    public PharmacyStore getPharmacyStoreByDrugName(PharmacyLocations locationUUID,Drug drug);
     public List<PharmacyEncounter> getDetailedEncountersRange(Date minDate,Date maxDate,String location);
     public List<S11> getS11WithinDateRange(PharmacyLocations location, Date startDate, Date endDate);
     public boolean savePharmacyS11(S11 pharmacyS11);
     public List<DrugTransactions>  getPharmacyDrugTransactionsByS11NO(String s11No,PharmacyLocations pharmacyLocation);
     public boolean saveGeneratedInventoryQuantities(List<GeneratePharmacyInventoryQuantities> stockQuantities);
     public GeneratePharmacyInventoryQuantities getDrugInventoryOpeningStockByDateAndLocation(Drug drug,Date startDate,Date endDate,String locationUUID);
+    public List<PharmacyStore> getDrugTransactionsBetweenRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation);
+    public Integer computeQuantityOfDrugsReceivedWithinDateRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug);
+    public Integer computeQuantityOfDrugsTransferedWithinDateRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug);
+    public Integer computeQuantityOfDrugsDispensedWithinDateRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug);
 }

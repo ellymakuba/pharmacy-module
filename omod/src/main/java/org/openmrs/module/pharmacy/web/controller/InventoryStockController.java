@@ -85,7 +85,7 @@ public class InventoryStockController {
                     drugsInInventory=service.getPharmacyInventory();
                     int drugsInInventorySize=drugsInInventory.size();
                     for(int inInventory=0; inInventory<drugsInInventorySize; inInventory++){
-                        if(drugsInInventory.get(inInventory).getLocation().equals(service.getPharmacyLocationsByName(locationVal).getUuid())){
+                        if(drugsInInventory.get(inInventory).getLocation().getUuid().equals(service.getPharmacyLocationsByName(locationVal).getUuid())){
                             if(drugsInInventory.get(inInventory).getDrugs().getUuid().equals(Context.getConceptService().getDrugByNameOrId(drugName).getUuid())){
                                 drugsQuantityInStore=drugsQuantityInStore+drugsInInventory.get(inInventory).getQuantity();
                             }
@@ -98,7 +98,7 @@ public class InventoryStockController {
             else if(select.equalsIgnoreCase("unitPrice")){
                 pharmacyStore=new PharmacyStore();
                 String drugUUID=Context.getConceptService().getDrugByNameOrId(drugName).getUuid();
-                pharmacyStore = service.getPharmacyInventoryByDrugUuid(drugUUID,service.getPharmacyLocationsByName(locationVal).getUuid());
+                pharmacyStore = service.getPharmacyInventoryByDrugUuid(drugUUID,service.getPharmacyLocationsByName(locationVal));
                 response.getWriter().print("" + pharmacyStore.getUnitPrice());
             }
 
@@ -132,7 +132,7 @@ public class InventoryStockController {
                 drugsInInventory=service.getPharmacyInventory();
                 int drugsInInventorySize=drugsInInventory.size();
                 for(int inInventory=0; inInventory<drugsInInventorySize; inInventory++){
-                    if(drugsInInventory.get(inInventory).getLocation().equals(service.getPharmacyLocationsByName(locationVal).getUuid())){
+                    if(drugsInInventory.get(inInventory).getLocation().getUuid().equals(service.getPharmacyLocationsByName(locationVal).getUuid())){
                         if(drugsInInventory.get(inInventory).getDrugs().getUuid().equals(Context.getConceptService().getDrugByNameOrId(drugName).getUuid())){
                             drugsQuantityInStore=drugsQuantityInStore+drugsInInventory.get(inInventory).getQuantity();
                         }

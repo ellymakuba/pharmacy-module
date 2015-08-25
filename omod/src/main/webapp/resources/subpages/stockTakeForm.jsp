@@ -28,6 +28,7 @@
                         <th>Batch No</th>
                         <th>Buying Price</th>
                         <th>Selling Price</th>
+                         <th>U@P</th>
                         <th>Dose</th>
                         <th>New Quantity</th>
                     </tr>

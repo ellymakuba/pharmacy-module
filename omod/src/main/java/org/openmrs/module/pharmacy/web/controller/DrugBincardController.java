@@ -158,7 +158,7 @@ public class DrugBincardController {
         pharmacyStoreList = service.getPharmacyInventoryByCategory(service.getPharmacyCategoryByName(category));
         allDrugs = Context.getConceptService().getAllDrugs();
         PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
-        pharmacyStores = service.getPharmacyStoreByLocation(pharmacyLocations.getUuid());
+        pharmacyStores = service.getPharmacyStoreByLocation(pharmacyLocations);
         int size = pharmacyStores.size();
         int drugSize = allDrugs.size();
         json = new JSONObject();
@@ -174,7 +174,7 @@ public class DrugBincardController {
             }
             else if (drop !=null) {
                 String locationUUID=service.getPharmacyLocationsByName(locationVal).getUuid();
-                List<Drug> drug = service.getPharmacyInventoryByNameAndLocation(searchDrug,locationUUID);
+                List<Drug> drug = service.getPharmacyInventoryByNameAndLocation(searchDrug,service.getPharmacyLocationsByName(locationVal));
                 for(int i=0; i<drug.size(); i++)
                 {
                     jsonArray.put(""+getPharmacyDrugDropDown(drug,i));
@@ -258,12 +258,12 @@ public class DrugBincardController {
                 data.put("Not set");
             }
             data.put(""+pharmacyStore.get(size).getBuyingPrice());
+            data.put(""+pharmacyStore.get(size).getUnitsPerPack());
         return data;
     }
 
     public synchronized JSONArray getArrayDialog(List<PharmacyStore> pharmacyStore, int size, String location) {
-        if (service.getPharmacyLocationsByUuid(pharmacyStore.get(size).getLocation()).getName()
-                .equalsIgnoreCase(location)) {
+        if (pharmacyStore.get(size).getLocation().getName().equalsIgnoreCase(location)) {
             if (uuiddialog != null) {
                 if (uuiddialog.equals("123")) {
 

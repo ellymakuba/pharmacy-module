@@ -9,10 +9,12 @@
             <generator
                     class="org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator"/>
         </id>
+        <many-to-one name="pharmacyLocation" property-ref="uuid"  column="pharmacy_location"/>
+        <many-to-one name="drug" property-ref="uuid"  column="drug"/>
         <many-to-one name="orderUuid" property-ref="uuid"  column="order_uuid"/>
         <many-to-one name="drugUuid" property-ref="uuid"  column="drug_extra_uuid"/>
         <many-to-one name="drugInventoryUuid"  property-ref="uuid"  column="drug_inventory_uuid"/>
-        <property name="dose" type="double" column="dose"  />
+        <property name="dose" type="java.lang.String" column="dose"  />
         <property name="equivalentDailyDose" type="double" column="equivalent_daily_dose"  />
         <property name="units" type="java.lang.String" column="units" length="255"/>
         <property name="frequency" type="java.lang.String" column="frequency" length="255"/>

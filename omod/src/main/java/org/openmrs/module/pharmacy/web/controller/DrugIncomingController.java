@@ -153,7 +153,7 @@ public class DrugIncomingController {
         JSONParser parser=new JSONParser();
         Object obj=null;
         PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
-        List<PharmacyStore> pharmacyStoreListToCompare=service.getPharmacyStoreByLocation(pharmacyLocations.getUuid());
+        List<PharmacyStore> pharmacyStoreListToCompare=service.getPharmacyStoreByLocation(pharmacyLocations);
         obj = parser.parse(jsonObject);
         org.json.simple.JSONArray inventoryInstanceArray = (org.json.simple.JSONArray)obj;
             int inventoryInstanceArraySize=inventoryInstanceArray.size();
@@ -197,11 +197,14 @@ public class DrugIncomingController {
                     if(key.equalsIgnoreCase("unitPrice")){
                         pharmacyStore.setUnitPrice(Double.valueOf(value));
                     }
+                    if(key.equalsIgnoreCase("unitsPerPack")){
+                        pharmacyStore.setUnitsPerPack(Integer.valueOf(value));
+                    }
 
                 }
                 drugTransactions.setLocation(service.getPharmacyLocationsByName(locationVal));
                 drugTransactions.setComment("New entry");
-                pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationVal).getUuid());
+                pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationVal));
                 pharmacyStore.setMaxLevel(1000);
                 pharmacyStore.setMinLevel(10);
                 listDrugTransactions.add(drugTransactions);
@@ -225,6 +228,9 @@ public class DrugIncomingController {
                     if(pharmacyStoreInstance.getBatchNo() !=null){
                     pharmacyStoreListItem.setBatchNo(pharmacyStoreInstance.getBatchNo());
                     }
+                    if(pharmacyStoreInstance.getUnitsPerPack()!=null){
+                        pharmacyStoreListItem.setUnitsPerPack(pharmacyStoreInstance.getUnitsPerPack());
+                    }
                     pharmacyStoreListItem.setExpireDate(pharmacyStoreInstance.getExpireDate());
                     pharmacyStoreListToSave.add(pharmacyStoreListItem);
                     break;
@@ -233,7 +239,7 @@ public class DrugIncomingController {
                 if(drugExistsInInventory==false){
                 pharmacyStore=new PharmacyStore();
                 pharmacyStore.setDrugs(pharmacyStoreInstance.getDrugs());
-                pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationVal).getUuid());
+                pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationVal));
                 pharmacyStore.setQuantity(pharmacyStoreInstance.getQuantity());
                 pharmacyStore.setQuantityIn(0);
                 pharmacyStore.setQuantityOut(0);
@@ -244,6 +250,8 @@ public class DrugIncomingController {
                 pharmacyStore.setUnitPrice(pharmacyStoreInstance.getUnitPrice());
                 pharmacyStore.setExpireDate(pharmacyStoreInstance.getExpireDate());
                 pharmacyStore.setBuyingPrice(pharmacyStoreInstance.getBuyingPrice());
+                pharmacyStore.setUnitsPerPack(pharmacyStoreInstance.getUnitsPerPack());
+                System.out.println("pharmacyStoreInstance.getUnitsPerPack() ++++++++++++++++++++++++++++++++"+pharmacyStoreInstance.getUnitsPerPack());
                 if(pharmacyStoreInstance.getBatchNo()==null)
                     pharmacyStore.setBatchNo("0");
                 else {
@@ -255,7 +263,7 @@ public class DrugIncomingController {
             else{
                 pharmacyStore=new PharmacyStore();
                 pharmacyStore.setDrugs(pharmacyStoreInstance.getDrugs());
-                pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationVal).getUuid());
+                pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationVal));
                 pharmacyStore.setQuantity(pharmacyStoreInstance.getQuantity());
                 pharmacyStore.setQuantityIn(0);
                 pharmacyStore.setQuantityOut(0);
@@ -265,6 +273,7 @@ public class DrugIncomingController {
                 pharmacyStore.setS11(Integer.valueOf(s11));
                 pharmacyStore.setUnitPrice(pharmacyStoreInstance.getUnitPrice());
                 pharmacyStore.setBuyingPrice(pharmacyStoreInstance.getBuyingPrice());
+                pharmacyStore.setUnitsPerPack(pharmacyStoreInstance.getUnitsPerPack());
                 pharmacyStore.setExpireDate(pharmacyStoreInstance.getExpireDate());
                 if(pharmacyStoreInstance.getBatchNo()==null)
                     pharmacyStore.setBatchNo("0");
@@ -312,7 +321,7 @@ public class DrugIncomingController {
             jsonObject=new JSONObject(jsonResult);
             extractedDrugName=jsonObject.getString("drugName");
             drugObject = Context.getConceptService().getDrugByNameOrId(extractedDrugName);
-            pharmacyStore=service.getPharmacyStoreByDrugName(pharmacyLocation.getUuid(),drugObject);
+            pharmacyStore=service.getPharmacyStoreByDrugName(pharmacyLocation,drugObject);
 
             if(pharmacyStore !=null){
             jsonArray.put("" + pharmacyStore.getBuyingPrice());
@@ -320,9 +329,14 @@ public class DrugIncomingController {
             jsonArray.put("" + pharmacyStore.getBatchNo());
             jsonArray.put("" + pharmacyStore.getExpireDate());
             jsonArray.put("" + pharmacyStore.getQuantity());
+            jsonArray.put("" + pharmacyStore.getUnitsPerPack());
             response.getWriter().print(jsonArray);
              }
             else{
+                jsonArray.put("");
+                jsonArray.put("");
+                jsonArray.put("");
+                jsonArray.put("");
                 jsonArray.put("");
                 jsonArray.put("");
                 response.getWriter().print(jsonArray);

@@ -25,6 +25,7 @@ public class PharmacyEncounter extends BaseOpenmrsData {
     private Double totalAmount;
     private Integer paymentStatus;
     private Double discount;
+    private String comment;
 
     public Double getTotalAmount() {
         return totalAmount;
@@ -87,6 +88,15 @@ public class PharmacyEncounter extends BaseOpenmrsData {
     public void setNextVisitDate(Date nextVisitDate) {
         this.nextVisitDate = nextVisitDate;
     }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     /** default constructor */
     public PharmacyEncounter() {
     }

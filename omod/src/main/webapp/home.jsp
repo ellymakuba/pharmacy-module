@@ -913,6 +913,16 @@ $j("#s11").click(function () {
     });
     hideInactiveDivElements();
 });
+$j("#FCDRR").click(function () {
+    $j("#spinner").show();
+    $j('#west_panel_content').empty();
+    $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/F-CDRR.jsp', function () {
+        $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/F-CDRR.js", function () {
+
+        });
+    });
+    hideInactiveDivElements();
+});
 
 /*View to choose location*/
 $j("#rfpreport").click(function () {
@@ -1658,7 +1668,6 @@ CloseDialog();
                 <!--<LI><A href="#" id="psychiatry">Start Dispensing</A></LI>-->
                 <LI><A href="#" id="pediatric">Pediatric ARV Form</A></LI>
                 <LI><A href="#" id="adultHiv">Adult HIV Form</A></LI>
-                <LI><A href="#" id="adultOI">Adult OI Form</A></LI>
                 <LI><A href="#" id="tbFormLink">TB Drugs Dispensing Form</A></LI>
             </div>
         </div>
@@ -1679,6 +1688,7 @@ CloseDialog();
                 <LI><A href="#" id="dsdr">DSDR Report</A></LI>
                 <LI><A href="#" id="requestsum">Patient Discounts & Waivers</A></LI>
                 <LI><A href="#" id="s11">View S11 Reports</A></LI>
+                <LI><A href="#" id="FCDRR">FCDRR</A></LI>
                 <% } %>
             </UL>
         </div>

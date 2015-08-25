@@ -18,7 +18,7 @@ public class PharmacyStore extends BaseOpenmrsData {
     private Integer minLevel;
     private String changeReason;
     private String stockReason;
-    private String location;
+    private PharmacyLocations location;
     private Date expireDate;
     private PharmacyStoreIncoming incoming;
     private PharmacyStoreOutgoing outgoing;
@@ -33,8 +33,17 @@ public class PharmacyStore extends BaseOpenmrsData {
     private PharmacyDose dose;
     private PharmacySupplier supplier;
     private PharmacyTransactionTypes transaction;
+    private Integer unitsPerPack;
     /** default constructor */
     public PharmacyStore() {
+    }
+
+    public Integer getUnitsPerPack() {
+        return unitsPerPack;
+    }
+
+    public void setUnitsPerPack(Integer unitsPerPack) {
+        this.unitsPerPack = unitsPerPack;
     }
 
     public PharmacyDose getDose() {
@@ -107,7 +116,7 @@ public class PharmacyStore extends BaseOpenmrsData {
     /**
      * @param location
      */
-    public void setLocation(String location) {
+    public void setLocation(PharmacyLocations location) {
 
         this.location = location;
 
@@ -116,7 +125,7 @@ public class PharmacyStore extends BaseOpenmrsData {
     /**
      * @return location
      */
-    public String getLocation() {
+    public PharmacyLocations getLocation() {
 
         return location;
     }

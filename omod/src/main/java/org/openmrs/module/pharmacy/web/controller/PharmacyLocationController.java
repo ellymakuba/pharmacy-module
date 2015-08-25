@@ -77,7 +77,7 @@ public class PharmacyLocationController {
     public synchronized void pageLoadd(HttpServletRequest request, HttpServletResponse response) {
         service = Context.getService(PharmacyService.class);
         userService = Context.getUserContext();
-        response.setContentType("application/json");
+        //response.setContentType("application/json");
         try {
 
             String location = request.getParameter("selectedLocation");

@@ -2,14 +2,9 @@
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <script type="text/javascript">
-
-    </script>
 </head>
 <body>
-
 <DIV id="dnames">
-
     <DIV id="incss">
         <form id="voidDose" method="POST" action="">
             <fieldset>

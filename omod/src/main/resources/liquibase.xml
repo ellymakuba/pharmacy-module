@@ -3760,4 +3760,30 @@
             <column name="pharmacy_location_uuid" type="VARCHAR(50)"/>
         </addColumn>
     </changeSet>
+    <changeSet author="ellymakuba" id="2015-07-24-01:16">
+        <renameColumn tableName="pharmacy_drug_order" oldColumnName="dose" newColumnName="dose"  columnDataType="VARCHAR(255)" />
+    </changeSet>
+    <changeSet author="ellymakuba" id="2015-07-29-09:20am">
+        <addColumn tableName="pharmacy_encounter">
+            <column name="comments" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2015-08-11-11:08am">
+        <addColumn tableName="pharmacy_inventory">
+            <column name="units_per_pack" type="int(11)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2015-08-11-11:43">
+        <addDefaultValue tableName="pharmacy_inventory" columnName="units_per_pack" defaultValue="1" />
+    </changeSet>
+    <changeSet author="ellymakuba" id="2015-08-11-01:06pm">
+        <addColumn tableName="pharmacy_drug_order">
+            <column name="drug" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2015-08-11-01:17pm">
+        <addColumn tableName="pharmacy_drug_order">
+            <column name="pharmacy_location" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

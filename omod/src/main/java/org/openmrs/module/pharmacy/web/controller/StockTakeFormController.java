@@ -64,6 +64,11 @@ public class StockTakeFormController {
                             pharmacyStore.setBuyingPrice(Double.valueOf(value));
                         }
                     }
+                    if(key.equalsIgnoreCase("stockTakeFormunitsPerPack") && pharmacyStore !=null){
+                        if(value !="" && value.length()>0){
+                            pharmacyStore.setUnitsPerPack(Integer.valueOf(value));
+                        }
+                    }
                   service.savePharmacyInventory(pharmacyStore);
                 }
             }

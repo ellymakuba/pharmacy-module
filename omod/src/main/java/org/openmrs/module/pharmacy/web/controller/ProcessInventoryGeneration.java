@@ -34,9 +34,8 @@ public class ProcessInventoryGeneration extends AbstractTask {
             generation=new GeneratePharmacyInventoryQuantities();
             generation.setDrug(pharmacyStoreInstance.getDrugs());
             generation.setStockQuantities(pharmacyStoreInstance.getQuantity());
-            generation.setPharmacyLocationUUID(pharmacyStoreInstance.getLocation());
+            generation.setPharmacyLocationUUID(pharmacyStoreInstance.getLocation().getUuid());
             listOfInventoryToUpdate.add(generation);
-            System.out.println("===+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++am executing this drug "+pharmacyStoreInstance.getDrugs().getDrugId());
         }
         service.saveGeneratedInventoryQuantities(listOfInventoryToUpdate);
         Context.closeSession();

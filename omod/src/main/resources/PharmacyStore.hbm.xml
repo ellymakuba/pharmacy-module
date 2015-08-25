@@ -14,7 +14,7 @@
         <property name="quantityOut" type="java.lang.Integer" column="quantity_out" length="255"/>
         <property name="maxLevel" type="java.lang.Integer" column="maxlevel" length="255"/>
         <property name="minLevel" type="java.lang.Integer" column="minlevel" length="255"/>
-        <property name="location" type="java.lang.String" column="location_uuid" length="1000"/>
+        <many-to-one name="location"  property-ref="uuid" column="location_uuid" />
         <many-to-one name="outgoing" class="org.openmrs.module.pharmacy.model.PharmacyStoreOutgoing" property-ref="uuid" column="pharmacy_inventory_outgoing_uuid"/>
         <many-to-one name="category"  property-ref="uuid" column="pharmacy_category_uuid"/>
         <many-to-one name="incoming" property-ref="uuid" column="pharmacy_inventory_incoming_uuid" not-null="false"/>
@@ -37,5 +37,6 @@
         <property name="voidReason" type="java.lang.String" column="void_reason" length="255"/>
         <property name="uuid" type="string" length="38" not-null="true" unique="true"/>
         <property name="stockReason" type="java.lang.String" column="stock_reason" length="255"/>
+        <property name="unitsPerPack" type="java.lang.Integer" column="units_per_pack" length="255"/>
     </class>
 </hibernate-mapping>

@@ -29,7 +29,7 @@ public class RfpGeneralReportController {
     private JSONArray drugStrengthA;
     public PharmacyService service;
     private boolean found = false;
-    private JSONArray supplierNames;
+    private JSONArray drugExtraProperties;
     private UserContext userService;
     private boolean editPharmacy = false;
     private boolean deletePharmacy = false;
@@ -183,8 +183,8 @@ public class RfpGeneralReportController {
 
     }
     //List<PharmacyStoreIncoming> pharmacyStoreIncomings = service.getDrugQuantityAfterLastStockTake(Date minDate, Date maxDate,String uuid);
-    public synchronized JSONArray getArray(List<DrugExtra> supplierNamee, int size,String val,Date s,Date e) throws JSONException {
-        supplierNames = new JSONArray();
+    public synchronized JSONArray getArray(List<DrugExtra> drugExtraList, int size,String val,Date s,Date e) throws JSONException {
+        drugExtraProperties = new JSONArray();
         Collection<Role> xvc = userService.getAuthenticatedUser().getAllRoles();
         for (Role rl : xvc) {
             if ((rl.getRole().equals("Pharmacy Administrator")) || (rl.getRole().equals("Provider")) || (rl.getRole().equals("	Authenticated "))) {
@@ -204,25 +204,25 @@ public class RfpGeneralReportController {
 
         Double myValues[]= new Double[0];
         try {
-            myValues = findDrugQuantity(supplierNamee.get(size).getDrug().getDrugId(),val,s,e,supplierNamee.get(size).getPharmacyEncounter().getUuid());
+            myValues = findDrugQuantity(drugExtraList.get(size).getDrug().getDrugId(),val,s,e,drugExtraList.get(size).getPharmacyEncounter().getUuid());
         } catch (ParseException e1) {
             e1.printStackTrace();
         }
-        supplierNames.put(supplierNamee.get(size).getDrug().getName());
-        supplierNames.put(myValues[0]);
-        supplierNames.put(myValues[10]);
-        supplierNames.put("");
-        supplierNames.put("");
-        supplierNames.put(myValues[1]);
-        supplierNames.put(myValues[2]);
-        supplierNames.put(myValues[3]);
-        supplierNames.put(myValues[4]);
-        supplierNames.put(myValues[5]);
-        supplierNames.put(myValues[6]);
-        supplierNames.put(myValues[7]);
-        supplierNames.put(myValues[8]);
-        supplierNames.put(myValues[9]);
-        return supplierNames;
+        drugExtraProperties.put(drugExtraList.get(size).getDrug().getName());
+        drugExtraProperties.put(myValues[0]);
+        drugExtraProperties.put(myValues[10]);
+        drugExtraProperties.put("");
+        drugExtraProperties.put("");
+        drugExtraProperties.put(myValues[1]);
+        drugExtraProperties.put(myValues[2]);
+        drugExtraProperties.put(myValues[3]);
+        drugExtraProperties.put(myValues[4]);
+        drugExtraProperties.put(myValues[5]);
+        drugExtraProperties.put(myValues[6]);
+        drugExtraProperties.put(myValues[7]);
+        drugExtraProperties.put(myValues[8]);
+        drugExtraProperties.put(myValues[9]);
+        return drugExtraProperties;
     }
 
     public synchronized int getDropDown(List<DrugExtra> supplierNamee, int size) {
@@ -287,7 +287,10 @@ public class RfpGeneralReportController {
         double openingStock=0.0;
         DateTime sDate=new DateTime(startDate);
         DateTime sDatePlusOneDay=sDate.plusDays(1);
-        Date formatedDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(sDatePlusOneDay.toString());
+        Date dateInstance=new Date(startDate.getTime()+(1000 * 60 * 60 * 24));
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy/MM/dd");
+        String tommorowStringDate=simpleDateFormat.format(dateInstance);
+        Date formatedDate = simpleDateFormat.parse(tommorowStringDate);
         if(service.getDrugInventoryOpeningStockByDateAndLocation(drug,startDate,formatedDate,locationUUID) !=null){
            openingStock= service.getDrugInventoryOpeningStockByDateAndLocation(drug,startDate,formatedDate,locationUUID).getStockQuantities();
         }

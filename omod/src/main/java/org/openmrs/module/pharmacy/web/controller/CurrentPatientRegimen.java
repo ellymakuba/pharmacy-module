@@ -29,8 +29,8 @@ import java.util.*;
 public class CurrentPatientRegimen {
     private static final Log log=LogFactory.getLog(CurrentPatientRegimen.class);
     private PharmacyService service;
-    private String currentRegimenName;
-    private String currentRegimenCode;
+    private String currentRegimenName="";
+    private String currentRegimenCode="";
     private JSONObject jsonRegimenObject;
 
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/currentPatientRegimen")
@@ -39,7 +39,7 @@ public class CurrentPatientRegimen {
         service = Context.getService(PharmacyService.class);
         String patientID=service.getPatientByIdentifier(patientIdentifier);
         Patient patient=Context.getPatientService().getPatient(Integer.valueOf(patientID));
-        PharmacyEncounter pharmacyEncounter=service.getLastPharmacyEncounterByPatientUUID(patient);
+        PharmacyEncounter pharmacyEncounter=service.getCurrentPatientRegimen(patient.getUuid());
         if(pharmacyEncounter !=null){
             currentRegimenName=pharmacyEncounter.getRegimenName();
             currentRegimenCode=pharmacyEncounter.getRegimenCode();

@@ -682,7 +682,7 @@ function confirmInvoiceAndIssueDrugs(){
             var rowObject=[];
             $j(this).find('td').each(function(){
                 var obj = {}
-                var  td = $j(this).find('input');
+                var  td = $j(this).find('input,select');
 
                 var key = td.attr('name');
                 var val = td.val();

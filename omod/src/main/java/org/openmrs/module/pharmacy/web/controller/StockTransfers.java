@@ -58,7 +58,7 @@ public class StockTransfers {
         JSONParser parser=new JSONParser();
         Object obj=null;
         PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
-        List<PharmacyStore> pharmacyStoreListToCompare=service.getPharmacyStoreByLocation(pharmacyLocations.getUuid());
+        List<PharmacyStore> pharmacyStoreListToCompare=service.getPharmacyStoreByLocation(pharmacyLocations);
         obj = parser.parse(jsonObject);
         org.json.simple.JSONArray inventoryInstanceArray = (org.json.simple.JSONArray)obj;
         int inventoryInstanceArraySize=inventoryInstanceArray.size();
@@ -113,7 +113,7 @@ public class StockTransfers {
             }
             drugTransactions.setLocation(service.getPharmacyLocationsByName(locationVal));
             drugTransactions.setComment("Transfer");
-            pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationVal).getUuid());
+            pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationVal));
             pharmacyStore.setMaxLevel(1000);
             pharmacyStore.setMinLevel(10);
             pharmacyStoreOutgoing.setLocation(service.getPharmacyLocationsByName(locationVal));
@@ -148,7 +148,7 @@ public class StockTransfers {
 
         //begin of add drugs to requesting site
         PharmacyLocations selectedLocationObject=service.getPharmacyLocationsByName(locationName);
-        List<PharmacyStore> inventoryListFromSelectedLocationToCampare=service.getPharmacyStoreByLocation(selectedLocationObject.getUuid());
+        List<PharmacyStore> inventoryListFromSelectedLocationToCampare=service.getPharmacyStoreByLocation(selectedLocationObject);
         for(PharmacyStore pharmacyStoreInstance: listPharmacyStore){
             drugExistsInInventory=false;
             if(pharmacyStoreInstance.getDrugs() !=null){
@@ -165,7 +165,7 @@ public class StockTransfers {
                     if(drugExistsInInventory==false){
                         pharmacyStore=new PharmacyStore();
                         pharmacyStore.setDrugs(pharmacyStoreInstance.getDrugs());
-                        pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationName).getUuid());
+                        pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationName));
                         pharmacyStore.setQuantity(pharmacyStoreInstance.getQuantity());
                         pharmacyStore.setQuantityIn(0);
                         pharmacyStore.setQuantityOut(0);
@@ -187,7 +187,7 @@ public class StockTransfers {
                 else{
                     pharmacyStore=new PharmacyStore();
                     pharmacyStore.setDrugs(pharmacyStoreInstance.getDrugs());
-                    pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationName).getUuid());
+                    pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationName));
                     pharmacyStore.setQuantity(pharmacyStoreInstance.getQuantity());
                     pharmacyStore.setQuantityIn(0);
                     pharmacyStore.setQuantityOut(0);

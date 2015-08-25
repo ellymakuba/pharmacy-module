@@ -1,6 +1,7 @@
 package org.openmrs.module.pharmacy.model;
 
 import org.openmrs.BaseOpenmrsData;
+import org.openmrs.Drug;
 import org.openmrs.Patient;
 import java.util.Date;
 
@@ -10,7 +11,7 @@ public class PharmacyDrugOrder extends BaseOpenmrsData {
     private PharmacyOrders orderUuid;
     private PharmacyStore drugInventoryUuid;
     private DrugExtra drugUuid;
-    private double dose;
+    private String dose;
     private double equivalentDailyDose;
     private String units;
     private String frequency;
@@ -18,6 +19,24 @@ public class PharmacyDrugOrder extends BaseOpenmrsData {
     private Integer quantityPrescribed;
     private Patient person;
     private String formName;
+    private Drug drug;
+    private PharmacyLocations pharmacyLocation;
+
+    public PharmacyLocations getPharmacyLocation() {
+        return pharmacyLocation;
+    }
+
+    public void setPharmacyLocation(PharmacyLocations pharmacyLocation) {
+        this.pharmacyLocation = pharmacyLocation;
+    }
+
+    public Drug getDrug() {
+        return drug;
+    }
+
+    public void setDrug(Drug drug) {
+        this.drug = drug;
+    }
 
     public Integer getQuantityGiven() {
         return quantityGiven;
@@ -75,11 +94,11 @@ public class PharmacyDrugOrder extends BaseOpenmrsData {
         this.equivalentDailyDose = equivalent_daily_dose;
     }
 
-    public double getDose() {
+    public String getDose() {
         return dose;
     }
 
-    public void setDose(double dose) {
+    public void setDose(String dose) {
         this.dose = dose;
     }
 

@@ -41,6 +41,9 @@ function addRow(tableID) {
                 if(newcell.childNodes[0].name=="unitPrice"){
                     newcell.childNodes[0].id="unitPrice_" + rowCounter;
                 }
+                if(newcell.childNodes[0].name=="unitsPePack"){
+                    newcell.childNodes[0].id="unitsPerPack_" + rowCounter;
+                }
                 break;
             case "checkbox":
                 newcell.childNodes[0].checked = false;
@@ -514,6 +517,7 @@ $j("form#s11").submit(function () {
     var batchNoNotEntered=false;
     var buyingPriceNotEntered=false;
     var sellingPriceNotEntered=false;
+    var unitsPerPackNotEntered=false;
     $j('#s11').find('tr').each(function(){
         var rowObject=[];
         $j(this).find('td').each(function(){
@@ -557,6 +561,11 @@ $j("form#s11").submit(function () {
             sellingPriceNotEntered=true;
         }
     })
+    $j("input[name='unitsPerPack']").each(function(){
+            if($j(this).val()==""){
+                unitsPerPackNotEntered=true;
+            }
+        })
     if ($j("#incomings11").val() =="") {
         $j('<dl><dt></dt><dd >' + "Info: " + "please enter the s11 number" + '</dd></dl></br>').appendTo('#errorDialog');
         $j("#errorDialog").dialog("open");
@@ -594,6 +603,10 @@ $j("form#s11").submit(function () {
         $j('<dl><dt></dt><dd >' + "Info: " + "Please make sure to enter selling price for all the drugs " + '</dd></dl></br>').appendTo('#errorDialog');
         $j("#errorDialog").dialog("open");
     }
+    else if(unitsPerPackNotEntered==true){
+            $j('<dl><dt></dt><dd >' + "Info: " + "Please make sure to enter units per pack for all the drugs " + '</dd></dl></br>').appendTo('#errorDialog');
+            $j("#errorDialog").dialog("open");
+        }
     else{
     $j.ajax({
         type:"POST",
@@ -722,14 +735,17 @@ $j("input[name=incomingdrug]").live("focus", function () {
                         inventoryPropeties= data.toString().split(",");
                         var buyingPrice=inventoryPropeties[0];
                         var sellingPrice=inventoryPropeties[1];
+                        var unitsPerPack=inventoryPropeties[5];
 
                         if(idExtract =="incomingdrug") {
                             document.getElementById("buyingPrice").value=buyingPrice;
                             document.getElementById("unitPrice").value=sellingPrice;
+                            document.getElementById("unitsPerPack").value=unitsPerPack;
                         }
                         else{
                             document.getElementById("buyingPrice_"+idExtract).value=buyingPrice;
                             document.getElementById("unitPrice_"+idExtract).value=sellingPrice;
+                            document.getElementById("unitsPerPack_"+idExtract).value=unitsPerPack;
                         }
                     }
             })

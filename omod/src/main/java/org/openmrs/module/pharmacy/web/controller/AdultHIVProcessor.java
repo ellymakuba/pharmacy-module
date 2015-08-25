@@ -73,7 +73,6 @@ public class AdultHIVProcessor{
         MedicationProcessor medicationProcessor = new MedicationProcessor();
         String locationVal = null;
         service = Context.getService(PharmacyService.class);
-        log.info("value is+++++++++++++++++++++++++++++++++++++++++++++++++++++++"+jsonText);
         List<PharmacyLocationUsers> listUsers = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         int sizeUsers = listUsers.size();
         if (sizeUsers > 1) {
@@ -250,6 +249,8 @@ public class AdultHIVProcessor{
                         pharmacyDrugOrder.setDrugInventoryUuid(service.getDrugDispenseSettingsByDrugIdAndLocation(listMedicationProcessors.get(i).getDrug().getDrugId(),locationUUID).getInventoryId());
                         pharmacyDrugOrder.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));
                         pharmacyDrugOrder.setEquivalentDailyDose(0);
+                        pharmacyDrugOrder.setDrug(listMedicationProcessors.get(i).getDrug());
+                        pharmacyDrugOrder.setPharmacyLocation(service.getPharmacyLocationsByName(locationVal));
                         pharmacyDrugOrder.setFormName("ADULTHIV");
                         pharmacyDrugOrder.setFrequency(CheckIfStringNull(listMedicationProcessors.get(i).getFrequency()));
                         pharmacyDrugOrder.setOrderUuid(pharmacyOrders);

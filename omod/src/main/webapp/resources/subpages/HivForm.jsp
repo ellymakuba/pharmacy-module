@@ -344,6 +344,31 @@
 </table>
 </fieldset>
 </form>
+<h3 class="boxHeaderP">Patient Encounters</h3>
+    <table cellpadding="0" cellspacing="0" border="0" class="display"  id="patientEncounters">
+        <thead>
+        <tr>
+            <th width="4%">Action</th>
+            <th width="4%">Encounter Date</th>
+            <th>Comment</th>
+            <th>Issued Medication</th>
+            <th>Location</th>
+            <th>User</th>
+            <th>UUID</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

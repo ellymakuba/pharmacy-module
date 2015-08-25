@@ -68,6 +68,7 @@
                         <th class="hidable">Batch NO</th>
                         <th class="hidable">Buying Price</th>
                         <th class="hidable">Selling Price</th>
+                        <th class="hidable">U@P</th>
                         <th></th>
                     </tr>
                     <tr><td><input type="text" name="incomingdrug" id="incomingdrug" class="required"/> </td>
@@ -77,6 +78,7 @@
                         <td><input type="text" name="batchNo" id="batchNo" style="width:100px;" class="hidable"/> </td>
                         <td><input type="text" name="buyingPrice" id="buyingPrice" style="width:100px;" class="hidable" value=""/> </td>
                         <td><input type="text" name="unitPrice" id="unitPrice" style="width:100px;" class="hidable" value=""/> </td>
+                        <td><input type="text" name="unitsPerPack" id="unitsPerPack" style="width:50px;" class="hidable" value=""/> </td>
                         <td><a href="#">Remove</a></td>
                     </tr>
                 </table>

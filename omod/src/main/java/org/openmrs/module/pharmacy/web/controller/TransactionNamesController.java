@@ -131,7 +131,7 @@ public class TransactionNamesController {
                     for (int i = 0; i < size; i++) {
 
 
-                        if ((service.getPharmacyLocationsByUuid(pharmacyInventory.get(i).getLocation()).getName()
+                        if ((pharmacyInventory.get(i).getLocation().getName()
                                 .equalsIgnoreCase(locationVal))) {
 
                             if (drug.equals(pharmacyInventory.get(i).getDrugs())) {

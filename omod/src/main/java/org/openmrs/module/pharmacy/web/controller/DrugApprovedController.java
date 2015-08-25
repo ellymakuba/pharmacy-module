@@ -442,7 +442,7 @@ public class DrugApprovedController {
                 pharmacyStore.setExpireDate(pharmacyStoreApprovedObject.getDateCreated());
                 pharmacyStore.setIncoming(pharmacyStoreApprovedObject.getIncoming());
 
-                pharmacyStore.setLocation(pharmacyStoreApprovedObject.getDestination().getUuid());
+                pharmacyStore.setLocation(pharmacyStoreApprovedObject.getDestination());
 
 
                 pharmacyStore.setMaxLevel(pharmacyStoreApprovedObject.getMaxLevel());

@@ -27,12 +27,10 @@ import java.util.*;
 @Controller
 public class dispenseController {
     private static final Log log = LogFactory.getLog(dispenseController.class);
-    private JSONArray drugStrengthA;
     public PharmacyService service;
     public EncounterService patientService;
     private boolean found = false;
     private JSONArray drugNamess;
-    private String formulation;
     private List<PharmacyEncounter> list = null;
     private int size = 0;
     private UserService usersService;
@@ -41,8 +39,7 @@ public class dispenseController {
     private boolean editPharmacy = false;
     private boolean deletePharmacy = false;
     private int psize, sizeList;
-    private List<PharmacyOrders> listDrugs;
-    private int listDrugsSize;
+    private List<PharmacyOrders> pharmacyOrders;
     private ContainerFactory containerFactory;
     private List<PharmacyLocationUsers> pharmacyLocationUsersByUserName;
     private int sizePharmacyLocationUsers;
@@ -50,8 +47,6 @@ public class dispenseController {
     private List<PharmacyObs> listObsConcepts;
     private  List<PharmacyOrders> listPharmacyOrders   ;
     private   List<PharmacyDrugOrder>    listPharmacyDrugOrder ;
-    private   List<DrugExtra> listPharmacyDrugExtra    ;
-    private int sizeRegimen;
     private JSONObject jsonObject, jsonObject1,jsonObject2;
     private JSONArray jsonArray, jsonArray1, jsonArray2;
     private PharmacyEncounter pharmacyEncounterByUuid;
@@ -59,8 +54,6 @@ public class dispenseController {
     private Person person;
     private List<User> userList;
     private PharmacyTransactionTypes pharmacyTransactionTypes;
-    private int size1;
-    private boolean addMiddle;
     private PharmacyDrugOrder pharmacyDrugOrder;
     private List<PharmacyStore> drugsInInventory;
     @RequestMapping(method=RequestMethod.GET, value="module/pharmacy/checkQuantityDispensedVSQuantityInStock")
@@ -77,6 +70,16 @@ public class dispenseController {
 
         String patientIdentifier=request.getParameter("identifier");
         String patient=service.getPatientByIdentifier(patientIdentifier) ;
+        Collection<Role> xvc = userService.getAuthenticatedUser().getAllRoles();
+        for (Role role : xvc) {
+            if ((role.getRole().equals("Pharmacy Administrator")) ||  (role.getRole().equals("System Developer"))) {
+                editPharmacy = true;
+            }
+            if (role.hasPrivilege("Edit Pharmacy")) {
+                editPharmacy = true;
+            }
+
+        }
 
         person=Context.getPatientService().getPatient(Integer.parseInt(patient));
         list = Context.getService(PharmacyService.class).getPharmacyEncounterListByPatientId(person);
@@ -85,33 +88,39 @@ public class dispenseController {
         if(sizeList >0){
             for (int i = 0; i < sizeList; i++) {
                 jsonArray=new JSONArray();
-                listDrugs = service.getPharmacyOrdersByEncounterId(list.get(i));
-                listDrugsSize = listDrugs.size();
+                pharmacyOrders = service.getPharmacyOrdersByEncounterId(list.get(i));
                 jsonObject1 = new JSONObject();
                 String drugsIssuedToPatient="";
                 String locationName=service.getPharmacyLocationsByUuid(list.get(i).getLocation().getUuid()).getName();
-                for (int j = 0; j < listDrugsSize; j++) {//
-                    if (listDrugs.get(j).getConcept() != null) {
-                        listObsConcepts =service.getPharmacyObsByPharmacyOrder(listDrugs.get(j));
-                        int lastItem=listObsConcepts.size()-1;
+                for (int j = 0; j < pharmacyOrders.size(); j++) {//
+                    if (pharmacyOrders.get(j).getConcept() != null) {
+                        pharmacyDrugOrder=service.getPharmacyDrugOrdersByOrders(pharmacyOrders.get(j));
+                        listObsConcepts =service.getPharmacyObsByPharmacyOrder(pharmacyOrders.get(j));
                         for (int y = 0; y < listObsConcepts.size(); y++) {
-                            if(y==lastItem){
-                                drugsIssuedToPatient=drugsIssuedToPatient +listObsConcepts.get(y).getValue_drug().getName().toString() ;
+                            if(listObsConcepts.get(y).getValue_drug() !=null) {
+                                drugsIssuedToPatient = drugsIssuedToPatient + listObsConcepts.get(y).getValue_drug().getName().toString() + "-" + pharmacyDrugOrder.getDose()+"- ("+pharmacyDrugOrder.getQuantityGiven()+") " + ",";
                             }
-                            else{
-                                drugsIssuedToPatient=drugsIssuedToPatient +listObsConcepts.get(y).getValue_drug().getName().toString()+", " ;
-                            }
-
                         }
                     }
                 }
                 jsonArray.put(list.get(i).getUuid());
                 jsonArray.put(list.get(i).getDateTime());
-                jsonArray.put(list.get(i).getFormName());
+                //jsonArray.put(list.get(i).getFormName());
+                jsonArray.put(list.get(i).getComment());
                 jsonArray.put(drugsIssuedToPatient);
                 jsonArray.put(locationName);
                 jsonArray.put(list.get(i).getCreator());
-                jsonArray.put("Edit");
+                if(editPharmacy) {
+                    if(list.get(i).getFormName().toString()=="PEDIATRICARV" || list.get(i).getFormName().toString() =="ADULTHIV"){
+                        jsonArray.put("Delete");
+                    }
+                    else {
+                        jsonArray.put("Edit");
+                    }
+                }
+                else{
+                    jsonArray.put("");
+                }
                 jsonObject.accumulate("aaData",jsonArray);
             }
         }
@@ -215,13 +224,7 @@ public class dispenseController {
                     } catch (ParseException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
-                    int drugsPerDay=0;
-                    if(pharmacyDrugOrder.getDose()==1900){
-                        drugsPerDay=2;
-                    }
-                    else{
-                        drugsPerDay=2;
-                    }
+                    int drugsPerDay=2;
                     SimpleDateFormat fmtDate=new SimpleDateFormat("dd/MM/yyyy");
                     String formatedLastVisitDate=fmtDate.format(pharmacyDrugOrder.getDateCreated().getTime());
                     String formatedNextVisitDate=fmtDate.format(pharmacyDrugOrder.getExpected_next_visit_date().getTime());
@@ -296,13 +299,12 @@ public class dispenseController {
                 if(sizeList >0){
                     for (int i = 0; i < sizeList; i++) {
                         jsonArray=new JSONArray();
-                        listDrugs = service.getPharmacyOrdersByEncounterId(list.get(i));
-                        listDrugsSize = listDrugs.size();
+                        pharmacyOrders= service.getPharmacyOrdersByEncounterId(list.get(i));
                         jsonObject1 = new JSONObject();
                         String drugsIssuedToPatient="";
-                        for (int j = 0; j < listDrugsSize; j++) {//
-                            if (listDrugs.get(j).getConcept() != null) {
-                                listObsConcepts =service.getPharmacyObsByPharmacyOrder(listDrugs.get(j));
+                        for (int j = 0; j < pharmacyOrders.size(); j++) {//
+                            if (pharmacyOrders.get(j).getConcept() != null) {
+                                listObsConcepts =service.getPharmacyObsByPharmacyOrder(pharmacyOrders.get(j));
                                 for (int y = 0; y < listObsConcepts.size(); y++) {
                                     drugsIssuedToPatient=drugsIssuedToPatient +listObsConcepts.get(y).getValue_drug().getName().toString() ;
                                 }
@@ -346,8 +348,6 @@ public class dispenseController {
                 }
                 response.getWriter().print(jsonArray2);
             } else if (regimen != null) {
-                for (int i = 0; i < sizeRegimen; i++) {
-                }
                 response.getWriter().print(jsonObject);
             } else if (drugs != null) {
                 String[] numbersArray = values.split("/");
@@ -424,7 +424,7 @@ public class dispenseController {
             jsonArray.put(formatedLastVisitDate);
             jsonArray.put(formatedNextVisitDate);
             jsonArray.put(DiffInDays);
-            jsonArray.put(DiffInDays*drugsPerDay);
+            jsonArray.put(patientLastEncounter.getRegimenCode());
         }
         response.getWriter().print(jsonArray);
 

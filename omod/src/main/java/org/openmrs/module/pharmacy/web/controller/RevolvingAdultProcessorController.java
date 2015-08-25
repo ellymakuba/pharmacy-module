@@ -360,7 +360,7 @@ public class RevolvingAdultProcessorController {
                 pharmacyOrders.setPharmacyEncounter(pharmacyEncounter);
                 listPharmacyOrders.add(pharmacyOrders);
                 PharmacyDrugOrder pharmacyDrugOrder = new PharmacyDrugOrder();
-                pharmacyDrugOrder.setDose(0);
+                pharmacyDrugOrder.setDose("0");
                 pharmacyDrugOrder.setDrugInventoryUuid(service.getDrugDispenseSettingsByDrugId(c.get(0).getDrug()).getInventoryId());
                 //pharmacyDrugOrder.setEquivalentDailyDose(CheckIfIntNull(c.get(1).getDailyDose()));
                 pharmacyDrugOrder.setFrequency(CheckIfStringNull(c.get(1).getConceptAnswer()));

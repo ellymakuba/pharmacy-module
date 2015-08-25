@@ -228,9 +228,7 @@ public class DrugDispense {
 
                 for (int i = 0; i < sizeStore; i++) {
 
-                    if (service.getPharmacyLocationsByUuid(listStore.get(i).getLocation()).getName()
-                            .equalsIgnoreCase(locationVal)) {
-
+                    if (listStore.get(i).getLocation().getName().equalsIgnoreCase(locationVal)) {
                         datadFrm = new JSONArray();
 
                         datadFrm = getArray(listStore, i, dialog, locationVal);
@@ -464,8 +462,7 @@ public class DrugDispense {
     }
 
     public synchronized JSONArray getArray(List<PharmacyStore> pharmacyStore, int size, String id, String location) {
-        if (service.getPharmacyLocationsByUuid(pharmacyStore.get(size).getLocation()).getName()
-                .equalsIgnoreCase(location)) {
+        if (pharmacyStore.get(size).getLocation().getName().equalsIgnoreCase(location)) {
             if (dialog != null) {
                 if (pharmacyStore.get(size).getDrugs().getName().equalsIgnoreCase(id)) {
                     readDate.setTime(pharmacyStore.get(size).getExpireDate());

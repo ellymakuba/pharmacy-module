@@ -26,14 +26,6 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public void setPharmacyDAO(PharmacyDAO pharmacyDAO) {
         this.pharmacyDAO = pharmacyDAO;
     }
-
-
-
-
-
-
-
-
     /**
      * @see org.openmrs.module.pharmacy.service.PharmacyService#saveIndicators(org.openmrs.module.pharmacy.model.Indicators)
      */
@@ -201,7 +193,7 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     /**
      * @see org.openmrs.module.pharmacy.service.PharmacyService#getPharmacyInventoryByDrugUuid(String, String)      */
 
-    public PharmacyStore getPharmacyInventoryByDrugUuid(String uuid,String location) {
+    public PharmacyStore getPharmacyInventoryByDrugUuid(String uuid,PharmacyLocations location) {
         return pharmacyDAO.getPharmacyInventoryByDrugUuid(uuid,location);
     }
 
@@ -212,7 +204,7 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public List<PharmacyStore> getPharmacyInventoryListByUuid(String uuid) {
         return pharmacyDAO.getPharmacyInventoryListByUuid(uuid);
     }
-    public List<Drug> getPharmacyInventoryByNameAndLocation(String name,String location){
+    public List<Drug> getPharmacyInventoryByNameAndLocation(String name,PharmacyLocations location){
         return pharmacyDAO.getPharmacyInventoryByNameAndLocation(name,location);
     }
     /**
@@ -821,7 +813,7 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public List<PharmacyEncounter> getPharmacyEncounterListByLocationUUID(String locationUUID){
         return pharmacyDAO.getPharmacyEncounterListByLocationUUID(locationUUID);
     }
-    public List<PharmacyStore> getPharmacyStoreByLocation(String locationUUID){
+    public List<PharmacyStore> getPharmacyStoreByLocation(PharmacyLocations locationUUID){
         return pharmacyDAO.getPharmacyStoreByLocation(locationUUID);
     }
     public PharmacyOrders getPharmacyOrderByEncounter(PharmacyEncounter uuid){
@@ -833,7 +825,7 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public PharmacyDrugOrder getPharmacyDrugOrdersByDrugExtraUUID(DrugExtra uuid){
         return  pharmacyDAO.getPharmacyDrugOrdersByDrugExtraUUID(uuid);
     }
-    public List<PharmacyStore> getPharmacyStoreByNameAndLocation(String name,String location){
+    public List<PharmacyStore> getPharmacyStoreByNameAndLocation(String name,PharmacyLocations location){
         return pharmacyDAO.getPharmacyStoreByNameAndLocation(name,location);
     }
     public Double  getDiscountOnDrugsWithinPeriodRange(Date startDate,Date endDate,String encounterUUID,String location){
@@ -854,7 +846,7 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public List<PharmacyStore> getInventoryByLocation(String locationUUID){
          return pharmacyDAO.getInventoryByLocation(locationUUID);
     }
-    public PharmacyStore getPharmacyStoreByDrugName(String locationUUID,Drug drug){
+    public PharmacyStore getPharmacyStoreByDrugName(PharmacyLocations locationUUID,Drug drug){
         return pharmacyDAO.getPharmacyStoreByDrugName(locationUUID,drug);
     }
     public List<PharmacyEncounter> getDetailedEncountersRange(Date minDate,Date maxDate,String location){
@@ -874,5 +866,17 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     }
     public GeneratePharmacyInventoryQuantities getDrugInventoryOpeningStockByDateAndLocation(Drug drug,Date startDate,Date endDate,String locationUUID){
         return pharmacyDAO.getDrugInventoryOpeningStockByDateAndLocation(drug,startDate,endDate,locationUUID);
+    }
+    public List<PharmacyStore> getDrugTransactionsBetweenRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation){
+        return pharmacyDAO.getDrugTransactionsBetweenRange(startDate,endDate,pharmacyLocation);
+    }
+    public Integer computeQuantityOfDrugsReceivedWithinDateRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug){
+        return pharmacyDAO.computeQuantityOfDrugsReceivedWithinDateRange(startDate,endDate,pharmacyLocation,drug);
+    }
+    public Integer computeQuantityOfDrugsTransferedWithinDateRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug){
+        return pharmacyDAO.computeQuantityOfDrugsTransferedWithinDateRange(startDate,endDate,pharmacyLocation,drug);
+    }
+    public Integer computeQuantityOfDrugsDispensedWithinDateRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug){
+        return pharmacyDAO.computeQuantityOfDrugsDispensedWithinDateRange(startDate,endDate,pharmacyLocation,drug);
     }
 }

@@ -93,7 +93,7 @@
         <tr>
             <th width="4%">UUID</th>
             <th width="4%">Encounter Date</th>
-            <th>Form Name</th>
+            <th>Comment</th>
             <th>Issued Medication</th>
             <th>Location</th>
             <th>User</th>
