@@ -1,9 +1,7 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <%@ page import="org.openmrs.web.WebConstants" %>
 <%@ include file="/WEB-INF/template/include.jsp" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <openmrs:require privilege="Manage Pharmacy" otherwise="/login.htm" redirect="/module/pharmacy/home.form"/>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -579,11 +577,10 @@ $j("#ts").click(function () {
     $j("#stock").hide();
 
 });
-$j("#DGeneral").click(function() {
+$j("#retireInventory").click(function() {
     $j('#west_panel_content').empty();
-    $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/pharmacyGeneral.jsp #dnames' , function() {
-        $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/pharmacyGeneral.js", function(){
-        });
+    $j('#west_panel_content').load('resources/subpages/retireInventoryBatches.form' , function() {
+
     });
     hideInactiveDivElements();
 });
@@ -895,14 +892,22 @@ $j("#locationsetterid").click(function () {
 $j("#requestsum").click(function () {
     $j("#spinner").show();
     $j('#west_panel_content').empty();
-    $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/AdultRevolveForm.jsp #dispensed', function () {
-        $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/adultRevolve.js", function () {
+    $j('#west_panel_content').load('resources/subpages/patientWaivers.form', function () {
 
-        });
     });
     hideInactiveDivElements();
     $j("#requestsumpage").show();hideInactiveDivElements();
 });
+$j("#patientDiscountsReport").click(function () {
+    $j("#spinner").show();
+    $j('#west_panel_content').empty();
+    $j('#west_panel_content').load('resources/subpages/patientDiscounts.form', function () {
+
+    });
+    hideInactiveDivElements();
+    $j("#requestsumpage").show();hideInactiveDivElements();
+});
+
 $j("#s11").click(function () {
     $j("#spinner").show();
     $j('#west_panel_content').empty();
@@ -935,6 +940,14 @@ $j("#rfpreport").click(function () {
     });
     hideInactiveDivElements();
     $j("#rfpreportpage").show();
+});
+$j("#comprehensiveRFPReport").click(function () {
+    $j("#spinner").show();
+    $j('#west_panel_content').empty();
+    $j('#west_panel_content').load('resources/subpages/comprehensiveRFPReport.form', function () {
+
+    });
+    hideInactiveDivElements();
 });
 $j("#rfpCashierReport").click(function () {
     $j("#spinner").show();
@@ -1639,7 +1652,7 @@ CloseDialog();
             </ul>
         </div><%
         if(userLocation !=null){
-            if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense") || org.openmrs.api.context.Context.hasPrivilege("process RFP payments")) {
+            if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense") || org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin ")) {
     %>
         <h3>
             <div id="ui1">
@@ -1656,7 +1669,7 @@ CloseDialog();
             </div>
         </div>
         <% }
-            if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense")){
+            if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy inventory")){
         %>
         <h3>
             <div id="ui2">
@@ -1677,16 +1690,17 @@ CloseDialog();
         </h3>
         <div class="ui-layout-content">
             <UL>
-                <%  if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense")){
+                <%  if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense") || org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin ")){
                 %>
                 <LI><A href="#" id="rfpreport">General RFP Report</A></LI>
-                <% } %>
+                <LI><A href="#" id="comprehensiveRFPReport">Comprehensive RFP Report</A></LI>
                 <LI><A href="#" id="rfpCashierReport">RFP Cashier Report</A></LI>
-                <%  if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin")){
+                <% }
+                 if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy inventory")){
                 %>
                 <LI><A href="#" id="fmapreport">F-map Report</A></LI>
-                <LI><A href="#" id="dsdr">DSDR Report</A></LI>
-                <LI><A href="#" id="requestsum">Patient Discounts & Waivers</A></LI>
+                <LI><A href="#" id="requestsum">Patient Waivers Report</A></LI>
+                <LI><A href="#" id="patientDiscountsReport">Patient Discounts Report</A></LI>
                 <LI><A href="#" id="s11">View S11 Reports</A></LI>
                 <LI><A href="#" id="FCDRR">FCDRR</A></LI>
                 <% } %>
@@ -1694,7 +1708,7 @@ CloseDialog();
         </div>
 
         <%
-            if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense") && userLocation !=null) {
+            if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy dispense") || org.openmrs.api.context.Context.hasPrivilege("Pharmacy inventory")) {
         %>
         <h3>
             <div id="ui">
@@ -1728,7 +1742,7 @@ CloseDialog();
                     <LI><A href="#" id="dmanager">Dose Management</A></LI>
                     <LI><A href="#" id="DCategories">Drug Categories</A> </LI>
                     <LI><A href="#" id="Dmaxmin">Drug Max Min setter</A></LI>
-                    <LI><A href="#" id="DGeneral">Dispense variables</A></LI>
+                    <LI><A href="#" id="retireInventory">Retire inventory Batches</A></LI>
                     <% } %>
                     <LI><A href="#" id="DBatch">Dispense Batch settings</A></LI>
                 </div>

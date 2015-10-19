@@ -73,8 +73,8 @@ public class FCDRRController {
                         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy/MM/dd");
                         String tommorowStringDate=simpleDateFormat.format(dateInstance);
                         Date formatedDate = simpleDateFormat.parse(tommorowStringDate);
-                        if(service.getDrugInventoryOpeningStockByDateAndLocation(pharmacyStoreInstance.getDrugs(),startDate,formatedDate,pharmacyLocation.getUuid()) !=null){
-                            openingStock= service.getDrugInventoryOpeningStockByDateAndLocation(pharmacyStoreInstance.getDrugs(),startDate,formatedDate,pharmacyLocation.getUuid()).getStockQuantities();
+                        if(service.getDrugInventoryOpeningStockByDateAndLocation(pharmacyStoreInstance.getDrugs().getUuid(),startDate,formatedDate,pharmacyLocation.getUuid()) !=null){
+                            openingStock= service.getDrugInventoryOpeningStockByDateAndLocation(pharmacyStoreInstance.getDrugs().getUuid(),startDate,formatedDate,pharmacyLocation.getUuid()).getStockQuantities();
                         }
                         Integer stockReceivedForDrug=0;
                         if(service.computeQuantityOfDrugsReceivedWithinDateRange(startDate,formatedDate,pharmacyLocation,Context.getConceptService().getDrug(pharmacyStoreInstance.getDrugs().getDrugId())) !=null){

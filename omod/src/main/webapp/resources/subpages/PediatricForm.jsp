@@ -7,11 +7,42 @@
             border:1px solid white;
             background-color:#EBEBFF;
         }
+        .align_right {
+                    float: right;
+                    width: 40%;
+                    color:red;
+                    font-weight:bold;
+                    padding;10px;
+                    text-align:right;
+                    margin:10px;
+                }
+                .align_left {
+                    float: left;
+                    width: 40%;
+                    color:red;
+                    font-weight:bold;
+                    padding;10px;
+                    margin:10px;
+                }
+                #patientSummaryDashBoardPediatric{
+                 width:100%;
+                 margin-bottom:10px;
+                 border:5px #AAAAAA;
+                 border-style:outset;
+                }
+                .clear{
+                   clear:both;
+                }
     </style>
 </head>
 <body>
 <DIV id="pediatricFormDiv" class="pediatricFormDivClass">
 <h1><a>Pediatric ARV Prescription form</a></h1>
+<DIV id="patientSummaryDashBoardPediatric">
+<DIV id="align_left" class="align_left"></DIV>
+<DIV id="align_right" class="align_right"></DIV>
+<div class="clear"></div>
+</DIV>
 <form id="pediatricForm" action="#">
 <fieldset>
 <table   id="patientSection">

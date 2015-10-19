@@ -304,25 +304,8 @@ public class HivPedsProcessorController {
                         } catch (ParseException e) {
                             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                         }
-                        String pharmacyDrugOrderUUId=null;
-                        listPharmacyDrugOrder=service.getPharmacyDrugOrders();
-                        if(listPharmacyDrugOrder !=null ){
-                            for(PharmacyDrugOrder pharmacyDrugOrder2:listPharmacyDrugOrder ){
-                                if(pharmacyDrugOrder2.getPerson().getPatientId().toString().equals(encounterProcessor.getPatientId())){
-                                    Date encDate= null;
-                                    try {
-                                        encDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(pharmacyDrugOrder2.getDateCreated().toString());
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                                    }
-                                    if(date1.before(encDate)){
-                                        pharmacyDrugOrderUUId=pharmacyDrugOrder2.getUuid();
-                                    }
-                                }
 
-                            }
-                        }
-                        drugOrder= service.getPharmacyDrugOrdersByUuid(pharmacyDrugOrderUUId);
+                        //drugOrder= service.getHIVPatientLastVisitPharmacyDrugOrder(Integer.valueOf(encounterProcessor.getPatientId()),"RFP");
                         SimpleDateFormat todaysDate=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                         Date realDate=new Date();
                         String dateFormat=todaysDate.format(realDate.getTime());
@@ -337,11 +320,11 @@ public class HivPedsProcessorController {
                         long today=0;
                         long DiffInDays=0;
                         int drugsPerDay=2;
-                        if(drugOrder !=null){
+                       /* if(drugOrder !=null){
                             daysToNextVisit= drugOrder.getExpected_next_visit_date().getTime()/DaysInMillSec;
                             today=actualDate.getTime()/DaysInMillSec;
                             DiffInDays=daysToNextVisit-today;
-                        }
+                        } */
                         int no_of_days_to_last= CheckIfIntNull(listMedicationProcessors.get(i).getDispensed())/2+(int) DiffInDays;
                         Calendar cal=new GregorianCalendar();
                         cal.add(Calendar.DAY_OF_MONTH, no_of_days_to_last);

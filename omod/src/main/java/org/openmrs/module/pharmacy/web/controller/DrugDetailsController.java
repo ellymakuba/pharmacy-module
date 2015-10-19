@@ -219,7 +219,7 @@ public class DrugDetailsController {
             int sizeD = listDrugs.size();
 
             for (int i = 0; i < sizeD; i++) {
-                jsonArray.put("" + listDrugs.get(i).getName());
+                jsonArray.put("" + listDrugs.get(i).getName()+">"+listDrugs.get(i).getDrugId());
             }
             response.getWriter().print(jsonArray);
         } catch (IOException e) {
@@ -227,7 +227,7 @@ public class DrugDetailsController {
         }
 
     }
-    @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/pharmacyDrugIDRequest")
+    @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/pharmacyDrugIDRequest")
     public synchronized void getPharmacyDrugID(HttpServletRequest request, HttpServletResponse response) throws JSONException, ParseException {
         String jsonResult = request.getParameter("drugDetails");
         jsonObject = new JSONObject();
@@ -235,14 +235,10 @@ public class DrugDetailsController {
         service = Context.getService(PharmacyService.class);
         String extractedDrugName="";
         try {
-
-            //drugName= URLDecoder.decode(drugName,"UTF-8");
-            //JSONParser parser=new JSONParser();
-            //Object object=parser.parse(drugDetails);
             jsonObject=new JSONObject(jsonResult);
             extractedDrugName=jsonObject.getString("drugName");
-            drugObject = Context.getConceptService().getDrugByNameOrId(extractedDrugName);
-            jsonArray.put("" + drugObject.getDrugId());
+            jsonArray.put("" + Context.getConceptService().getDrugByNameOrId(extractedDrugName).getDrugId());
+
             response.getWriter().print(jsonArray);
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -289,7 +285,6 @@ public class DrugDetailsController {
         if(pharmacyLocations.size() > 0){
             for(PharmacyLocations pharmacyLocation: pharmacyLocations)
             {
-                System.out.println("locationVal is ++++++++++++++++++++++++++++++++++++++++++"+locationVal+" pharmacyLocation.getName()+++++++++++++++++++++++++++++++++++++++++++++===="+pharmacyLocation.getName());
                 if(!pharmacyLocation.getName().equalsIgnoreCase(locationVal))
                 {
                     jsonArray.put(""+pharmacyLocation.getName());
@@ -321,7 +316,6 @@ public class DrugDetailsController {
     public synchronized JSONArray getArray(List<Drug> drug, int size) {
         data = new JSONArray();
         Collection<Privilege> xc = userService.getAuthenticatedUser().getPrivileges();
-
         for (Privilege p : xc) {
             if (p.getPrivilege().equalsIgnoreCase("Edit Pharmacy")) {
                 editPharmacy = true;

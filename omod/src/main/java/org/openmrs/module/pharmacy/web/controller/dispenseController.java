@@ -32,30 +32,22 @@ public class dispenseController {
     private boolean found = false;
     private JSONArray drugNamess;
     private List<PharmacyEncounter> list = null;
-    private int size = 0;
-    private UserService usersService;
-    private List<PharmacyOrders> listOrders;
     private UserContext userService;
     private boolean editPharmacy = false;
-    private boolean deletePharmacy = false;
     private int psize, sizeList;
     private List<PharmacyOrders> pharmacyOrders;
     private ContainerFactory containerFactory;
     private List<PharmacyLocationUsers> pharmacyLocationUsersByUserName;
     private int sizePharmacyLocationUsers;
-    private List<PharmacyObs> listObs;
     private List<PharmacyObs> listObsConcepts;
-    private  List<PharmacyOrders> listPharmacyOrders   ;
     private   List<PharmacyDrugOrder>    listPharmacyDrugOrder ;
-    private JSONObject jsonObject, jsonObject1,jsonObject2;
+    private JSONObject jsonObject, jsonObject1;
     private JSONArray jsonArray, jsonArray1, jsonArray2;
-    private PharmacyEncounter pharmacyEncounterByUuid;
-    private Iterator iterator,iterator2;
+    private Iterator iterator;
     private Person person;
     private List<User> userList;
     private PharmacyTransactionTypes pharmacyTransactionTypes;
     private PharmacyDrugOrder pharmacyDrugOrder;
-    private List<PharmacyStore> drugsInInventory;
     @RequestMapping(method=RequestMethod.GET, value="module/pharmacy/checkQuantityDispensedVSQuantityInStock")
     public void compareQuantityInStockVsQUantityDispensed(HttpServletRequest request,HttpServletResponse response) throws JSONException, IOException {
 
@@ -64,7 +56,6 @@ public class dispenseController {
     public synchronized void DisplaypatientEncountersByIdentifier(HttpServletRequest request,HttpServletResponse response) throws JSONException, IOException {
         service = Context.getService(PharmacyService.class);
         patientService = Context.getEncounterService();
-        usersService = Context.getUserService();
         userService = Context.getUserContext();
 
 
@@ -104,23 +95,13 @@ public class dispenseController {
                     }
                 }
                 jsonArray.put(list.get(i).getUuid());
-                jsonArray.put(list.get(i).getDateTime());
+                jsonArray.put(list.get(i).getDateCreated());
                 //jsonArray.put(list.get(i).getFormName());
                 jsonArray.put(list.get(i).getComment());
                 jsonArray.put(drugsIssuedToPatient);
                 jsonArray.put(locationName);
                 jsonArray.put(list.get(i).getCreator());
-                if(editPharmacy) {
-                    if(list.get(i).getFormName().toString()=="PEDIATRICARV" || list.get(i).getFormName().toString() =="ADULTHIV"){
-                        jsonArray.put("Delete");
-                    }
-                    else {
-                        jsonArray.put("Edit");
-                    }
-                }
-                else{
-                    jsonArray.put("");
-                }
+                jsonArray.put("Cancel");
                 jsonObject.accumulate("aaData",jsonArray);
             }
         }
@@ -144,31 +125,20 @@ public class dispenseController {
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/dispense")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) {
         String locationVal = null;
-        String patientId = request.getParameter("patientID");//encounterDetails
-        String form = request.getParameter("form");
-        String encounterDetails = request.getParameter("encounterDetails");//
-        String fname=request.getParameter("form");
+        String patientId = request.getParameter("patientID");
         String users = request.getParameter("users");//
         String pId = request.getParameter("Pid");//
         String age = request.getParameter("age");//
-        String drug = request.getParameter("drug");
         String passUserId = request.getParameter("pass");
         String query = request.getParameter("q");
         String drugs = request.getParameter("drugs");
         String values = request.getParameter("values");
         String regimen = request.getParameter("regimen");
-        String filter = request.getParameter("filter");
-        String encounter = request.getParameter("encounter");
         String patientEncounters= request.getParameter("patientEncounters");
-        String pen = request.getParameter("Pen");
-        String formtype = request.getParameter("formtype");
-        String drugID = request.getParameter("drugCheck");
-        String totVal = request.getParameter("total");
 
         //get openmrs variables
         service = Context.getService(PharmacyService.class);
         patientService = Context.getEncounterService();
-        usersService = Context.getUserService();
         userService = Context.getUserContext();
         pharmacyLocationUsersByUserName = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         sizePharmacyLocationUsers = pharmacyLocationUsersByUserName.size();
@@ -179,29 +149,14 @@ public class dispenseController {
         }
         if (patientId != null && patientEncounters == null) {
             list = service.getPharmacyEncounter();
-            size = list.size();
         }
         jsonObject = new JSONObject();
         jsonArray = new JSONArray();
-        listPharmacyDrugOrder=service.getPharmacyDrugOrders();
         try {
             if (patientId != null && patientEncounters == null) {
                 ArrayList<Date> dates=new ArrayList<Date>();
                 jsonArray1 = new JSONArray();
-                String date_s = "2000-01-18 00:00:00.0";
-                SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                Date date1 = dt.parse(date_s);
-                String pharmacyDrugOrderUUId=null;
-                for(PharmacyDrugOrder pharmacyDrugOrder:listPharmacyDrugOrder ){
-                    if(pharmacyDrugOrder.getPerson().getPatientId().toString().equals(patientId) && pharmacyDrugOrder.getFormName().equalsIgnoreCase("ADULTHIV")){
-                        dates.add(pharmacyDrugOrder.getDateCreated());
-                        Date encDate=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(pharmacyDrugOrder.getDateCreated().toString());
-                        if(date1.before(encDate)){
-                            pharmacyDrugOrderUUId=pharmacyDrugOrder.getUuid();
-                        }
-                    }
-                }
-                pharmacyDrugOrder= service.getPharmacyDrugOrdersByUuid(pharmacyDrugOrderUUId);
+                pharmacyDrugOrder= service.getHIVPatientLastVisitPharmacyDrugOrder(Integer.valueOf(patientId),"RFP");
                 SimpleDateFormat todaysDate=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 Date realDate=new Date();
                 String dateFormat=todaysDate.format(realDate.getTime());
@@ -258,38 +213,17 @@ public class dispenseController {
                 response.getWriter().print(jsonObject);
                 //reset
                 list = null;
-                size = 0;
             } else if (pId != null) {
                 jsonArray = new JSONArray();
                 jsonArray.put(Context.getPatientService().getPatient(Integer.parseInt(pId)).getGivenName());
                 response.getWriter().print(jsonArray);
                 list = null;
-                size = 0;
-            } else if (drugID != null) {
-                jsonObject1 = new JSONObject(drugID); // this parses the jsonObject
-                iterator = jsonObject1.keys(); //gets all the keys
-                boolean booleanCheck =false;
-                while (iterator.hasNext()) {
-                    String key = iterator.next().toString(); // get key
-                    Object on = jsonObject1.get(key); // get value
-                    PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
-                    DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(Context.getConceptService().getDrug(Integer.parseInt(key)).getDrugId(),pharmacyLocations.getUuid());
-                    if(drugDispenseSettings==null){
-                        booleanCheck = false;
-                    }
-                    else{
-                        booleanCheck = true;
-                    }
-
-                }
-                response.getWriter().print("" + booleanCheck);
             }
             else if (age != null) {
                 jsonArray = new JSONArray();
                 jsonArray.put(Context.getPatientService().getPatient(Integer.parseInt(age)).getAge());
                 response.getWriter().print(jsonArray);
                 list = null;
-                size = 0;
             }
             else if (patientEncounters != null) {
                 person = Context.getPersonService().getPerson(Integer.parseInt(patientId));
@@ -338,7 +272,6 @@ public class dispenseController {
                 jsonArray.put(Context.getUserContext().getAuthenticatedUser().getSystemId());
                 response.getWriter().print(jsonArray);
                 list = null;
-                size = 0;
             } else if (query != null) {
                 userList = Context.getUserService().getUsers(query, Context.getUserService().getRoles(), true);
                 psize = userList.size();
@@ -375,7 +308,6 @@ public class dispenseController {
                 }
                 response.getWriter().print(jsonArray);
                 list = null;
-                size = 0;
             }
             response.flushBuffer();
         } catch (Exception e) {
@@ -493,18 +425,12 @@ public class dispenseController {
                 if ((rl.getRole().equals("Pharmacy Administrator")) || (rl.getRole().equals("Provider")) || (rl.getRole().equals("	Authenticated "))) {
 
                     editPharmacy = true;
-                    deletePharmacy = true;
                 }
 
 
                 if (rl.hasPrivilege("Edit Pharmacy")) {
                     editPharmacy = true;
                 }
-
-                if (rl.hasPrivilege("Delete Pharmacy")) {
-                    deletePharmacy = true;
-                }
-
             }
             drugNamess = new JSONArray();
             if (editPharmacy) {

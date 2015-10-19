@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.JSONArray;
+import org.json.simple.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.ContainerFactory;
@@ -30,48 +30,18 @@ import java.util.*;
 @Controller
 public class CheckDrugAvailabillity{
     private static final Log log = LogFactory.getLog(CheckDrugAvailabillity.class);
-    private JSONArray drugStrengthA;
     public PharmacyService service;
-    public EncounterService patientService;
-    private boolean found = false;
-    private JSONArray drugNamess;
-    private String formulation;
-    private List<PharmacyEncounter> list = null;
-    private int size = 0;
-    private UserService usersService;
-    private List<PharmacyOrders> listOrders;
-    private UserContext userService;
-    private boolean editPharmacy = false;
-    private boolean deletePharmacy = false;
-    private int psize, sizeList;
-    private List<PharmacyOrders> listDrugs;
-    private int listDrugsSize;
     private ContainerFactory containerFactory;
     private List<PharmacyLocationUsers> pharmacyLocationUsersByUserName;
     private int sizePharmacyLocationUsers;
-    private List<PharmacyObs> listObs;
-    private List<PharmacyObs> listObsConcepts;
-    private  List<PharmacyOrders> listPharmacyOrders   ;
-    private   List<PharmacyDrugOrder>    listPharmacyDrugOrder ;
-    private   List<DrugExtra> listPharmacyDrugExtra    ;
-    private int sizeRegimen;
-    private JSONObject jsonObject, jsonObject1,jsonObject2;
-    private JSONArray jsonArray, jsonArray1, jsonArray2;
-    private PharmacyEncounter pharmacyEncounterByUuid;
-    private Iterator iterator,iterator2;
-    private Person person;
-    private List<User> userList;
-    private PharmacyTransactionTypes pharmacyTransactionTypes;
-    private int size1;
+    boolean booleanCheck =false;
+    boolean drugBatchHasBeenSet=false;
 
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/checkDrugAvailability")
-    public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) {
+    public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String locationVal = null;
-        String drugID = request.getParameter("drugCheck");
+        String jsonTExt= request.getParameter("drugCheck");
         service = Context.getService(PharmacyService.class);
-        patientService = Context.getEncounterService();
-        usersService = Context.getUserService();
-        userService = Context.getUserContext();
         pharmacyLocationUsersByUserName = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         sizePharmacyLocationUsers = pharmacyLocationUsersByUserName.size();
         if (sizePharmacyLocationUsers > 1) {
@@ -79,20 +49,16 @@ public class CheckDrugAvailabillity{
         } else if (sizePharmacyLocationUsers == 1) {
             locationVal = pharmacyLocationUsersByUserName.get(0).getLocation();
         }
-        jsonObject = new JSONObject();
-        jsonArray = new JSONArray();
-        listPharmacyDrugOrder=service.getPharmacyDrugOrders();
+
+        JSONParser parser=new JSONParser();
+        PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
         try {
-            jsonObject1 = new JSONObject(drugID); // this parses the jsonObject
-            iterator = jsonObject1.keys(); //gets all the keys
-            boolean booleanCheck =false;
-            while (iterator.hasNext()) {
-                String key = iterator.next().toString(); // get key
-                Object jsonObj = jsonObject1.get(key); // get value
-                System.out.println("jsonObj++++++++++++++++++++++++++++++++++++++++++++++++++"+jsonObj);
-                Integer quantityDispensed= Integer.valueOf(jsonObj.toString());
-                PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
-                DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(Context.getConceptService().getDrug(Integer.parseInt(key)).getDrugId(),pharmacyLocations.getUuid());
+            Object object=parser.parse(jsonTExt);
+            JSONArray jsonArrayObject=(JSONArray)object;
+            for(int i=0; i<jsonArrayObject.size(); i++){
+                String keyAndValue[]=exractKeyAndValue(jsonArrayObject.get(i).toString());
+                Integer quantityDispensed= Integer.valueOf(keyAndValue[1]);
+                DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(Context.getConceptService().getDrug(Integer.parseInt(keyAndValue[0])).getDrugId(),pharmacyLocations.getUuid());
                 if(drugDispenseSettings==null){
                     booleanCheck = false;
                     break;
@@ -101,7 +67,6 @@ public class CheckDrugAvailabillity{
                     PharmacyStore pharmacyStore = drugDispenseSettings.getInventoryId();
                     if(pharmacyStore.getQuantity() < quantityDispensed){
                         booleanCheck = false;
-                        System.out.println("pharmacyStore quantity++++++++++++++++++++++++++++++++++++++++++++++++++"+pharmacyStore.getQuantity()+" quantityDispensed++ "+quantityDispensed);
                         break;
                     }
                     else{
@@ -111,11 +76,65 @@ public class CheckDrugAvailabillity{
                 }
 
             }
-            response.getWriter().print("" + booleanCheck);
-            response.flushBuffer();
-        } catch (Exception e) {
+            response.getWriter().print(booleanCheck);
+        } catch (org.json.simple.parser.ParseException e) {
             e.printStackTrace();
-            log.error("Error generated"+e.getLocalizedMessage());
         }
+
+    }
+    @RequestMapping(method=RequestMethod.POST,value="module/pharmacy/drugBatchHasBeenSet")
+    public synchronized void checkIfDrugBatchIsSet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String locationVal = null;
+        String jsonTExt= request.getParameter("drugCheck");
+        service = Context.getService(PharmacyService.class);
+        pharmacyLocationUsersByUserName = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
+        sizePharmacyLocationUsers = pharmacyLocationUsersByUserName.size();
+        if (sizePharmacyLocationUsers > 1) {
+            locationVal = request.getSession().getAttribute("location").toString();
+        } else if (sizePharmacyLocationUsers == 1) {
+            locationVal = pharmacyLocationUsersByUserName.get(0).getLocation();
+        }
+
+        JSONParser parser=new JSONParser();
+        PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
+        try {
+            Object object=parser.parse(jsonTExt);
+            JSONArray jsonArrayObject=(JSONArray)object;
+            for(int i=0; i<jsonArrayObject.size(); i++){
+                String keyAndValue[]=exractKeyAndValue(jsonArrayObject.get(i).toString());
+                DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(Context.getConceptService().getDrug(Integer.parseInt(keyAndValue[0])).getDrugId(),pharmacyLocations.getUuid());
+                if(drugDispenseSettings==null){
+                    drugBatchHasBeenSet = false;
+                    break;
+                }
+                else{
+                   drugBatchHasBeenSet=true;
+                }
+
+            }
+            response.getWriter().print(drugBatchHasBeenSet);
+        } catch (org.json.simple.parser.ParseException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public synchronized String[] exractKeyAndValue(String jsonText) {
+        String value = "";
+        String key="";
+        JSONParser parser = new JSONParser();
+        try {
+            Map json = (Map) parser.parse(jsonText, containerFactory);
+            Iterator iter = json.entrySet().iterator();
+
+            while (iter.hasNext()) {
+                Map.Entry entry = (Map.Entry) iter.next();
+                key+=entry.getKey();
+                value+=entry.getValue();
+            }
+        } catch (Exception pe) {
+            log.info(pe);
+        }
+        String myvals[]={key,value};
+        return myvals;
     }
 }

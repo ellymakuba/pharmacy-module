@@ -31,7 +31,6 @@ public class HomeController {
     public synchronized void pageLoad(ModelMap map) {
 
     }
-    @Authorized("Manage Pharmacy")
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/dispenseForm")
     public synchronized void viewRFPDispenseForm(ModelMap map) {
 

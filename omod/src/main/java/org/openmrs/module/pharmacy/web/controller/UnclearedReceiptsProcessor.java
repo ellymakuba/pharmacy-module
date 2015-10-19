@@ -34,6 +34,9 @@ public class UnclearedReceiptsProcessor {
     private JSONArray jsonArray;
     private JSONObject jsonObject;
     private JSONArray datad2;
+    private PharmacyDose dose;
+    private Integer doseID;
+    private String doseName;
 
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/unProcessedReceipts")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) throws ParseException {
@@ -97,8 +100,17 @@ public class UnclearedReceiptsProcessor {
                 jsonObject=new JSONObject();
                 int itemSize=receiptToProcess.size();
                 for(int i=0; i<itemSize; i++){
-                    PharmacyStore pharmacyStore=service.getPharmacyInventoryByDrugUuid(receiptToProcess.get(i).getDrug().getUuid(),locationUUID);
+                    PharmacyStore pharmacyStore=service.getPharmacyInventoryByDrugUuid(receiptToProcess.get(i).getDrug().getUuid(),service.getPharmacyLocationsByName(locationVal));
                     jsonArray=new JSONArray();
+                    if(receiptToProcess.get(i).getDose() !=null){
+                        dose=service.getPharmacyDoseByUuid(receiptToProcess.get(i).getDose().getUuid());
+                        doseName=dose.getName();
+                        doseID=dose.getId();
+                    }
+                    else{
+                        doseName="";
+                        doseID=-1;
+                    }
                     jsonArray.put(""+receiptToProcess.get(i).getDrug().getName());
                     jsonArray.put(""+receiptToProcess.get(i).getQuantitysold());
                     jsonArray.put(""+receiptToProcess.get(i).getAmount());
@@ -108,6 +120,8 @@ public class UnclearedReceiptsProcessor {
                     jsonArray.put(""+receiptToProcess.get(i).getPreviouslySoldQuantity());
                     jsonArray.put(""+receiptToProcess.get(i).getAmountw());
                     jsonArray.put(""+receiptToProcess.get(i).getDiscount());
+                    jsonArray.put(""+doseName);
+                    jsonArray.put(""+doseID);
                     jsonObject.accumulate("aaData", jsonArray);
 
                 }

@@ -383,7 +383,7 @@ public class RevolvingPedsProcessorController {
                 drugExtra.setPill(0);
                 Drug drugTwo=c.get(0).getDrug();
                 drugExtra.setDrug(drugTwo);
-                drugExtra.setDosingCalculation(CheckIfStringNull(c.get(1).getDosingCalculation()));
+                //drugExtra.setDose(c.get(1).getDose());
                 drugExtra.setWaiverNo(CheckIfIntNull(waiverNo));
                 listPharmacyDrugOrderExtra.add(drugExtra);
                 PharmacyOrders pharmacyOrders = new PharmacyOrders();

@@ -102,7 +102,7 @@ public class PrintInvoiceController {
             for(int x=0; x<itemSize; x++){
                 Double amountLessDiscount=receiptToProcess.get(x).getAmount()-receiptToProcess.get(x).getDiscount();
                 amountLessDiscount=amountLessDiscount-receiptToProcess.get(x).getAmountw();
-                PharmacyStore pharmacyStore=service.getPharmacyInventoryByDrugUuid(receiptToProcess.get(x).getDrug().getUuid(),locationUUID);
+                PharmacyStore pharmacyStore=service.getPharmacyInventoryByDrugUuid(receiptToProcess.get(x).getDrug().getUuid(),service.getPharmacyLocationsByName(locationVal));
                 insertCell(table, receiptToProcess.get(x).getDrug().getName(), Element.ALIGN_RIGHT, 1, bf12);
                 insertCell(table, ""+pharmacyStore.getUnitPrice(), Element.ALIGN_RIGHT, 1, bf12);
                 insertCell(table, ""+receiptToProcess.get(x).getQuantitysold(), Element.ALIGN_RIGHT, 1, bf12);

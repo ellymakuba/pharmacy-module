@@ -1,3 +1,5 @@
+$j("#align_left").empty();
+$j("#align_right").empty();
 function fnDataTablesPipeline2(sSource, aoData, fnCallback) {
     var iPipe = 5;
     var bNeedServer = false;
@@ -165,20 +167,15 @@ $j("input[title='drug']").live('click',function(){
         var vals = values.toString().split(",");
         var drugQ = values2.toString().split(",");
         var size = vals.length;
-        var json = {};
+        var json = [];
         for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
+          var drugPropertiesObject={};
+          drugPropertiesObject[vals[i]] = drugQ[i];
+          json.push(drugPropertiesObject);
         }
         $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                // document.getElementById("quantityInStore"+drugIndex).value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
+                    type:"POST",
+                    url:"drugBatchHasBeenSet.form",
                     data:{drugCheck:JSON.stringify(json) },
                     dataType:"json",
                     success:function (result){
@@ -189,8 +186,7 @@ $j("input[title='drug']").live('click',function(){
                         }
                     }
                 })
-            }
-        })
+
     }
 });
 $j("#patientId").autocomplete({
@@ -242,13 +238,11 @@ $j("#patientId").autocomplete({
                                 var nextVisitDate= pharmacyEncounterPropeties[2];
                                 var numberOfDaysToStockOut= pharmacyEncounterPropeties[3];
                                 var remainingStock= pharmacyEncounterPropeties[4];
-                                 $j("#patientSummaryDialog").empty();
-                                 $j('<dl><dt></dt><dd >' +  "Current Regimen:  " +currentRegimen+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
-                                 $j('<dl><dt></dt><dd >' +  "last Visit Date:  " +lastVisitDate+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
-                                 $j('<dl><dt></dt><dd >' +  "next Visit Date:  " +nextVisitDate+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
-                                 $j('<dl><dt></dt><dd >' +  "Number of days To stock out:  " +numberOfDaysToStockOut+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
-                                 $j('<dl><dt></dt><dd >' +  "Remaining Stock:  " +remainingStock+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
-                                 $j("#patientSummaryDialog").dialog("open");
+                                 $j("#align_left").append("Current Regimen: "+currentRegimen+"</br>");
+                                 $j("#align_left").append("last Visit Date: "+lastVisitDate+"</br>");
+                                 $j("#align_left").append("next Visit Date: "+nextVisitDate);
+                                 $j("#align_right").append("Days To stock out: "+numberOfDaysToStockOut+"</br>");
+                                 $j("#align_right").append("Remaining Stock: "+remainingStock+"</br>");
 
                             }
 
@@ -258,29 +252,30 @@ $j("#patientId").autocomplete({
                 $j("#dataSection").show();
             }
         });
-        patientEncountersDatatable=$j('#patientEncounters').dataTable({
-        bJQueryUI:true,
-        bRetrieve:true,
-        bServerSide:true,
-        bProcessing:true,
-        sAjaxSource:"patientEncountersByIdentifier.form?identifier=" +patient,
-        "fnServerData":fnDataTablesPipeline2,
-        "fnRowCallback":function (nRow, aData, iDisplayIndex) {
-        var htm="<ul>";
-        if(aData[0]=="Edit"){
-        htm += '<li> <a href="#"  id="editS">Edit</a></li>';
-        }
-        htm += '</ul>';
-        $j('td:eq(0)', nRow).html(htm);
-         return nRow;
-        } ,
-        "aoColumnDefs":[
-        {
-         "bVisible":false,
-        "aTargets":[ 6 ]
-        }
-        ]
-        });
+            patientEncountersDatatable=$j('#patientEncounters').dataTable({
+            bJQueryUI:true,
+            bRetrieve:true,
+            bServerSide:true,
+            bProcessing:true,
+            sAjaxSource:"patientEncountersByIdentifier.form?identifier=" +patient,
+            "fnServerData":fnDataTablesPipeline2,
+            "fnRowCallback":function (nRow, aData, iDisplayIndex) {
+                var htm="<ul>";
+                if(aData[6]=="Edit"){
+                    htm += '<li> <a href="#"  id="edit">Edit</a></li>';
+                }
+                htm += '</ul>';
+                $j('td:eq(7)', nRow).html(htm);
+                return nRow;
+            } ,
+            "aoColumnDefs":[
+            {
+               "bVisible":false,
+               "aTargets":[ 0 ]
+             }
+               ]
+              });
+              patientEncountersDatatable.fnDraw();
 
     },
     open:function () {
@@ -939,10 +934,13 @@ function processForm(){
             var val= checkHivForm(drugNum,regimenName);
             if(val==true){
                 var size = vals.length;
-                var json = {};
+                var json = [];
                 for (i = 0; i < size; i++) {
-                    json[vals[i]] = drugQ[i];
+                    var drugPropertiesObject={};
+                    drugPropertiesObject[vals[i]] = drugQ[i];
+                    json.push(drugPropertiesObject);
                 }
+
                 $j.ajax({
                     type:"GET",
                     url:"checkDrugAvailability.form",
@@ -955,11 +953,6 @@ function processForm(){
                                 url:"adultHIVProcessor.form?"+ "regimenCode=" + regimenCode+"&regimenName="+regimenName,
                                 data:{values:JSON.stringify(adultHIVData) },
                                 dataType:"json",
-                                beforeSend:function (x) {
-                                    if (x && x.overrideMimeType) {
-                                        x.overrideMimeType("application/j-son;charset=UTF-8");
-                                    }
-                                },
                                 success:function () {
                                     document.getElementById("adultHIVForm").reset();
                                     $j("#dataSection").hide();
@@ -995,3 +988,17 @@ function processForm(){
     }
     return false;
 }
+$j("table").delegate("#patientEncounters tbody tr :last-child","click",function(){
+    document.getElementById("adultHIVForm").reset();
+    var tr = this.parentNode;
+    trData=patientEncountersDatatable.fnGetData(tr);
+    if(confirm("Are you sure you want to delete this encounter "+trData[3])){
+    $j.ajax({
+    type:"GET",
+    url:"patientEncounterDetailsVoid.form?encounterUUID="+trData[0],
+    async:false,
+    success:function(result){
+    }
+})
+}
+})

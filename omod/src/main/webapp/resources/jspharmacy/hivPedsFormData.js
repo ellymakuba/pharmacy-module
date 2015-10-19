@@ -16,20 +16,15 @@ $j("input[title='drug']").live('click',function(){
         var vals = values.toString().split(",");
         var drugQ = values2.toString().split(",");
         var size = vals.length;
-        var json = {};
+        var json = [];
         for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
+             var drugPropertiesObject={};
+             drugPropertiesObject[vals[i]] = drugQ[i];
+             json.push(drugPropertiesObject);
         }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                document.getElementById("quantityInStore"+drugIndex).value=result;
-                $j.ajax({
+            $j.ajax({
                     type:"GET",
-                    url:"dispense.form",
+                    url:"checkDrugAvailability.form",
                     data:{drugCheck:JSON.stringify(json) },
                     dataType:"json",
                     success:function (result){
@@ -40,8 +35,6 @@ $j("input[title='drug']").live('click',function(){
                         }
                     }
                 })
-            }
-        })
     }
 });
 
@@ -544,7 +537,7 @@ $j('#noofmonths')
 function addays(myDate, days) {
     return new Date(myDate.getTime() + days * 24 * 60 * 60 * 1000);
 }
-
+/*
 $j("#prescriber").autocomplete({
 
     search:function () {
@@ -581,7 +574,7 @@ $j("#prescriber").autocomplete({
     close:function () {
         $j(this).removeClass("ui-corner-top").addClass("ui-corner-all");
     }
-});
+}); */
 
 $j('#row1d')
     .change(

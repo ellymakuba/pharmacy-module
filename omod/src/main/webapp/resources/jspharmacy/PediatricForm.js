@@ -1,3 +1,5 @@
+$j("#align_left").empty();
+$j("#align_right").empty();
 var trData;
 function fnDataTablesPipeline2(sSource, aoData, fnCallback) {
     var iPipe = 5;
@@ -347,20 +349,15 @@ $j("input[title='drug']").live('click',function(){
         var vals = values.toString().split(",");
         var drugQ = values2.toString().split(",");
         var size = vals.length;
-        var json = {};
+        var json = [];
         for (i = 0; i < size; i++) {
-            json[vals[i]] = drugQ[i];
-        }
-        $j.ajax({
-            type:"GET",
-            url:"stockInventory.form",
-            data: { "jsonDrugObject" :JSON.stringify(json) },
-            dataType:"json",
-            success:function (result) {
-                // document.getElementById("quantityInStore"+drugIndex).value=result;
-                $j.ajax({
-                    type:"GET",
-                    url:"dispense.form",
+            var drugPropertiesObject={};
+            drugPropertiesObject[vals[i]] = drugQ[i];
+            json.push(drugPropertiesObject);
+         }
+            $j.ajax({
+                    type:"POST",
+                    url:"drugBatchHasBeenSet.form",
                     data:{drugCheck:JSON.stringify(json) },
                     dataType:"json",
                     success:function (result){
@@ -371,8 +368,6 @@ $j("input[title='drug']").live('click',function(){
                         }
                     }
                 })
-            }
-        })
     }
 });
 $j("#patientId").autocomplete({
@@ -417,12 +412,11 @@ $j("#patientId").autocomplete({
                               var nextVisitDate= pharmacyEncounterPropeties[2];
                               var numberOfDaysToStockOut= pharmacyEncounterPropeties[3];
                               var remainingStock= pharmacyEncounterPropeties[4];
-                              $j("#patientSummaryDialog").empty();
-                              $j('<dl><dt></dt><dd >' +  "Current Regimen:  " +currentRegimen+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
-                              $j('<dl><dt></dt><dd >' +  "last Visit Date:  " +lastVisitDate+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
-                              $j('<dl><dt></dt><dd >' +  "next Visit Date:  " +nextVisitDate+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
-                              $j('<dl><dt></dt><dd >' +  "Number of days To stock out:  " +numberOfDaysToStockOut+"</br>" +'</dd></dl> ').appendTo('#patientSummaryDialog');
-                              $j("#patientSummaryDialog").dialog("open");
+                              $j("#align_left").append("Current Regimen: "+currentRegimen+"</br>");
+                              $j("#align_left").append("last Visit Date: "+lastVisitDate+"</br>");
+                              $j("#align_left").append("next Visit Date: "+nextVisitDate);
+                              $j("#align_right").append("Days To stock out: "+numberOfDaysToStockOut+"</br>");
+                              $j("#align_right").append("Remaining Stock: "+remainingStock+"</br>");
                               }
                               }
                               })
@@ -1087,9 +1081,11 @@ function processForm(){
             var val= checkHivPedsForm(drugNum,regimenName);
             if(val==true){
                 var size = vals.length;
-                var json = {};
+                var json = [];
                 for (i = 0; i < size; i++) {
-                    json[vals[i]] = drugQ[i];
+                    var drugPropertiesObject={};
+                    drugPropertiesObject[vals[i]] = drugQ[i];
+                    json.push(drugPropertiesObject);
                 }
                 $j.ajax({
                     type:"GET",

@@ -29,7 +29,7 @@
         <property name="pharmacy_drug_uuid" type="java.lang.String" column="pharmacy_drug_uuid"  length="255"/>
         <property name="chosenValue" type="java.lang.String" column="chosen_value"   length="255"/>
         <property name="patientId" type="java.lang.Integer" column="patient_id"  length="255"/>
-        <property name="dosingCalculation" type="java.lang.String" column="doseCalculation"    length="255"/>
+        <many-to-one name="dose" property-ref="uuid" column="doseCalculation" />
         <many-to-one name="creator" class="org.openmrs.User"  column="creator" not-null="true"/>
         <property name="dateCreated" type="java.util.Date" column="datecreated" not-null="true"/>
         <property name="voided" type="boolean" not-null="true"/>

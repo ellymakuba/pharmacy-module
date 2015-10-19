@@ -613,12 +613,6 @@ public interface PharmacyDAO {
      */
 
     public boolean savePharmacyDrugOrders(List<PharmacyDrugOrder>   pharmacyDrugOrders);
-
-    /**
-     * @return all the pharmacyDrugOrders
-     */
-    public List<PharmacyDrugOrder> getPharmacyDrugOrders();
-
     /**
      * @return one pharmacyDrugOrders object by uuid
      */
@@ -713,9 +707,20 @@ public interface PharmacyDAO {
     public boolean savePharmacyS11(S11 pharmacyS11);
     public List<DrugTransactions>  getPharmacyDrugTransactionsByS11NO(String s11No,PharmacyLocations pharmacyLocation);
     public boolean saveGeneratedInventoryQuantities(List<GeneratePharmacyInventoryQuantities> stockQuantities);
-    public GeneratePharmacyInventoryQuantities getDrugInventoryOpeningStockByDateAndLocation(Drug drug,Date startDate,Date endDate,String locationUUID);
+    public GeneratePharmacyInventoryQuantities getDrugInventoryOpeningStockByDateAndLocation(String drugUUID,Date startDate,Date endDate,String locationUUID);
     public List<PharmacyStore> getDrugTransactionsBetweenRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation);
     public Integer computeQuantityOfDrugsReceivedWithinDateRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug);
     public Integer computeQuantityOfDrugsTransferedWithinDateRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug);
     public Integer computeQuantityOfDrugsDispensedWithinDateRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug);
+    public String getDrugTransactionByS11AndDrug(PharmacyLocations location, Drug drug,String s11);
+    public DrugTransactions getDrugTransactionTransferedByLocationAndDrug(PharmacyLocations location, Drug drug,String transactionUUID);
+    public List<DrugTransactions> getTransferedTransactionsdBetweenDates(Date startDate, Date endDate,PharmacyLocations pharmacyLocation);
+    public Integer getDrugS11QuantityReceived(PharmacyLocations location, Drug drug,String s11);
+    public List<S11> getDistinctS11WithinDateRange(String locationUUID, Date startDate, Date endDate);
+    public PharmacyDose getPharmacyDoseByID(Integer ID);
+    public List<DrugExtra> getWaiversWithinDateRange(String locUUID, Date startDate, Date endDate);
+    public List<DrugExtra> getDiscountsWithinDateRange(String locUUID, Date startDate, Date endDate);
+    public List<PharmacyStore> getAllPharmacyStorePlusRetired(PharmacyLocations locationUUID);
+    public PharmacyDrugOrder getHIVPatientLastVisitPharmacyDrugOrder(Integer patientID,String formName);
+    public List<DrugExtra> getDrugExtraRangeByDrugAndLocation(String pharmacyLocations,String drug,Date startDate,Date endDate);
 }

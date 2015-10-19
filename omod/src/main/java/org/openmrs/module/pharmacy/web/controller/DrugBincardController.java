@@ -166,11 +166,15 @@ public class DrugBincardController {
         jsonArray = new JSONArray();
         try {
             if(selectDose !=null){
+                json = new JSONObject();
                 for(int i=0; i<doseList.size(); i++)
                 {
-                    jsonArray.put("" + getDropDown(doseList, i));
+                    jsonArray =new JSONArray();
+                    jsonArray.put("" + doseList.get(i).getName());
+                    jsonArray.put(""+doseList.get(i).getId());
+                    json.accumulate("aaData",jsonArray);
                 }
-                response.getWriter().print(jsonArray);
+                response.getWriter().print(json);
             }
             else if (drop !=null) {
                 String locationUUID=service.getPharmacyLocationsByName(locationVal).getUuid();

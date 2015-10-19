@@ -291,8 +291,8 @@ public class RfpGeneralReportController {
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy/MM/dd");
         String tommorowStringDate=simpleDateFormat.format(dateInstance);
         Date formatedDate = simpleDateFormat.parse(tommorowStringDate);
-        if(service.getDrugInventoryOpeningStockByDateAndLocation(drug,startDate,formatedDate,locationUUID) !=null){
-           openingStock= service.getDrugInventoryOpeningStockByDateAndLocation(drug,startDate,formatedDate,locationUUID).getStockQuantities();
+        if(service.getDrugInventoryOpeningStockByDateAndLocation(drug.getUuid(),startDate,formatedDate,locationUUID) !=null){
+           openingStock= service.getDrugInventoryOpeningStockByDateAndLocation(drug.getUuid(),startDate,formatedDate,locationUUID).getStockQuantities();
         }
         Double myVals[] = {quantity,quantityFromStore,unitPrice,quantitySold,amountWaived,count,countDispensed,cashExpected,discount,cashExpectedLessW,openingStock};
         return myVals;

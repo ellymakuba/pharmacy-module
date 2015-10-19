@@ -21,7 +21,7 @@ public class DrugExtra extends BaseOpenmrsData {
     private Integer invoice;
     private String drugChange;
     private String chosenValue;
-    private String dosingCalculation;
+    private PharmacyDose dose;
     private Drug drug;
     private Integer patientId;
     private String pharmacy_drug_uuid;
@@ -266,11 +266,11 @@ public class DrugExtra extends BaseOpenmrsData {
         this.chosenValue = chosenValue;
     }
 
-    public String getDosingCalculation() {
-        return dosingCalculation;
+    public PharmacyDose getDose() {
+        return dose;
     }
 
-    public void setDosingCalculation(String dosingCalculation) {
-        this.dosingCalculation = dosingCalculation;
+    public void setDose(PharmacyDose dose) {
+        this.dose = dose;
     }
 }

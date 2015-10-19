@@ -142,10 +142,12 @@ function removeRows() {
 }
 $j('#tableDispense').hide();
 $j.getJSON("drugBincard.form?selectDose=doseSelect",function (result) {
+var doseArrayObject=[];
     $j("#dosage").get(0).options.length = 0;
     $j("#dosage").get(0).options[0] = new Option("Select","-1");
-    $j.each(result,function (index, value) {
-        $j("#dosage").get(0).options[$j("#dosage").get(0).options.length] = new Option(value,value);
+    $j.each(result.aaData,function (index, value) {
+    doseArrayObject=value.toString().split(",");
+        $j("#dosage").get(0).options[$j("#dosage").get(0).options.length] = new Option(doseArrayObject[0],doseArrayObject[1]);
     });
 });
 $j("#dispensingForm").validate();
@@ -177,6 +179,7 @@ $j('#unClearedReceipts tbody').delegate("tr","click", function () {
     var totalAmount=0;
     var totalAmountWaived=0;
     var totalDiscount=0;
+    var doseArrayObject=[];
     document.getElementById("amountPaid").value='';
     $j.ajax({
         type:'GET',
@@ -202,9 +205,15 @@ $j('#unClearedReceipts tbody').delegate("tr","click", function () {
                 totalAmountWaived=Number(totalAmountWaived)+Number(vals[7]);
                 totalDiscount=Number(totalDiscount)+Number(vals[8]);
                 $j.getJSON("drugBincard.form?selectDose=doseSelect",function (result) {
-                    $j.each(result,function (index, value) {
-                        $j("#dosage_"+idx).append($j("<option></option>").attr("value",index).text(value));
-                    });
+                    $j("#dosage_"+idx).get(0).options.length = 0;
+                    var convertDoseIdToInt=parseInt(vals[10]);
+                   if(convertDoseIdToInt > -1){
+                    $j("#dosage_"+idx).get(0).options[0] = new Option(vals[9],vals[10]);
+                    }
+                   $j.each(result.aaData,function (index, value) {
+                          doseArrayObject=value.toString().split(",");
+                          $j("#dosage_"+idx).get(0).options[$j("#dosage_"+idx).get(0).options.length] = new Option(doseArrayObject[0],doseArrayObject[1]);
+                          });
                 });
             })
         $j('table#tableDispense TBODY').append('<input type="hidden" name="previousEncounter" id="previousEncounter" value="'+aData[0]+'">');
@@ -546,7 +555,7 @@ function addNewInvoiceOnQueue(){
         var rowObject=[];
         $j(this).find('td').each(function(){
             var obj = {}
-            var  td = $j(this).find('input');
+            var  td = $j(this).find('input,select');
 
             var key = td.attr('name');
             var val = td.val();
@@ -591,7 +600,7 @@ function updateAndRequeue(){
         var rowObject=[];
         $j(this).find('td').each(function(){
             var obj = {}
-            var  td = $j(this).find('input');
+            var  td = $j(this).find('input,select');
 
             var key = td.attr('name');
             var val = td.val();
@@ -643,7 +652,7 @@ function processInvoicePayment(){
             var rowObject=[];
             $j(this).find('td').each(function(){
                 var obj = {}
-                var  td = $j(this).find('input');
+                var  td = $j(this).find('input,select');
 
                 var key = td.attr('name');
                 var val = td.val();
