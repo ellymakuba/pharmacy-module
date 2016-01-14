@@ -4,7 +4,6 @@
 <hibernate-mapping>
     <class name="org.openmrs.module.pharmacy.model.PharmacyEncounter" table="pharmacy_encounter">
         <cache usage="read-write"/>
-
         <id name="id" type="int" column="pharmacy_encounter_id" unsaved-value="0">
             <generator class="org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator"/></id>
         <discriminator column="pharmacy_encounter_id" insert="false"/>
@@ -26,6 +25,10 @@
         <property name="uuid" type="string" length="38" not-null="true" unique="true"/>
         <property name="display" type="java.lang.Integer" column="display"/>
         <property name="paymentStatus" type="java.lang.Integer" column="paid"/>
+        <property name="PMTCTChecked" type="java.lang.Integer" column="pmtct"/>
+        <property name="PEPChecked" type="java.lang.Integer" column="pep"/>
+        <property name="regimenChanged" type="java.lang.Integer" column="regimenChanged"/>
+        <property name="regimenInitiation" type="java.lang.Integer" column="regimenInitiation"/>
         <property name="totalAmount" type="java.lang.Double" column="totalAmount"/>
         <property name="discount" type="java.lang.Double" column="discount"/>
         <property name="comment" type="java.lang.String" column="comments" length="255"/>

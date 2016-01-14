@@ -592,7 +592,7 @@ public class RevolvingPedsProcessorController {
 
 
                         pharmacyStore.setQuantity( (pharmacyStore.getQuantity()-Qnty));
-                        service.savePharmacyInventory(pharmacyStore);
+                        service.savePharmacyInventoryItem(pharmacyStore);
 
 
                     }

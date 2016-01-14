@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -40,15 +41,25 @@ public class HivPedsProcessorController {
     private boolean savedOrders=false,savedObs=false;
     private PharmacyDrugOrder drugOrder;
     private String comment;
+    @RequestMapping(method=RequestMethod.GET,value="module/pharmacy/resources/subpages/PediatricForm")
+    public void PediatricFormGetServlet(ModelMap map,HttpServletRequest request) throws java.text.ParseException, IOException {
+    }
 
     @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/hivPedsProcessor")
-    public synchronized void pageLoadd(HttpServletRequest request, HttpServletResponse response) {
+    public synchronized void pageLoadd(HttpServletRequest request, HttpServletResponse response) throws ParseException {
         conceptService = Context.getConceptService();
         String jsonText = request.getParameter("values");
         EncounterProcessor encounterProcessor = new EncounterProcessor();
         ObsProcessor obsProcessor = new ObsProcessor();
         String regimenCode=request.getParameter("regimenCode");
         String regimenName=request.getParameter("regimenName");
+        String isPMTCTChecked=request.getParameter("pmtctSelected");
+        String isPEPChecked=request.getParameter("pepSelected");
+        String regimenChanged=request.getParameter("regimenChanged");
+        String regimenInitition=request.getParameter("regimenInitiation");
+        String isOnlyOIRefill=request.getParameter("isOnlyOIRefill");
+
+
         MedicationProcessor medicationProcessor = new MedicationProcessor();
         String locationVal = null;
         service = Context.getService(PharmacyService.class);
@@ -82,7 +93,7 @@ public class HivPedsProcessorController {
                     String myValues[]= exractKeyAndValue(rowInstance.get(j).toString());
                     String key = myValues[0];
                     String value=myValues[1];
-                    if(key.equalsIgnoreCase("patientId")){
+                    if(key.equalsIgnoreCase("patientIdPediatricHIVForm")){
                         String patient=service.getPatientByIdentifier(value);
                         encounterProcessor.setPatientId(patient);
                     }
@@ -208,6 +219,7 @@ public class HivPedsProcessorController {
             pharmacyEncounter.setEncounter(service.getPharmacyEncounterTypeByName(encounterProcessor.getEncounterType()));
             pharmacyEncounter.setFormName(encounterProcessor.getForm());
             pharmacyEncounter.setComment(comment);
+            pharmacyEncounter.setDisplay(0);
             try {
                 encDate=new SimpleDateFormat("MM/dd/yyyy").parse(encounterProcessor.getEncounterDate());
                 endDate=new SimpleDateFormat("MM/dd/yyyy").parse(encounterProcessor.getNextVisitDate());
@@ -230,6 +242,9 @@ public class HivPedsProcessorController {
                 pharmacyEncounter.setRegimenName(regimenName);
             }
             pharmacyEncounter.setFormName("PEDIATRICARV");
+            pharmacyEncounter.setPEPChecked(Integer.valueOf(isPEPChecked));
+            pharmacyEncounter.setPMTCTChecked(Integer.valueOf(isPMTCTChecked));
+            pharmacyEncounter.setRegimenChanged(Integer.valueOf(regimenChanged));
             service.savePharmacyEncounter(pharmacyEncounter);
 
 
@@ -305,7 +320,7 @@ public class HivPedsProcessorController {
                             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                         }
 
-                        //drugOrder= service.getHIVPatientLastVisitPharmacyDrugOrder(Integer.valueOf(encounterProcessor.getPatientId()),"RFP");
+                        drugOrder= service.getHIVPatientLastVisitPharmacyDrugOrder(encounterProcessor.getPatientId(),"RFP");
                         SimpleDateFormat todaysDate=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                         Date realDate=new Date();
                         String dateFormat=todaysDate.format(realDate.getTime());
@@ -320,12 +335,54 @@ public class HivPedsProcessorController {
                         long today=0;
                         long DiffInDays=0;
                         int drugsPerDay=2;
-                       /* if(drugOrder !=null){
+                        if(drugOrder !=null){
                             daysToNextVisit= drugOrder.getExpected_next_visit_date().getTime()/DaysInMillSec;
                             today=actualDate.getTime()/DaysInMillSec;
                             DiffInDays=daysToNextVisit-today;
-                        } */
-                        int no_of_days_to_last= CheckIfIntNull(listMedicationProcessors.get(i).getDispensed())/2+(int) DiffInDays;
+
+                        }
+                        int numberOfTabletsInDose=1;
+                        if(listMedicationProcessors.get(i).getDispensed().equalsIgnoreCase("1 tablet BD")){
+                            numberOfTabletsInDose=2;
+                        }
+                        else if(listMedicationProcessors.get(i).getDispensed().equalsIgnoreCase("1 tablet OD")){
+                            numberOfTabletsInDose=1;
+                        }
+                        else if(listMedicationProcessors.get(i).getDispensed().equalsIgnoreCase("1 tablet nocte")){
+                            numberOfTabletsInDose=1;
+                        }
+                        else if(listMedicationProcessors.get(i).getDispensed().equalsIgnoreCase("2 tablets BD")){
+                            numberOfTabletsInDose=4;
+                        }
+                        else if(listMedicationProcessors.get(i).getDispensed().equalsIgnoreCase("3 tablets BD")){
+                            numberOfTabletsInDose=6;
+                        }
+                        else if(listMedicationProcessors.get(i).getDispensed().equalsIgnoreCase("1 tab OD")){
+                            numberOfTabletsInDose=1;
+                        }
+                        else if(listMedicationProcessors.get(i).getDispensed().equalsIgnoreCase("1 tab BD")){
+                            numberOfTabletsInDose=1;
+                        }
+                        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+                        long currentDay=actualDate.getTime()/DaysInMillSec;
+
+                        Date nextVisitDate=df.parse(encounterProcessor.getNextVisitDate());
+
+                        long currentVisitDifferenceInDaysWithEnteredNextVisitDate=nextVisitDate.getTime()/DaysInMillSec;
+
+                        currentVisitDifferenceInDaysWithEnteredNextVisitDate=currentVisitDifferenceInDaysWithEnteredNextVisitDate-currentDay;
+                        int no_of_days_to_last= 0;
+                        if(Integer.valueOf(regimenChanged)==1 || Integer.valueOf(regimenInitition)==1) {
+                            no_of_days_to_last = (int) currentVisitDifferenceInDaysWithEnteredNextVisitDate;
+                        }
+                        else if(Integer.valueOf(isOnlyOIRefill)==1){
+                            no_of_days_to_last =(int)DiffInDays;
+                        }
+                        else{
+                            no_of_days_to_last = (int) currentVisitDifferenceInDaysWithEnteredNextVisitDate + (int) DiffInDays;
+                        }
+
+
                         Calendar cal=new GregorianCalendar();
                         cal.add(Calendar.DAY_OF_MONTH, no_of_days_to_last);
                         SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -459,7 +516,7 @@ public class HivPedsProcessorController {
                 if(pharmacyStore.getQuantity() > Qnty || pharmacyStore.getQuantity() == Qnty){
                    //System.out.println("three++++++++++++++++++inside subtractfrom inventory +++++++++++++++++++"+drugId+" Qnty +++"+Qnty+" val "+val);
                     pharmacyStore.setQuantity(pharmacyStore.getQuantity()-Qnty);
-                    service.savePharmacyInventory(pharmacyStore);
+                    service.savePharmacyInventoryItem(pharmacyStore);
                 }
             }
         }

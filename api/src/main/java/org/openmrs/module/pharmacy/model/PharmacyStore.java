@@ -23,8 +23,8 @@ public class PharmacyStore extends BaseOpenmrsData {
     private PharmacyStoreIncoming incoming;
     private PharmacyStoreOutgoing outgoing;
     private PharmacyCategory category;
-    private  Double buyingPrice;
-    private  Double sellingPrice;
+    private Double buyingPrice;
+    private Double sellingPrice;
     private String batchNo;
     private Integer s11;
     private Integer deliveryNo;
@@ -34,8 +34,26 @@ public class PharmacyStore extends BaseOpenmrsData {
     private PharmacySupplier supplier;
     private PharmacyTransactionTypes transaction;
     private Integer unitsPerPack;
+    private Integer stockTakeQuantityWaitingForApproval;
+    private Integer stockTakeApprovalStatus;
     /** default constructor */
     public PharmacyStore() {
+    }
+
+    public Integer getStockTakeApprovalStatus() {
+        return stockTakeApprovalStatus;
+    }
+
+    public void setStockTakeApprovalStatus(Integer stockTakeApprovalStatus) {
+        this.stockTakeApprovalStatus = stockTakeApprovalStatus;
+    }
+
+    public Integer getStockTakeQuantityWaitingForApproval() {
+        return stockTakeQuantityWaitingForApproval;
+    }
+
+    public void setStockTakeQuantityWaitingForApproval(Integer stockTakeQuantityWaitingForApproval) {
+        this.stockTakeQuantityWaitingForApproval = stockTakeQuantityWaitingForApproval;
     }
 
     public Integer getUnitsPerPack() {
@@ -337,20 +355,10 @@ public class PharmacyStore extends BaseOpenmrsData {
     }
 
 
-    /**
-     * @param s11
-     */
-    public void setS11(int s11) {
-
+    public void setS11(Integer s11) {
         this.s11 = s11;
-
     }
-
-    /**
-     * @return s11
-     */
     public Integer getS11() {
-
         return s11;
     }
 

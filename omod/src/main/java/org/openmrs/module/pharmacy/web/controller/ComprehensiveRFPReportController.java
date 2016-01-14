@@ -37,7 +37,7 @@ public class ComprehensiveRFPReportController{
 
 
     @RequestMapping(method=RequestMethod.GET,value="module/pharmacy/resources/subpages/comprehensiveRFPReport")
-    public void displayComprehensiveRFPReport(ModelMap map,HttpServletRequest request) throws java.text.ParseException, IOException {
+    public void displayComprehensiveRFPReport(ModelMap map,HttpServletRequest request) throws ParseException, IOException {
 
         String locationVal = request.getSession().getAttribute("location").toString();
         String sDate=request.getParameter("startDate");

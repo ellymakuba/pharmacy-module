@@ -766,7 +766,7 @@ public class PsychiatryProcessorController {
 
 
                         pharmacyStore.setQuantity( (pharmacyStore.getQuantity()-Qnty));
-                        service.savePharmacyInventory(pharmacyStore);
+                        service.savePharmacyInventoryItem(pharmacyStore);
 
 
                     }

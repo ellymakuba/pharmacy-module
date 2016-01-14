@@ -26,6 +26,42 @@ public class PharmacyEncounter extends BaseOpenmrsData {
     private Integer paymentStatus;
     private Double discount;
     private String comment;
+    private Integer PMTCTChecked;
+    private Integer PEPChecked;
+    private Integer regimenChanged;
+    private Integer regimenInitiation;
+
+    public Integer getRegimenInitiation() {
+        return regimenInitiation;
+    }
+
+    public void setRegimenInitiation(Integer regimenInitiation) {
+        this.regimenInitiation = regimenInitiation;
+    }
+
+    public Integer getRegimenChanged() {
+        return regimenChanged;
+    }
+
+    public void setRegimenChanged(Integer regimenChanged) {
+        this.regimenChanged = regimenChanged;
+    }
+
+    public Integer getPMTCTChecked() {
+        return PMTCTChecked;
+    }
+
+    public void setPMTCTChecked(Integer PMTCTChecked) {
+        this.PMTCTChecked = PMTCTChecked;
+    }
+
+    public Integer getPEPChecked() {
+        return PEPChecked;
+    }
+
+    public void setPEPChecked(Integer PEPChecked) {
+        this.PEPChecked = PEPChecked;
+    }
 
     public Double getTotalAmount() {
         return totalAmount;

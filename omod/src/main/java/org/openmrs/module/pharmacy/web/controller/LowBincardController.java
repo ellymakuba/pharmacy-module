@@ -361,7 +361,7 @@ public class LowBincardController {
                         pharmacyStore.setMinLevel(0);
                     }
 
-                    service.savePharmacyInventory(pharmacyStore);
+                    service.savePharmacyInventoryItem(pharmacyStore);
 
                 } else //do code to display to the user
                 {
@@ -434,7 +434,7 @@ public class LowBincardController {
 
                             service.saveDrugTransactions(drugTransactions);
 
-                            service.savePharmacyInventory(pharmacyStore);
+                            service.savePharmacyInventoryItem(pharmacyStore);
 
                         }
 
@@ -487,7 +487,7 @@ public class LowBincardController {
                     pharmacyStore.setS11(Integer.parseInt(bins11));
 
                     pharmacyStore.setChangeReason(bincom);
-                    service.savePharmacyInventory(pharmacyStore);
+                    service.savePharmacyInventoryItem(pharmacyStore);
                 }
             }
 
@@ -498,7 +498,7 @@ public class LowBincardController {
             pharmacyStore.setVoided(true);
             pharmacyStore.setVoidReason(binreason);
 
-            service.savePharmacyInventory(pharmacyStore);
+            service.savePharmacyInventoryItem(pharmacyStore);
 
         }
 

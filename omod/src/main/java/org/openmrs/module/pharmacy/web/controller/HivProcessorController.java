@@ -846,7 +846,7 @@ public class HivProcessorController {
                         // log.info("druuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuug id is true");
 
                         pharmacyStore.setQuantity( (pharmacyStore.getQuantity()-Qnty));
-                        service.savePharmacyInventory(pharmacyStore);
+                        service.savePharmacyInventoryItem(pharmacyStore);
 
 
                     }

@@ -206,7 +206,7 @@ $j("#patientId").autocomplete({
     },
     minLength:3,
     select:function (event, ui) {
-            var patient=ui.item.value;
+        var patient=ui.item.value;
         var pharmacyEncounterPropeties={};
         $j.ajax({
             type:"GET",
@@ -237,12 +237,11 @@ $j("#patientId").autocomplete({
                                 var lastVisitDate=pharmacyEncounterPropeties[1];
                                 var nextVisitDate= pharmacyEncounterPropeties[2];
                                 var numberOfDaysToStockOut= pharmacyEncounterPropeties[3];
-                                var remainingStock= pharmacyEncounterPropeties[4];
+                                var remainingStock= pharmacyEncounterPropeties[5];
                                  $j("#align_left").append("Current Regimen: "+currentRegimen+"</br>");
                                  $j("#align_left").append("last Visit Date: "+lastVisitDate+"</br>");
-                                 $j("#align_left").append("next Visit Date: "+nextVisitDate);
-                                 $j("#align_right").append("Days To stock out: "+numberOfDaysToStockOut+"</br>");
-                                 $j("#align_right").append("Remaining Stock: "+remainingStock+"</br>");
+                                 $j("#align_right").append("next Visit Date: "+nextVisitDate+"</br>");
+                                 $j("#align_right").append("Days To Next Visit: "+numberOfDaysToStockOut+"</br>");
 
                             }
 
@@ -390,6 +389,7 @@ function checkHivForm(val,reg){
     cRegimen=val;
     if(reg !=pRegimen && pRegimen !="" && reg !="OI")
     {
+
         if($j("#regimenchange").is(':checked') || pRegimen =="undefined"){
             return true;
         }
@@ -760,7 +760,7 @@ function processForm(){
                 }
             });
         });
-        //alert(" drugIsChecked "+drugIsChecked+" requestIsFilled "+requestIsFilled+" quantityIsFilled "+quantityIsFilled);
+
         if(drugIsChecked==1 && requestIsFilled==0){
             drugVSRequest=1;
 
@@ -897,7 +897,7 @@ function processForm(){
                     return $j(this).val();
                 }
             }).get();
-        //alert("drugNum Quantity"+values2);
+
         var vals = values.toString().split(",");
         var vals2 = values2.toString().split(",");
         var drugQ = vals2.toString().split(",");
@@ -927,6 +927,7 @@ function processForm(){
                         regimenVals=JSON.parse(result);
                         regimenName=regimenVals.regimenNam;
                         regimenCode=regimenVals.regimenCod;
+
                         }
                     }
                 });
@@ -940,7 +941,10 @@ function processForm(){
                     drugPropertiesObject[vals[i]] = drugQ[i];
                     json.push(drugPropertiesObject);
                 }
-
+                var regimenChanged=0;
+              if(regimenName !=pRegimen && pRegimen !="" && regimenName !="OI"){
+                 regimenChanged=1;
+              }
                 $j.ajax({
                     type:"GET",
                     url:"checkDrugAvailability.form",
@@ -950,7 +954,7 @@ function processForm(){
                         if (result.toString() == 'true') {
                             $j.ajax({
                                 type:"POST",
-                                url:"adultHIVProcessor.form?"+ "regimenCode=" + regimenCode+"&regimenName="+regimenName,
+                                url:"adultHIVProcessor.form?"+ "regimenCode=" + regimenCode+"&regimenName="+regimenName+"&regimenChanged="+regimenChanged,
                                 data:{values:JSON.stringify(adultHIVData) },
                                 dataType:"json",
                                 success:function () {

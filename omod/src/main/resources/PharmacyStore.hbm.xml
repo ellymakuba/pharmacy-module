@@ -38,5 +38,7 @@
         <property name="uuid" type="string" length="38" not-null="true" unique="true"/>
         <property name="stockReason" type="java.lang.String" column="stock_reason" length="255"/>
         <property name="unitsPerPack" type="java.lang.Integer" column="units_per_pack" length="255"/>
+        <property name="stockTakeQuantityWaitingForApproval" type="java.lang.Integer" column="stock_take_quantity_waiting_for_approval" length="255"/>
+        <property name="stockTakeApprovalStatus" type="java.lang.Integer" column="stock_take_approval_status"/>
     </class>
 </hibernate-mapping>

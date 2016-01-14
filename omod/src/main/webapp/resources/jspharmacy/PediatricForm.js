@@ -411,12 +411,11 @@ $j("#patientId").autocomplete({
                               var lastVisitDate=pharmacyEncounterPropeties[1];
                               var nextVisitDate= pharmacyEncounterPropeties[2];
                               var numberOfDaysToStockOut= pharmacyEncounterPropeties[3];
-                              var remainingStock= pharmacyEncounterPropeties[4];
+                              var remainingStock= pharmacyEncounterPropeties[5];
                               $j("#align_left").append("Current Regimen: "+currentRegimen+"</br>");
-                              $j("#align_left").append("last Visit Date: "+lastVisitDate+"</br>");
-                              $j("#align_left").append("next Visit Date: "+nextVisitDate);
-                              $j("#align_right").append("Days To stock out: "+numberOfDaysToStockOut+"</br>");
-                              $j("#align_right").append("Remaining Stock: "+remainingStock+"</br>");
+                              $j("#align_left").append("last Visit Date: "+lastVisitDate);
+                              $j("#align_right").append("next Visit Date: "+nextVisitDate+"</br>");
+                              $j("#align_right").append("Days To Next Visit: "+numberOfDaysToStockOut+"</br>");
                               }
                               }
                               })

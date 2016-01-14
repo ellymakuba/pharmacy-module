@@ -13,6 +13,7 @@ import org.openmrs.api.context.UserContext;
 import org.openmrs.module.pharmacy.model.*;
 import org.openmrs.module.pharmacy.service.PharmacyService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -38,74 +39,17 @@ public class RfpGeneralReportController {
     private List<DrugExtra> items;
     private int size;
     private JSONArray jsonArray;
-    @RequestMapping(method=RequestMethod.GET, value = "module/pharmacy/displayRFPReport")
-    public synchronized  void displayRFPGeneralReport(HttpServletRequest request, HttpServletResponse response) throws ParseException{
-        String sDate  = request.getParameter("datef");
-        String eDate = request.getParameter("datet");
+    @RequestMapping(method=RequestMethod.GET, value = "module/pharmacy/resources/subpages/rfpGeneralReport.form")
+    public synchronized  void rfpGeneralReportGetProcessor(HttpServletRequest request, ModelMap map) throws ParseException{
+        String locationVal = request.getSession().getAttribute("location").toString();
+        String sDate=request.getParameter("datef");
+        String eDate=request.getParameter("datet");
 
-        userService = Context.getUserContext();
-        service = Context.getService(PharmacyService.class);
-
-        String locationVal = null;
-        List<PharmacyLocationUsers> listUsers = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
-        int sizeUsers = listUsers.size();
-        if (sizeUsers > 1) {
-            locationVal = request.getSession().getAttribute("location").toString();
-
-        } else if (sizeUsers == 1) {
-            locationVal = listUsers.get(0).getLocation();
-
+        if(sDate !=null && eDate!=null) {
+            request.getSession().setAttribute("reportStartDate", sDate);
+            request.getSession().setAttribute("reportEndDate", eDate);
         }
-        PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        Date minDate = null;
-        Date maxDate=null;
-        try {
-            minDate = formatter.parse(sDate);
-            maxDate = formatter.parse(eDate);
-        } catch (ParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        items = service.getDrugRange(minDate, maxDate,pharmacyLocations.getUuid());
-        size = items.size();
-        jsonObject = new JSONObject();
-        jsonArray = new JSONArray();
 
-        try{
-            if (size != 0) {
-                for (int i = 0; i < size; i++) {
-                    jsonObject.accumulate("aaData", getArray(items, i,locationVal,minDate,maxDate));
-                }
-            }
-            else{
-                datad2 = new JSONArray();
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                datad2.put("None");
-                jsonObject.accumulate("aaData", datad2);
-            }
-            jsonObject.accumulate("iTotalRecords", jsonObject.getJSONArray("aaData").length());
-            jsonObject.accumulate("iTotalDisplayRecords", jsonObject.getJSONArray("aaData").length());
-            jsonObject.accumulate("iDisplayStart", 0);
-            jsonObject.accumulate("iDisplayLength", 1000);
-            response.getWriter().print(jsonObject);
-
-            response.flushBuffer();
-        }
-        catch (Exception e){
-            log.error("Error generated", e);
-        }
     }
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/rfpGeneral")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) throws ParseException {

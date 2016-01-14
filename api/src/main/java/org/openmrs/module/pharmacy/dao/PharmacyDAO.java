@@ -460,7 +460,7 @@ public interface PharmacyDAO {
      * @return saved pharmacyInventory object
      */
 
-    public PharmacyStore savePharmacyInventory(PharmacyStore pharmacyStore);
+    public PharmacyStore savePharmacyInventoryItem(PharmacyStore pharmacyStore);
     /**
      * save pharmacyInventory
      *
@@ -674,7 +674,7 @@ public interface PharmacyDAO {
     @Transactional(readOnly=true)
     public List<PharmacyEncounter> getEncountersRange(Date from, Date to,String location);
     public PharmacyEncounter  getCurrentPatientRegimen(String patientUUID);
-    public Integer getNumberOfPatientsOnRegimen(Date startDate,Date endDate,String regimenCode);
+    public Integer getNumberOfPatientsOnRegimen(Date startDate,Date endDate,String regimenCode,String locationUUID);
     public String  getPatientByIdentifier(String identifier);
     /**
      * @return DrugDispenseSettings object by uuid
@@ -708,10 +708,10 @@ public interface PharmacyDAO {
     public List<DrugTransactions>  getPharmacyDrugTransactionsByS11NO(String s11No,PharmacyLocations pharmacyLocation);
     public boolean saveGeneratedInventoryQuantities(List<GeneratePharmacyInventoryQuantities> stockQuantities);
     public GeneratePharmacyInventoryQuantities getDrugInventoryOpeningStockByDateAndLocation(String drugUUID,Date startDate,Date endDate,String locationUUID);
-    public List<PharmacyStore> getDrugTransactionsBetweenRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation);
+    public List<PharmacyStore> getDrugTransactionsBetweenRange(Date startDate, Date endDate,String pharmacyLocation);
     public Integer computeQuantityOfDrugsReceivedWithinDateRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug);
     public Integer computeQuantityOfDrugsTransferedWithinDateRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug);
-    public Integer computeQuantityOfDrugsDispensedWithinDateRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug);
+    public Integer computeQuantityOfDrugsDispensedWithinDateRange(Date startDate, Date endDate,String pharmacyLocation,String drug);
     public String getDrugTransactionByS11AndDrug(PharmacyLocations location, Drug drug,String s11);
     public DrugTransactions getDrugTransactionTransferedByLocationAndDrug(PharmacyLocations location, Drug drug,String transactionUUID);
     public List<DrugTransactions> getTransferedTransactionsdBetweenDates(Date startDate, Date endDate,PharmacyLocations pharmacyLocation);
@@ -721,6 +721,13 @@ public interface PharmacyDAO {
     public List<DrugExtra> getWaiversWithinDateRange(String locUUID, Date startDate, Date endDate);
     public List<DrugExtra> getDiscountsWithinDateRange(String locUUID, Date startDate, Date endDate);
     public List<PharmacyStore> getAllPharmacyStorePlusRetired(PharmacyLocations locationUUID);
-    public PharmacyDrugOrder getHIVPatientLastVisitPharmacyDrugOrder(Integer patientID,String formName);
+    public PharmacyDrugOrder getHIVPatientLastVisitPharmacyDrugOrder(String patientID,String formName);
     public List<DrugExtra> getDrugExtraRangeByDrugAndLocation(String pharmacyLocations,String drug,Date startDate,Date endDate);
+    public InventoryMetaData savePharmacyInventoryMetaData(InventoryMetaData inventoryMetaData);
+    public InventoryMetaData getInventoryMetaDataByDrugName(Drug drugName,PharmacyLocations pharmacyLocation);
+    public InventoryMetaData getInventoryMetaDataByUUID(String UUID);
+    public List<PharmacyStore> getPharmacyStoreForApprovalByLocation(PharmacyLocations locationUUID);
+    public List<PharmacyEncounter> getEncountersRangeByRegimenName(Date minDate,Date maxDate,String location);
+    public List<PharmacyEncounter> getCountOfPatientsOnRegimen(String regimen,Date minDate,Date maxDate,String location);
+    public List<PharmacyDrugOrder> pharmacyDrugOrdersBetweenTwoDates(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug);
 }

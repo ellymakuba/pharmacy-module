@@ -522,7 +522,7 @@ public class RevolvingAdultProcessorController {
 
                         pharmacyStore.setQuantity( (pharmacyStore.getQuantity()-Qnty));
 
-                        service.savePharmacyInventory(pharmacyStore);
+                        service.savePharmacyInventoryItem(pharmacyStore);
 
 
                     }

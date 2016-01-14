@@ -511,7 +511,7 @@ public class DrugApprovedController {
 
                             pharmacyStore.setQuantity(pharmacyStore.getQuantity() - Integer.parseInt(temp[i]));
 
-                            service.savePharmacyInventory(pharmacyStore);
+                            service.savePharmacyInventoryItem(pharmacyStore);
 
                         } else if (i == 2) {
 
@@ -521,7 +521,7 @@ public class DrugApprovedController {
 
                             pharmacyStore.setQuantity(pharmacyStore.getQuantity() - Integer.parseInt(temp[i]));
 
-                            service.savePharmacyInventory(pharmacyStore);
+                            service.savePharmacyInventoryItem(pharmacyStore);
                         } else if (i == 3) {
 
                             pharmacyStore = new PharmacyStore();
@@ -530,7 +530,7 @@ public class DrugApprovedController {
 
                             pharmacyStore.setQuantity(pharmacyStore.getQuantity() - Integer.parseInt(temp[i]));
 
-                            service.savePharmacyInventory(pharmacyStore);
+                            service.savePharmacyInventoryItem(pharmacyStore);
                         } else if (i == 4) {
                             pharmacyStore = new PharmacyStore();
 
@@ -538,7 +538,7 @@ public class DrugApprovedController {
 
                             pharmacyStore.setQuantity(pharmacyStore.getQuantity() - Integer.parseInt(temp[i]));
 
-                            service.savePharmacyInventory(pharmacyStore);
+                            service.savePharmacyInventoryItem(pharmacyStore);
 
                         }
 

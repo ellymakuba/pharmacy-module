@@ -565,7 +565,7 @@ public class HivAdultOiProcessorController {
 
 
                         pharmacyStore.setQuantity( (pharmacyStore.getQuantity()-Qnty));
-                        service.savePharmacyInventory(pharmacyStore);
+                        service.savePharmacyInventoryItem(pharmacyStore);
 
 
                     }

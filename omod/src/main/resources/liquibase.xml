@@ -3786,4 +3786,77 @@
             <column name="pharmacy_location" type="VARCHAR(255)"/>
         </addColumn>
     </changeSet>
+    <changeSet author="ellymakuba" id="2015-11-03-03:35">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="pharmacy_inventory_meta_data"></tableExists>
+            </not>
+        </preConditions>
+        <comment>create pharmacy_inventory_meta_data</comment>
+        <createTable tableName="pharmacy_inventory_meta_data">
+            <column name="pharmacy_inventory_meta_data_id" type="int(11)">
+                <constraints  nullable="false"  primaryKey="true"/>
+            </column>
+            <column name="uuid" type="char(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="drug" type="VARCHAR(255)" />
+            <column name="category" type="int(11)" />
+            <column name="buying_price" type="decimal(20,2)" />
+            <column name="selling_price" type="decimal(20,2)" />
+            <column name="location" type="VARCHAR(255)" />
+            <column name="units_per_pack" type="int(11)" />
+            <column name="creator" defaultValue="0"  type="int(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datecreated"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column  name="voided" defaultValue="0" type="smallint(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voided_by" type="int(11)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date_voided"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="void_reason"  type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <createIndex indexName="uuid" tableName="pharmacy_inventory_meta_data">
+            <column name="uuid"/>
+        </createIndex>
+        <addAutoIncrement columnDataType="int" columnName="pharmacy_inventory_meta_data_id" tableName="pharmacy_inventory_meta_data"/>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2015-11-04-11:23">
+        <renameColumn tableName="pharmacy_inventory_meta_data" oldColumnName="category" newColumnName="category"  columnDataType="VARCHAR(255)" />
+    </changeSet>
+    <changeSet author="ellymakuba" id="2015-11-06-11:24am">
+        <addColumn tableName="pharmacy_inventory">
+            <column name="stock_take_quantity_waiting_for_approval" type="int(11)"/>
+        </addColumn>
+        <addColumn tableName="pharmacy_inventory">
+            <column name="stock_take_approval_status" type="int(1)" defaultValue="0"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2015-12-08-03:59pm">
+        <addColumn tableName="pharmacy_encounter">
+            <column name="pmtct" defaultValue="0" type="smallint(6)"/>
+        </addColumn>
+        <addColumn tableName="pharmacy_encounter">
+            <column name="pep" defaultValue="0" type="smallint(6)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2015-12-10-01:47pm" author="ellymakuba">
+        <addColumn tableName="pharmacy_encounter">
+            <column name="regimenChanged" defaultValue="0" type="int(1)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2015-12-17-04:08pm" author="ellymakuba">
+        <addColumn tableName="pharmacy_encounter">
+            <column name="regimenInitiation" defaultValue="0" type="int(1)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

@@ -530,7 +530,7 @@ public class DrugOutgoingController {
         PharmacyStore pharmacyStore;
         PharmacyStoreOutgoing pharmacyStoreOutgoing;
 
-          log.info("drug id legnth is++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+drugId.length);
+
          for (int y = 0; y < drugId.length; y++) {
             pharmacyStoreOutgoing = new PharmacyStoreOutgoing();
             pharmacyStoreOutgoing = service.getPharmacyStoreOutgoingByUuid(drugId[y]);
@@ -551,7 +551,7 @@ public class DrugOutgoingController {
                     pharmacyStoreOutgoing.setQuantityIn(0);
                     num = (pharmacyStore.getQuantity() - Integer.parseInt(quantityToGive[y]));
                     pharmacyStore.setQuantity(num);
-                    service.savePharmacyInventory(pharmacyStore);
+                    service.savePharmacyInventoryItem(pharmacyStore);
 
                 } else {
 
@@ -563,7 +563,7 @@ public class DrugOutgoingController {
 
 
                     pharmacyStore.setQuantity(num);
-                    service.savePharmacyInventory(pharmacyStore);
+                    service.savePharmacyInventoryItem(pharmacyStore);
 
                 }
 

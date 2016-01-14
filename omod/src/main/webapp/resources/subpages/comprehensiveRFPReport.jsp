@@ -13,17 +13,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <style type="text/css">
-        .newRowClass{
-            border:1px solid black;
-        }
         table.visibleBorder td{
-            border:1px solid black;
-            background-color:#EBEBFF;
+            border:1px solid white;
+            cell-padding:5px;
         }
          table.visibleBorder th{
-                    border:1px solid black;
-                    background-color:#EBEBFF;
+                    border:1px solid white;
+                    cell-padding:5px;
                 }
+   #comprehensiveRFPReportDIV{
+             margin:5px;
+             border:5px #AAAAAA;
+           }
+            #comprehensiveRFPReportDIV table{
+                        background-color:#EBEBFF;
+                        width:100%;
+                      }
     </style>
     <style type="text/css">
     	.dataTables_wrapper{
@@ -83,16 +88,16 @@ $j("table").delegate("#comprehensiveReportTable tbody tr :first-child","click",f
 
 <div id="comprehensiveRFPReportDIV">
    start Date &nbsp;<input type="text" name="startDate" id="startDate" value="" />&nbsp;&nbsp;&nbsp;End Date &nbsp;<input type="text" name="endDate" id="endDate" value="" />&nbsp;&nbsp;<input type="button" onclick="submitToFetchRecords()" value="Load Records"/>&nbsp;&nbsp;
-   <input type="button" onclick="tableToExcel('resultsTable', 'Export Data')" value="Export to Excel"/></br></br></br>
+   <input type="button" onclick="tableToExcel('comprehensiveReportTable', 'Export Data')" value="Export to Excel"/></br></br></br>
 <% if(reportStartDate !=null && reportEndDate!=null) {
                 startDate = formatter.parse(reportStartDate);
                 endDate = formatter.parse(reportEndDate);
 
-                    Date dateInstance=new Date(startDate.getTime()+(1000 * 60 * 60 * 24));
-                    SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy/MM/dd");
-                    String tommorowStringDate=simpleDateFormat.format(dateInstance);
-                    Date formatedDate = simpleDateFormat.parse(tommorowStringDate);
-                pharmacyStoreList = service.getDrugTransactionsBetweenRange(startDate, endDate, pharmacyLocation);
+                 Date dateInstance=new Date(startDate.getTime()+(1000 * 60 * 60 * 24));
+                 SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy/MM/dd");
+                 String tommorowStringDate=simpleDateFormat.format(dateInstance);
+                 Date formatedDate = simpleDateFormat.parse(tommorowStringDate);
+                 pharmacyStoreList = service.getDrugTransactionsBetweenRange(startDate, endDate, pharmacyLocation.getUuid());
                  List<S11> s11List=service.getDistinctS11WithinDateRange(pharmacyLocation.getUuid(),startDate,endDate);
                  Integer openingStock;
                  Integer drugTransactionQuantity;
@@ -165,8 +170,8 @@ $j("table").delegate("#comprehensiveReportTable tbody tr :first-child","click",f
 								%>
 								<td><%=drugTransferedQuantity%></td>
                         <%
-                        drugTotalInventory=drugTotalInventory+openingStock+drugTotalS11-drugTotalTransfers;
-                        }%>
+                        }
+                        drugTotalInventory=drugTotalInventory+openingStock+drugTotalS11-drugTotalTransfers;%>
                         <td><%=drugTotalInventory %></td>
                         <td></td>
                         <td></td>

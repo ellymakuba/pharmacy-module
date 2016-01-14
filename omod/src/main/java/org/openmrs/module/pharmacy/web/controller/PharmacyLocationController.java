@@ -82,8 +82,8 @@ public class PharmacyLocationController {
 
             String location = request.getParameter("selectedLocation");
             if (location != null) {
-                    request.getSession().setAttribute("location", location);
-                    response.getWriter().print(location);
+                request.getSession().setAttribute("location", location);
+                response.getWriter().print(location);
 
             }
 

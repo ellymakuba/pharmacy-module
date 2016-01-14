@@ -317,7 +317,7 @@ public class TBFormController {
             if(pharmacyStore!=null ){
                 if(pharmacyStore.getDrugs().getDrugId()==drugId && pharmacyStore.getQuantity() > Qnty ){
                     pharmacyStore.setQuantity( (pharmacyStore.getQuantity()-Qnty));
-                    service.savePharmacyInventory(pharmacyStore);
+                    service.savePharmacyInventoryItem(pharmacyStore);
                 }
             }
         }

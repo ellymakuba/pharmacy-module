@@ -6,8 +6,8 @@
     <name>@MODULE_NAME@</name>
     <version>@MODULE_VERSION@</version>
     <package>@MODULE_PACKAGE@</package>
-    <author>Bore Nelson</author>
-    <description> This module ficilitates all pharmcay activities</description>
+    <author>Bore Nelson,Elly Makuba</author>
+    <description> This module handles pharmacy dispensing, inventory management,billing and reports generation</description>
     <activator>org.openmrs.module.pharmacy.PharmacyActivator</activator>
     <updateURL>https://dev.openmrs.org/modules/download/@MODULE_ID@/update.rdf</updateURL>
     <require_version>1.6.2</require_version>
@@ -82,5 +82,6 @@
         pharmacyTemporaryInventory.hbm.xml
         S11.hbm.xml
         GeneratePharmacyInventoryQuantities.hbm.xml
+        InventoryMetaData.hbm.xml
     </mappingFiles>
 </module>

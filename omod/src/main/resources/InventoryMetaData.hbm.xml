@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+    <class name="org.openmrs.module.pharmacy.model.InventoryMetaData" table="pharmacy_inventory_meta_data">
+        <cache usage="read-write"/>
+
+        <id name="id" type="int" column="pharmacy_inventory_meta_data_id" unsaved-value="0">
+            <generator class="org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator"/>
+        </id>
+        <discriminator column="pharmacy_inventory_meta_data_id" insert="false"/>
+        <many-to-one name="drug"  property-ref="uuid" column="drug" />
+        <many-to-one name="category" property-ref="uuid" column="category"/>
+        <property name="buyingPrice" type="java.lang.Double" column="buying_price"/>
+        <property name="sellingPrice" type="java.lang.Double" column="selling_price"/>
+        <many-to-one name="location" property-ref="uuid" column="location"/>
+        <property name="unitsInPack" type="java.lang.Integer"  column="units_per_pack"/>
+
+        <many-to-one name="creator" class="org.openmrs.User"  column="creator" not-null="true"/>
+        <property name="dateCreated" type="java.util.Date" column="datecreated" not-null="true"/>
+        <property name="voided" type="boolean" not-null="true"/>
+        <many-to-one name="voidedBy" class="org.openmrs.User" column="voided_by"/>
+        <property name="dateVoided" type="java.util.Date" column="date_voided"/>
+        <property name="voidReason" type="java.lang.String" column="void_reason" length="255"/>
+        <property name="uuid" type="string" length="38" not-null="true"  unique="true"/>
+    </class>
+</hibernate-mapping>

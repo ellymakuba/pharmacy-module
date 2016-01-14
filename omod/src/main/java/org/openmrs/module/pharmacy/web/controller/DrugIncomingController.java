@@ -71,6 +71,7 @@ public class DrugIncomingController {
     private Drug drugObject;
     private org.json.JSONArray jsonArray,datad2;
     private PharmacyStore pharmacyStore;
+    private InventoryMetaData inventoryMetaData;
 
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/drugIncoming")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) {
@@ -191,15 +192,6 @@ public class DrugIncomingController {
                         pharmacyStore.setBatchNo(value);
                         drugTransactions.setBatchNo(value);
                     }
-                    if(key.equalsIgnoreCase("buyingPrice")){
-                        pharmacyStore.setBuyingPrice(Double.valueOf(value));
-                    }
-                    if(key.equalsIgnoreCase("unitPrice")){
-                        pharmacyStore.setUnitPrice(Double.valueOf(value));
-                    }
-                    if(key.equalsIgnoreCase("unitsPerPack")){
-                        pharmacyStore.setUnitsPerPack(Integer.valueOf(value));
-                    }
 
                 }
                 drugTransactions.setLocation(service.getPharmacyLocationsByName(locationVal));
@@ -217,19 +209,17 @@ public class DrugIncomingController {
                 for(PharmacyStore pharmacyStoreListItem: pharmacyStoreListToCompare){
                 if(pharmacyStoreInstance.getDrugs().getDrugId() == pharmacyStoreListItem.getDrugs().getDrugId()){
                     drugExistsInInventory=true;
+                    inventoryMetaData=service.getInventoryMetaDataByDrugName(pharmacyStoreListItem.getDrugs(),pharmacyLocations);
                     Integer totalQuantity= pharmacyStoreInstance.getQuantity()+ pharmacyStoreListItem.getQuantity();
                     pharmacyStoreListItem.setQuantity(totalQuantity);
-                    if((pharmacyStoreInstance.getUnitPrice()) !=null){
-                    pharmacyStoreListItem.setUnitPrice(pharmacyStoreInstance.getUnitPrice());
-                    }
-                    if((pharmacyStoreInstance.getBuyingPrice()) !=null){
-                        pharmacyStoreListItem.setBuyingPrice(pharmacyStoreInstance.getBuyingPrice());
+                    if(inventoryMetaData !=null){
+                        pharmacyStoreListItem.setUnitPrice(inventoryMetaData.getBuyingPrice());
+                        pharmacyStoreListItem.setBuyingPrice(inventoryMetaData.getSellingPrice());
+                        pharmacyStoreListItem.setUnitsPerPack(inventoryMetaData.getUnitsInPack());
+                        pharmacyStoreListItem.setCategory(inventoryMetaData.getCategory());
                     }
                     if(pharmacyStoreInstance.getBatchNo() !=null){
                     pharmacyStoreListItem.setBatchNo(pharmacyStoreInstance.getBatchNo());
-                    }
-                    if(pharmacyStoreInstance.getUnitsPerPack()!=null){
-                        pharmacyStoreListItem.setUnitsPerPack(pharmacyStoreInstance.getUnitsPerPack());
                     }
                     pharmacyStoreListItem.setExpireDate(pharmacyStoreInstance.getExpireDate());
                     pharmacyStoreListToSave.add(pharmacyStoreListItem);
@@ -237,6 +227,7 @@ public class DrugIncomingController {
                 }
             }
                 if(drugExistsInInventory==false){
+                inventoryMetaData=service.getInventoryMetaDataByDrugName(pharmacyStoreInstance.getDrugs(),pharmacyLocations);
                 pharmacyStore=new PharmacyStore();
                 pharmacyStore.setDrugs(pharmacyStoreInstance.getDrugs());
                 pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationVal));
@@ -247,11 +238,13 @@ public class DrugIncomingController {
                 pharmacyStore.setMaxLevel(1000);
                 pharmacyStore.setMinLevel(10);
                 pharmacyStore.setS11(Integer.valueOf(s11));
-                pharmacyStore.setUnitPrice(pharmacyStoreInstance.getUnitPrice());
+                if(inventoryMetaData !=null){
+                    pharmacyStoreInstance.setUnitPrice(inventoryMetaData.getBuyingPrice());
+                    pharmacyStoreInstance.setBuyingPrice(inventoryMetaData.getSellingPrice());
+                    pharmacyStoreInstance.setUnitsPerPack(inventoryMetaData.getUnitsInPack());
+                    pharmacyStoreInstance.setCategory(inventoryMetaData.getCategory());
+                }
                 pharmacyStore.setExpireDate(pharmacyStoreInstance.getExpireDate());
-                pharmacyStore.setBuyingPrice(pharmacyStoreInstance.getBuyingPrice());
-                pharmacyStore.setUnitsPerPack(pharmacyStoreInstance.getUnitsPerPack());
-                System.out.println("pharmacyStoreInstance.getUnitsPerPack() ++++++++++++++++++++++++++++++++"+pharmacyStoreInstance.getUnitsPerPack());
                 if(pharmacyStoreInstance.getBatchNo()==null)
                     pharmacyStore.setBatchNo("0");
                 else {
@@ -261,6 +254,7 @@ public class DrugIncomingController {
                 }
             }
             else{
+                inventoryMetaData=service.getInventoryMetaDataByDrugName(pharmacyStoreInstance.getDrugs(),pharmacyLocations);
                 pharmacyStore=new PharmacyStore();
                 pharmacyStore.setDrugs(pharmacyStoreInstance.getDrugs());
                 pharmacyStore.setLocation(service.getPharmacyLocationsByName(locationVal));
@@ -271,9 +265,12 @@ public class DrugIncomingController {
                 pharmacyStore.setMaxLevel(1000);
                 pharmacyStore.setMinLevel(10);
                 pharmacyStore.setS11(Integer.valueOf(s11));
-                pharmacyStore.setUnitPrice(pharmacyStoreInstance.getUnitPrice());
-                pharmacyStore.setBuyingPrice(pharmacyStoreInstance.getBuyingPrice());
-                pharmacyStore.setUnitsPerPack(pharmacyStoreInstance.getUnitsPerPack());
+                if(inventoryMetaData !=null){
+                      pharmacyStoreInstance.setUnitPrice(inventoryMetaData.getBuyingPrice());
+                      pharmacyStoreInstance.setBuyingPrice(inventoryMetaData.getSellingPrice());
+                      pharmacyStoreInstance.setUnitsPerPack(inventoryMetaData.getUnitsInPack());
+                      pharmacyStoreInstance.setCategory(inventoryMetaData.getCategory());
+                 }
                 pharmacyStore.setExpireDate(pharmacyStoreInstance.getExpireDate());
                 if(pharmacyStoreInstance.getBatchNo()==null)
                     pharmacyStore.setBatchNo("0");

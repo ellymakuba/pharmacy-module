@@ -14,22 +14,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <style type="text/css">
-        .newRowClass{
-            border:1px solid black;
-        }
+
         table.visibleBorder td{
-            border:1px solid black;
-            background-color:#EBEBFF;
+           border:1px solid white;
+           cell-padding:5px;
         }
          table.visibleBorder th{
-                    border:1px solid black;
-                    background-color:#EBEBFF;
+                   border:1px solid white;
+                   cell-padding:5px;
                 }
          table.visibleBorder{
+          background-color:#EBEBFF;
           width:100%;
          }
          #drugHistoryDiv{
-           margin:10px;
+           margin:5px;
+           border:5px #AAAAAA;
          }
     </style>
     <style type="text/css">
@@ -37,6 +37,27 @@
     		overflow: auto; /* this is what fixes the expansion */
     	}
     </style>
+<script type="text/javascript">
+ var tableToExcel = (function() {
+        			var uri = 'data:application/vnd.ms-excel;base64,'
+        					, template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+        					, base64 = function(s) {
+        				return window.btoa(unescape(encodeURIComponent(s)))
+        			}
+        			, format = function(s, c) {
+        				return s.replace(/{(\w+)}/g, function(m, p) {
+        					return c[p];
+        				})
+        			}
+        			return function(table, name) {
+        				if (!table.nodeType)
+        					table = document.getElementById(table)
+        				var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+        				window.location.href = uri + base64(format(template, ctx))
+        			}
+        		}()
+);
+</script>
 </head>
 <body>
 <%
@@ -56,9 +77,10 @@
  List<DrugExtra> drugExtraList=service.getDrugExtraRangeByDrugAndLocation(pharmacyLocation.getUuid(),drugFromContext.getDrugId().toString(),startDate,endDate);
 %>
 <DIV id="drugHistoryDiv">
-<h1>Drug Transaction History For <%=drugFromContext.getName()%></h1>
+<input type="button" onclick="tableToExcel('drugHistoryTable', 'Export Data')" value="Export to Excel"/></br></br></br>
 <table id="drugHistoryTable" class="visibleBorder">
 <thead>
+<tr><th colspan=4><h1>Drug Transaction History For <%=drugFromContext.getName()%></h1></th></tr>
  <tr>
    <th>Patient ID</th>
    <th>Patient Name</th>
@@ -69,16 +91,20 @@
 <tbody>
 <% for(DrugExtra drugExtraInstance:drugExtraList){
  pharmacyDrugOrder=service.getPharmacyDrugOrdersByDrugExtraUUID(drugExtraInstance);
- totalQuantity=totalQuantity+drugExtraInstance.getQuantitysold();
- person=Context.getPatientService().getPatient(pharmacyDrugOrder.getPerson().getPatientId());
+ if(pharmacyDrugOrder !=null){
+     totalQuantity=totalQuantity+drugExtraInstance.getQuantitysold();
+     person=Context.getPatientService().getPatient(pharmacyDrugOrder.getPerson().getPatientId());
+        %>
+        <tr>
+          <td><%=pharmacyDrugOrder.getPerson().getPatientIdentifier()%></td>
+          <td><%=Context.getPatientService().getPatient(pharmacyDrugOrder.getPerson().getPatientId()).getPersonName()%></td>
+          <td><%=drugExtraInstance.getQuantitysold()%></td>
+          <td><%=drugExtraInstance.getDateCreated()%></td>
+         </tr>
+        <%
+    }
+}
 %>
-    <tr>
-      <td><%=pharmacyDrugOrder.getPerson().getPatientIdentifier()%></td>
-      <td><%=person.getGivenName()%></td>
-      <td><%=drugExtraInstance.getQuantitysold()%></td>
-      <td><%=drugExtraInstance.getDateCreated()%></td>
-     </tr>
-<%}%>
 <tr><td>Total Dispensed</td><td></td><td><%=totalQuantity%></td><td></td></tr>
  </tbody>
  </table>

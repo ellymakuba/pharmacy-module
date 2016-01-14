@@ -39,12 +39,17 @@ public class CurrentPatientRegimen {
         service = Context.getService(PharmacyService.class);
         String patientID=service.getPatientByIdentifier(patientIdentifier);
         Patient patient=Context.getPatientService().getPatient(Integer.valueOf(patientID));
-        PharmacyEncounter pharmacyEncounter=service.getCurrentPatientRegimen(patient.getUuid());
-        if(pharmacyEncounter !=null){
-            currentRegimenName=pharmacyEncounter.getRegimenName();
-            currentRegimenCode=pharmacyEncounter.getRegimenCode();
+        PharmacyDrugOrder patientDrugOrderDetails=service.getHIVPatientLastVisitPharmacyDrugOrder(patientID, "RFP");
+        if(patientDrugOrderDetails !=null) {
+            PharmacyOrders pharmacyOrder = patientDrugOrderDetails.getOrderUuid();
+            if (pharmacyOrder != null) {
+                PharmacyEncounter pharmacyEncounter = pharmacyOrder.getPharmacyEncounter();
+                if (pharmacyEncounter != null) {
+                    currentRegimenName = pharmacyEncounter.getRegimenName();
+                    currentRegimenCode = pharmacyEncounter.getRegimenCode();
+                }
+            }
         }
-
             try{
                 jsonRegimenObject=new JSONObject();
                 jsonRegimenObject.accumulate("regimenCod",currentRegimenCode);

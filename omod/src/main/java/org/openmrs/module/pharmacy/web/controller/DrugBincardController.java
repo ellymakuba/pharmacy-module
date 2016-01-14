@@ -356,7 +356,7 @@ public class DrugBincardController {
                     pharmacyStore.setQuantity((Qnty));
                     pharmacyStore.setLastEditDate(date);
                     pharmacyStore.setUnitPrice(unitP);
-                    service.savePharmacyInventory(pharmacyStore);
+                    service.savePharmacyInventoryItem(pharmacyStore);
                 }
         }
         return true;

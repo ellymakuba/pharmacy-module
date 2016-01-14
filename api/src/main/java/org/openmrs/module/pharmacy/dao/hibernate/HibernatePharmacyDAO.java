@@ -67,7 +67,7 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
     @SuppressWarnings("unchecked")
     public List<Indicators> getIndicators() {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Indicators.class)
-        .add(Expression.eq("voided", false));
+                .add(Expression.eq("voided", false));
         return criteria.list();
     }
 
@@ -236,20 +236,16 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
         return criteria.list();
     }
 
-    /**
-     * @see org.openmrs.module.pharmacy.dao.PharmacyDAO#savePharmacyInventory(org.openmrs.module.pharmacy.model.PharmacyStore)
-     */
 
-    public PharmacyStore savePharmacyInventory(PharmacyStore pharmacyStore) {
+
+    public PharmacyStore savePharmacyInventoryItem(PharmacyStore pharmacyStore) {
         sessionFactory.getCurrentSession().saveOrUpdate(pharmacyStore);
 
         return pharmacyStore;
     }
 
 
-    /**
-     * @see org.openmrs.module.pharmacy.dao.PharmacyDAO#savePharmacyInventory(org.openmrs.module.pharmacy.model.PharmacyStore)
-     */
+
 
     public boolean savePharmacyInventory(List<PharmacyStore> pharmacyStore) {
         for (PharmacyStore pharmacy : pharmacyStore) {
@@ -343,18 +339,14 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
         return criteria.list();
     }
 
-    /**
-     * @see org.openmrs.module.pharmacy.dao.PharmacyDAO#savePharmacyInventory(org.openmrs.module.pharmacy.model.PharmacyStore)
-     */
+
 
     public DrugTransactions saveDrugTransactions(DrugTransactions drugTransactions) {
         sessionFactory.getCurrentSession().saveOrUpdate(drugTransactions);
 
         return drugTransactions;
     }
-    /**
-     * @see org.openmrs.module.pharmacy.dao.PharmacyDAO#savePharmacyInventory(org.openmrs.module.pharmacy.model.PharmacyStore)
-     */
+
 
     public boolean saveDrugTransactions(List<DrugTransactions> drugTransactions) {
 
@@ -733,7 +725,7 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
     }
     public PharmacyDose getPharmacyDoseByID(Integer ID){
         Criteria criteria=sessionFactory.getCurrentSession().createCriteria(PharmacyDose.class)
-            .add(Expression.eq("id", ID));
+                .add(Expression.eq("id", ID));
         PharmacyDose dose=(PharmacyDose)criteria.uniqueResult();
         return dose;
     }
@@ -1398,7 +1390,7 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
     }
     public List<PharmacyEncounter> getEncountersRange(Date minDate,Date maxDate,String location) {
         String sql="SELECT pe.* FROM pharmacy_encounter pe  WHERE pe.location_uuid like :loc " +
-        "AND pe.datecreated BETWEEN :sDate AND :eDate GROUP BY pe.regimenCode";
+                "AND pe.datecreated BETWEEN :sDate AND :eDate GROUP BY pe.regimenCode";
         SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);
         query.addEntity(PharmacyEncounter.class);
         query.setParameter("sDate",minDate);
@@ -1421,7 +1413,7 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
     }
     public PharmacyEncounter getCurrentPatientRegimen(String patientUUID) {
         String sql="SELECT pe.* FROM pharmacy_encounter pe  WHERE pe.patient_uuid like :pUUID " +
-        "AND (pe.form_name like 'ADULTHIV' OR pe.form_name like 'PEDIATRICARV') ORDER BY pe.pharmacy_encounter_id DESC LIMIT 1";
+                "AND (pe.form_name like 'ADULTHIV' OR pe.form_name like 'PEDIATRICARV') ORDER BY pe.pharmacy_encounter_id DESC LIMIT 1";
         SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);
         query.addEntity(PharmacyEncounter.class);
         query.setParameter("pUUID",patientUUID);
@@ -1429,12 +1421,13 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
         return pharmacyEncounter;
 
     }
-    public Integer  getNumberOfPatientsOnRegimen(Date startDate,Date endDate,String regimenCode){
-        String sql="SELECT COUNT(*) FROM pharmacy_encounter WHERE regimenCode LIKE :regimen AND dateCreated BETWEEN :sDate AND :eDate";
+    public Integer  getNumberOfPatientsOnRegimen(Date startDate,Date endDate,String regimenCode,String locationUUID){
+        String sql="SELECT COUNT(DISTINCT patient_uuid) FROM pharmacy_encounter WHERE regimenCode LIKE :regimen AND location_uuid like :loc AND dateCreated BETWEEN :sDate AND :eDate";
         SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);
         query.setParameter("regimen",regimenCode);
         query.setParameter("sDate", startDate);
         query.setParameter("eDate", endDate);
+        query.setParameter("loc", locationUUID);
         return ((Number) query.uniqueResult()).intValue();
 
     }
@@ -1506,7 +1499,7 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
     public String  getPatientByIdentifier(String identifier){
         String sql="SELECT patient_id FROM patient_identifier WHERE identifier LIKE :patient_identifier ";
         SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);
-        query.setParameter("patient_identifier",identifier);
+        query.setParameter("patient_identifier",identifier+"%");
         return query.uniqueResult().toString();
 
     }
@@ -1600,7 +1593,7 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
     }
     public List<DrugExtra> getDrugExtraByPharmacyEncounter(PharmacyEncounter encounter){
         Criteria criteria=sessionFactory.getCurrentSession().createCriteria(DrugExtra.class)
-            .add(Restrictions.eq("pharmacyEncounter",encounter));
+                .add(Restrictions.eq("pharmacyEncounter",encounter));
         List<DrugExtra> drugExtra=criteria.list();
         return drugExtra;
     }
@@ -1609,15 +1602,15 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
                 .add(Expression.eq("voided", false))
                 .add(Restrictions.eq("location",locationUUID))
                 .add(Restrictions.eq("drugs",drug));
-                 criteria.setMaxResults(1);
+        criteria.setMaxResults(1);
         PharmacyStore pharmacyStore=(PharmacyStore)criteria.uniqueResult();
         return pharmacyStore;
     }
     public List<S11> getS11WithinDateRange(PharmacyLocations location, Date startDate, Date endDate){
-       Criteria criteria=sessionFactory.getCurrentSession().createCriteria(S11.class)
-               .add(Restrictions.ge("dateCreated",startDate))
-               .add(Restrictions.lt("dateCreated",endDate))
-               .add(Restrictions.eq("location",location));
+        Criteria criteria=sessionFactory.getCurrentSession().createCriteria(S11.class)
+                .add(Restrictions.ge("dateCreated",startDate))
+                .add(Restrictions.lt("dateCreated",endDate))
+                .add(Restrictions.eq("location",location));
         List<S11> s11List=criteria.list();
         return s11List;
     }
@@ -1641,25 +1634,31 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
         return true;
     }
 
-    public List<PharmacyStore> getDrugTransactionsBetweenRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation){
-        Criteria criteria=sessionFactory.getCurrentSession().createCriteria(PharmacyStore.class)
+    public List<PharmacyStore> getDrugTransactionsBetweenRange(Date startDate, Date endDate,String pharmacyLocation){
+        String sql="SELECT pi.* FROM pharmacy_inventory pi INNER JOIN drug d ON d.uuid=pi.pharmacy_drug_uuid WHERE location_uuid like :locUUID AND voided=0 GROUP BY pi.pharmacy_drug_uuid ORDER BY d.name";
+        SQLQuery query=sessionFactory.getCurrentSession().createSQLQuery(sql);
+        query.addEntity(PharmacyStore.class);
+        query.setParameter("locUUID",pharmacyLocation);
+        /*Criteria criteria=sessionFactory.getCurrentSession().createCriteria(PharmacyStore.class)
                 .add(Restrictions.eq("location", pharmacyLocation))
                 .add(Restrictions.gt("quantity", 0))
-                .add(Restrictions.eq("voided", false));
-        List <PharmacyStore> pharmacyStoreList=criteria.list();
+                .add(Restrictions.eq("voided", false))
+                .createAlias("drugs", "d")
+                .addOrder(Order.asc("d.name"));*/
+        List <PharmacyStore> pharmacyStoreList=query.list();
         return  pharmacyStoreList;
     }
     public Integer computeQuantityOfDrugsReceivedWithinDateRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug){
-         Criteria criteria=sessionFactory.getCurrentSession().createCriteria(DrugTransactions.class)
+        Criteria criteria=sessionFactory.getCurrentSession().createCriteria(DrugTransactions.class)
                 .add(Restrictions.eq("location", pharmacyLocation))
                 .add(Restrictions.ge("dateCreated", startDate))
                 .add(Restrictions.lt("dateCreated", endDate))
                 .add(Restrictions.eq("drugs", drug))
-                 .add(Restrictions.eq("comment", "New entry"))
+                .add(Restrictions.eq("comment", "New entry"))
                 .add(Restrictions.eq("voided", false))
-                 .setProjection(Projections.sum("quantityIn"));
+                .setProjection(Projections.sum("quantityIn"));
 
-      Integer sumOfDrugReceived=0;
+        Integer sumOfDrugReceived=0;
         if(criteria.uniqueResult() !=null) {
             sumOfDrugReceived = Integer.valueOf(criteria.uniqueResult().toString());
         }
@@ -1681,20 +1680,27 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
         }
         return sumOfDrugReceived;
     }
-    public Integer computeQuantityOfDrugsDispensedWithinDateRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug){
+    public Integer computeQuantityOfDrugsDispensedWithinDateRange(Date startDate, Date endDate,String locationUUID,String drugID){
+        String sql="SELECT SUM(quantity_given) FROM pharmacy_drug_order WHERE drug = :drugUUID AND pharmacy_location LIKE :location AND dateCreated BETWEEN :sDate AND :eDate";
+        SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);
+        query.setParameter("drugUUID",drugID);
+        query.setParameter("location", locationUUID);
+        query.setParameter("sDate", startDate);
+        query.setParameter("eDate", endDate);
+        Integer quantityDispensed=0;
+        if(query.uniqueResult() !=null){
+            quantityDispensed=Integer.valueOf(query.uniqueResult().toString());
+        }
+        return quantityDispensed;
+    }
+    public List<PharmacyDrugOrder> pharmacyDrugOrdersBetweenTwoDates(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug){
         Criteria criteria=sessionFactory.getCurrentSession().createCriteria(PharmacyDrugOrder.class)
+                .add(Restrictions.eq("drug", drug))
                 .add(Restrictions.eq("pharmacyLocation", pharmacyLocation))
                 .add(Restrictions.ge("dateCreated", startDate))
-                .add(Restrictions.lt("dateCreated", endDate))
-                .add(Restrictions.eq("drug", drug))
-                .add(Restrictions.eq("voided", false))
-                .setProjection(Projections.sum("quantityGiven"));
-
-        Integer sumOfDrugReceivedispensed=0;
-        if(criteria.uniqueResult() !=null) {
-            sumOfDrugReceivedispensed = Integer.valueOf(criteria.uniqueResult().toString());
-        }
-        return sumOfDrugReceivedispensed;
+                .add(Restrictions.lt("dateCreated", endDate));
+        List<PharmacyDrugOrder> pharmacyDrugOrderList=criteria.list();
+        return pharmacyDrugOrderList;
     }
     public String getDrugTransactionByS11AndDrug(PharmacyLocations location, Drug drug,String s11){
         Criteria criteria=sessionFactory.getCurrentSession().createCriteria(DrugTransactions.class)
@@ -1710,7 +1716,7 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
         Criteria criteria=sessionFactory.getCurrentSession().createCriteria(DrugTransactions.class)
                 .add(Restrictions.eq("drugs", drug))
                 .add(Restrictions.eq("s11", s11))
-                .add(Restrictions.eq("comment","New entry"))
+                .add(Restrictions.eq("comment", "New entry"))
                 .add(Restrictions.eq("location", location))
                 .setProjection(Projections.sum("quantityIn"));
         Integer drugQuantityReceived=Integer.valueOf(criteria.uniqueResult().toString());
@@ -1786,11 +1792,11 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
         List results=criteria.list();
         return results;
     }
-    public PharmacyDrugOrder getHIVPatientLastVisitPharmacyDrugOrder(Integer patientID,String formName){
-        String sql="SELECT TOP 1 p.* FROM pharmacy_drug_order p WHERE patient_uuid=pID AND formName NOT LIKE :fName";
+    public PharmacyDrugOrder getHIVPatientLastVisitPharmacyDrugOrder(String patientID,String formName){
+        String sql="SELECT p.* FROM pharmacy_drug_order p WHERE patient_uuid LIKE :pUid AND formname NOT LIKE :fName ORDER BY pharmacy_drug_order_id DESC LIMIT 1";
         SQLQuery query=sessionFactory.getCurrentSession().createSQLQuery(sql);
         query.addEntity(PharmacyDrugOrder.class);
-        query.setParameter("pID",patientID);
+        query.setParameter("pUid", patientID);
         query.setParameter("fName",formName);
         PharmacyDrugOrder pharmacyDrugOrder=(PharmacyDrugOrder)query.uniqueResult();
         return pharmacyDrugOrder;
@@ -1805,6 +1811,57 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
         query.setParameter("eDate",endDate);
         List<DrugExtra> drugExtraList=query.list();
         return  drugExtraList;
+    }
+    public InventoryMetaData savePharmacyInventoryMetaData(InventoryMetaData inventoryMetaData) {
+        sessionFactory.getCurrentSession().saveOrUpdate(inventoryMetaData);
+        return inventoryMetaData;
+    }
+    public InventoryMetaData getInventoryMetaDataByDrugName(Drug drugName,PharmacyLocations pharmacyLocation){
+        Criteria criteria=sessionFactory.getCurrentSession().createCriteria(InventoryMetaData.class)
+                .add(Restrictions.eq("drug",drugName))
+                .add(Restrictions.eq("location",pharmacyLocation));
+        InventoryMetaData inventoryMetaData=(InventoryMetaData)criteria.uniqueResult();
+        return inventoryMetaData;
+    }
+    public InventoryMetaData getInventoryMetaDataByUUID(String UUID){
+        Criteria criteria=sessionFactory.getCurrentSession().createCriteria(InventoryMetaData.class)
+                .add(Restrictions.eq("uuid", UUID));
+        InventoryMetaData inventoryMetaData=(InventoryMetaData)criteria.uniqueResult();
+        return inventoryMetaData;
+    }
+    public List<PharmacyStore> getPharmacyStoreForApprovalByLocation(PharmacyLocations locationUUID){
+        Criteria criteria=sessionFactory.getCurrentSession().createCriteria(PharmacyStore.class)
+                .add(Expression.eq("voided", false))
+                .add(Restrictions.eq("location",locationUUID))
+                .add(Restrictions.eq("stockTakeApprovalStatus",1))
+                .createAlias("drugs", "d")
+                .addOrder(Order.asc("d.name"));
+        List results=criteria.list();
+        return results;
+    }
+    public List<PharmacyEncounter> getEncountersRangeByRegimenName(Date minDate,Date maxDate,String location) {
+        String sql="SELECT pe.* FROM pharmacy_encounter pe  WHERE pe.location_uuid like :loc " +
+                "AND pe.datecreated BETWEEN :sDate AND :eDate GROUP BY pe.regimenName";
+        SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);
+        query.addEntity(PharmacyEncounter.class);
+        query.setParameter("sDate",minDate);
+        query.setParameter("eDate",maxDate);
+        query.setParameter("loc",location);
+        List results = query.list();
+        return results;
+
+    }
+    public List<PharmacyEncounter> getCountOfPatientsOnRegimen(String regimen,Date minDate,Date maxDate,String location) {
+        String sql = "SELECT pe.* FROM pharmacy_encounter pe  WHERE pe.location_uuid like :loc " +
+                "AND regimenName LIKE :regimenN AND pe.datecreated BETWEEN :sDate AND :eDate GROUP BY pe.patient_uuid";
+        SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(sql);
+        query.addEntity(PharmacyEncounter.class);
+        query.setParameter("sDate", minDate);
+        query.setParameter("eDate", maxDate);
+        query.setParameter("loc", location);
+        query.setParameter("regimenN", regimen);
+        List results = query.list();
+        return results;
     }
 }
 

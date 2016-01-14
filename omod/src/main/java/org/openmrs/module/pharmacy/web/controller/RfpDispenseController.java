@@ -70,6 +70,10 @@ public class RfpDispenseController {
     private String UUIDForExistingDrugExtra="";
     private PharmacyDose pharmacyDose;
     private Boolean booleanCheck=false;
+    @RequestMapping(method=RequestMethod.GET,value="module/pharmacy/resources/subpages/rfpDispenseForm")
+    public void rfpDispenseFormGetProcessor(ModelMap map,HttpServletRequest request) throws java.text.ParseException, IOException {
+
+    }
     @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/rfpDispenseFormAddNewInvoice")
     public  void addNewInvoiceOnQueue(HttpServletRequest request, HttpServletResponse response) throws IOException, DocumentException {
         String jsonText = request.getParameter("values");
@@ -768,7 +772,7 @@ public class RfpDispenseController {
                 }
                 if(pharmacyStore.getQuantity() > quantityToadjust ){
                     pharmacyStore.setQuantity( (pharmacyStore.getQuantity()-quantityToadjust));
-                    service.savePharmacyInventory(pharmacyStore);
+                    service.savePharmacyInventoryItem(pharmacyStore);
                 }
             }
         }

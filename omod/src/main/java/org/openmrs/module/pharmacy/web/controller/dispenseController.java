@@ -48,6 +48,8 @@ public class dispenseController {
     private List<User> userList;
     private PharmacyTransactionTypes pharmacyTransactionTypes;
     private PharmacyDrugOrder pharmacyDrugOrder;
+    private PharmacyOrders pharmacyOrder;
+    private PharmacyEncounter pharmacyEncounter;
     @RequestMapping(method=RequestMethod.GET, value="module/pharmacy/checkQuantityDispensedVSQuantityInStock")
     public void compareQuantityInStockVsQUantityDispensed(HttpServletRequest request,HttpServletResponse response) throws JSONException, IOException {
 
@@ -88,7 +90,7 @@ public class dispenseController {
                         pharmacyDrugOrder=service.getPharmacyDrugOrdersByOrders(pharmacyOrders.get(j));
                         listObsConcepts =service.getPharmacyObsByPharmacyOrder(pharmacyOrders.get(j));
                         for (int y = 0; y < listObsConcepts.size(); y++) {
-                            if(listObsConcepts.get(y).getValue_drug() !=null) {
+                            if(listObsConcepts.get(y).getValue_drug() !=null && pharmacyDrugOrder !=null) {
                                 drugsIssuedToPatient = drugsIssuedToPatient + listObsConcepts.get(y).getValue_drug().getName().toString() + "-" + pharmacyDrugOrder.getDose()+"- ("+pharmacyDrugOrder.getQuantityGiven()+") " + ",";
                             }
                         }
@@ -156,7 +158,7 @@ public class dispenseController {
             if (patientId != null && patientEncounters == null) {
                 ArrayList<Date> dates=new ArrayList<Date>();
                 jsonArray1 = new JSONArray();
-                pharmacyDrugOrder= service.getHIVPatientLastVisitPharmacyDrugOrder(Integer.valueOf(patientId),"RFP");
+                pharmacyDrugOrder= service.getHIVPatientLastVisitPharmacyDrugOrder(patientId,"RFP");
                 SimpleDateFormat todaysDate=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 Date realDate=new Date();
                 String dateFormat=todaysDate.format(realDate.getTime());
@@ -315,16 +317,46 @@ public class dispenseController {
             log.error("Error generated"+e.getLocalizedMessage());
         }
     }
+    @RequestMapping(method=RequestMethod.GET,value="module/pharmacy/patientLastEncounterDetails")
+    public void patientLastEncounterGetProcessor(HttpServletRequest request,HttpServletResponse response) throws JSONException, IOException{
+        String patientUUID=request.getParameter("patientUUID");
+        service = Context.getService(PharmacyService.class);
+        String patientID=service.getPatientByIdentifier(patientUUID) ;
+
+        Patient patient=Context.getPatientService().getPatient(Integer.valueOf(patientID));
+        PharmacyEncounter lastPharmacyEncounter=service.getLastPharmacyEncounterByPatientUUID(patient);
+
+        jsonArray=new JSONArray();
+        pharmacyOrders = service.getPharmacyOrdersByEncounterId(lastPharmacyEncounter);
+        String drugsIssuedToPatient="";
+        for (int j = 0; j < pharmacyOrders.size(); j++) {//
+            if (pharmacyOrders.get(j).getConcept() != null) {
+                pharmacyDrugOrder=service.getPharmacyDrugOrdersByOrders(pharmacyOrders.get(j));
+                listObsConcepts =service.getPharmacyObsByPharmacyOrder(pharmacyOrders.get(j));
+                for (int y = 0; y < listObsConcepts.size(); y++) {
+                    if(listObsConcepts.get(y).getValue_drug() !=null) {
+                        drugsIssuedToPatient = drugsIssuedToPatient + listObsConcepts.get(y).getValue_drug().getName().toString() + "-" + pharmacyDrugOrder.getDose()+"- ("+pharmacyDrugOrder.getQuantityGiven()+") ";
+                    }
+                }
+            }
+        }
+
+        jsonArray.put(lastPharmacyEncounter.getDateCreated());
+        jsonArray.put(lastPharmacyEncounter.getLocation().getName());
+        jsonArray.put(drugsIssuedToPatient);
+        jsonArray.put(lastPharmacyEncounter.getCreator());
+        response.getWriter().print(jsonArray);;
+    }
     @RequestMapping(method=RequestMethod.GET,value="module/pharmacy/getPatientSummaryDetails")
     public void getPatientSummaryDetails(HttpServletRequest request,HttpServletResponse response) throws JSONException, IOException {
         String patientUUID=request.getParameter("patientUUID");
         service = Context.getService(PharmacyService.class);
         String patientID=service.getPatientByIdentifier(patientUUID) ;
         Patient patient=Context.getPatientService().getPatient(Integer.valueOf(patientID));
-        PharmacyEncounter patientLastEncounter=service.getLastPharmacyEncounterByPatientUUID(patient);
+        PharmacyDrugOrder patientDrugOrderDetails=service.getHIVPatientLastVisitPharmacyDrugOrder(patientID,"RFP");
         jsonObject= new JSONObject();
         jsonArray=new JSONArray();
-        if(patientLastEncounter !=null){
+        if(patientDrugOrderDetails !=null){
             Date realDate=new Date();
             SimpleDateFormat todaysDate=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             String dateFormat=todaysDate.format(realDate.getTime());
@@ -336,27 +368,43 @@ public class dispenseController {
             }
             int DaysInMillSec= 1000 * 60 * 60 * 24;
 
-            long largeDate=patientLastEncounter.getNextVisitDate().getTime()/DaysInMillSec;
+            long largeDate=patientDrugOrderDetails.getExpected_next_visit_date().getTime()/DaysInMillSec;
             long smallDate=actualDate.getTime()/DaysInMillSec;
             long DiffInDays=largeDate-smallDate;
             SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-            String dateFormated=fmt.format(patientLastEncounter.getNextVisitDate().getTime());
+            String dateFormated=fmt.format(patientDrugOrderDetails.getExpected_next_visit_date().getTime());
             Date expNextDateOfVisit= null;
             try {
                 expNextDateOfVisit = fmt.parse(dateFormated);
             } catch (ParseException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-            int drugsPerDay=2;
+            int drugsPerDay=1;
+            if(patientDrugOrderDetails.getDose().equalsIgnoreCase("1 tablet OD")){
+                drugsPerDay=1;
+            }
+            else if(patientDrugOrderDetails.getDose().equalsIgnoreCase("1 tablet BD")){
+                drugsPerDay=2;
+            }
+            else if(patientDrugOrderDetails.getDose().equalsIgnoreCase("2 tablets BD")){
+                drugsPerDay=4;
+            }
+            else if(patientDrugOrderDetails.getDose().equalsIgnoreCase("3 tablets BD")){
+                drugsPerDay=6;
+            }
+            int stockRemaining=drugsPerDay*(int)DiffInDays;
             SimpleDateFormat fmtDate=new SimpleDateFormat("dd/MM/yyyy");
-            String formatedLastVisitDate=fmtDate.format(patientLastEncounter.getDateCreated().getTime());
-            String formatedNextVisitDate=fmtDate.format(patientLastEncounter.getNextVisitDate().getTime());
+            String formatedLastVisitDate=fmtDate.format(patientDrugOrderDetails.getDateCreated().getTime());
+            String formatedNextVisitDate=fmtDate.format(patientDrugOrderDetails.getExpected_next_visit_date().getTime());
             //jsonArray.put(list.get(0).getNextVisitDate());
-            jsonArray.put(patientLastEncounter.getRegimenName());
+            pharmacyOrder=patientDrugOrderDetails.getOrderUuid();
+            pharmacyEncounter=pharmacyOrder.getPharmacyEncounter();
+            jsonArray.put(pharmacyEncounter.getRegimenName());
             jsonArray.put(formatedLastVisitDate);
             jsonArray.put(formatedNextVisitDate);
             jsonArray.put(DiffInDays);
-            jsonArray.put(patientLastEncounter.getRegimenCode());
+            jsonArray.put(pharmacyEncounter.getRegimenCode());
+            jsonArray.put(stockRemaining);
         }
         response.getWriter().print(jsonArray);
 
