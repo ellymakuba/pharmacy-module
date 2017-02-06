@@ -40,9 +40,6 @@ locationaOoTable = $j('#tlocation').dataTable({
         if (locationaData[0] == "edit") {
             htm += '<li> <a href=""  id="edit"><img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/edit2.png" />Edit</a></li>';
                  }
-        if (locationaData[5] == "void") {
-            htm += '<li> <a href="" id="deletel" ><img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/delete.png" />Void</a></li>';
-        }
         htm += '<li> <a href="" id="cancelLoc"><img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/cancel.png" />Back</a></li>';
         htm += '</ul></li></ul>';
         $j('td:eq(0)', nRow).html(htm);
@@ -51,7 +48,7 @@ locationaOoTable = $j('#tlocation').dataTable({
     "aoColumnDefs":[
         {
             "bVisible":false,
-            "aTargets":[0, 2,6]
+            "aTargets":[0, 2,7]
         }
     ]
 });

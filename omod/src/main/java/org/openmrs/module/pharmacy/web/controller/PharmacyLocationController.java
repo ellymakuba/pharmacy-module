@@ -38,6 +38,7 @@ public class PharmacyLocationController {
         service = Context.getService(PharmacyService.class);
         response.setContentType("application/json");
         String drop = request.getParameter("drop");
+
         pharmacyLocationUsersByUserName = service.getPharmacyLocationUsersByUserName(Context.getAuthenticatedUser().getUsername());
         size = pharmacyLocationUsersByUserName.size();
         JSONArray jsons = new JSONArray();
@@ -77,7 +78,9 @@ public class PharmacyLocationController {
     public synchronized void pageLoadd(HttpServletRequest request, HttpServletResponse response) {
         service = Context.getService(PharmacyService.class);
         userService = Context.getUserContext();
-        //response.setContentType("application/json");
+        request.getSession().removeAttribute("otherTransactingSiteUUID");
+        request.getSession().removeAttribute("transactionTypeSelectedOption");
+        request.getSession().removeAttribute("transactionTrackerUUIDOptionSelected");
         try {
 
             String location = request.getParameter("selectedLocation");

@@ -123,6 +123,8 @@ public class LocationNamesController {
                     datad2.put("None");
                     datad2.put("None");
                     datad2.put("None");
+                    datad2.put("None");
+                    datad2.put("None");
                     json.accumulate("aaData", datad2);
                 }
                 json.accumulate("iTotalRecords", json.getJSONArray("aaData").length());
@@ -147,6 +149,7 @@ public class LocationNamesController {
         String uuidvoid = request.getParameter("locationuuidvoid");
         String reason = request.getParameter("locationreason");
         Integer batchSettings=Integer.parseInt(request.getParameter("batch_settings"));
+        Integer cashierPresent=Integer.parseInt(request.getParameter("cashier_present"));
         String username = request.getParameter("username");
         userService = Context.getUserContext();
         if (edit != null) {
@@ -164,6 +167,7 @@ public class LocationNamesController {
                     pharmacyLocations1.setName(locationName);
                     pharmacyLocations1.setDescription(description);
                     pharmacyLocations1.setBatchSetting(batchSettings);
+                    pharmacyLocations1.setCashierPresent(cashierPresent);
                     service.savePharmacyLocations(pharmacyLocations1);
                 } else //do code to display to the user
                 {
@@ -177,6 +181,7 @@ public class LocationNamesController {
                     pharmacyLocations1.setName(locationName);
                     pharmacyLocations1.setDescription(description);
                    pharmacyLocations1.setBatchSetting(batchSettings);
+                    pharmacyLocations1.setCashierPresent(cashierPresent);
                     service.savePharmacyLocations(pharmacyLocations1);
                 }
             }
@@ -216,6 +221,7 @@ public class LocationNamesController {
         drugNamess.put(pharmacyLocations.get(size).getName());
         drugNamess.put(pharmacyLocations.get(size).getDescription());
         drugNamess.put(pharmacyLocations.get(size).getBatchSetting());
+        drugNamess.put(pharmacyLocations.get(size).getCashierPresent());
         if (deletePharmacy) {
             drugNamess.put("void");
             deletePharmacy = false;

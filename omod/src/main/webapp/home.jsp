@@ -1,9 +1,9 @@
+<!DOCTYPE html>
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page import="org.openmrs.web.WebConstants" %>
 <%@ include file="/WEB-INF/template/include.jsp" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <openmrs:require privilege="Manage Pharmacy" otherwise="/login.htm" redirect="/module/pharmacy/home.form"/>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
 <style type="text/css">
     .newRowClass{
@@ -440,7 +440,7 @@ $j("#ts").click(function () {
     $j("#stock").hide();
 
 });
-$j("#retireInventory").click(function() {
+$j("#retireInventoryBatches").click(function() {
     $j('#west_panel_content').empty();
     $j('#west_panel_content').load('resources/subpages/retireInventoryBatches.form' , function() {
 
@@ -448,7 +448,6 @@ $j("#retireInventory").click(function() {
     hideInactiveDivElements();
 });
 /*shows drug categories view*/
-
 $j("#DCategories").click(function () {
     $j('#west_panel_content').empty();
     $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/drugCategories.jsp #dnames', function () {
@@ -623,6 +622,13 @@ $j("#spinner").show();
     });
     hideInactiveDivElements();
 });
+$j("#stockTransferApprovalForm").click(function () {
+$j("#spinner").show();
+    $j('#west_panel_content').empty();
+    $j('#west_panel_content').load('resources/subpages/stockTransferApprovalForm.form', function () {
+    });
+    hideInactiveDivElements();
+});
 $j("#dispenseRFPForm").click(function(){
 $j("#spinner").show();
     $j('#west_panel_content').empty();
@@ -760,7 +766,20 @@ $j("#FCDRR").click(function () {
            });
            hideInactiveDivElements();
 });
+$j("#standAloneFCDRR").click(function () {
+   $j('#west_panel_content').empty();
+           $j('#west_panel_content').load('resources/subpages/F-CDRRStandAlone.form' , function() {
 
+           });
+           hideInactiveDivElements();
+});
+$j("#DCDRR").click(function () {
+   $j('#west_panel_content').empty();
+           $j('#west_panel_content').load('resources/subpages/D-CDRR.form' , function() {
+
+           });
+           hideInactiveDivElements();
+});
 $j("#rfpreport").click(function () {
     $j("#spinner").show();
     $j('#west_panel_content').empty();
@@ -784,6 +803,13 @@ $j("#inventoryMetaData").click(function () {
     });
     hideInactiveDivElements();
 });
+$j("#supplier").click(function () {
+    $j("#spinner").show();
+    $j('#west_panel_content').empty();
+    $j('#west_panel_content').load('resources/subpages/supplier.form', function () {
+    });
+    hideInactiveDivElements();
+});
 $j("#newS11").click(function () {
     $j("#spinner").show();
     $j('#west_panel_content').empty();
@@ -791,10 +817,31 @@ $j("#newS11").click(function () {
     });
     hideInactiveDivElements();
 });
+$j("#receiveDeliveryNote").click(function () {
+    $j("#spinner").show();
+    $j('#west_panel_content').empty();
+    $j('#west_panel_content').load('resources/subpages/deliveryNote.form', function () {
+    });
+    hideInactiveDivElements();
+});
+$j("#issueDeliveredGoods").click(function () {
+    $j("#spinner").show();
+    $j('#west_panel_content').empty();
+    $j('#west_panel_content').load('resources/subpages/issueDeliveredGoods.form', function () {
+    });
+    hideInactiveDivElements();
+});
 $j("#regimenAgeGenderBreakDown").click(function () {
     $j("#spinner").show();
     $j('#west_panel_content').empty();
     $j('#west_panel_content').load('resources/subpages/regimenAgeGenderBreakDown.form', function () {
+    });
+    hideInactiveDivElements();
+});
+$j("#dailyDispensedPrescriptionsPerUser").click(function () {
+    $j("#spinner").show();
+    $j('#west_panel_content').empty();
+    $j('#west_panel_content').load('resources/subpages/dailyDispensedPrescriptionsPerUser.form', function () {
     });
     hideInactiveDivElements();
 });
@@ -1155,12 +1202,8 @@ $j("#locationName").click(function () {
 /*Tie users to specificlocations*/
 $j("#locationUser").click(function () {
     $j('#west_panel_content').empty();
-    $j('#west_panel_content').load('${pageContext.request.contextPath}/moduleResources/pharmacy/subpages/locationUsers.jsp #dnames', function () {
-        $j.getScript("${pageContext.request.contextPath}/moduleResources/pharmacy/jspharmacy/locationUsers.js", function () {
-        });
-    });
+    $j('#west_panel_content').load('resources/subpages/locationUsers.form', function () {});
     hideInactiveDivElements();
-    $j("#locationUsers").show("slow");
 });
 
 /*View max and min level setters*/
@@ -1185,7 +1228,7 @@ function getData() {
 $j("#errorDialog").dialog({
     autoOpen:false,
     height:250,
-    width:300,
+    width:600,
     cache:false,
     modal:true,
     buttons:{
@@ -1532,8 +1575,11 @@ CloseDialog();
                 <LI><A href="#" id="requestsum">Patient Waivers Report</A></LI>
                 <LI><A href="#" id="patientDiscountsReport">Patient Discounts Report</A></LI>
                 <LI><A href="#" id="s11">View S11 Reports</A></LI>
-                <LI><A href="#" id="FCDRR">FCDRR</A></LI>
+                <LI><A href="#" id="FCDRR">FCDRR For Satellite Sites</A></LI>
+                <LI><A href="#" id="standAloneFCDRR">FCDRR For Stand Alone Site</A></LI>
+                <LI><A href="#" id="DCDRR">DCDRR For Central Sites</A></LI>
                 <LI><A href="#" id="regimenAgeGenderBreakDown">Regimen Breakdown Report</A></LI>
+                <LI><A href="#" id="dailyDispensedPrescriptionsPerUser">Daily Dispensed Prescriptions Per User</A></LI>
                 <% } %>
             </UL>
         </div>
@@ -1551,6 +1597,7 @@ CloseDialog();
                 <UL>
                     <LI><A href="#" id="newS11">Receive New S11</A> </LI>
                     <LI><A href="#" id="stockTakeForm">Stock Take Form</A></LI>
+                    <LI><A href="#" id="stockTransfer">Stock Transfer Between Sites</A></LI>
                     <LI><A href="#" id="dtransactions">View Transactions Logs</A></LI>
                 </UL>
             </div>
@@ -1568,12 +1615,16 @@ CloseDialog();
             <div class="ui-layout-content">
                 <div id="ui38">
                     <%  if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin")){ %>
+                    <LI><A href="#" id="receiveDeliveryNote">Receive Delivery Note</A> </LI>
+                    <LI><A href="#" id="issueDeliveredGoods">Issue Delivered Goods</A> </LI>
                     <LI><A href="#" id="stockTakeApprovalForm">Stock Take Approval</A></LI>
                     <LI><A href="#" id="inventoryMetaData">Inventory MetaData</A></LI>
-                    <LI><A href="#" id="stockTransfer">Stock Transfers</A></LI>
+                    <LI><A href="#" id="stockTransferApprovalForm">Stock Transfer Approval</A></LI>
+                    <LI><A href="#" id="retireInventoryBatches">Retire Inventory Batches</A></LI>
                     <LI><A href="#" id="tt">Transaction Types</A></LI>
                     <LI><A href="#" id="dmanager">Dose Management</A></LI>
                     <LI><A href="#" id="DCategories">Drug Categories</A> </LI>
+                    <LI><A href="#" id="supplier">Supplier Management</A> </LI>
                     <% } %>
                     <LI><A href="#" id="DBatch">Dispense Batch settings</A></LI>
                 </div>

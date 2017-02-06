@@ -276,14 +276,22 @@ $j("#patientIdAdultHIVForm").autocomplete({
         $j("#viewHistory").show();
         var patient=ui.item.value;
         var pharmacyEncounterPropeties={};
+        var patientNameAndAgeDetails={};
+        var name;
+        var age;
         $j.ajax({
             type:"GET",
             url:"patientLastName.form?patientToFind="+patient,
             async:false,
             dataType:"json",
             success:function (result) {
-                document.getElementById("patientName").value=result;
+            patientNameAndAgeDetails= result.toString().split(",");
+            name=patientNameAndAgeDetails[0];
+            age=patientNameAndAgeDetails[1];
+
                 $j("#currentRegimen").val()=="";
+                document.getElementById("patientName").value=name;
+                document.getElementById("patientAge").value=age;
                  $j.ajax({
                             type:"GET",
                             url:"getPatientSummaryDetails.form?patientUUID="+patient,
@@ -388,7 +396,7 @@ $j("#noofmonths").change(function () {
 function addays(myDate, days) {
     return new Date(myDate.getTime() + days * 24 * 60 * 60 * 1000);
 }
-function checkHivForm(val,reg){
+function checkHivForm(val,reg,regChanged){
     cRegimen=val;
     if(reg !=pRegimen && pRegimen !="" && reg !="OI" && pRegimen !="OI")
     {
@@ -402,6 +410,12 @@ function checkHivForm(val,reg){
             $j("#errorDialog").dialog("open")
             return false
         }
+    }
+    else if(pRegimen==reg && regChanged==1){
+           $j("#errorDialog").empty();
+            $j('<dl><dt></dt><dd >' + "Info: " + "When you select regimen change ensure the current regimen is different from the previous regimen \n"+ '</dd></dl> ').appendTo('#errorDialog');
+            $j("#errorDialog").dialog("open")
+            return false
     }
     else if(reg !=pRegimen && pRegimen =="")
     {
@@ -428,9 +442,12 @@ function validateHivForm(){
     {
         message+="Error:Atleast one patient type must be selected  "+"<br/>";
     }
+    if ($j("#patienttype3").is(':checked') && $j("#arvtype2").is(':checked')){
+     message+="Post Exposure Prophylaxis cannot be dispensed as an ARV Refill "+"<br/>";
+    }
     if ($j("#regimenchange").is(':checked')) {
         regimenChangeIsChecked=1;
-        if ((!$j("#regimenchange1").is(':checked'))&&(!$j("#regimenchange2").is(':checked'))&&(!$j("#regimenchange3").is(':checked')))
+        if ((!$j("#regimenchange1").is(':checked'))&&(!$j("#regimenchange2").is(':checked'))&&(!$j("#regimenchange3").is(':checked'))&&(!$j("#regimenchange4").is(':checked')))
         {
             message+="Error:Atleast one regimen change reason must be selected "+"<br/>";
         }
@@ -442,7 +459,7 @@ function validateHivForm(){
     }
     }
     if(regimenChangeIsChecked==1){
-        if (($j("#arvtype1").is(':checked')) || ($j("#arvtype2").is(':checked')) || ($j("#arvtype4").is(':checked')) || ($j("#arvtype5").is(':checked')))
+        if (($j("#arvtype1").is(':checked')) || ($j("#arvtype4").is(':checked')) || ($j("#arvtype5").is(':checked')))
         {
             message+="Error:When changing patient regimen don't select any ARV type"+"<br/>";
         }
@@ -487,7 +504,7 @@ function validateHivForm(){
 
 var regimen ='';
 var splicedRegimen=''
-function checkHivRegimen(val)
+function validateHivRegimen(val)
 {
     regimen=val;
     splicedRegimen=val.slice(0);
@@ -545,6 +562,9 @@ function checkHivRegimen(val)
     if(regimen>splicedRegimen){
         isRegimenValid = true ;
     }
+    if(regimen.length==0){
+        isRegimenValid = true ;
+    }
     var regimenVals;
     var regimenN;
     var regimenC;
@@ -576,6 +596,247 @@ function contains(needle, haystack) {
 
     return false ;
 }
+function regimenFilterForPediatricPatients(val){
+    regimen=val;
+    splicedRegimen=val.slice(0);
+    var septrinPosition=regimen.indexOf('916');
+    var dapsonePosition=regimen.indexOf('92');
+    var isoniazidPosition=regimen.indexOf('656');
+     var fluconazolePosition=splicedRegimen.indexOf('747');
+        var acyclovirPosition=splicedRegimen.indexOf('732');
+        var pyridoxinePosition=splicedRegimen.indexOf('766');
+        var positionOfEquity = 1000;
+        var regimenC='';
+        var regimenN='';
+        var regimenVals;
+        var ARVDrugSelected=0;
+        var OIDrugSelected=0;
+        var noDrugSelected=0;
+
+        for (numbersCounter = 0 ; numbersCounter < drugConcepts.length ;numbersCounter ++ )
+        {
+            if(septrinPosition>=0 || dapsonePosition>=0 || isoniazidPosition>=0 || fluconazolePosition>=0 || acyclovirPosition>=0 || pyridoxinePosition>=0){
+                if(septrinPosition>=0)
+                {
+                    splicedRegimen.splice(septrinPosition,1);
+                    OIDrugSelected=1;
+                }
+                if(dapsonePosition>=0)
+                {
+                    splicedRegimen.splice(dapsonePosition,1);
+                    OIDrugSelected=1;
+                }
+                if(isoniazidPosition>=0)
+                {
+                    splicedRegimen.splice(isoniazidPosition,1);
+                    OIDrugSelected=1;
+                }
+                if(fluconazolePosition>=0){
+                    splicedRegimen.splice(fluconazolePosition,1);
+                    OIDrugSelected=1;
+                }
+                if(acyclovirPosition>=0){
+                    splicedRegimen.splice(acyclovirPosition,1);
+                    OIDrugSelected=1;
+                }
+                if(pyridoxinePosition>=0){
+                    splicedRegimen.splice(pyridoxinePosition,1);
+                    OIDrugSelected=1;
+                }
+
+        }
+        currNumber = drugConcepts[numbersCounter] ; // curr array
+        lengthOfCurrentRegimenUnderTest = currNumber.length ;
+        if(lengthOfCurrentRegimenUnderTest != splicedRegimen.length)
+            continue ;
+        var sortedCurrNumber=currNumber.sort();
+        var sortedSPlicedRegimen=splicedRegimen.sort();
+        if(sortedCurrNumber.toString()==sortedSPlicedRegimen.toString()){
+            positionOfEquity=numbersCounter;
+            break;
+        }
+
+     }
+
+    if(positionOfEquity < 3){
+        if($j("#patienttype1").is(':checked')){
+            regimenNam='AZT/3TC/NVP';
+            regimenCod='PM3';
+        }
+        else{
+            regimenNam='AZT/3TC/NVP';
+            regimenCod='CF1A';
+        }
+            ARVDrugSelected=1;
+    }
+    else if(positionOfEquity < 5) {
+        regimenNam='TDF/3TC/EFV';
+        regimenCod='AF2B';
+        ARVDrugSelected=1;
+    }
+    else if(positionOfEquity < 7) {
+        regimenNam='d4T/3TC/NVP';
+        regimenCod='CF3A';
+        ARVDrugSelected=1;
+    }
+    else if(positionOfEquity ==7) {
+        if($j("#patienttype1").is(':checked')) {
+            regimenNam='AZT/3TC/EFV';
+            regimenCod='PM4';
+        }
+        else{
+            regimenNam='AZT/3TC/EFV';
+            regimenCod='CF1B';
+        }
+        ARVDrugSelected=1;
+    }
+    else if(positionOfEquity ==8) {
+        regimenNam='AZT/3TC/ABC';
+        regimenCod='CF2C';
+        ARVDrugSelected=1;
+    }
+    else if(positionOfEquity ==9) {
+        if($j("#patienttype1").is(':checked')) {
+            regimenNam='TDF/3TC/NVP';
+            regimenCod='PM6';
+        }
+        else if($j("#patienttype3").is(':checked')) {
+            regimenNam='TDF/3TC/LPV/r';
+            regimenCod='PA3B';
+        }
+        else{
+            regimenNam='TDF/3TC/NVP';
+            regimenCod='AF2A';
+        }
+        ARVDrugSelected=1;
+    }
+    else if(positionOfEquity ==10) {
+        regimenNam='TDF/3TC/AZT';
+        regimenCod='AF2C';
+        ARVDrugSelected=1;
+    }
+    else if(positionOfEquity ==11) {
+        regimenNam='d4T/3TC/EFV';
+        regimenCod='AF3B';
+    }
+    else if(positionOfEquity ==12) {
+        regimenNam='d4T/3TC/ABC';
+        regimenCod='AF3C';
+        ARVDrugSelected=1;
+    }
+    else if(positionOfEquity ==13) {
+        if($j("#patienttype1").is(':checked')) {
+            regimenNam='AZT/3TC/LPV/r';
+            regimenCod='PM5';
+        }
+        else if($j("#patienttype3").is(':checked')){
+            regimenNam='AZT/3TC/LPV/r';
+            regimenCod='PA1B';
+        }
+        else{
+            regimenNam='AZT/3TC/LPV/r';
+            regimenCod='AS1A';
+        }
+        ARVDrugSelected=1;
+    }
+    else if(positionOfEquity ==14) {
+        regimenNam='AZT/3TC/LPV/r';
+        regimenCod='CF1C';
+        ARVDrugSelected=1;
+    }
+    else if(positionOfEquity ==15) {
+        regimenNam='TDF/3TC/LPV/r';
+        regimenCod='AS2A';
+        ARVDrugSelected=1;
+    }
+    else if(positionOfEquity ==16) {
+        regimenNam='TDF/3TC/ATV/r';
+        regimenCod='AS2C';
+        ARVDrugSelected=1;
+    }
+    else if(positionOfEquity ==17) {
+        if($j("#patienttype3").is(':checked')){
+            regimenNam='d4T/3TC/LPV/r';
+            regimenCod='CA2B';
+        }
+        else{
+            regimenNam='d4T/3TC/LPV/r';
+            regimenCod='CS3A';
+        }
+        ARVDrugSelected=1;
+    }
+    else if(positionOfEquity==18 || positionOfEquity==19){
+        regimenNam='AZT/3TC';
+        regimenCod='CA1A';
+        ARVDrugSelected=1;
+    }
+    else if (positionOfEquity==20 || positionOfEquity==21){
+        regimenNam='D4T/3TC';
+        regimenCod='CA2A';
+        ARVDrugSelected=1;
+    }
+    else if(positionOfEquity==22 || positionOfEquity==23){
+        regimenNam='TDF/3TC';
+        regimenCod='CA3A';
+        ARVDrugSelected=1;
+    }
+    else if(positionOfEquity==24 || positionOfEquity==25){
+        regimenNam='ABC/3TC/NVP';
+        regimenCod='CF2A';
+        ARVDrugSelected=1;
+    }
+    else if(positionOfEquity==26){
+        regimenNam='AZT/3TC/EFV';
+        regimenCod='CF1B';
+        ARVDrugSelected=1;
+    }
+else if(positionOfEquity==27 || positionOfEquity==34){
+        regimenNam='ABC/3TC/EFV';
+        regimenCod='CF2B';
+        ARVDrugSelected=1;
+    }
+else if(positionOfEquity==28 || positionOfEquity==35){
+        regimenNam='ABC/3TC/LPV/r';
+        regimenCod='CF2D';
+        ARVDrugSelected=1;
+    }
+else if(positionOfEquity==29){
+        regimenNam='TDF/3TC/EFV';
+        regimenCod='CNS1A';
+        ARVDrugSelected=1;
+    }
+else if(positionOfEquity==30){
+        regimenNam='TDF/3TC/NVP';
+        regimenCod='CNS1B';
+        ARVDrugSelected=1;
+    }
+else if(positionOfEquity==31){
+        regimenNam='TDF/3TC/LPV/r';
+        regimenCod='CNS2A';
+        ARVDrugSelected=1;
+    }
+else if(positionOfEquity==32){
+        regimenNam='AZT/3TC/LPV/r';
+        regimenCod='CS1A';
+        ARVDrugSelected=1;
+    }
+else if(positionOfEquity==33){
+        regimenNam='ABC/3TC/LPV/r';
+        regimenCod='CS2A';
+        ARVDrugSelected=1;
+    }
+     if(regimen.length>splicedRegimen.length && splicedRegimen.length ==0)
+     {
+         regimenNam='OI';
+         regimenCod='OI';
+         OIDrugSelected=1;
+         ARVDrugSelected=0;
+     }
+  if(regimen.length==0){
+     noDrugSelected=1;
+  }
+    return [regimenCod,regimenNam,ARVDrugSelected,OIDrugSelected,noDrugSelected];
+}
 function regimenFilter(val){
     regimen=val;
     splicedRegimen=val.slice(0);
@@ -585,10 +846,13 @@ function regimenFilter(val){
     var fluconazolePosition=splicedRegimen.indexOf('747');
     var acyclovirPosition=splicedRegimen.indexOf('732');
     var pyridoxinePosition=splicedRegimen.indexOf('766');
-    var positionOfEquity = 1000 ;
+    var positionOfEquity = 1000;
     var regimenC='';
     var regimenN='';
     var regimenVals;
+    var ARVDrugSelected=0;
+    var OIDrugSelected=0;
+    var noDrugSelected=0;
 
     for (numbersCounter = 0 ; numbersCounter < drugConcepts.length ;numbersCounter ++ )
     {
@@ -596,23 +860,29 @@ function regimenFilter(val){
             if(septrinPosition>=0)
             {
                 splicedRegimen.splice(septrinPosition,1);
+                OIDrugSelected=1;
             }
             if(dapsonePosition>=0)
             {
                 splicedRegimen.splice(dapsonePosition,1);
+                OIDrugSelected=1;
             }
             if(isoniazidPosition>=0)
             {
                 splicedRegimen.splice(isoniazidPosition,1);
+                OIDrugSelected=1;
             }
             if(fluconazolePosition>=0){
                 splicedRegimen.splice(fluconazolePosition,1);
+                OIDrugSelected=1;
             }
             if(acyclovirPosition>=0){
                 splicedRegimen.splice(acyclovirPosition,1);
+                OIDrugSelected=1;
             }
             if(pyridoxinePosition>=0){
                 splicedRegimen.splice(pyridoxinePosition,1);
+                OIDrugSelected=1;
             }
 
         }
@@ -639,14 +909,17 @@ function regimenFilter(val){
             regimenN='AZT/3TC/NVP';
             regimenC='AF1A';
         }
+        ARVDrugSelected=1;
     }
     else if(positionOfEquity < 5) {
         regimenN='TDF/3TC/EFV';
         regimenC='AF2B';
+        ARVDrugSelected=1;
     }
     else if(positionOfEquity < 7) {
         regimenN='d4T/3TC/NVP';
         regimenC='AF3A';
+        ARVDrugSelected=1;
     }
     else if(positionOfEquity ==7) {
         if($j("#patienttype1").is(':checked')) {
@@ -657,10 +930,12 @@ function regimenFilter(val){
             regimenN='AZT/3TC/EFV';
             regimenC='AF1B';
         }
+        ARVDrugSelected=1;
     }
     else if(positionOfEquity ==8) {
         regimenN='AZT/3TC/ABC';
         regimenC='AF1C';
+        ARVDrugSelected=1;
     }
     else if(positionOfEquity ==9) {
         if($j("#patienttype1").is(':checked')) {
@@ -672,18 +947,22 @@ function regimenFilter(val){
             regimenN='TDF/3TC/NVP';
             regimenC='AF2A';
         }
+        ARVDrugSelected=1;
     }
     else if(positionOfEquity ==10) {
         regimenN='TDF/3TC/AZT';
         regimenC='AF2C';
+        ARVDrugSelected=1;
     }
     else if(positionOfEquity ==11) {
         regimenN='d4T/3TC/EFV';
         regimenC='AF3B';
+        ARVDrugSelected=1;
     }
     else if(positionOfEquity ==12) {
         regimenN='d4T/3TC/ABC';
         regimenC='AF3C';
+        ARVDrugSelected=1;
     }
     else if(positionOfEquity ==13) {
         if($j("#patienttype1").is(':checked')) {
@@ -698,10 +977,12 @@ function regimenFilter(val){
             regimenN='AZT/3TC/LPV/r';
             regimenC='AS5B';
         }
+        ARVDrugSelected=1;
     }
     else if(positionOfEquity ==14) {
         regimenN='AZT/3TC/ATV/r';
         regimenC='AS1B';
+        ARVDrugSelected=1;
     }
     else if(positionOfEquity ==15) {
      if($j("#patienttype3").is(':checked')) {
@@ -712,10 +993,12 @@ function regimenFilter(val){
         regimenN='TDF/3TC/LPV/r';
         regimenC='AS2A';
         }
+        ARVDrugSelected=1;
     }
     else if(positionOfEquity ==16) {
         regimenN='TDF/3TC/ATV/r';
         regimenC='AS2C';
+        ARVDrugSelected=1;
     }
     else if(positionOfEquity ==17) {
         if($j("#patienttype3").is(':checked')){
@@ -726,11 +1009,12 @@ function regimenFilter(val){
             regimenN='d4T/3TC/LPV/r';
             regimenC='AS4A';
         }
-
+       ARVDrugSelected=1;
     }
     else if(positionOfEquity==18 || positionOfEquity==19){
         regimenN='AZT/3TC';
         regimenC='PA1A';
+        ARVDrugSelected=1;
     }
     else if (positionOfEquity==20 || positionOfEquity==21){
         regimenN='D4T/3TC';
@@ -738,62 +1022,80 @@ function regimenFilter(val){
     }
     else if(positionOfEquity==22 || positionOfEquity==23){
         regimenN='TDF/3TC';
-        regimenC='PA3A'
+        regimenC='PA3A';
+        ARVDrugSelected=1;
     }
     else if(positionOfEquity==25){
             regimenN='ABC/3TC/TDF/LPV/r';
             regimenC='AS6X'
+            ARVDrugSelected=1;
         }
      else if(positionOfEquity==26){
            regimenN='ABC/3TC/NVP';
            regimenC='AF4A'
+           ARVDrugSelected=1;
      }
      else if(positionOfEquity==27){
            regimenN='ABC/3TC/EFV';
-           regimenC='AF4B'
+           regimenC='AF4B';
+           ARVDrugSelected=1;
      }
      else if(positionOfEquity==28){
            regimenN='ABC/TDF/3TC/EFV';
-           regimenC='AF5X'
+           regimenC='AF5X';
+           ARVDrugSelected=1;
           }
-else if(positionOfEquity==29){
+     else if(positionOfEquity==29){
            regimenN='AZT/3TC/TDF/LPV/r';
-           regimenC='ANS2B'
+           regimenC='ANS2B';
+           ARVDrugSelected=1;
           }
-else if(positionOfEquity==30){
+   else if(positionOfEquity==30){
            regimenN='ABC/AZT/3TC/LPV/r';
-           regimenC='ANS2E'
+           regimenC='ANS2E';
+           ARVDrugSelected=1;
           }
-else if(positionOfEquity==31){
+     else if(positionOfEquity==31){
            regimenN='TDF/3TC/RLT/r';
-           regimenC='ANS2F'
+           regimenC='ANS2F';
+           ARVDrugSelected=1;
           }
-else if(positionOfEquity==32){
+   else if(positionOfEquity==32){
            regimenN='ABC/3TC/RLT/r';
-           regimenC='ANS2G'
+           regimenC='ANS2G';
+           ARVDrugSelected=1;
           }
-else if(positionOfEquity==33){
+   else if(positionOfEquity==33){
            regimenN='EFV/3TC/LPV/r';
-           regimenC='ANS2H'
+           regimenC='ANS2H';
+           ARVDrugSelected=1;
           }
-else if(positionOfEquity==34){
+   else if(positionOfEquity==34){
            regimenN='ABC/3TC/ATV/r';
-           regimenC='ANS2J'
+           regimenC='ANS2J';
+           ARVDrugSelected=1;
           }
-else if(positionOfEquity==35){
+   else if(positionOfEquity==35){
            regimenN='3TC/LPV/r/RLTV/r';
-           regimenC='ANS3B'
+           regimenC='ANS3B';
+           ARVDrugSelected=1;
    }
-else if(positionOfEquity==36){
+  else if(positionOfEquity==36){
            regimenN='ABC/3TC/LPV/r';
-           regimenC='AS3A'
+           regimenC='AS3A';
+           ARVDrugSelected=1;
    }
      if(regimen.length>splicedRegimen.length && splicedRegimen.length ==0)
          {
              regimenN='OI';
              regimenC='OI';
+             OIDrugSelected=1;
+             ARVDrugSelected=0;
          }
-    return [regimenC,regimenN];
+  if(regimen.length==0){
+     noDrugSelected=1;
+  }
+    return [regimenC,regimenN,ARVDrugSelected,OIDrugSelected,noDrugSelected];
 }
 
 function processForm(){
@@ -998,11 +1300,35 @@ regimenInitition=1;
             }
         }).get();
         var drugs = (drugid).toString().split(",");
-        var ans=checkHivRegimen(drugid);
+        var ans=validateHivRegimen(drugid);
         if(ans==true){
+            if($j("#patientAge").val()>15){
             var regimens=regimenFilter(drugid);
+            }
+            else{
+            var regimens=regimenFilterForPediatricPatients(drugid);
+            }
             var regimenCode= regimens[0];
             var regimenName=regimens[1];
+            var anARVdrugIsSelected=regimens[2];
+            var anOIDrugIsSelected=regimens[3];
+            var noDrugSelectedForDispensing=regimens[4];
+            if(noDrugSelectedForDispensing==1){
+              $j("#errorDialog").empty();
+              $j('<dl><dt></dt><dd >' + "Error: " + "You have not selected any drug to dispense" + '</dd></dl> ').appendTo('#errorDialog');
+              $j("#errorDialog").dialog("open");
+            }
+             else if((anARVdrugIsSelected==1 && !$j("#arvtype2").is(':checked')) || (anARVdrugIsSelected==0 && $j("#arvtype2").is(':checked'))){
+                  $j("#errorDialog").empty();
+                  $j('<dl><dt></dt><dd >' + "Error: " + "Either you have selected ARV refill option without selecting ARV drug(s), or you are trying to dispense ARV drug(s) without selecting ARV refill option" + '</dd></dl> ').appendTo('#errorDialog');
+                  $j("#errorDialog").dialog("open");
+             }
+             else if((anOIDrugIsSelected==1 && !$j("#arvtype3").is(':checked')) || (anOIDrugIsSelected==0 && $j("#arvtype3").is(':checked'))){
+                $j("#errorDialog").empty();
+                $j('<dl><dt></dt><dd >' + "Error: " + "Either you have selected OI refill option without selecting OI drug(s), or you are trying to dispense OI drug(s) without selecting OI refill option" + '</dd></dl> ').appendTo('#errorDialog');
+                $j("#errorDialog").dialog("open");
+             }
+          else{
             if(regimenName=="OI" && pRegimen !="OI" && pRegimen !="undefined" && pRegimen !=""){
             isOnlyOIRefill=1;
             }
@@ -1025,7 +1351,7 @@ regimenInitition=1;
                     }
                 });
             }
-            var val= checkHivForm(drugNum,regimenName);
+            var val= checkHivForm(drugNum,regimenName,regimenChanged);
             if(val==true){
                 var size = vals.length;
                 var json = [];
@@ -1068,10 +1394,11 @@ regimenInitition=1;
                     }
                 });
             }
+          }
         }
         else{
             $j("#errorDialog").empty();
-            $j('<dl><dt></dt><dd >' + "Error: " + drugs+" Is an invalid regimen" + '</dd></dl> ').appendTo('#errorDialog');
+            $j('<dl><dt></dt><dd >' + "Error: " + drugs+" Is either incomplete or wrong regimen" + '</dd></dl> ').appendTo('#errorDialog');
             $j("#errorDialog").dialog("open");
         }
     }
@@ -1139,6 +1466,7 @@ List<PharmacyDose> pharmacyDoseList=service.getPharmacyDose();
         <td>Patient ID</td><td><input  name="patientIdAdultHIVForm" id="patientIdAdultHIVForm" class="required"  style="width:100px;"/></td>
         <td colspan="2">Patient name</td><td><input type="text" name="patientName" id="patientName" style="width:200px;"  readonly/></td>
         <td>Current Regimen</td><td><input type="text" name="currentRegimen" id="currentRegimen" style="width:150px;"  readonly/></td>
+        <td>Patient Age</td><td><input type="text" name="patientAge" id="patientAge" style="width:50px;"  readonly/></td>
     </tr>
 </table>
 <table id="dataSection">

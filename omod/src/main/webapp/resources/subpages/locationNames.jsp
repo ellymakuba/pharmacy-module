@@ -28,6 +28,10 @@
                     <option value="0">No</option>
                     <option value="1">Yes</option>
                 </select> <br/>
+                <label for="engine">Cashier Present</label><select name="cashier_present">
+                     <option value="0">No</option>
+                     <option value="1">Yes</option>
+                </select> <br/>
                 <input type="hidden" name="locationeedit" id="locationedit" value="false"/>
                 <input type="hidden" name="locationuuid" id="locationuuid"/> <input
                     class="submit" type="submit" value="Submit"/>
@@ -44,6 +48,7 @@
             <th>Location name</th>
             <th>Description</th>
             <th>Batch Setting</th>
+            <th>Cashier Present</th>
             <th>Void</th>
         </tr>
         </thead>
@@ -56,12 +61,10 @@
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
         </tr>
         </tbody>
-
     </table>
-
 </DIV>
-
 </body>
 </html>

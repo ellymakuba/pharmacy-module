@@ -19,6 +19,7 @@
         <property name="batchNo" type="java.lang.String" column="batchNo" length="255"/>
          <many-to-one name="creator" class="org.openmrs.User" column="creator" not-null="true"/>
         <many-to-one name="location"  property-ref="uuid" column="location_uuid"/>
+        <many-to-one name="otherTransactingSite"  property-ref="uuid" column="other_transacting_site" not-null="true"/>
         <property name="expireDate" type="java.util.Date" column="expiredate"  not-null="false"/>
         <property name="dateCreated" type="java.util.Date" column="datecreated" not-null="true"/>
         <property name="voided" type="boolean" not-null="true"/>
@@ -26,5 +27,6 @@
         <property name="dateVoided" type="java.util.Date" column="date_voided"/>
         <property name="voidReason" type="java.lang.String" column="void_reason" length="255"/>
         <property name="uuid" type="string" length="38" not-null="true" unique="true"/>
+        <property name="approved" type="boolean" not-null="true"/>
     </class>
 </hibernate-mapping>

@@ -23,6 +23,7 @@ public class PharmacyLocations extends BaseOpenmrsData {
     private String name;
     private String description;
     private Integer batchSetting;
+    private Integer cashierPresent;
     private Integer id;
     /** default constructor */
     public PharmacyLocations() {
@@ -73,5 +74,13 @@ public class PharmacyLocations extends BaseOpenmrsData {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getCashierPresent() {
+        return cashierPresent;
+    }
+
+    public void setCashierPresent(Integer cashierPresent) {
+        this.cashierPresent = cashierPresent;
     }
 }

@@ -1,7 +1,4 @@
 package org.openmrs.module.pharmacy.web.controller;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONArray;
@@ -11,7 +8,6 @@ import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
 import org.openmrs.*;
 import org.openmrs.api.EncounterService;
-import org.openmrs.api.UserService;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.UserContext;
 import org.openmrs.module.pharmacy.model.*;
@@ -22,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller

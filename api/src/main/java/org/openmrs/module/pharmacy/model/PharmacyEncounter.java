@@ -10,7 +10,6 @@ import java.util.Date;
  * @author Ampath Developers Pharmacy encounters
  */
 public class PharmacyEncounter extends BaseOpenmrsData {
-
     private Integer id;
     private String formName;
     private Patient person;

@@ -77,6 +77,16 @@ function submitToFetchRecords(){
     Date startDate = null;
     Date endDate = null;
     List<PharmacyDrugOrder> pharmacyDrugOrderList;
+    Integer openingStock=0;
+    Integer stockReceivedForDrug=0;
+    Integer quantityOfDrugDispensed=0;
+    Integer quantityOfDrugWithLessThanSixMonthsToExpire=0;
+    InventoryMetaData inventoryMetaData;
+    Integer drugTransferedQuantity=0;
+    Integer drugReceivedQuantity=0;
+    Integer drugTransferedQuantityTotal;
+    Integer drugReceivedQuantityTotal;
+    Integer quantityRequiredForResupply=0;
 %>
 
 <div id="FCDRReportDIV">
@@ -86,31 +96,56 @@ function submitToFetchRecords(){
                 startDate = formatter.parse(reportStartDate);
                 endDate = formatter.parse(reportEndDate);
                 pharmacyStoreList = service.getDrugTransactionsBetweenRange(startDate, endDate, pharmacyLocation.getUuid());
+                List<DrugTransactions> transferedDrugTransactions=service.getTransferedTransactionsdBetweenDates(startDate,endDate,pharmacyLocation.getUuid());
+                List<DrugTransactions> receivedDrugTransactionsList=service.getReceivedDrugTransactionsdBetweenDates(startDate,endDate,pharmacyLocation.getUuid());
 
 %>
-<h1><a>FCDR Report Between <%=reportStartDate %> To <%=reportEndDate%></a></h1>
+<h1><a>FCDR Report For Satellite Sites Between <%=reportStartDate %> To <%=reportEndDate%></a></h1>
 	<table id="FCDRReportTable" class="visibleBorder">
 		<thead>
 			<tr>
 			    <th width="4%">Drug Name</th>
-                <th>Basic Unit</th>
+                <th>Unit Pack Size</th>
                 <th>Beginning Balance</th>
                 <th>Quantity Received</th>
                 <th>Quantity Dispensed</th>
-                <th>Losses</th>
-                <th>Adjustments</th>
+                <th>Losses (Damages,Expiries,Missing)</th>
+                <th>Positive Adjustments(Borrowed from or Issued out to Other Facilities)</th>
+                <th>Negative Adjustments(Borrowed from or Issued out to Other Facilities)</th>
                 <th>Physical Count</th>
-                <th>Drugs with less than six month to expiry</th>
+                <th colspan=2>Drugs with less than six month to expiry</th>
                 <th>Days out of stock</th>
                 <th>Quantity Required for ressuply</th>
+			</tr>
+			<tr>
+                <th></th>
+                <th>In Units</th>
+                <th>In Units</th>
+                <th>In Units</th>
+                <th>In Units</th>
+                <th>In Units</th>
+                <th>In Units</th>
+                <th>In Units</th>
+                <th>In Units</th>
+                <th>Quantity</th>
+                <th>Expiry Date</th>
+                <th></th>
+                <th>In Units</th>
 			</tr>
 		</thead>
 		<tbody>
            <% for(PharmacyStore pharmacyStoreInstance:pharmacyStoreList){
-                        Integer openingStock=0;
-                        Integer stockReceivedForDrug=0;
-                        Integer quantityOfDrugDispensed=0;
-                        Integer drugQuantityTransfered=0;
+           Drug drugFromContext = Context.getConceptService().getDrugByNameOrId(pharmacyStoreInstance.getDrugs().getId().toString());
+                        openingStock=0;
+                        stockReceivedForDrug=0;
+                        quantityOfDrugDispensed=0;
+                        drugReceivedQuantity=0;
+                        drugTransferedQuantity=0;
+                        drugTransferedQuantityTotal=0;
+                        drugReceivedQuantityTotal=0;
+                        quantityRequiredForResupply=0;
+                        inventoryMetaData=service.getInventoryMetaDataByDrugName(Context.getConceptService().getDrug(pharmacyStoreInstance.getDrugs().getDrugId()),pharmacyLocation);
+                        quantityOfDrugWithLessThanSixMonthsToExpire=0;
                         DateTime dateTimeInstance=new DateTime(startDate);
                         Date dateInstance=new Date(startDate.getTime()+(1000 * 60 * 60 * 24));
                         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy/MM/dd");
@@ -120,14 +155,25 @@ function submitToFetchRecords(){
                             openingStock= service.getDrugInventoryOpeningStockByDateAndLocation(pharmacyStoreInstance.getDrugs().getUuid(),startDate,formatedDate,pharmacyLocation.getUuid()).getStockQuantities();
                         }
 
-                        if(service.computeQuantityOfDrugsReceivedWithinDateRange(startDate,formatedDate,pharmacyLocation,Context.getConceptService().getDrug(pharmacyStoreInstance.getDrugs().getDrugId())) !=null){
-                            stockReceivedForDrug=service.computeQuantityOfDrugsReceivedWithinDateRange(startDate,formatedDate,pharmacyLocation,Context.getConceptService().getDrug(pharmacyStoreInstance.getDrugs().getDrugId()));
+                        if(service.getCumilativeS11ReceivedForDrugAtLocationBetweenTwoDates(startDate,endDate,pharmacyStoreInstance.getDrugs().getUuid(),pharmacyLocation.getUuid()) !=null){
+                            stockReceivedForDrug=service.getCumilativeS11ReceivedForDrugAtLocationBetweenTwoDates(startDate,endDate,pharmacyStoreInstance.getDrugs().getUuid(),pharmacyLocation.getUuid());
                         }
 
+                        for(DrugTransactions drugTransactionInstance:receivedDrugTransactionsList){
 
+								DrugTransactions drugTransactionObjectReceived=service.getDrugTransactionByLocationAndDrug(pharmacyLocation,drugFromContext,drugTransactionInstance.getUuid());
+								if(drugTransactionObjectReceived !=null){
+									drugReceivedQuantity=drugTransactionObjectReceived.getQuantityIn();
+									drugReceivedQuantityTotal=drugReceivedQuantityTotal+drugReceivedQuantity;
+								}
+                        }
+                       for(DrugTransactions drugTransactionInstance:transferedDrugTransactions){
 
-                        if(service.computeQuantityOfDrugsTransferedWithinDateRange(startDate,endDate,pharmacyLocation,Context.getConceptService().getDrug(pharmacyStoreInstance.getDrugs().getDrugId())) !=null){
-                            drugQuantityTransfered=service.computeQuantityOfDrugsTransferedWithinDateRange(startDate,endDate,pharmacyLocation,Context.getConceptService().getDrug(pharmacyStoreInstance.getDrugs().getDrugId()));
+								DrugTransactions drugTransactionObjectTransfered=service.getDrugTransactionByLocationAndDrug(pharmacyLocation,drugFromContext,drugTransactionInstance.getUuid());
+								if(drugTransactionObjectTransfered !=null){
+									drugTransferedQuantity=drugTransactionObjectTransfered.getQuantityIn();
+									drugTransferedQuantityTotal=drugTransferedQuantityTotal+drugTransferedQuantity;
+								}
                         }
                         DateTime expiryDateTimeInstance = new DateTime(pharmacyStoreInstance.getExpireDate());
                         Months monthsDateTimeInstance = Months.monthsBetween( new DateTime(), expiryDateTimeInstance);
@@ -136,24 +182,31 @@ function submitToFetchRecords(){
                         for(PharmacyDrugOrder pharmacyDrugOrderInstance:pharmacyDrugOrderList){
                         quantityOfDrugDispensed=quantityOfDrugDispensed+pharmacyDrugOrderInstance.getQuantityGiven();
                         }
+                        quantityRequiredForResupply=((quantityOfDrugDispensed*3)-(pharmacyStoreInstance.getQuantity()));
                         %>
                        <tr>
                         <td><%=pharmacyStoreInstance.getDrugs().getName()%></td>
-                        <td></td>
+                        <% if(inventoryMetaData!=null){ %>
+                            <td><%=inventoryMetaData.getUnitsInPack() %></td>
+                        <%}else{%>
+                        <td></td><%}%>
                         <td><%=openingStock%></td>
                         <td><%=stockReceivedForDrug%></td>
                         <td><%=quantityOfDrugDispensed%></td>
                         <td></td>
-                        <td><%=drugQuantityTransfered%></td>
-                        <td></td>
-                       <% if(numberOfMonthsToExpiry < 6) { %>
-                            <td><%=numberOfMonthsToExpiry%></td>
+                        <td><%=drugReceivedQuantityTotal%></td>
+                        <td><%=drugTransferedQuantityTotal%></td>
+                        <td><%=pharmacyStoreInstance.getQuantity()%></td>
+                       <% if(numberOfMonthsToExpiry < 6) {%>
+                            <td><%=pharmacyStoreInstance.getQuantity()%></td>
+                            <td><%=pharmacyStoreInstance.getExpireDate()%></td>
                         <% }
                         else {%>
                             <td></td>
+                            <td></td>
                         <%}%>
                         <td></td>
-                        <td></td>
+                        <td><%=quantityRequiredForResupply%></td>
                         </tr>
 
            <%} %>

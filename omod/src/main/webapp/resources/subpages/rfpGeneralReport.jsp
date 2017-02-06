@@ -122,7 +122,8 @@ function submitToFetchRecords(){
       <th>Actual Cash</th>
 </tr>
 
-<% for(DrugExtra drugExtraInstance:drugExtraList){
+<%
+    for(DrugExtra drugExtraInstance:drugExtraList){
      DrugDispenseSettings drugDispenseSettings=service.getDrugDispenseSettingsByDrugIdAndLocation(drugExtraInstance.getDrug().getDrugId(),pharmacyLocation.getUuid());
      quantity= Double.valueOf(0);
      Double count=Double.valueOf(service.getNumberOfTimesDrugWaivedWithinPeriodRange(startDate,endDate,drugExtraInstance.getDrug().getDrugId(),pharmacyLocation.getUuid()));
@@ -202,7 +203,7 @@ function submitToFetchRecords(){
     <tr><td><b>Totals:</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><%=totalWaived%></td><td></td><td></td><td><%=totalCashExpected%></td><td><%=totalDiscount%></td><td><%=totalCashReceived%></td></tr>
   </table>
 
-<% } %>
+<% }%>
 </div>
 </body>
 </html>

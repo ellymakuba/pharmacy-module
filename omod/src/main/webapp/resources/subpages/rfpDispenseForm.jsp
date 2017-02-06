@@ -1,6 +1,5 @@
+<!DOCTYPE html>
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <%@ page import="org.openmrs.web.WebConstants" %>
 <%@ page import="org.openmrs.api.context.Context" %>
 <%@ page import="org.openmrs.module.pharmacy.model.*" %>
@@ -10,7 +9,6 @@
 <%@ page import="java.text.DateFormat" %>
 <%@ page import="org.openmrs.Drug" %>
 <%@ include file="/WEB-INF/template/include.jsp" %>
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <style type="text/css">.align_right {
     float: right;
@@ -58,6 +56,7 @@
 
 </head>
 <script type="text/javascript">
+$j("#date_prescribed").datepicker();
 $j("#viewHistory").hide();
 $j("#align_left").empty();
 $j("#align_right").empty();
@@ -213,7 +212,7 @@ var doseArrayObject=[];
         $j("#dosage").get(0).options[$j("#dosage").get(0).options.length] = new Option(doseArrayObject[0],doseArrayObject[1]);
     });
 });
-$j("#dispensingForm").validate();
+
 unClearedReceiptsTable=$j("#unClearedReceipts").dataTable({
     bJQueryUI:true,
     bRetrieve:true,
@@ -541,6 +540,8 @@ $j("input[name=patientId]").live("focus", function () {
             $j("#tableDispense").show();
             $j("#unClearedReceiptsDIV").hide();
             var pharmacyEncounterDetails={};
+            var patientNameAndAgeDetails={};
+            var name;
             var patient=ui.item.value;
             $j.ajax({
                 type:"GET",
@@ -548,7 +549,9 @@ $j("input[name=patientId]").live("focus", function () {
                 data:patient,
                 dataType:"json",
                 success:function (result) {
-                    document.getElementById("patientName").value=result;
+                    patientNameAndAgeDetails= result.toString().split(",");
+                    name=patientNameAndAgeDetails[0];
+                    document.getElementById("patientName").value=name;
                     patienteEncounters.fnDraw();
                 }
             });
@@ -616,7 +619,20 @@ $j("input[name='amount']").live("blur",function () {
     amountRequiredToPay=parseFloat(totalReceiptSum)-parseFloat(totalToLess);
     document.getElementById("totalAmount").value=parseFloat(amountRequiredToPay);
 });
-function addNewInvoiceOnQueue(){
+
+function saveEncounter(){
+if(parseFloat($j("#amountPaid").val()).toString() =="NaN" || parseFloat($j("#balance").val()).toString() =="NaN"
+|| parseFloat($j("#balance").val())< 0){
+        $j("#errorDialog").empty();
+        $j('<dl><dt></dt><dd >' + "Info: " + "Amount paid cannot clear receipt" + '</dd></dl> ').appendTo('#errorDialog');
+        $j("#errorDialog").dialog("open");
+    }
+    else if($j.trim($j("#date_prescribed").val())==''){
+     $j("#errorDialog").empty();
+     $j('<dl><dt></dt><dd >' + "Info: " + "Date field can't be empty" + '</dd></dl> ').appendTo('#errorDialog');
+      $j("#errorDialog").dialog("open");
+    }
+    else{
     var json = [];
     $j('#queueFormDIV').find('tr').each(function(){
         var rowObject=[];
@@ -639,7 +655,55 @@ function addNewInvoiceOnQueue(){
             if(result.toString()=='true') {
                 $j.ajax({
                     type:"POST",
-                    url:"rfpDispenseFormAddNewInvoice.form?AddNewInvoiceOnQueue="+$j("#previousEncounter").val(),
+                    url:"saveRFPEncounter.form?date_prescribed="+$j("#date_prescribed").val(),
+                    data:{values:JSON.stringify(json) },
+                    success:function (result) {
+                    printInvoice(result.toString());
+                    document.getElementById("dispensingForm").reset();
+                    }
+                });
+            }
+            else {
+                $j("#errorDialog").empty();
+                $j('<dl><dt></dt><dd >' + "Info: " + "Either you have not set the batch no or not enough quantity in store !!!!!" + '</dd></dl> ').appendTo('#errorDialog');
+                $j("#errorDialog").dialog("open");
+            }
+        }
+    });
+    }
+    return false;
+}
+function addNewInvoiceOnQueue(){
+ if($j.trim($j("#date_prescribed").val())==''){
+     $j("#errorDialog").empty();
+     $j('<dl><dt></dt><dd >' + "Info: " + "Date field can't be empty" + '</dd></dl> ').appendTo('#errorDialog');
+      $j("#errorDialog").dialog("open");
+    }
+    else{
+    var json = [];
+    $j('#queueFormDIV').find('tr').each(function(){
+        var rowObject=[];
+        $j(this).find('td').each(function(){
+            var obj = {}
+            var  td = $j(this).find('input,select');
+
+            var key = td.attr('name');
+            var val = td.val();
+            obj[key] = val;
+            rowObject.push(obj);
+        });
+        json.push(rowObject);
+    });
+    $j.ajax({
+        type:"POST",
+        url:"rfpDispenseFormCheckInventoryAvailability.form",
+        data:{values:JSON.stringify(json) },
+        success:function (result) {
+            if(result.toString()=='true') {
+                $j.ajax({
+                    type:"POST",
+                    async:false,
+                    url:"rfpDispenseFormAddNewInvoice.form?AddNewInvoiceOnQueue="+$j("#previousEncounter").val()+"&date_prescribed="+$j("#date_prescribed").val(),
                     data:{values:JSON.stringify(json) },
                     success:function (result) {
                         printInvoice(result.toString());
@@ -658,6 +722,7 @@ function addNewInvoiceOnQueue(){
             }
         }
     });
+    }
     toggleQueueButtons();
     return false;
 }
@@ -684,6 +749,7 @@ function updateAndRequeue(){
             if(result.toString()=='true') {
                 $j.ajax({
                     type:"POST",
+                    async:false,
                     url:"rfpDispenseFormUpdateAndRequeue.form?encounterToUpdate="+aData[0],
                     data:{values:JSON.stringify(json) },
                     success:function (result) {
@@ -707,6 +773,7 @@ function updateAndRequeue(){
     return false;
 
 }
+
 function processInvoicePayment(){
     if(parseFloat($j("#amountPaid").val()).toString() =="NaN" || parseFloat($j("#balance").val()).toString() =="NaN" || parseFloat($j("#balance").val())< 0){
         $j("#errorDialog").empty();
@@ -730,8 +797,8 @@ function processInvoicePayment(){
         });
         $j.ajax({
             type:"POST",
-            url:"rfpDispenseFormProcessPayment.form?encounterToProcessPayment="+aData[0],
             async:false,
+            url:"rfpDispenseFormProcessPayment.form?encounterToProcessPayment="+aData[0],
             data:{values:JSON.stringify(jsonReceiptData) },
             success:function (result) {
                /*  var printingURL="printInvoice.form?encounterUUID="+result.toString();
@@ -922,12 +989,37 @@ patienteEncounters = $j('#allPatientEncounters').dataTable({
      ]
  });
 }
+function identifyPatient(fingerprintData){
+    _FINGERPRINT_DATA = fingerprintData;
+    var identifiedPatient = 'no data found';
+    alert("finger print details ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+fingerprintData);
+    $j.ajax({
+        url: "identifyPatient.form",
+        type: "POST",
+        data: _FINGERPRINT_DATA,
+        contentType: 'application/json',
+        dataType: 'json',
+        async: false,
+        success: function(msg) {
+            console.log(msg);
+            alert("results ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+msg);
+        },
+        error: function(msg, status, error){
+            alert(error);
+        }
+
+    });
+
+    return identifiedPatient;
+};
 </script>
 <body>
 
 <%
 PharmacyService service = Context.getService(PharmacyService.class);
 service=Context.getService(PharmacyService.class);
+String locationVal = (String)session.getAttribute("location");
+PharmacyLocations pharmacyLocation=service.getPharmacyLocationsByName(locationVal);
 %>
 <DIV id="dispenseFormDIV">
 <DIV id="align_left" class="align_left"></DIV>
@@ -940,11 +1032,26 @@ service=Context.getService(PharmacyService.class);
 <input id="viewHistory" type="button" value="View Patient History" onClick="viewPatientHistory()"/>
 <table id="patientInfoTable" class="tdbordered">
 <tr>
+<td>Search By fingerprint</td>
+  <td>
+  <div id = "applet">
+  <applet name="Pharmacy fingerprint module" id="Abis" code="org.openmrs.module.pharmacy.SimpleFingersApplication" width="100%" height="100">
+  <param name="jnlp_href" value="${pageContext.request.contextPath}/moduleResources/pharmacy/fingerprint.jnlp" />
+  <param name="codebase_lookup" value="false" />
+  <param name="separate_jvm" value="true" />
+  <param name="server_address" value="/local" />
+  <param name="server_port" value="5000" />
+  </applet>
+  </div>
+  </td>
+</tr>
+<tr>
   <td>Type Patient Identifier</td>
   <td><input type="text" name="patientId" id="patientId" class="required"/></td>
   <td><input type="text" name="patientName" id="patientName" style="width:200px;"  readonly/></td>
   <td>Search Identifier On Queue:<input type="text" name="patientIdentifier" id="patientIdentifier" /></td>
 </tr>
+<tr><td colspan=2>Date Prescribe</td><td colspan=2><input type="text" name="date_prescribed" id="date_prescribed" required readonly=""/></td></tr>
 </table>
 <table id="tableDispense" class="tdbordered">
 <thead>
@@ -981,9 +1088,16 @@ service=Context.getService(PharmacyService.class);
 <td>Balance</td> <td><input type="text" name="balance" id="balance" style="width: 100px;" readonly></td>
 </tr></table></br>
 <input type="button" value="Add A New Row" onclick="addRow()"/>
+
+<% if(pharmacyLocation.getCashierPresent()==1){ %>
+
 <input id="queue" style="text-align: right;" type="button" value="Queue for payment" onclick="addNewInvoiceOnQueue()"/>
 <input id="requeue" type="button" value="Update & Requeue" onClick="updateAndRequeue()"/>
 <input style="text-align: right;" type="button" value="Complete Encounter" onclick="confirmInvoiceAndIssueDrugs()"/>
+
+<% }else{ %>
+<input id="save_encounter" style="text-align: right;" type="button" value="Save Encounter" onclick="saveEncounter()"/>
+<% } %>
 </fieldset>
 </form>
 </div>

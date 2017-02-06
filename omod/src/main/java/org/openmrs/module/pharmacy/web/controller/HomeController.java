@@ -87,7 +87,7 @@ public class HomeController {
 
                List<PharmacyStoreOutgoing> listApprove=  service.getPharmacyStoreOutgoingByLocation(service.getPharmacyLocationsByName(locationVal));
                for(int y=0;y<listApprove.size();y++){
-                   sOut += "<dl><dt></dt><dd >Drug :" +listApprove.get(y).getDrugs().getName()+"----"+listApprove.get(y).getQuantityIn()+"---Status:"+listApprove.get(y).getStatus()+"</dd></dl>";
+                   sOut += "<dl><dt></dt><dd >Drug :" +listApprove.get(y).getDrug().getName()+"----"+listApprove.get(y).getQuantityIn()+"---Status:"+listApprove.get(y).getStatus()+"</dd></dl>";
 
                }
 

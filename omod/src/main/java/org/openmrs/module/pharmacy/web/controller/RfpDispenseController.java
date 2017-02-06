@@ -1,21 +1,18 @@
 package org.openmrs.module.pharmacy.web.controller;
 
-import java.io.*;
-
-import com.itextpdf.text.*;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.JSONException;
+import org.json.simple.JSONArray;
 import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
 import org.openmrs.Drug;
 import org.openmrs.Person;
 import org.openmrs.Privilege;
-import org.openmrs.annotation.Authorized;
-import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.UserContext;
 import org.openmrs.module.pharmacy.model.*;
@@ -24,24 +21,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import java.util.Collection;
-import org.openmrs.Role;
-
-import org.apache.commons.io.IOUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.List;
-
-
-import javax.servlet.*;
-import java.io.FileOutputStream;
-import java.text.DecimalFormat;
-
-import org.json.simple.JSONArray;
 @Controller
 public class RfpDispenseController {
     private static final Log log = LogFactory.getLog(RfpDispenseController.class);
@@ -78,6 +64,7 @@ public class RfpDispenseController {
     public  void addNewInvoiceOnQueue(HttpServletRequest request, HttpServletResponse response) throws IOException, DocumentException {
         String jsonText = request.getParameter("values");
         String addNewInvoiceOnQueue=request.getParameter("AddNewInvoiceOnQueue");
+        String encounter_date = request.getParameter("date_prescribed");
         JSONParser parser=new JSONParser();
         String locationVal = null;
         jsonArray=new JSONArray();
@@ -93,104 +80,104 @@ public class RfpDispenseController {
         } else if (sizeUsers == 1) {
             locationVal = listUsers.get(0).getLocation();
         }
-          dispensedModel = new ArrayList<DrugExtra>();
-            List<DrugExtra> listDrugExtra= new ArrayList<DrugExtra>();
-            EncounterProcessor encounterProcessor = new EncounterProcessor();
+        dispensedModel = new ArrayList<DrugExtra>();
+        List<DrugExtra> listDrugExtra= new ArrayList<DrugExtra>();
+        EncounterProcessor encounterProcessor = new EncounterProcessor();
 
-            Double receiptTotal=0.0;
-            Double discount=0.0;
-            try {
-                Object obj = parser.parse(jsonText);
-                JSONArray dispenseInstanceArray = (JSONArray)obj;
-                int dispenseInstanceArraySize=dispenseInstanceArray.size();
-                for(int i=0; i<dispenseInstanceArraySize; i++){
-                    DrugExtra drugExtra=new DrugExtra();
-                    JSONArray rowInstance=(JSONArray)dispenseInstanceArray.get(i);
-                    for(int j=0; j<rowInstance.size(); j++){
-                        String myValues[]= exractKeyAndValue(rowInstance.get(j).toString());
-                        String key = myValues[0];
-                        String value=myValues[1];
-                        if(key.equalsIgnoreCase("patientId")){
-                            String patient=service.getPatientByIdentifier(value) ;
-                            person=Context.getPatientService().getPatient(Integer.parseInt(patient));
-                            String patientID=person.getPersonId().toString();
-                            encounterProcessor.setPatientId(patientID);
-                        }
-                        if(key.equalsIgnoreCase("totalAmount")){
-                            receiptTotal=Double.valueOf(value);
-                        }
-                        if(key.equalsIgnoreCase("discount")){
-                            drugExtra.setDiscount(Double.valueOf(value));
-                        }
-                        if(key.equalsIgnoreCase("dispenseFormDrug")){
-                            Drug drug = Context.getConceptService().getDrugByNameOrId(value);
-                            drugExtra.setDrug(drug);
-                        }
-                        if(key.equalsIgnoreCase("quantity")){
-                            drugExtra.setQuantitysold(Integer.valueOf(value));
-                        }
-                        if(key.equalsIgnoreCase("amount")){
-                            drugExtra.setAmount(Double.valueOf(value));
-                        }
-                        if(key.equalsIgnoreCase("drugExtraUUID")){
-                            drugExtra.setUuid(value);
-                        }
-                        if(key.equalsIgnoreCase("itemAmountWaived")){
-                            drugExtra.setAmountw(Double.valueOf(value));
-                        }
-                        if(key.equalsIgnoreCase("dosage")){
-                            pharmacyDose=service.getPharmacyDoseByID(Integer.valueOf(value));
-                            drugExtra.setDose(pharmacyDose);
-                        }
+        Double receiptTotal=0.0;
+        Double discount=0.0;
+        try {
+            Object obj = parser.parse(jsonText);
+            JSONArray dispenseInstanceArray = (JSONArray)obj;
+            int dispenseInstanceArraySize=dispenseInstanceArray.size();
+            for(int i=0; i<dispenseInstanceArraySize; i++){
+                DrugExtra drugExtra=new DrugExtra();
+                JSONArray rowInstance=(JSONArray)dispenseInstanceArray.get(i);
+                for(int j=0; j<rowInstance.size(); j++){
+                    String myValues[]= exractKeyAndValue(rowInstance.get(j).toString());
+                    String key = myValues[0];
+                    String value=myValues[1];
+                    if(key.equalsIgnoreCase("patientId")){
+                        String patient=service.getPatientByIdentifier(value) ;
+                        person=Context.getPatientService().getPatient(Integer.parseInt(patient));
+                        String patientID=person.getPersonId().toString();
+                        encounterProcessor.setPatientId(patientID);
                     }
-                    dispensedModel.add(drugExtra);
-                }
-                PharmacyEncounter pharmacyEncounter=new PharmacyEncounter();
-                String date_s = "2000-01-18 00:00:00.0";
-                SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                Date date1 = null;
-                try {
-                    date1 = dt.parse(date_s);
-                    pharmacyEncounter.setDateTime(date1);
-                    pharmacyEncounter.setNextVisitDate(date1);
-                } catch (ParseException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-                EncounterProcessor encounterProcessor1=new EncounterProcessor();
-                encounterProcessor1.setEncounterType("ADULTINITIAL");
-                pharmacyEncounter.setEncounter(service.getPharmacyEncounterTypeByName(encounterProcessor1.getEncounterType()));
-                pharmacyEncounter.setFormName("RFP");
-                pharmacyEncounter.setLocation(service.getPharmacyLocationsByName(locationVal));
-                pharmacyEncounter.setDisplay(0);
-                pharmacyEncounter.setTotalAmount(receiptTotal);
-                pharmacyEncounter.setDiscount(discount);
-                pharmacyEncounter.setPaymentStatus(0);
-                pharmacyEncounter.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));
-
-                service.savePharmacyEncounter(pharmacyEncounter);
-                for(int i=0; i<dispensedModel.size(); i++){
-                    if(dispensedModel.get(i).getDrug() !=null)
-                    {
-                        DrugExtra drugExtra = new DrugExtra();
-                        drugExtra.setPharmacyEncounter(pharmacyEncounter);
-                        drugExtra.setDrug(dispensedModel.get(i).getDrug());
-                        drugExtra.setPharmacyLocations(service.getPharmacyLocationsByName(locationVal));
-                        drugExtra.setQuantitysold(dispensedModel.get(i).getQuantitysold());
-                        drugExtra.setAmount(dispensedModel.get(i).getAmount());
-                        drugExtra.setAmountw(dispensedModel.get(i).getAmountw());
-                        drugExtra.setDiscount(dispensedModel.get(i).getDiscount());
-                        drugExtra.setDose(dispensedModel.get(i).getDose());
-                        drugExtra.setPreviouslySoldQuantity(0);
-                        listDrugExtra.add(drugExtra);
+                    if(key.equalsIgnoreCase("totalAmount")){
+                        receiptTotal=Double.valueOf(value);
+                    }
+                    if(key.equalsIgnoreCase("discount")){
+                        drugExtra.setDiscount(Double.valueOf(value));
+                    }
+                    if(key.equalsIgnoreCase("dispenseFormDrug")){
+                        Drug drug = Context.getConceptService().getDrugByNameOrId(value);
+                        drugExtra.setDrug(drug);
+                    }
+                    if(key.equalsIgnoreCase("quantity")){
+                        drugExtra.setQuantitysold(Integer.valueOf(value));
+                    }
+                    if(key.equalsIgnoreCase("amount")){
+                        drugExtra.setAmount(Double.valueOf(value));
+                    }
+                    if(key.equalsIgnoreCase("drugExtraUUID")){
+                        drugExtra.setUuid(value);
+                    }
+                    if(key.equalsIgnoreCase("itemAmountWaived")){
+                        drugExtra.setAmountw(Double.valueOf(value));
+                    }
+                    if(key.equalsIgnoreCase("dosage")){
+                        pharmacyDose=service.getPharmacyDoseByID(Integer.valueOf(value));
+                        drugExtra.setDose(pharmacyDose);
                     }
                 }
-                service.saveDrugExtra(listDrugExtra);
-                encounterUUID=pharmacyEncounter.getUuid();
-                response.getWriter().print(encounterUUID);
+                dispensedModel.add(drugExtra);
             }
-            catch (org.json.simple.parser.ParseException e) {
+            PharmacyEncounter pharmacyEncounter=new PharmacyEncounter();
+            SimpleDateFormat dt = new SimpleDateFormat("MM/dd/yyyy");
+            Date date1 = null;
+            try {
+                date1 = dt.parse(encounter_date);
+                pharmacyEncounter.setDateTime(date1);
+                pharmacyEncounter.setNextVisitDate(date1);
+            } catch (ParseException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
+            EncounterProcessor encounterProcessor1=new EncounterProcessor();
+            encounterProcessor1.setEncounterType("ADULTINITIAL");
+            pharmacyEncounter.setEncounter(service.getPharmacyEncounterTypeByName(encounterProcessor1.getEncounterType()));
+            pharmacyEncounter.setFormName("RFP");
+            pharmacyEncounter.setLocation(service.getPharmacyLocationsByName(locationVal));
+            pharmacyEncounter.setDisplay(0);
+            pharmacyEncounter.setTotalAmount(receiptTotal);
+            pharmacyEncounter.setDiscount(discount);
+            pharmacyEncounter.setPaymentStatus(0);
+            pharmacyEncounter.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));
+
+            service.savePharmacyEncounter(pharmacyEncounter);
+            for(int i=0; i<dispensedModel.size(); i++){
+                if(dispensedModel.get(i).getDrug() !=null)
+                {
+                    DrugExtra drugExtra = new DrugExtra();
+                    drugExtra.setPharmacyEncounter(pharmacyEncounter);
+                    drugExtra.setDrug(dispensedModel.get(i).getDrug());
+                    drugExtra.setPharmacyLocations(service.getPharmacyLocationsByName(locationVal));
+                    drugExtra.setQuantitysold(dispensedModel.get(i).getQuantitysold());
+                    drugExtra.setAmount(dispensedModel.get(i).getAmount());
+                    drugExtra.setAmountw(dispensedModel.get(i).getAmountw());
+                    drugExtra.setDiscount(dispensedModel.get(i).getDiscount());
+                    drugExtra.setDose(dispensedModel.get(i).getDose());
+                    drugExtra.setPreviouslySoldQuantity(0);
+                    drugExtra.setEncounterDate(pharmacyEncounter.getDateTime());
+                    listDrugExtra.add(drugExtra);
+                }
+            }
+            service.saveDrugExtra(listDrugExtra);
+            encounterUUID=pharmacyEncounter.getUuid();
+            response.getWriter().print(encounterUUID);
+        }
+        catch (org.json.simple.parser.ParseException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
     }
     @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/rfpDispenseFormProcessPayment")
@@ -345,15 +332,8 @@ public class RfpDispenseController {
                             break;
                         }
                         else{
-                            PharmacyStore pharmacyStore = drugDispenseSettings.getInventoryId();
-                            if(pharmacyStore.getQuantity() < dispensedModel.get(i).getQuantitysold()){
-                                booleanCheck = false;
-                                break;
-                            }
-                            else{
-                                booleanCheck = true;
-                            }
-
+                            //PharmacyStore pharmacyStore = drugDispenseSettings.getInventoryId();
+                            booleanCheck = true;
                         }
                     }
                 }
@@ -439,7 +419,6 @@ public class RfpDispenseController {
                 }
                 pharmacyEncounter =service.getPharmacyEncounterByUuid(encounterToUpdate);
                 for(int i=0; i<dispensedModel.size(); i++){
-
                     if(dispensedModel.get(i).getDrug() !=null) {
                         drugExtraToUpdate=service.getDrugExtraByUuid(dispensedModel.get(i).getUuid());
                         if(drugExtraToUpdate !=null){
@@ -569,12 +548,7 @@ public class RfpDispenseController {
             pharmacyOrderToUpdate.setDiscontinuedDate(null);
             pharmacyOrderToUpdate.setDispensed(true);
             pharmacyOrderToUpdate.setInstructions(null);
-            try {
-                encDate=new SimpleDateFormat("MM/dd/yyyy").parse("00/00/0000");
-                pharmacyEncounter.setDateTime(encDate);
-            } catch (Exception e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
+            pharmacyEncounter.setDateTime(pharmacyEncounter.getDateTime());
             pharmacyOrderToUpdate.setStartDate(encDate);
             pharmacyOrderToUpdate.setPharmacyEncounter(pharmacyEncounter);
 
@@ -643,7 +617,7 @@ public class RfpDispenseController {
                         Integer frequency=1888;
                         String units="1 tablet";
                         try{
-                            SimpleDateFormat todayDate=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                            SimpleDateFormat todayDate=new SimpleDateFormat("MM/dd/yyyy");
                             Date realDate=new Date();
                             String temporaryDateString =todayDate.format(realDate);
                             realDate=todayDate.parse(temporaryDateString);
@@ -687,6 +661,7 @@ public class RfpDispenseController {
                             drugExtra.setQuantitysold(dispensedModel.get(i).getQuantitysold());
                             drugExtra.setAmount(dispensedModel.get(i).getAmount());
                             drugExtra.setDose(dispensedModel.get(i).getDose());
+                            drugExtra.setEncounterDate(pharmacyEncounter.getDateTime());
                             listDrugExtra.add(drugExtra);
                         }
 

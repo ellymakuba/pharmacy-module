@@ -46,11 +46,12 @@ public class RetireInventoryBatchesController{
 
 
     }
-    @RequestMapping(method=RequestMethod.POST,value="module/pharmacy/resources/subpages/retireInventoryBatches")
+    @RequestMapping(method=RequestMethod.POST,value="module/pharmacy/retireInventoryBatches")
     public void processRetiringInventoryBatches(HttpServletRequest request,HttpServletResponse response) throws java.text.ParseException, IOException {
         String jsonText = request.getParameter("values");
         pharmacyStoreList=new ArrayList<PharmacyStore>();
-
+        List<PharmacyStore> pharmacyStoreListToSave=new ArrayList<PharmacyStore>();
+        PharmacyStore pharmacyStoreItemFromUUID;
         service = Context.getService(PharmacyService.class);
         try {
             Object object=parser.parse(jsonText);
@@ -64,23 +65,27 @@ public class RetireInventoryBatchesController{
                     String key=myValues[0];
                     String value=myValues[1];
 
-                    if(key.equalsIgnoreCase("drugUUID")){
-                        System.out.println("retireInventoryBatches druguuid+++++++++++++++++================================="+value);
-                        pharmacyStore=service.getPharmacyInventoryByUuid(value);
-                        pharmacyStore.setS11(pharmacyStore.getS11());
-
+                    if(key.equalsIgnoreCase("inventoryItemUUID")){
+                        pharmacyStore.setUuid(value);
                     }
                      if(key.equalsIgnoreCase("retire")){
                          if(value.equalsIgnoreCase("true")){
                              pharmacyStore.setVoided(true);
-                             System.out.println("retireInventoryBatches  retire++++++++++++++++=================================");
                          }
-
                     }
                 }
                 pharmacyStoreList.add(pharmacyStore);
             }
-            service.savePharmacyInventory(pharmacyStoreList);
+            for(PharmacyStore pharmacyStoreInstance:pharmacyStoreList){
+                if(pharmacyStoreInstance.getUuid() !=null){
+                   pharmacyStoreItemFromUUID=service.getPharmacyInventoryByUuid(pharmacyStoreInstance.getUuid());
+                    if(pharmacyStoreItemFromUUID!=null && pharmacyStoreInstance.getVoided()==true){
+                        pharmacyStoreItemFromUUID.setVoided(true);
+                        pharmacyStoreListToSave.add(pharmacyStoreItemFromUUID);
+                    }
+                }
+            }
+            service.savePharmacyInventory(pharmacyStoreListToSave);
 
         } catch (ParseException e) {
             e.printStackTrace();

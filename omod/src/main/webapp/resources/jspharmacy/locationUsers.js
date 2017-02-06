@@ -219,10 +219,8 @@ $j('#deleteUser').live('click', function () {
 
 $j("form#locationformusers").submit(function () {
     // we want to store the values from the form input box, then send via ajax below
-
     if ($j("#locationformusers").valid()) {
         dataString = $j("#locationformusers").serialize();
-
         $j.ajax({
             type:"POST",
             url:"locationUsers.form",
@@ -230,12 +228,9 @@ $j("form#locationformusers").submit(function () {
             success:function () {
                 AutoReload();
                 var oFormObject = document.forms['locationformusers'];
-
                 oFormObject.elements["locationedit"].value = 'false';
-
                 oFormObject.elements["locationname"].value = "";
                 oFormObject.elements["username"].value = "";
-
             }
         });
         return false;

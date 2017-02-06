@@ -1,17 +1,27 @@
 package org.openmrs.module.pharmacy.service.impl;
 
+import com.neurotec.biometrics.*;
+import com.neurotec.io.NBuffer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Drug;
 import org.openmrs.Patient;
 import org.openmrs.Person;
+import org.openmrs.User;
+import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
+import org.openmrs.module.biometrics.model.PatientFingerPrintModel;
+import org.openmrs.module.biometrics.settings.FingersTools;
 import org.openmrs.module.pharmacy.dao.PharmacyDAO;
 import org.openmrs.module.pharmacy.model.*;
 import org.openmrs.module.pharmacy.service.PharmacyService;
+import com.neurotec.util.concurrent.CompletionHandler;
 
-
+import javax.xml.bind.DatatypeConverter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -20,6 +30,7 @@ import java.util.List;
 public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyService {
 
     protected static final Log log = LogFactory.getLog(PharmacyServiceImpl.class);
+    private final EnrollCompletionHandler enrollCompletionHandler = new EnrollCompletionHandler();
 
     private PharmacyDAO pharmacyDAO;
 
@@ -862,8 +873,8 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public Integer computeQuantityOfDrugsReceivedWithinDateRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug){
         return pharmacyDAO.computeQuantityOfDrugsReceivedWithinDateRange(startDate, endDate, pharmacyLocation, drug);
     }
-    public Integer computeQuantityOfDrugsTransferedWithinDateRange(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug){
-        return pharmacyDAO.computeQuantityOfDrugsTransferedWithinDateRange(startDate, endDate, pharmacyLocation, drug);
+    public Integer quantityOfDrugsIssuedThroughTranfersBetweenTwoDates(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug){
+        return pharmacyDAO.quantityOfDrugsIssuedThroughTranfersBetweenTwoDates(startDate, endDate, pharmacyLocation, drug);
     }
     public Integer computeQuantityOfDrugsDispensedWithinDateRange(Date startDate, Date endDate,String pharmacyLocation,String drug){
         return pharmacyDAO.computeQuantityOfDrugsDispensedWithinDateRange(startDate, endDate, pharmacyLocation, drug);
@@ -871,11 +882,11 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public String getDrugTransactionByS11AndDrug(PharmacyLocations location, Drug drug,String s11){
         return  pharmacyDAO.getDrugTransactionByS11AndDrug(location, drug, s11);
     }
-    public DrugTransactions getDrugTransactionTransferedByLocationAndDrug(PharmacyLocations location, Drug drug,String transactionUUID){
-        return pharmacyDAO.getDrugTransactionTransferedByLocationAndDrug(location, drug, transactionUUID);
+    public DrugTransactions getDrugTransactionByLocationAndDrug(PharmacyLocations location, Drug drug, String transactionUUID){
+        return pharmacyDAO.getDrugTransactionByLocationAndDrug(location, drug, transactionUUID);
     }
-    public List<DrugTransactions> getTransferedTransactionsdBetweenDates(Date startDate, Date endDate,PharmacyLocations pharmacyLocation){
-        return pharmacyDAO.getTransferedTransactionsdBetweenDates(startDate, endDate, pharmacyLocation);
+    public List<DrugTransactions> getTransferedTransactionsdBetweenDates(Date startDate, Date endDate,String pharmacyLocationUUID){
+        return pharmacyDAO.getTransferedTransactionsdBetweenDates(startDate, endDate, pharmacyLocationUUID);
     }
     public Integer getDrugS11QuantityReceived(PharmacyLocations location, Drug drug,String s11){
         return pharmacyDAO.getDrugS11QuantityReceived(location, drug, s11);
@@ -922,5 +933,160 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public List<PharmacyDrugOrder> pharmacyDrugOrdersBetweenTwoDates(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug){
         return pharmacyDAO.pharmacyDrugOrdersBetweenTwoDates(startDate, endDate, pharmacyLocation, drug);
     }
+    public List<PharmacyEncounter> getPharmacyEncounterListByUserBetweenTwoDate(Date startDate,Date endDate,User user,PharmacyLocations pharmacyLocation){
+        return pharmacyDAO.getPharmacyEncounterListByUserBetweenTwoDate(startDate,endDate,user,pharmacyLocation);
+    }
+    public PharmacyLocationUsers getPharmacyLocationUserByAmrsUserNameAndLocation(String amrsUser,String pharmacyLocationName){
+        return pharmacyDAO.getPharmacyLocationUserByAmrsUserNameAndLocation(amrsUser, pharmacyLocationName);
+    }
+    public Integer getCumilativeS11ReceivedForDrugAtLocationBetweenTwoDates(Date startDate,Date endDate,String drugUUID,String pharmacyLocationUUID){
+        return pharmacyDAO.getCumilativeS11ReceivedForDrugAtLocationBetweenTwoDates(startDate,endDate,drugUUID,pharmacyLocationUUID);
+    }
+    public Integer getCumilativeDrugStockTransferedAtLocationBetweenTwoDates(Date startDate,Date endDate,String drugUUID,String pharmacyLocationUUID){
+        return pharmacyDAO.getCumilativeDrugStockTransferedAtLocationBetweenTwoDates(startDate,endDate,drugUUID,pharmacyLocationUUID);
+    }
+    public List<StockTransferTracker> getStockTransferTrackerNotApproved(PharmacyLocations pharmacyLocations){
+        return pharmacyDAO.getStockTransferTrackerNotApproved(pharmacyLocations);
+    }
+    public StockTransferTracker saveStockTransferTracker(StockTransferTracker stockTransferTracker){
+        return pharmacyDAO.saveStockTransferTracker(stockTransferTracker);
+    }
+    public List<PharmacyStoreOutgoing> getPharmacyStoreOutgoingByStockTransferTracker(StockTransferTracker stockTransferTracker){
+        return pharmacyDAO.getPharmacyStoreOutgoingByStockTransferTracker(stockTransferTracker);
+    }
+    public StockTransferTracker getStockTransferTrackerByUUID(String stockTransferTrackerUUID){
+        return pharmacyDAO.getStockTransferTrackerByUUID(stockTransferTrackerUUID);
+    }
+    public PharmacyStoreOutgoing getPharmacyOutgoingByUUID(String uuid){
+        return pharmacyDAO.getPharmacyStoreOutgoingByUuid(uuid);
+    }
+    public List<PharmacyStore> getPharmacyStoreByLocationPlusRetired(PharmacyLocations locationUUID){
+        return pharmacyDAO.getPharmacyStoreByLocationPlusRetired(locationUUID);
+    }
+    public Integer quantityOfDrugsReceivedThroughTransfersBetweenTwoDates(Date startDate, Date endDate,PharmacyLocations pharmacyLocation,Drug drug){
+        return pharmacyDAO.quantityOfDrugsReceivedThroughTransfersBetweenTwoDates(startDate,endDate,pharmacyLocation,drug);
+    }
+    public List<DrugTransactions>  getDrugTransactionsByDrugAndLocation(Drug drug,PharmacyLocations pharmacyLocation,Date startDate, Date endDate){
+        return pharmacyDAO.getDrugTransactionsByDrugAndLocation(drug,pharmacyLocation,startDate,endDate);
+    }
+    public List<DrugTransactions> getReceivedDrugTransactionsdBetweenDates(Date startDate, Date endDate,String pharmacyLocationUUID){
+        return pharmacyDAO.getReceivedDrugTransactionsdBetweenDates(startDate,endDate,pharmacyLocationUUID);
+    }
+    public boolean savePharmacyDeliveryNotes(List<DeliveryNote> deliveryNotes){
+        return pharmacyDAO.savePharmacyDeliveryNotes(deliveryNotes);
+    }
+    public DeliveryNoteTracker saveDeliveryNoteTracker(DeliveryNoteTracker deliveryNoteTracker){
+        return pharmacyDAO.saveDeliveryNoteTracker(deliveryNoteTracker);
+    }
+    public List<DeliveryNoteTracker> getDeliveryNoteTrackerByLocation(PharmacyLocations pharmacyLocation){
+        return pharmacyDAO.getDeliveryNoteTrackerByLocation(pharmacyLocation);
+    }
+    public List<DeliveryNote> getDeliveryNotesByDeliveryNoteTracker(DeliveryNoteTracker deliveryNoteTracker){
+        return pharmacyDAO.getDeliveryNotesByDeliveryNoteTracker(deliveryNoteTracker);
+    }
+    public DeliveryNoteTracker getDeliveryNoteTrackerByUUID(String uuid){
+        return pharmacyDAO.getDeliveryNoteTrackerByUUID(uuid);
+    }
+    public List<PharmacyEncounter> getEncountersBetweenDates(Date minDate,Date maxDate,String location){
+        return pharmacyDAO.getEncountersBetweenDates(minDate,maxDate,location);
+    }
+    public PatientFingerPrintModel identifyPatient(String fingerprint){
+        Patient patient = null;
+        List<String> requiredLicenses = new ArrayList<String>();
+        requiredLicenses.add("Biometrics.FingerExtraction");
+        requiredLicenses.add("Biometrics.FingerMatchingFast");
+        requiredLicenses.add("Biometrics.FingerMatching");
+        requiredLicenses.add("Biometrics.FingerQualityAssessment");
+        requiredLicenses.add("Biometrics.FingerSegmentation");
+        requiredLicenses.add("Biometrics.FingerSegmentsDetection");
+        requiredLicenses.add("Biometrics.Standards.Fingers");
+        requiredLicenses.add("Biometrics.Standards.FingerTemplates");
+        requiredLicenses.add("Devices.FingerScanners");
 
+        boolean status = false;
+        try {
+            status = FingersTools.getInstance().obtainLicenses(requiredLicenses);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(status){
+
+            List<PatientFingerPrintModel> patients = getAllPatientsWithFingerPrint();
+            try {
+                enrollFingerPrints(patients);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String patientUUID = null;
+            try {
+                patientUUID = identifyFinger(fingerprint);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            patient = Context.getPatientService().getPatientByUuid(patientUUID);
+        }
+        if(patient == null)
+            return null;
+        return new PatientFingerPrintModel(patient.getUuid(), fingerprint, patient.getId(), patient.getGivenName(), patient.getFamilyName(), patient.getGender());
+    }
+    public String identifyFinger(String fingerprint) throws IOException {
+
+        NTemplate nTemplate = createTemplate(fingerprint);
+        NSubject nSubject = createSubject(nTemplate, "0");
+        NBiometricTask task = FingersTools.getInstance().getClient().createTask(EnumSet.of(NBiometricOperation.IDENTIFY), nSubject);
+        NBiometricStatus status = FingersTools.getInstance().getClient().identify(nSubject);
+        if (status == NBiometricStatus.OK) {
+            for (NMatchingResult result : nSubject.getMatchingResults()) {
+                return result.getId();
+            }
+        }
+        return "PATIENT_NOT_FOUND";
+
+    }
+    private NTemplate createTemplate(String fingerPrintTemplateString) {
+        byte[] templateBuffer = DatatypeConverter.parseBase64Binary(fingerPrintTemplateString);//Base64.decode(fingerPrintTemplateString);
+        return new NTemplate(new NBuffer(templateBuffer));
+    }
+
+    private NSubject createSubject(NTemplate template, String id) throws IOException {
+        NSubject subject = new NSubject();
+        subject.setTemplate(template);
+        subject.setId(id);
+        return subject;
+    }
+    public void enrollFingerPrints(java.util.List<PatientFingerPrintModel> patientModels) throws IOException {
+        NBiometricTask enrollTask = FingersTools.getInstance().getClient().createTask(EnumSet.of(NBiometricOperation.ENROLL), null);
+        if (patientModels.size() > 0) {
+            for (PatientFingerPrintModel model : patientModels) {
+                NTemplate template = createTemplate(model.getFingerprintTemplate());
+                enrollTask.getSubjects().add(createSubject(template, model.getPatientUUID()));
+            }
+            FingersTools.getInstance().getClient().performTask(enrollTask, NBiometricOperation.ENROLL, enrollCompletionHandler);
+        } else {
+            return;
+        }
+
+    }
+    private List<PatientFingerPrintModel> getAllPatientsWithFingerPrint() {
+        List<PatientFingerPrintModel> patients = new ArrayList<PatientFingerPrintModel>();
+        List<PharmacyFingerPrint> fingerprints = pharmacyDAO.getAll();
+        for (PharmacyFingerPrint fingerprint : fingerprints) {
+            if(fingerprint.getFingerprint() != null) {
+                Patient patient = Context.getPatientService().getPatientByUuid(fingerprint.getPatientUUID());
+                patients.add(new PatientFingerPrintModel(patient.getUuid(),fingerprint.getFingerprint(), patient.getId(), patient.getGivenName(), patient.getFamilyName(), patient.getGender()));
+            }
+        }
+        return patients;
+    }
+    private class EnrollCompletionHandler implements CompletionHandler<NBiometricTask, Object> {
+
+        public void completed(final NBiometricTask result, final Object attachment) {
+
+        }
+
+        public void failed(final Throwable throwable, final Object attachment) {
+
+        }
+
+    }
 }
