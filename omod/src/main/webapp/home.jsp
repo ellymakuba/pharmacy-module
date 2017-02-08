@@ -290,10 +290,10 @@ $j(document).ready(
                     , searchPhrase: '<spring:message text="${ param.phrase }" javaScriptEscape="true"/>'
             </c:if>
         });
-
-
 $j("#errorDiv").hide();
-$j('#west_panel_content').load('resources/subpages/rfpDispenseForm.form',function(){});
+if($j("#location_setter").val() !=null && $j("#location_setter").val() !=""){
+    $j('#west_panel_content').load('resources/subpages/rfpDispenseForm.form',function(){});
+}
 /*Generic datatable r;efresh function*/
 function RefreshTable(tableId) {
     table = $j(tableId).dataTable();
@@ -1376,6 +1376,7 @@ CloseDialog();
                         if(userLocation ==null){
                     %>
                     <td>Please set location before you start using the system</td>
+                    <input type="hidden" name="location_setter" id="location_setter" />
                     <%
                     } else {
                     %>
@@ -1384,6 +1385,7 @@ CloseDialog();
                         <%
                             out.print(userLocation);
                         %>
+                        <input type="hidden" name="location_setter" id="location_setter" value="<%=userLocation %>" />
                     </td>
                     <%} %>
                 </tr>

@@ -2040,6 +2040,19 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
         //criteria.add(Restrictions.eq("voided", false));
         return criteria.list();
     }
+    public  boolean saveOpeningStockList(List<PharmacyOpeningStock> pharmacyOpeningStocks){
+        for(PharmacyOpeningStock pharmacyOpeningStock:pharmacyOpeningStocks){
+            sessionFactory.getCurrentSession().saveOrUpdate(pharmacyOpeningStock);
+        }
+        return true;
+    }
+    public Date getLastOpeningStockGenerationDate(PharmacyLocations location){
+        Criteria criteria=sessionFactory.getCurrentSession().createCriteria(PharmacyOpeningStock.class);
+        criteria.add(Expression.eq("location",location));
+        criteria.setProjection(Projections.max("date"));
+        Date date=(Date)criteria.uniqueResult();
+        return date;
+    }
 }
 
 

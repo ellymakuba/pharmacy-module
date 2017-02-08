@@ -1092,4 +1092,10 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public List<PharmacyStore> getPharmacyInventoryByLocation(PharmacyLocations location){
         return pharmacyDAO.getPharmacyInventoryByLocation(location);
     }
+    public  boolean saveOpeningStockList(List<PharmacyOpeningStock> pharmacyOpeningStocks){
+        return pharmacyDAO.saveOpeningStockList(pharmacyOpeningStocks);
+    }
+    public Date getLastOpeningStockGenerationDate(PharmacyLocations location){
+        return pharmacyDAO.getLastOpeningStockGenerationDate(location);
+    }
 }

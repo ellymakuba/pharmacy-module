@@ -4061,4 +4061,57 @@
             <column name="encounter_date"  type="datetime"/>
         </addColumn>
     </changeSet>
+    <changeSet author="ellymakuba" id="2017-02-08-02:11pm">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="pharmacy_opening_stock"></tableExists>
+            </not>
+        </preConditions>
+        <comment>create pharmacy_opening_stock</comment>
+        <createTable tableName="pharmacy_opening_stock">
+            <column name="pharmacy_opening_stock_id" type="int(11)">
+                <constraints  nullable="false"  primaryKey="true"/>
+            </column>
+            <column name="uuid" type="char(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_uuid" type="Char(38)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="drug_uuid" type="char(38)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="int(11)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="batch_no" type="VARCHAR(255)" >
+                <constraints nullable="true"/>
+            </column>
+            <column name="generation_date" type="date" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="creator" defaultValue="0"  type="int(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datecreated"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column  name="voided" defaultValue="0" type="smallint(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voided_by" type="int(11)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date_voided"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="void_reason"  type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <createIndex indexName="uuid" tableName="pharmacy_opening_stock">
+            <column name="uuid"/>
+        </createIndex>
+        <addAutoIncrement columnDataType="int" columnName="pharmacy_opening_stock_id" tableName="pharmacy_opening_stock"/>
+    </changeSet>
 </databaseChangeLog>

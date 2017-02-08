@@ -817,4 +817,6 @@ public interface PharmacyService extends OpenmrsService {
     public List<PharmacyEncounter> getEncountersBetweenDates(Date minDate,Date maxDate,String location);
     public PatientFingerPrintModel identifyPatient(String fingerprint);
     public List<PharmacyStore> getPharmacyInventoryByLocation(PharmacyLocations location);
+    public  boolean saveOpeningStockList(List<PharmacyOpeningStock> pharmacyOpeningStocks);
+    public Date getLastOpeningStockGenerationDate(PharmacyLocations location);
 }

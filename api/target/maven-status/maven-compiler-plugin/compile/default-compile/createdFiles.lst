@@ -1,6 +1,7 @@
 org/openmrs/module/pharmacy/service/impl/PharmacyServiceImpl.class
 org/openmrs/module/pharmacy/model/PharmacyLocationUsers.class
 org/openmrs/module/pharmacy/model/LocationSetter.class
+org/openmrs/module/pharmacy/model/PharmacyOpeningStock.class
 org/openmrs/module/pharmacy/model/PharmacyTransactionTypes.class
 org/openmrs/module/pharmacy/service/PharmacyServiceTest.class
 org/openmrs/module/pharmacy/model/PharmacyLocations.class
