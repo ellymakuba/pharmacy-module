@@ -816,4 +816,5 @@ public interface PharmacyService extends OpenmrsService {
     public DeliveryNoteTracker getDeliveryNoteTrackerByUUID(String uuid);
     public List<PharmacyEncounter> getEncountersBetweenDates(Date minDate,Date maxDate,String location);
     public PatientFingerPrintModel identifyPatient(String fingerprint);
+    public List<PharmacyStore> getPharmacyInventoryByLocation(PharmacyLocations location);
 }

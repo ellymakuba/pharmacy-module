@@ -750,4 +750,5 @@ public interface PharmacyDAO {
     public DeliveryNoteTracker getDeliveryNoteTrackerByUUID(String uuid);
     public List<PharmacyEncounter> getEncountersBetweenDates(Date minDate,Date maxDate,String location);
     public List<PharmacyFingerPrint> getAll();
+    public List<PharmacyStore> getPharmacyInventoryByLocation(PharmacyLocations location);
 }

@@ -1089,4 +1089,7 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
         }
 
     }
+    public List<PharmacyStore> getPharmacyInventoryByLocation(PharmacyLocations location){
+        return pharmacyDAO.getPharmacyInventoryByLocation(location);
+    }
 }

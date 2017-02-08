@@ -8,6 +8,8 @@ import org.json.JSONObject;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.UserContext;
 import org.openmrs.module.pharmacy.model.PharmacyLocationUsers;
+import org.openmrs.module.pharmacy.model.PharmacyLocations;
+import org.openmrs.module.pharmacy.model.PharmacyStore;
 import org.openmrs.module.pharmacy.service.PharmacyService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -120,5 +122,12 @@ public class PharmacyLocationController {
         } else
             return "null";
 
+    }
+    public void generateOpeningStock(PharmacyLocations location){
+        service=Context.getService(PharmacyService.class);
+        List<PharmacyStore> pharmacyStoreList=service.getPharmacyStoreByLocation(location);
+        for(PharmacyStore pharmacyStore:pharmacyStoreList){
+            
+        }
     }
 }

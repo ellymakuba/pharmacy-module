@@ -290,6 +290,10 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
                 .setProjection(Projections.distinct(Projections.property("drugs")));
         return criteria.list();
     }
+    public List<PharmacyStore> getPharmacyInventoryByLocation(PharmacyLocations location) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PharmacyStore.class).add(Expression.eq("location", location));
+        return criteria.list();
+    }
     public List<PharmacyStore> getPharmacyStoreByNameAndLocation(String name,PharmacyLocations location) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PharmacyStore.class)
                 .createAlias("drugs","d")
