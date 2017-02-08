@@ -178,6 +178,8 @@ public class RfpDispenseController {
         catch (org.json.simple.parser.ParseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+        request.getSession().removeAttribute("pharmacyPatientIdentifier");
+        request.getSession().removeAttribute("pharmacyPatientName");
 
     }
     @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/rfpDispenseFormProcessPayment")

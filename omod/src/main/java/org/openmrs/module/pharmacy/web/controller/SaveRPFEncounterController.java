@@ -13,10 +13,8 @@ import org.openmrs.module.biometrics.model.PatientFingerPrintModel;
 import org.openmrs.module.pharmacy.model.*;
 import org.openmrs.module.pharmacy.service.PharmacyService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -244,7 +242,8 @@ public class SaveRPFEncounterController {
         catch (org.json.simple.parser.ParseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-
+        request.getSession().removeAttribute("pharmacyPatientIdentifier");
+        request.getSession().removeAttribute("pharmacyPatientName");
     }
 
     public synchronized String[] exractKeyAndValue(String jsonText) {
@@ -288,17 +287,15 @@ public class SaveRPFEncounterController {
         }
         return true;
     }
-    @ResponseBody
-    @RequestMapping(value = "module/pharmacy/identifyPatient", method = RequestMethod.POST, headers = {"content-type=application/json","Accept=application/json"})
-    public String identifyPatient(@RequestBody String fingerprint) throws Exception {
+    @RequestMapping(value = "module/pharmacy/identifyPatient", method = RequestMethod.POST)
+    public List<PatientFingerPrintModel> identifyPatient(HttpServletRequest request, HttpServletResponse response) throws IOException{
         List<PatientFingerPrintModel> patients = new ArrayList<PatientFingerPrintModel>();
-        System.out.println("the fingerprint is ++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+fingerprint);
-        /*PharmacyService fingerprintService = Context.getService(PharmacyService.class);
-        PatientFingerPrintModel patient = fingerprintService.identifyPatient(fingerprint);
+        String fingerprint = request.getParameter("fingerprint");
+        PatientFingerPrintModel patient =service.identifyPatient(fingerprint);
         if(patient != null) {
             patients.add(patient);
-        }*/
-        return fingerprint;
+        }
+        return patients;
     }
 }
 

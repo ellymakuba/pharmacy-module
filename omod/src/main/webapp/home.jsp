@@ -293,6 +293,7 @@ $j(document).ready(
 
 
 $j("#errorDiv").hide();
+$j('#west_panel_content').load('resources/subpages/rfpDispenseForm.form',function(){});
 /*Generic datatable r;efresh function*/
 function RefreshTable(tableId) {
     table = $j(tableId).dataTable();
@@ -1363,6 +1364,7 @@ CloseDialog();
 </head>
 <body>
 <%
+
     String userLocation=(String)session.getAttribute("location");
 %>
 <DIV id="center" class="ui-layout-center">
