@@ -107,12 +107,10 @@ function submitToFetchRecords(){
 			<tr>
 			    <th></th>
 			    <th></th>
-			    <th></th>
                 <th colspan=6>Adults</th>
                 <th colspan=6>Children</th>
 			</tr>
 			<tr>
-            <th></th>
 			<th></th>
 			<th></th>
             <th colspan=3>Male</th>
@@ -122,7 +120,6 @@ function submitToFetchRecords(){
 			</tr>
 			<tr>
 
-            <th>Regimen Code</th>
 			<th>Regimen Name</th>
 			<th>Total No</th>
 			<th>ART</th>
@@ -160,7 +157,7 @@ function submitToFetchRecords(){
                 numberOfPatientsOnPMTCTChildrenFemale=0;
                 pharmacyEncounterOnRegimen=service.getCountOfPatientsOnRegimen(pharmacyEncounterInstance.getRegimenName(),startDate,endDate,pharmacyLocation.getUuid());
                     for(int i=0; i<pharmacyEncounterOnRegimen.size(); i++){
-                      if(pharmacyEncounterOnRegimen.get(i).getPerson().getAge()>17 && pharmacyEncounterOnRegimen.get(i).getPerson().getGender().equalsIgnoreCase("M")){
+                      if(pharmacyEncounterOnRegimen.get(i).getPerson().getAge()>15 && pharmacyEncounterOnRegimen.get(i).getPerson().getGender().equalsIgnoreCase("M")){
 
                           if(pharmacyEncounterOnRegimen.get(i).getPMTCTChecked()==1){
                           numberOfPatientsOnPMTCTAdultMale=numberOfPatientsOnPMTCTAdultMale+1;
@@ -175,7 +172,7 @@ function submitToFetchRecords(){
                           totalNumberOfPatientsOnRegimen=totalNumberOfPatientsOnRegimen+1;
                           }
                       }
-                      else if(pharmacyEncounterOnRegimen.get(i).getPerson().getAge()>17 && pharmacyEncounterOnRegimen.get(i).getPerson().getGender().equalsIgnoreCase("F")){
+                      else if(pharmacyEncounterOnRegimen.get(i).getPerson().getAge()>15 && pharmacyEncounterOnRegimen.get(i).getPerson().getGender().equalsIgnoreCase("F")){
 
                             if(pharmacyEncounterOnRegimen.get(i).getPMTCTChecked()==1){
                               numberOfPatientsOnPMTCTAdultFemale=numberOfPatientsOnPMTCTAdultFemale+1;
@@ -190,7 +187,7 @@ function submitToFetchRecords(){
                               totalNumberOfPatientsOnRegimen=totalNumberOfPatientsOnRegimen+1;
                               }
                        }
-                       else if(pharmacyEncounterOnRegimen.get(i).getPerson().getAge()<18 && pharmacyEncounterOnRegimen.get(i).getPerson().getGender().equalsIgnoreCase("M")){
+                       else if(pharmacyEncounterOnRegimen.get(i).getPerson().getAge()<15 && pharmacyEncounterOnRegimen.get(i).getPerson().getGender().equalsIgnoreCase("M")){
 
                            if(pharmacyEncounterOnRegimen.get(i).getPMTCTChecked()==1){
                               numberOfPatientsOnPMTCTChildrenMale=numberOfPatientsOnPMTCTChildrenMale+1;
@@ -205,7 +202,7 @@ function submitToFetchRecords(){
                               totalNumberOfPatientsOnRegimen=totalNumberOfPatientsOnRegimen+1;
                               }
                        }
-                       else if(pharmacyEncounterOnRegimen.get(i).getPerson().getAge()<18 && pharmacyEncounterOnRegimen.get(i).getPerson().getGender().equalsIgnoreCase("F")){
+                       else if(pharmacyEncounterOnRegimen.get(i).getPerson().getAge()<15 && pharmacyEncounterOnRegimen.get(i).getPerson().getGender().equalsIgnoreCase("F")){
 
                             if(pharmacyEncounterOnRegimen.get(i).getPMTCTChecked()==1){
                               numberOfPatientsOnPMTCTChildrenFemale=numberOfPatientsOnPMTCTChildrenFemale+1;
@@ -222,7 +219,6 @@ function submitToFetchRecords(){
                         }
                     } %>
            <tr>
-           <td><%=pharmacyEncounterInstance.getRegimenCode()%></td>
            <td><%=pharmacyEncounterInstance.getRegimenName()%></td>
           <td><%=totalNumberOfPatientsOnRegimen%></td>
            <td><%=numberOfPatientsOnARTAdultMale%></td>

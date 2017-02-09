@@ -25,7 +25,7 @@ public class PharmacyStoreIncoming extends BaseOpenmrsData {
     private Integer quantityIn;
     private Integer maxLevel;
     private Integer minLevel;
-    private Integer batchNo;
+    private String batchNo;
     private Integer s11;
     private Integer deliveryNo;
     private Date expireDate;
@@ -239,7 +239,7 @@ public class PharmacyStoreIncoming extends BaseOpenmrsData {
     /**
      * @param batchNo
      */
-    public void setBatchNo(int batchNo) {
+    public void setBatchNo(String batchNo) {
 
         this.batchNo = batchNo;
 
@@ -248,7 +248,7 @@ public class PharmacyStoreIncoming extends BaseOpenmrsData {
     /**
      * @return batchNo
      */
-    public Integer getBatchNo() {
+    public String getBatchNo() {
 
         return batchNo;
     }

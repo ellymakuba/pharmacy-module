@@ -855,11 +855,7 @@
                     name="change_reason"
                     type="text"/>
 
-            <column
-                    name="approved"
-                    defaultValue="0"
-                    type="smallint(6)">
-
+            <column name="approved" defaultValue="0" type="smallint(6)">
                 <constraints nullable="false"/>
             </column>
 
@@ -3858,5 +3854,264 @@
         <addColumn tableName="pharmacy_encounter">
             <column name="regimenInitiation" defaultValue="0" type="int(1)"/>
         </addColumn>
+    </changeSet>
+    <changeSet id="2016-01-25-10:12am" author="ellymakuba">
+        <addColumn tableName="pharmacy_location_users">
+            <column name="amrs_user" defaultValue="0" type="int(11)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2016-02-03-02:13pm" author="ellymakuba">
+        <addColumn tableName="pharmacy_drug_transactions">
+            <column name="other_transacting_site"  type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2016-02-04-10:56">
+        <renameColumn tableName="pharmacy_inventory_outgoing" oldColumnName="batch_no" newColumnName="batch_no"  columnDataType="VARCHAR(255)" />
+    </changeSet>
+    <changeSet author="ellymakuba" id="2016-02-04-11:09am">
+        <dropNotNullConstraint columnDataType="char(38)"  columnName="transaction_uuid" tableName="pharmacy_inventory_outgoing"/>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2016-02-04-01:03am">
+        <renameColumn tableName="pharmacy_inventory_incoming" oldColumnName="batch_no" newColumnName="batch_no"  columnDataType="VARCHAR(255)" />
+    </changeSet>
+    <changeSet author="ellymakuba" id="2016-02-04-01:57pm">
+        <dropNotNullConstraint columnDataType="char(38)"  columnName="transaction_uuid" tableName="pharmacy_inventory_incoming"/>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2016-02-04-02:28pm">
+        <addColumn tableName="pharmacy_drug_transactions">
+            <column name="approved"  type="smallint(6)" defaultValue="0"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2016-02-04-03:51pm">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="pharmacy_transfer_tracker"></tableExists>
+            </not>
+        </preConditions>
+        <comment>create pharmacy_transfer_tracker</comment>
+        <createTable tableName="pharmacy_transfer_tracker">
+            <column name="stock_transfer_tracker_id" type="int(11)">
+                <constraints  nullable="false"  primaryKey="true"/>
+            </column>
+            <column name="uuid" type="char(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="approved" type="smallint(6)" defaultValue="0"/>
+            <column name="location_uuid" type="VARCHAR(255)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="creator" defaultValue="0"  type="int(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datecreated"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column  name="voided" defaultValue="0" type="smallint(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voided_by" type="int(11)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date_voided"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="void_reason"  type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <createIndex indexName="uuid" tableName="pharmacy_transfer_tracker">
+            <column name="uuid"/>
+        </createIndex>
+        <addAutoIncrement columnDataType="int" columnName="stock_transfer_tracker_id" tableName="pharmacy_transfer_tracker"/>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2016-02-04-04:24pm">
+        <addColumn tableName="pharmacy_inventory_outgoing">
+            <column name="stock_transfer_tracker"  type="VARCHAR(255)" />
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2016-02-05-02:37pm">
+        <addColumn tableName="pharmacy_inventory_outgoing">
+            <column name="inventoryUUID"  type="VARCHAR(255)" />
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2016-02-15-04:00pm">
+        <renameColumn tableName="pharmacy_drug_transactions" oldColumnName="other_transacting_site" newColumnName="other_transacting_site"  columnDataType="char(38)" />
+    </changeSet>
+    <changeSet author="ellymakuba" id="2016-02-15-04:21pm">
+        <renameColumn tableName="pharmacy_inventory_outgoing" oldColumnName="s11_no" newColumnName="s11_no"  columnDataType="VARCHAR(255)" />
+    </changeSet>
+    <changeSet author="ellymakuba" id="2016-02-25-02:03pm">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="pharmacy_delivery_note"></tableExists>
+            </not>
+        </preConditions>
+        <comment>create pharmacy_delivery_note</comment>
+        <createTable tableName="pharmacy_delivery_note">
+            <column name="pharmacy_delivery_note_id" type="int(11)">
+                <constraints  nullable="false"  primaryKey="true"/>
+            </column>
+            <column name="uuid" type="char(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pharmacy_drug_uuid" type="Char(38)">
+               <constraints nullable="false"/>
+            </column>
+            <column name="location_uuid" type="Char(38)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="buying_price" type="decimal(20,2)"/>
+            <column name="unit_price" type="decimal(20,2)"/>
+            <column name="expiredate" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="batch_no" type="int(11)" />
+            <column name="quantity_in" type="int(11)"/>
+            <column name="quantity_out" type="int(11)"/>
+
+            <column name="creator" defaultValue="0"  type="int(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datecreated"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column  name="voided" defaultValue="0" type="smallint(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voided_by" type="int(11)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date_voided"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="void_reason"  type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <createIndex indexName="uuid" tableName="pharmacy_delivery_note">
+            <column name="uuid"/>
+        </createIndex>
+        <addAutoIncrement columnDataType="int" columnName="pharmacy_delivery_note_id" tableName="pharmacy_delivery_note"/>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2016-02-29-02:05pm">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="pharmacy_delivery_note_tracker"></tableExists>
+            </not>
+        </preConditions>
+        <comment>create pharmacy_delivery_note_tracker</comment>
+        <createTable tableName="pharmacy_delivery_note_tracker">
+            <column name="delivery_note_tracker_id" type="int(11)">
+                <constraints  nullable="false"  primaryKey="true"/>
+            </column>
+            <column name="uuid" type="char(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_uuid" type="Char(38)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="delivery_note" type="char(38)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="creator" defaultValue="0"  type="int(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datecreated"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column  name="voided" defaultValue="0" type="smallint(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voided_by" type="int(11)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date_voided"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="void_reason"  type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <createIndex indexName="uuid" tableName="pharmacy_delivery_note_tracker">
+            <column name="uuid"/>
+        </createIndex>
+        <addAutoIncrement columnDataType="int" columnName="delivery_note_tracker_id" tableName="pharmacy_delivery_note_tracker"/>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2016-02-29-02:39pm">
+        <addColumn tableName="pharmacy_delivery_note">
+            <column name="delivery_note_tracker"  type="char(38)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2016-02-29-02:45pm">
+        <renameColumn tableName="pharmacy_delivery_note_tracker" oldColumnName="delivery_note" newColumnName="delivery_note_number"  columnDataType="VARCHAR(255)" />
+        <addColumn tableName="pharmacy_delivery_note_tracker">
+            <column name="supplier"  type="char(38)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2016-02-29-03:25pm" author="ellymakuba">
+        <renameColumn tableName="pharmacy_delivery_note" oldColumnName="batch_no" newColumnName="batch_no"  columnDataType="VARCHAR(255)" />
+    </changeSet>
+    <changeSet author="ellymakuba" id="2017-01-26-10:10am">
+        <addColumn tableName="pharmacy_locations">
+            <column name="cashier_present"  type="int(11)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2017-01-30-11:38am">
+        <addColumn tableName="pharmacy_drug_extra">
+            <column name="encounter_date"  type="datetime"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2017-02-08-02:11pm">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="pharmacy_opening_stock"></tableExists>
+            </not>
+        </preConditions>
+        <comment>create pharmacy_opening_stock</comment>
+        <createTable tableName="pharmacy_opening_stock">
+            <column name="pharmacy_opening_stock_id" type="int(11)">
+                <constraints  nullable="false"  primaryKey="true"/>
+            </column>
+            <column name="uuid" type="char(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_uuid" type="Char(38)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="drug_uuid" type="char(38)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="int(11)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="batch_no" type="VARCHAR(255)" >
+                <constraints nullable="true"/>
+            </column>
+            <column name="generation_date" type="date" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="creator" defaultValue="0"  type="int(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datecreated"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column  name="voided" defaultValue="0" type="smallint(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voided_by" type="int(11)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date_voided"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="void_reason"  type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <createIndex indexName="uuid" tableName="pharmacy_opening_stock">
+            <column name="uuid"/>
+        </createIndex>
+        <addAutoIncrement columnDataType="int" columnName="pharmacy_opening_stock_id" tableName="pharmacy_opening_stock"/>
     </changeSet>
 </databaseChangeLog>

@@ -20,6 +20,8 @@ public class DrugTransactions extends BaseOpenmrsData {
     private PharmacyCategory category;
     private String s11;
     private String batchNo;
+    private PharmacyLocations otherTransactingSite;
+    private boolean approved;
 
 
     public String getS11() {
@@ -31,6 +33,23 @@ public class DrugTransactions extends BaseOpenmrsData {
     /** default constructor */
     public DrugTransactions() {
     }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+    public PharmacyLocations getOtherTransactingSite() {
+        return otherTransactingSite;
+    }
+
+    public void setOtherTransactingSite(PharmacyLocations otherTransactingSite) {
+        this.otherTransactingSite = otherTransactingSite;
+    }
+
     /**
      * @return  id
      */

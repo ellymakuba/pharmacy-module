@@ -83,5 +83,10 @@
         S11.hbm.xml
         GeneratePharmacyInventoryQuantities.hbm.xml
         InventoryMetaData.hbm.xml
+        StockTransferTracker.hbm.xml
+        DeliveryNote.hbm.xml
+        DeliveryNoteTracker.hbm.xml
+        PharmacyFingerPrint.hbm.xml
+        PharmacyOpeningStock.hbm.xml
     </mappingFiles>
 </module>

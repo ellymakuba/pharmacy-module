@@ -2,6 +2,7 @@ package org.openmrs.module.pharmacy.web.controller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.Patient;
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.pharmacy.model.PharmacyLocationUsers;
@@ -28,10 +29,18 @@ public class HomeController {
 
     @Authorized("Manage Pharmacy")
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/home")
-    public synchronized void pageLoad(ModelMap map) {
-
+    public synchronized void pageLoad(ModelMap map,HttpServletRequest request) {
+        if(request != null){
+            String patientUUID = request.getParameter("patientUUID");
+            if (patientUUID != null){
+            Patient patient=Context.getPatientService().getPatientByUuid(patientUUID);
+            String identifier=patient.getPatientIdentifier().getIdentifier();
+            String name=patient.getPersonName().getFullName();
+            request.getSession().setAttribute("pharmacyPatientIdentifier",identifier);
+            request.getSession().setAttribute("pharmacyPatientName",name);
+            }
+        }
     }
-
     @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/home")
     public synchronized void pageLoadd(HttpServletRequest request, HttpServletResponse response) {
 
@@ -87,7 +96,7 @@ public class HomeController {
 
                List<PharmacyStoreOutgoing> listApprove=  service.getPharmacyStoreOutgoingByLocation(service.getPharmacyLocationsByName(locationVal));
                for(int y=0;y<listApprove.size();y++){
-                   sOut += "<dl><dt></dt><dd >Drug :" +listApprove.get(y).getDrugs().getName()+"----"+listApprove.get(y).getQuantityIn()+"---Status:"+listApprove.get(y).getStatus()+"</dd></dl>";
+                   sOut += "<dl><dt></dt><dd >Drug :" +listApprove.get(y).getDrug().getName()+"----"+listApprove.get(y).getQuantityIn()+"---Status:"+listApprove.get(y).getStatus()+"</dd></dl>";
 
                }
 

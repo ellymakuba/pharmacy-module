@@ -64,8 +64,14 @@ $j("#endDate").datepicker();
         		}()
 );
 $j("table").delegate("#comprehensiveReportTable tbody tr :first-child","click",function(){
+alert("am clicked");
     var TableRow = this.parentNode;
 	$j('#west_panel_content').load("resources/subpages/detailedDrugHistory.form?drugID="+$j(this).html(), function () {});
+    $j('#west_panel_content').empty();
+})
+$j("table").delegate("#comprehensiveReportTable tbody tr :last-child","click",function(){
+    var TableRow = this.parentNode;
+	$j('#west_panel_content').load("resources/subpages/drugInventoryMovement.form?drugID="+$j(this).html(), function () {});
     $j('#west_panel_content').empty();
 })
 </script>
@@ -92,7 +98,6 @@ $j("table").delegate("#comprehensiveReportTable tbody tr :first-child","click",f
 <% if(reportStartDate !=null && reportEndDate!=null) {
                 startDate = formatter.parse(reportStartDate);
                 endDate = formatter.parse(reportEndDate);
-
                  Date dateInstance=new Date(startDate.getTime()+(1000 * 60 * 60 * 24));
                  SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy/MM/dd");
                  String tommorowStringDate=simpleDateFormat.format(dateInstance);
@@ -102,12 +107,15 @@ $j("table").delegate("#comprehensiveReportTable tbody tr :first-child","click",f
                  Integer openingStock;
                  Integer drugTransactionQuantity;
                  Integer drugTransferedQuantity;
+                 Integer drugReceivedQuantity;
                  Integer drugTotalInventory;
                  Integer drugTotalS11;
                  Integer drugTotalTransfers;
+                 Integer drugTotalReceived;
                  Integer cumilativeQuantityOfDrugDispensed;
                  String distinctS11;
-                 List<DrugTransactions> transferedDrugTransactions=service.getTransferedTransactionsdBetweenDates(startDate,endDate,pharmacyLocation);
+                 List<DrugTransactions> transferedDrugTransactions=service.getTransferedTransactionsdBetweenDates(startDate,endDate,pharmacyLocation.getUuid());
+                 List<DrugTransactions> receivedDrugTransactionsList=service.getReceivedDrugTransactionsdBetweenDates(startDate,endDate,pharmacyLocation.getUuid());
 %>
 <h1><a>RFP Comprehensive Report From <%=reportStartDate %> To <%=reportEndDate%></a></h1>
 	<table id="comprehensiveReportTable" class="visibleBorder">
@@ -119,14 +127,18 @@ $j("table").delegate("#comprehensiveReportTable tbody tr :first-child","click",f
 			<% for(S11 s11Instance:s11List){%>
 					<th>S11_<%=s11Instance.getS11No() %>(<%=s11Instance.getDateCreated()%>)</th>
 			<% }
+			for(DrugTransactions drugTransactionInstance:receivedDrugTransactionsList){%>
+                    <th><%=drugTransactionInstance.getComment()%> on (<%=drugTransactionInstance.getDateCreated()%>)</th>
+            <% }
 			for(DrugTransactions drugTransactionInstance:transferedDrugTransactions){%>
-            		<th>Transfered on (<%=drugTransactionInstance.getDateCreated()%>)</th>
+            		<th><%=drugTransactionInstance.getComment()%> on (<%=drugTransactionInstance.getDateCreated()%>)</th>
             <% }%>
             <th>Expected Closing Stock (system)</th>
             <th>Actual Closing Stock( Physical Count)</th>
             <th>% Deviation</th>
             <th>Expected Quantities dispensed at the pharmacy</th>
             <th>Actual Quantities dispensed at the pharmacy</th>
+           <th>View Inventory Movement</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -135,6 +147,7 @@ $j("table").delegate("#comprehensiveReportTable tbody tr :first-child","click",f
 				drugTotalInventory=0;
 				drugTotalS11=0;
 				drugTotalTransfers=0;
+				drugTotalReceived=0;
 				openingStock=0;
 						Drug drugFromContext = Context.getConceptService().getDrugByNameOrId(pharmacyStoreInstance.getDrugs().getId().toString());
 						cumilativeQuantityOfDrugDispensed=service.getDrugsDispensedWithinPeriodRange(startDate,endDate,drugFromContext.getDrugId(),pharmacyLocation.getUuid());
@@ -160,9 +173,20 @@ $j("table").delegate("#comprehensiveReportTable tbody tr :first-child","click",f
 								%>
 								<td><%=drugTransactionQuantity%></td>
 						<% }
-						for(DrugTransactions drugTransactionInstance:transferedDrugTransactions){
+						for(DrugTransactions drugTransactionInstance:receivedDrugTransactionsList){
+								drugReceivedQuantity=0;
+								DrugTransactions drugTransactionObjectReceived=service.getDrugTransactionByLocationAndDrug(pharmacyLocation,drugFromContext,drugTransactionInstance.getUuid());
+								if(drugTransactionObjectReceived !=null){
+									drugReceivedQuantity=drugTransactionObjectReceived.getQuantityIn();
+								}
+								drugTotalReceived=drugTotalReceived+drugReceivedQuantity;
+								%>
+								<td><%=drugReceivedQuantity%></td>
+                        <%
+                        }
+                       for(DrugTransactions drugTransactionInstance:transferedDrugTransactions){
 								drugTransferedQuantity=0;
-								DrugTransactions drugTransactionObjectTransfered=service.getDrugTransactionTransferedByLocationAndDrug(pharmacyLocation,drugFromContext,drugTransactionInstance.getUuid());
+								DrugTransactions drugTransactionObjectTransfered=service.getDrugTransactionByLocationAndDrug(pharmacyLocation,drugFromContext,drugTransactionInstance.getUuid());
 								if(drugTransactionObjectTransfered !=null){
 									drugTransferedQuantity=drugTransactionObjectTransfered.getQuantityIn();
 								}
@@ -171,12 +195,13 @@ $j("table").delegate("#comprehensiveReportTable tbody tr :first-child","click",f
 								<td><%=drugTransferedQuantity%></td>
                         <%
                         }
-                        drugTotalInventory=drugTotalInventory+openingStock+drugTotalS11-drugTotalTransfers;%>
-                        <td><%=drugTotalInventory %></td>
+                        drugTotalInventory=openingStock+drugTotalS11+drugTotalReceived-drugTotalTransfers;%>
+                        <td><%=drugTotalInventory%></td>
                         <td></td>
                         <td></td>
                         <td><%=cumilativeQuantityOfDrugDispensed%></td>
                         <td></td>
+                        <td><%=pharmacyStoreInstance.getDrugs().getDrugId() %></td>
 						</tr>
 				<% }%>
 		</tbody>

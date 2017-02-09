@@ -11,32 +11,15 @@
                     class="org.openmrs.api.db.hibernate.NativeIfNotAssignedIdentityGenerator"/>
         </id>
         <discriminator column="pharmacy_locations_id" insert="false"/>
-
-        <property name="name" type="java.lang.String" column="name"
-                  length="255"/>
-
-        <property name="description" type="java.lang.String" column="description"
-                  length="255"/>
-        <property name="batchSetting" type="java.lang.Integer" column="batch_settings"
-                  length="255"/>
-
-        <many-to-one name="creator" class="org.openmrs.User"
-                     column="creator" not-null="true"/>
-
-
-
+        <property name="name" type="java.lang.String" column="name" length="255"/>
+        <property name="description" type="java.lang.String" column="description" length="255"/>
+        <property name="batchSetting" type="java.lang.Integer" column="batch_settings" length="255"/>
+        <property name="cashierPresent" type="java.lang.Integer" column="cashier_present" length="255"/>
+        <many-to-one name="creator" class="org.openmrs.User"  column="creator" not-null="true"/>
         <property name="voided" type="boolean" not-null="true"/>
-
-
-        <many-to-one name="voidedBy" class="org.openmrs.User"
-                     column="voided_by"/>
-
+        <many-to-one name="voidedBy" class="org.openmrs.User" column="voided_by"/>
         <property name="dateVoided" type="java.util.Date" column="date_voided"/>
-        <property name="voidReason" type="java.lang.String" column="void_reason"
-                  length="255"/>
-
-        <property name="uuid" type="string" length="38" not-null="true"
-                  unique="true"/>
-
+        <property name="voidReason" type="java.lang.String" column="void_reason" length="255"/>
+        <property name="uuid" type="string" length="38" not-null="true" unique="true"/>
     </class>
 </hibernate-mapping>

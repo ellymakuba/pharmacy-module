@@ -193,7 +193,7 @@ public class DrugOutgoingController {
                 pharmacyStoreOutgoing1 = service.getPharmacyStoreOutgoing();
 
                 pharmacyStoreOutgoing = new PharmacyStoreOutgoing();
-                pharmacyStoreOutgoing.setDrugs(serviceDrugs.getDrugByUuid(uuidfilter));
+                pharmacyStoreOutgoing.setDrug(serviceDrugs.getDrugByUuid(uuidfilter));
 
                 service.savePharmacyStoreOutgoing(outgoingEntryNewObject(pharmacyStoreOutgoing, outgoingquantityin, outgoingmax, transactions,
                         outgoingmin, outgoingbatch, outgoings11, outgoingexpire, destination, supplier));
@@ -228,7 +228,7 @@ public class DrugOutgoingController {
     public synchronized JSONArray getArray(List<PharmacyStoreOutgoing> pharmacyStore, int size, String location) {
 
             if (filterDrug.length() > 2) {
-            if (uuidfilter.equalsIgnoreCase(pharmacyStore.get(size).getDrugs().getUuid())) {
+            if (uuidfilter.equalsIgnoreCase(pharmacyStore.get(size).getDrug().getUuid())) {
 
                 if ((pharmacyStore.get(size).getDestination().getName().equalsIgnoreCase(location))
                         && (!pharmacyStore.get(size).getApproved())) {
@@ -262,7 +262,7 @@ public class DrugOutgoingController {
 
                     data.put("");
                     data.put(pharmacyStore.get(size).getUuid());
-                    data.put(pharmacyStore.get(size).getDrugs().getName());
+                    data.put(pharmacyStore.get(size).getDrug().getName());
                     data.put(pharmacyStore.get(size).getQuantityIn());
 
                     data.put(pharmacyStore.get(size).getLocation().getName());
@@ -335,7 +335,7 @@ public class DrugOutgoingController {
 
                 data.put("");
                 data.put(pharmacyStore.get(size).getUuid());
-                data.put(pharmacyStore.get(size).getDrugs().getName());
+                data.put(pharmacyStore.get(size).getDrug().getName());
                 data.put(pharmacyStore.get(size).getQuantityIn());
 
                 data.put(pharmacyStore.get(size).getLocation().getName());
@@ -380,7 +380,7 @@ public class DrugOutgoingController {
 
     public synchronized JSONArray getArrayDialog(List<PharmacyStoreOutgoing> pharmacyStore, int size) {
         datad = new JSONArray();
-        datad.put(pharmacyStore.get(size).getDrugs().getName());
+        datad.put(pharmacyStore.get(size).getDrug().getName());
         datad.put(pharmacyStore.get(size).getQuantityIn());
         datad.put("");
         datad.put("");
@@ -407,7 +407,7 @@ public class DrugOutgoingController {
     public PharmacyStoreOutgoing outgoingEntryNewObject(PharmacyStoreOutgoing pharmacyStoreOutgoing, String outgoingquantityin, String outgoingmax, String transactions,
                                                         String outgoingmin, String outgoingbatch, String outgoings11, String outgoingexpire, String destination, String supplier
     ) {
-        pharmacyStoreOutgoing.setDrugs(serviceDrugs.getDrugByUuid(uuidfilter));
+        pharmacyStoreOutgoing.setDrug(serviceDrugs.getDrugByUuid(uuidfilter));
         pharmacyStoreOutgoing.setQuantityIn(Integer.parseInt(outgoingquantityin));
         if (outgoingmax != null) {
             pharmacyStoreOutgoing.setMaxLevel(Integer.parseInt(outgoingmax));
@@ -426,9 +426,9 @@ public class DrugOutgoingController {
             pharmacyStoreOutgoing.setBatchNo("0");
         }
         if (outgoings11 != null) {
-            pharmacyStoreOutgoing.setS11(Integer.parseInt(outgoings11));
+            pharmacyStoreOutgoing.setS11(outgoings11);
         } else if (outgoings11 == null) {
-            pharmacyStoreOutgoing.setS11(0);
+            pharmacyStoreOutgoing.setS11("0");
         }
         Date date = null;
         try {
@@ -480,10 +480,10 @@ public class DrugOutgoingController {
         }
 
         if (outgoings11 != null) {
-            pharmacyStoreOutgoing.setS11(Integer.parseInt(outgoings11));
+            pharmacyStoreOutgoing.setS11(outgoings11);
 
         } else if (outgoings11 == null) {
-            pharmacyStoreOutgoing.setS11(0);
+            pharmacyStoreOutgoing.setS11("0");
         }
 
         Date date = null;
@@ -538,8 +538,8 @@ public class DrugOutgoingController {
             List<DrugDispenseSettings> list = service.getDrugDispenseSettings();
             int size = list.size();
             for (int i = 0; i < size; i++) {
-               System.out.println(userLocation+ "---"+pharmacyStoreOutgoing.getDrugs().getDrugId());
-                if((list.get(i).getLocation().getName().equalsIgnoreCase(userLocation))&&(pharmacyStoreOutgoing.getDrugs().getDrugId().equals(list.get(i).getDrugId().getDrugId()))){
+               System.out.println(userLocation+ "---"+pharmacyStoreOutgoing.getDrug().getDrugId());
+                if((list.get(i).getLocation().getName().equalsIgnoreCase(userLocation))&&(pharmacyStoreOutgoing.getDrug().getDrugId().equals(list.get(i).getDrugId().getDrugId()))){
                pharmacyStore = list.get(i).getInventoryId();
                 }
             }
@@ -573,7 +573,7 @@ public class DrugOutgoingController {
 
                 listStoreOutgoing.add(pharmacyStoreOutgoing);
                 drugTransactions = new DrugTransactions();
-                drugTransactions.setDrugs(pharmacyStoreOutgoing.getDrugs());
+                drugTransactions.setDrugs(pharmacyStoreOutgoing.getDrug());
                 drugTransactions.setQuantityIn(0);
                 drugTransactions.setQuantityOut(Integer.parseInt(quantityToGive[y]));
                 drugTransactions.setexpireDate(pharmacyStore.getExpireDate());
@@ -581,7 +581,7 @@ public class DrugOutgoingController {
                 drugTransactions.setLocation(service.getPharmacyLocationsByName(userLocation));
                 listDrugTransactions.add(drugTransactions);
                 pharmacyStoreApproved = new PharmacyStoreApproved();
-                pharmacyStoreApproved.setDrugs(pharmacyStoreOutgoing.getDrugs());
+                pharmacyStoreApproved.setDrugs(pharmacyStoreOutgoing.getDrug());
                 pharmacyStoreApproved.setQuantityIn(Integer.parseInt(quantityToGive[y]));
                 pharmacyStoreApproved.setCategory(pharmacyStoreOutgoing.getCategory());
                 pharmacyStoreApproved.setDestination(pharmacyStoreOutgoing.getDestination());
@@ -591,7 +591,6 @@ public class DrugOutgoingController {
                 pharmacyStoreApproved.setIncoming(pharmacyStoreOutgoing.getIncoming());
                 pharmacyStoreApproved.setOutgoing(pharmacyStoreOutgoing);
                 pharmacyStoreApproved.setApproved(false);
-                pharmacyStoreApproved.setS11(pharmacyStoreOutgoing.getS11());
                 pharmacyStoreApproved.setVoided(pharmacyStoreOutgoing.getVoided());
                 pharmacyStoreApproved.setMaxLevel(pharmacyStore.getMaxLevel());
                 pharmacyStoreApproved.setMinLevel(pharmacyStore.getMinLevel());

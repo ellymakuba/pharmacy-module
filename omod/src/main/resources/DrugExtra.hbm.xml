@@ -38,5 +38,6 @@
         <property name="voidReason" type="java.lang.String" column="void_reason" length="255"/>
         <property name="uuid" type="string" length="38" not-null="true"  unique="true"/>
         <property name="discount" type="java.lang.Double" column="discount"/>
+        <property name="encounterDate" type="java.util.Date" column="encounter_date"/>
     </class>
 </hibernate-mapping>

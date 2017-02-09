@@ -1,0 +1,11 @@
+/home/elly/workspace/amrspharmacy/fingerprint/src/main/java/org/openmrs/module/biometrics/panels/EnrollFromScanner.java
+/home/elly/workspace/amrspharmacy/fingerprint/src/main/java/org/openmrs/module/biometrics/panels/BasePanel.java
+/home/elly/workspace/amrspharmacy/fingerprint/src/main/java/org/openmrs/module/biometrics/services/JavaScriptCallerService.java
+/home/elly/workspace/amrspharmacy/fingerprint/src/main/java/org/openmrs/module/biometrics/panels/LicensingPanel.java
+/home/elly/workspace/amrspharmacy/fingerprint/src/main/java/org/openmrs/module/biometrics/services/fingerprintService.java
+/home/elly/workspace/amrspharmacy/fingerprint/src/main/java/org/openmrs/module/biometrics/SimpleFingersApplication.java
+/home/elly/workspace/amrspharmacy/fingerprint/src/main/java/org/openmrs/module/biometrics/settings/FingersTools.java
+/home/elly/workspace/amrspharmacy/fingerprint/src/main/java/org/openmrs/module/biometrics/panels/MainPanel.java
+/home/elly/workspace/amrspharmacy/fingerprint/src/main/java/org/openmrs/module/biometrics/panels/ScanFingerprint.java
+/home/elly/workspace/amrspharmacy/fingerprint/src/main/java/org/openmrs/module/biometrics/util/Utils.java
+/home/elly/workspace/amrspharmacy/fingerprint/src/main/java/org/openmrs/module/biometrics/model/PatientFingerPrintModel.java

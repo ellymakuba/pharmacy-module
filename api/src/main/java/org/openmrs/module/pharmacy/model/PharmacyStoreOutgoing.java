@@ -30,7 +30,7 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
     private Integer maxLevel;
     private Integer minLevel;
     private String batchNo;
-    private Integer s11;
+    private String s11;
     private Integer deliveryNo;
     private Date expireDate;
     private String changeReason;
@@ -45,8 +45,26 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
     private User requested;
     private User issued;
     private User authorized;
+    private StockTransferTracker stockTransferTracker;
+    private PharmacyStore pharmacyStore;
     /** default constructor */
     public PharmacyStoreOutgoing() {
+    }
+
+    public StockTransferTracker getStockTransferTracker() {
+        return stockTransferTracker;
+    }
+
+    public void setStockTransferTracker(StockTransferTracker stockTransferTracker) {
+        this.stockTransferTracker = stockTransferTracker;
+    }
+
+    public PharmacyStore getPharmacyStore() {
+        return pharmacyStore;
+    }
+
+    public void setPharmacyStore(PharmacyStore pharmacyStore) {
+        this.pharmacyStore = pharmacyStore;
     }
 
     /**
@@ -136,10 +154,7 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
         this.approved = num;
 
     }
-    /**
-     * @return drug
-     */
-    public Drug getDrugs() {
+    public Drug getDrug() {
         return drug;
     }
     /**
@@ -159,11 +174,8 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
     }
 
 
-    /**
-     * @param drugsId
-     */
-    public void setDrugs(Drug drugsId) {
-        this.drug = drugsId;
+    public void setDrug(Drug drug) {
+        this.drug = drug;
 
     }
 
@@ -234,7 +246,7 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
     /**
      * @param s11
      */
-    public void setS11(int s11) {
+    public void setS11(String s11) {
         this.s11 = s11;
 
     }
@@ -242,7 +254,7 @@ public class PharmacyStoreOutgoing extends BaseOpenmrsData {
     /**
      * @return s11
      */
-    public Integer getS11() {
+    public String getS11() {
         return s11;
     }
 

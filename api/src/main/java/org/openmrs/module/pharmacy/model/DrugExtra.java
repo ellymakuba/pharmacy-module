@@ -2,7 +2,6 @@ package org.openmrs.module.pharmacy.model;
 
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Drug;
-import org.openmrs.User;
 
 import java.util.Date;
 
@@ -33,6 +32,7 @@ public class DrugExtra extends BaseOpenmrsData {
     private Integer display;
     private PharmacyEncounter pharmacyEncounter;
     private Integer previouslySoldQuantity;
+    private Date encounterDate;
     public PharmacyEncounter getPharmacyEncounter() {
         return pharmacyEncounter;
     }
@@ -272,5 +272,13 @@ public class DrugExtra extends BaseOpenmrsData {
 
     public void setDose(PharmacyDose dose) {
         this.dose = dose;
+    }
+
+    public Date getEncounterDate() {
+        return encounterDate;
+    }
+
+    public void setEncounterDate(Date encounterDate) {
+        this.encounterDate = encounterDate;
     }
 }

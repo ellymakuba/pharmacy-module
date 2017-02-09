@@ -272,7 +272,7 @@ public class DrugBincardController {
                 if (uuiddialog.equals("123")) {
 
                     return null;
-                } else if (service.getPharmacyStoreOutgoingByUuid(uuiddialog).getDrugs().getUuid()
+                } else if (service.getPharmacyStoreOutgoingByUuid(uuiddialog).getDrug().getUuid()
                         .equals(pharmacyStore.get(size).getDrugs().getUuid())) {
                     newDate = new Date();
                     int num = getMonthsDifference(pharmacyStore.get(size).getExpireDate(), newDate);
@@ -289,7 +289,7 @@ public class DrugBincardController {
                 }
             } else {
 
-                if (service.getPharmacyStoreOutgoingByUuid(uuiddialog).getDrugs().getUuid().equals(pharmacyStore.get(size).getDrugs().getUuid())) {
+                if (service.getPharmacyStoreOutgoingByUuid(uuiddialog).getDrug().getUuid().equals(pharmacyStore.get(size).getDrugs().getUuid())) {
                     datad = new JSONArray();
                     datad.put(pharmacyStore.get(size).getDrugs().getName());
                     datad.put(pharmacyStore.get(size).getQuantity());

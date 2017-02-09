@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+" codebase="" href="">
+    <information>
+        <title>muzima fingerprint applet</title>
+        <vendor>Muzima Team</vendor>
+    </information>
+    <resources>
+        <!-- Application Resources -->
+        <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se" />
+        <jar href="pharmacy-fingerprint-0.1-jar-with-dependencies.jar" main="true" />
+    </resources>
+    <security>
+        <all-permissions/>
+    </security>
+
+    <applet-desc
+            name="Muzima fingerprint module"
+            main-class="org.openmrs.module.biometrics.SimpleFingersApplication"
+            width="300"
+            height="300"
+            archive="pharmacy-fingerprint-0.1-jar-with-dependencies.jar">
+    </applet-desc>
+</jnlp>

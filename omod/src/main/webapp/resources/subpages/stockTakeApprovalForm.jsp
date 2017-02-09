@@ -69,6 +69,10 @@ function approveStockTake(){
     });
     }
 }
+$j('#transactionType').change(function(){
+    $j('#west_panel_content').load("resources/subpages/stockTransfer.form?transactionType="+$j("#transactionType").val(), function () {});
+    $j('#west_panel_content').empty();
+});
 </script>
 </head>
 <body>

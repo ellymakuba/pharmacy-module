@@ -72,6 +72,7 @@ public class DrugIncomingController {
     private org.json.JSONArray jsonArray,datad2;
     private PharmacyStore pharmacyStore;
     private InventoryMetaData inventoryMetaData;
+    private String otherTransactingSiteUUID;
 
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/drugIncoming")
     public synchronized void pageLoad(HttpServletRequest request, HttpServletResponse response) {
@@ -152,6 +153,7 @@ public class DrugIncomingController {
         List<PharmacyStore> pharmacyStoreListToSave = new ArrayList<PharmacyStore>();
         List<DrugTransactions> drugTransactionListToSave = new ArrayList<DrugTransactions>();
         JSONParser parser=new JSONParser();
+        PharmacyLocations otherTransactingSite;
         Object obj=null;
         PharmacyLocations pharmacyLocations=service.getPharmacyLocationsByName(locationVal);
         List<PharmacyStore> pharmacyStoreListToCompare=service.getPharmacyStoreByLocation(pharmacyLocations);
@@ -166,6 +168,9 @@ public class DrugIncomingController {
                     String myValues[]= exractKeyAndValue(rowInstance.get(j).toString());
                     String key = myValues[0];
                     String value=myValues[1];
+                    if(key.equalsIgnoreCase("location")){
+                        otherTransactingSiteUUID=value;
+                    }
                     if(key.equalsIgnoreCase("incomingdrug")){
                         Drug drug = Context.getConceptService().getDrugByNameOrId(value);
                         drugTransactions.setDrugs(drug);
@@ -202,6 +207,7 @@ public class DrugIncomingController {
                 listDrugTransactions.add(drugTransactions);
                 listPharmacyStore.add(pharmacyStore);
             }
+        otherTransactingSite=service.getPharmacyLocationsByUuid(otherTransactingSiteUUID);
          for(PharmacyStore pharmacyStoreInstance: listPharmacyStore){
              drugExistsInInventory=false;
              if(pharmacyStoreInstance.getDrugs() !=null){
@@ -290,7 +296,9 @@ public class DrugIncomingController {
             drugTransactions.setLocation(drugTransactionInstance.getLocation());
             drugTransactions.setComment(drugTransactionInstance.getComment());
             drugTransactions.setS11(s11);
+            drugTransactions.setApproved(false);
             drugTransactions.setBatchNo(drugTransactionInstance.getBatchNo());
+            drugTransactions.setOtherTransactingSite(otherTransactingSite);
             drugTransactionListToSave.add(drugTransactions);
             }
         }
@@ -306,13 +314,21 @@ public class DrugIncomingController {
     @RequestMapping(method = RequestMethod.GET,value = "module/pharmacy/getBuyingAndSellingPriceOfSelectedDrug")
     public void getBuyingAndSellingPriceOfSelectedDrug(HttpServletRequest request,HttpServletResponse response) throws JSONException {
         String jsonResult = request.getParameter("drugName");
+        String transactionType = request.getSession().getAttribute("transactionTypeSelectedOption").toString();
+        String otherTransactingSite = request.getSession().getAttribute("otherTransactingSiteUUID").toString();
         jsonObject = new JSONObject();
         jsonArray = new org.json.JSONArray();
 
         service = Context.getService(PharmacyService.class);
         String locationVal=null;
         locationVal = request.getSession().getAttribute("location").toString();
-        PharmacyLocations pharmacyLocation=service.getPharmacyLocationsByName(locationVal);
+        PharmacyLocations pharmacyLocation;
+        if(Integer.valueOf(transactionType)==1){
+          pharmacyLocation=service.getPharmacyLocationsByUuid(otherTransactingSite);
+        }
+        else{
+           pharmacyLocation=service.getPharmacyLocationsByName(locationVal);
+        }
         String extractedDrugName="";
         try {
             jsonObject=new JSONObject(jsonResult);

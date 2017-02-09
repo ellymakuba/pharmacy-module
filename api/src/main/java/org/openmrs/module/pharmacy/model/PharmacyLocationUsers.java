@@ -12,20 +12,13 @@
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
 package org.openmrs.module.pharmacy.model;
-
 import org.openmrs.BaseOpenmrsData;
-
-
-/**
- *
- */
+import org.openmrs.User;
 public class PharmacyLocationUsers extends BaseOpenmrsData {
-
     private String userName;
     private String location;
-
+    private User amrsUser;
     private Integer id;
-
     /** default constructor */
     public PharmacyLocationUsers() {
     }
@@ -46,6 +39,14 @@ public class PharmacyLocationUsers extends BaseOpenmrsData {
 
         this.id = id;
 
+    }
+
+    public User getAmrsUser() {
+        return amrsUser;
+    }
+
+    public void setAmrsUser(User amrsUser) {
+        this.amrsUser = amrsUser;
     }
 
     /**

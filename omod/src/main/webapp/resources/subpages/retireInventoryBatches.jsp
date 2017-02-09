@@ -12,108 +12,104 @@
 <%@ include file="/WEB-INF/template/include.jsp" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-
+<style type="text/css">
+        .newRowClass{
+            border:1px solid black;
+        }
+        table.visibleBorder td{
+            border:1px solid black;
+            background-color:#EBEBFF;
+        }
+        table.tdbordered td{
+                    cell-padding:5px;
+                    border:1px solid white;
+                }
+           #retireInventoryBatchesFormDIV{
+             margin:10px;
+             border:5px #AAAAAA;
+           }
+           #retireInventoryBatchesFormDIV table{
+             background-color:#EBEBFF;
+             width:100%;
+           }
+           h2.centered{
+            text-align:center;
+           }
+</style>
 <script type="text/javascript">
-     function postInventoryBatchesToRetire(){
-	var json = [];
-	var rowIsChecked;
-    $j('#retireInventoryBatchesDIV').find('tr.drugRowClass').each(function(){
+function retireInventoryBatches(){
+    var jsonRetireInventoryBatchesData = [];
+    $j('#retireInventoryBatchesFormDIV').find('tr').each(function(){
         var rowObject=[];
         rowIsChecked=$j(this).find('input[type="checkbox"]').attr('checked');
-        $j(this).find('td').each(function(){
+        $j(this).find('input').each(function(){
             var obj = {}
-            var  td = $j(this).find('input');
-            if(td.is('input[type="text"]')){
-              var key = td.attr('name');
-              var val = td.val();
+            if($j(this).is('input[type="hidden"]')){
+              var key = $j(this).attr('name');
+              var val = $j(this).val();
             }
-            else if(td.is('input[type="checkbox"]')){
-			 var key = td.attr('name');
+            else if($j(this).is('input[type="checkbox"]')){
+			 var key = $j(this).attr('name');
               var val = rowIsChecked;
             }
             obj[key] = val;
             rowObject.push(obj);
         });
-        json.push(rowObject);
+        jsonRetireInventoryBatchesData.push(rowObject);
     });
-        	 $j.ajax({
-                    	 type:"POST",
-                    	 url:"resources/subpages/retireInventoryBatches.form",
-                    	 data:{values:JSON.stringify(json)}
-                    	 })
-        	}
- var tableToExcel = (function() {
-        			var uri = 'data:application/vnd.ms-excel;base64,'
-        					, template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
-        					, base64 = function(s) {
-        				return window.btoa(unescape(encodeURIComponent(s)))
-        			}
-        			, format = function(s, c) {
-        				return s.replace(/{(\w+)}/g, function(m, p) {
-        					return c[p];
-        				})
-        			}
-        			return function(table, name) {
-        				if (!table.nodeType)
-        					table = document.getElementById(table)
-        				var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
-        				window.location.href = uri + base64(format(template, ctx))
-        			}
-        		}()
-);
+    if(confirm("Are you sure you want to retire selected batches?")){
+    $j.ajax({
+        type:"POST",
+        url:"retireInventoryBatches.form",
+        data:{values:JSON.stringify(jsonRetireInventoryBatchesData) },
+        success:function(){
+            window.location.reload(true);
+        }
+    });
+    }
+}
 </script>
+</head>
+<body>
 <%
-	PharmacyService service = Context.getService(PharmacyService.class);
-    List<PharmacyStore> pharmacyStoreList;
-	String location=(String)session.getAttribute("location");
-	PharmacyLocations pharmacyLocation = service.getPharmacyLocationsByName(location);
-	pharmacyStoreList = service.getAllPharmacyStorePlusRetired(pharmacyLocation);
-	Integer count=0;
+PharmacyService service = Context.getService(PharmacyService.class);
+service=Context.getService(PharmacyService.class);
+String location=(String)session.getAttribute("location");
+PharmacyLocations pharmacyLocation=service.getPharmacyLocationsByName(location);
+List<PharmacyStore> pharmacyStoreList = service.getPharmacyStoreByLocationPlusRetired(pharmacyLocation);
 %>
-
-<div id="retireInventoryBatchesDIV">
-<form name="retireInventoryForm" action="#" method="POST" id="retireInventoryForm">
-<% if(pharmacyStoreList!=null) {
-
-%>
+<DIV id="retireInventoryBatchesFormDIV">
 <fieldset>
-<h1><a>Retire Inventory Batches Form</h1>
-	<table id="retireInventoryTable" style="width:100%;">
-			<tr>
-			<th style="width:1%;"></th>
-			<th style="width:20%;">Medication</th>
-			<th style="width:10%;">Batch NO</th>
-            <th style="width:10%;">Quantity</th>
-            <th style="width:10%;">Buying Price</th>
-            <th style="width:10%;">Selling Price</th>
-            <th style="width:10%;">Expiry Date</th>
-            <th style="width:10%;">Retire</th>
-			</tr>
-
-				<% for(PharmacyStore pharmacyStoreInstance:pharmacyStoreList){
-						Drug drugFromContext = Context.getConceptService().getDrugByNameOrId(pharmacyStoreInstance.getDrugs().getId().toString());
-						%>
-						<tr class="drugRowClass">
-						<td><input type="hidden" name="drugUUID" value=<%=pharmacyStoreInstance.getUuid()%> style="width:10%;" /></td>
-						<td><input type="text" name="drugName" value=<%=pharmacyStoreInstance.getDrugs().getName()%> style="width:100%;"/></td>
-						<td><input type="text" name="batchNO" value=<%=pharmacyStoreInstance.getBatchNo() %> style="width:100%;"/></td>
-						<td><input type="text" name="quantity" value=<%=pharmacyStoreInstance.getQuantity() %> style="width:100%;"/></td>
-						<td><input type="text" name="buyingPrice" value=<%=pharmacyStoreInstance.getBuyingPrice() %> style="width:100%;"/></td>
-						<td><input type="text" name="sellingPrice" value=<%=pharmacyStoreInstance.getUnitPrice() %> style="width:100%;"/></td>
-						<td><input type="text" name="expiryDate" value=<%=pharmacyStoreInstance.getExpireDate() %> style="width:100%;"/></td>
-						<% if(pharmacyStoreInstance.getVoided()){ %>
-						<td><input type="checkbox" name="retire" checked /></td>
-						<% }
-						else{ %>
-						<td><input type="checkbox" name="retire" /></td>
-						<%}
-						%>
-						</tr>
-				<% count++;
-				}%>
-				<tr><td></td><td></td><td></td><td></td><td></td><td></td><td><input type="button" value="Retire Batches" onclick="postInventoryBatchesToRetire()"/></td></tr>
-	</table>
-	</fieldset>
-</form>
-<% } %>
-</div>
+        <h2 class="centered">Retire Inventory Batches Form</h2>
+        <form id="retireInventoryBatchesForm" name="retireInventoryBatchesForm">
+                <table id="retireInventoryBatchesTable" class="tdbordered">
+                    <tr class="newRowClass" >
+                        <th>Drug Name</th>
+                        <th>Quantity</th>
+                        <th>Expiry Date</th>
+                        <th>Batch No</th>
+                        <th>Buying Price</th>
+                        <th>Selling Price</th>
+                        <th>Retired</th>
+                        <th>Retire</th>
+                    </tr>
+                    <% for(PharmacyStore pharmacyStoreInstance:pharmacyStoreList){%>
+                    <tr>
+                      <input type="hidden" name="inventoryItemUUID" value=<%=pharmacyStoreInstance.getUuid()%> />
+                      <td><%=pharmacyStoreInstance.getDrugs().getName()%> </td>
+                      <td><%=pharmacyStoreInstance.getQuantity()%> </td>
+                      <td><%=pharmacyStoreInstance.getExpireDate().toString().substring(0, 10)%> </td>
+                      <td><%=pharmacyStoreInstance.getBatchNo()%> </td>
+                      <td><%=pharmacyStoreInstance.getBuyingPrice()%> </td>
+                      <td><%=pharmacyStoreInstance.getUnitPrice()%> </td>
+                      <td><%=pharmacyStoreInstance.getVoided()%> </td>
+                      <td><input type="checkbox" name="retire"/></td>
+                    </tr>
+                    <% } %>
+                    <tr><td><input type="button" value="Retire Batches" onclick="retireInventoryBatches()"/></td></tr>
+                </table>
+        </form>
+</fieldset>
+</DIV>
+</body>
+</html>

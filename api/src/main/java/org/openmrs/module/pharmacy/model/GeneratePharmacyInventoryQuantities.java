@@ -2,7 +2,6 @@ package org.openmrs.module.pharmacy.model;
 
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Drug;
-import java.util.Date;
 
 /**
  * Created by elly on 7/14/15.

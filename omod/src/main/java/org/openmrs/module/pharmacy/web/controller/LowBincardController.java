@@ -669,7 +669,7 @@ public class LowBincardController {
         if (pharmacyStore.get(size).getLocation().getName().equalsIgnoreCase(location)) {
             if (uuiddialog != null) {
 
-                if (service.getPharmacyStoreOutgoingByUuid(uuiddialog).getDrugs().getUuid()
+                if (service.getPharmacyStoreOutgoingByUuid(uuiddialog).getDrug().getUuid()
                         .equals(pharmacyStore.get(size).getDrugs().getUuid())) {
 
                     datad = new JSONArray();

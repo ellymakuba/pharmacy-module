@@ -30,7 +30,7 @@ public class StockTakeFormController {
     JSONParser parser=new JSONParser();
     PharmacyStore pharmacyStore,pharmacyStoreItemToSave;
     @RequestMapping(method=RequestMethod.GET,value="module/pharmacy/resources/subpages/stockTakeForm")
-    public void stockTakeGetProcessor(ModelMap map,HttpServletRequest request) throws java.text.ParseException, IOException {
+    public void stockTakeGetProcessor(ModelMap map,HttpServletRequest request) throws java.text.ParseException, IOException,NullPointerException {
 
     }
 

@@ -44,5 +44,25 @@ public class FCDRRController {
             request.getSession().setAttribute("reportEndDate", eDate);
         }
     }
+    @RequestMapping(method=RequestMethod.GET, value = "module/pharmacy/resources/subpages/F-CDRRStandAlone")
+    public synchronized  void standALoneFCDRRGetProcessor(ModelMap map,HttpServletRequest request) throws ParseException{
+        String sDate=request.getParameter("startDate");
+        String eDate=request.getParameter("endDate");
+
+        if(sDate !=null && eDate!=null) {
+            request.getSession().setAttribute("reportStartDate", sDate);
+            request.getSession().setAttribute("reportEndDate", eDate);
+        }
+    }
+    @RequestMapping(method=RequestMethod.GET, value = "module/pharmacy/resources/subpages/D-CDRR")
+    public synchronized  void DCDRRGetProcessor(ModelMap map,HttpServletRequest request) throws ParseException{
+        String sDate=request.getParameter("startDate");
+        String eDate=request.getParameter("endDate");
+
+        if(sDate !=null && eDate!=null) {
+            request.getSession().setAttribute("reportStartDate", sDate);
+            request.getSession().setAttribute("reportEndDate", eDate);
+        }
+    }
 
 }

@@ -20,8 +20,8 @@
     <modules>
         <module>api</module>
         <module>omod</module>
+        <module>fingerprint</module>
     </modules>
-
     <dependencyManagement>
         <dependencies>
             <dependency>

@@ -274,6 +274,14 @@ $j('#stockTransferTable').delegate(' tr td a', 'click', function(e){
     }
 
 });
+$j('#transactionType').change(function(){
+    $j('#west_panel_content').load("resources/subpages/stockTransfer.form?transactionType="+$j("#transactionType").val(), function () {});
+    $j('#west_panel_content').empty();
+});
+$j('#location').change(function(){
+    $j('#west_panel_content').load("resources/subpages/stockTransfer.form?location="+$j("#location").val(), function () {});
+    $j('#west_panel_content').empty();
+});
 </script>
 </head>
 <body>
@@ -281,49 +289,111 @@ $j('#stockTransferTable').delegate(' tr td a', 'click', function(e){
 PharmacyService service = Context.getService(PharmacyService.class);
 service=Context.getService(PharmacyService.class);
 String location=(String)session.getAttribute("location");
+String transactionTypeSelected=(String)session.getAttribute("transactionTypeSelectedOption");
+String otherTransactingSiteUUID=(String)session.getAttribute("otherTransactingSiteUUID");
 PharmacyLocations loggedInLocation=service.getPharmacyLocationsByName(location);
 List<PharmacyLocations> pharmacyLocations=service.getPharmacyLocations();
 %>
 <DIV id="stockTransferFormDIV">
 <fieldset>
-<h2 class="centered">Stock Transfer Form</h2>
+<h2 class="centered">Stock Transfer Between Sites</h2>
         <form id="stockTransferForm">
                 <table class="tdbordered">
                     <tr>
-                        <td><label>Tranfer To</label></td>
-                         <td><select id="location" name="location"><option value="0">Select Location</option>
-                         <% for(PharmacyLocations pharmacyLocationInstance:pharmacyLocations){
-                         if(loggedInLocation.getUuid()==pharmacyLocationInstance.getUuid()){
+                        <td><label>Transaction Type</label></td>
+                         <td><select id="transactionType" name="transactionType"><option value="0">Select Transaction Type</option>
+                         <%if(transactionTypeSelected!=null){
+                             if(Integer.valueOf(transactionTypeSelected)==1){%>
+                                 <option selected value=<%=transactionTypeSelected%> >Request drugs from another site</option>
+                                 <option value="2">Issue drugs to another site</option>
+                             <%}
+                             else if(Integer.valueOf(transactionTypeSelected)==2){%>
+                                  <option selected value=<%=transactionTypeSelected%> >Issue drugs to another site</option>
+                                  <option value="1">Receive drugs from another site</option>
+                             <%}
+                             else{%>
+                                   <option value="1">Request drugs from another site</option>
+                                   <option value="2">Issue drugs to another site</option>
+                             <%}
                          }
                          else{%>
-                          <option value=<%=pharmacyLocationInstance.getUuid()%> ><%=pharmacyLocationInstance.getName()%></option>
-                          <%}
-                          }%>
+                             <option value="1">Request drugs from another site</option>
+                             <option value="2">Issue drugs to another site</option>
+                         <%}%>
+                         </select></td>
                     </tr>
+                    <%if(transactionTypeSelected!=null){
+                    if(Integer.valueOf(transactionTypeSelected)==1){%>
+                        <tr>
+                            <td><label>Request From</label></td>
+                             <td><select id="location" name="location"><option value="0">Select Location</option>
+                             <%for(PharmacyLocations pharmacyLocationInstance:pharmacyLocations){
+                                    if(loggedInLocation.getUuid()==pharmacyLocationInstance.getUuid()){}
+                                    else{
+                                    if(pharmacyLocationInstance.getUuid().equalsIgnoreCase(otherTransactingSiteUUID)){%>
+                                        <option selected value=<%=pharmacyLocationInstance.getUuid()%> ><%=pharmacyLocationInstance.getName()%></option>
+                                    <%}else{ %>
+                                       <option value=<%=pharmacyLocationInstance.getUuid()%> ><%=pharmacyLocationInstance.getName()%></option>
+                                     <%} }
+                             }%>
+                             </select></td>
+                        </tr>
+                        <tr><td>Serial Number<td><input type="text" name="serial_no" /><td></tr>
+                        <%}
+                         else if(Integer.valueOf(transactionTypeSelected)==2){%>
+                        <tr>
+                            <td><label>Issue To</label></td>
+                             <td><select id="location" name="location"><option value="0">Select Location</option>
+                             <%for(PharmacyLocations pharmacyLocationInstance:pharmacyLocations){
+                                     if(loggedInLocation.getUuid()==pharmacyLocationInstance.getUuid()){}
+                                     else{
+                                     if(pharmacyLocationInstance.getUuid().equalsIgnoreCase(otherTransactingSiteUUID)){%>
+                                        <option selected value=<%=pharmacyLocationInstance.getUuid()%> ><%=pharmacyLocationInstance.getName()%></option>
+                                     <%}
+                                     else{%>
+                                        <option value=<%=pharmacyLocationInstance.getUuid()%> ><%=pharmacyLocationInstance.getName()%></option>
+                                     <%}}
+                             }%>
+                        </tr>
+                        <tr><td>Serial Number<td><input type="text" name="serial_no" /><td></tr>
+                        <%}
+                    }%>
                 </table>
                 <table id="stockTransferTable" class="tdbordered">
-                    <tr>
-                        <th>Drug</th>
-                        <th>Quantity In Stock</th>
-                        <th>Expiry date</th>
-                        <th>Batch NO</th>
-                        <th>BP</th>
-                        <th>SP</th>
-                        <th>Quantity To transfer</th>
-                        <th></th>
-                    </tr>
-                    <tr><td style="width:50%;"><input type="text" name="outgoingDrug" id="outgoingDrug" style="width:100%;"/> </td>
-                        <td><input type="text" id="quantityInStock" name="quantityInStock" style="width:50px;" readonly=''> </td>
-                        <td><input type="text"  name="expiryDate" id="expiryDate" style="width:100px;" readonly='' /></td>
-                        <td><input type="text" name="batchNo" id="batchNo" style="width:100px;" readonly=''/> </td>
-                        <td><input type="text" name="buyingPrice" id="buyingPrice" style="width:50px;" value="" readonly=''/> </td>
-                        <td><input type="text" name="unitPrice" id="unitPrice" style="width:50px;"  value="" readonly=''/> </td>
-                        <td><input type="text" name="outgoingQuantity" id="outgoingQuantity" style="width:50px;"/> </td>
-                        <td><a href="#">Remove</a></td>
-                    </tr>
+                    <%if(transactionTypeSelected!=null){
+                        if(Integer.valueOf(transactionTypeSelected)==1 || Integer.valueOf(transactionTypeSelected)==2){%>
+                        <tr>
+                            <th>Drug</th>
+                            <th>Quantity In Stock</th>
+                            <th>Expiry date</th>
+                            <th>Batch NO</th>
+                            <th>BP</th>
+                            <th>SP</th>
+                            <th>Quantity To transfer</th>
+                            <th></th>
+                        </tr>
+                        <tr><td style="width:50%;"><input type="text" name="outgoingDrug" id="outgoingDrug" style="width:100%;"/> </td>
+                            <td><input type="text" id="quantityInStock" name="quantityInStock" style="width:50px;" readonly=''> </td>
+                            <td><input type="text"  name="expiryDate" id="expiryDate" style="width:100px;" readonly='' /></td>
+                            <td><input type="text" name="batchNo" id="batchNo" style="width:100px;" readonly=''/> </td>
+                            <td><input type="text" name="buyingPrice" id="buyingPrice" style="width:50px;" value="" readonly=''/> </td>
+                            <td><input type="text" name="unitPrice" id="unitPrice" style="width:50px;"  value="" readonly=''/> </td>
+                            <td><input type="text" name="outgoingQuantity" id="outgoingQuantity" style="width:50px;"/> </td>
+                            <td><a href="#">Remove</a></td>
+                        </tr>
+                        <%}
+                    }%>
                 </table></br>
-                <input type="button"  value="Add A New Row" onclick="addRow('stockTransferTable')"/>
-                <input class="submit" type="submit" value="Transfer Stock"/>
+                <%if(transactionTypeSelected!=null){
+                  if(Integer.valueOf(transactionTypeSelected)==1){%>
+                        <input type="button"  value="Add A New Row" onclick="addRow('stockTransferTable')"/>
+                        <input class="submit" type="submit" value="Request Stock" />
+                  <%}
+                  else if(Integer.valueOf(transactionTypeSelected)==2){%>
+                          <input type="button"  value="Add A New Row" onclick="addRow('stockTransferTable')"/>
+                          <input class="submit" type="submit" value="Issue Stock" />
+                 <%}
+                }%>
         </form>
 </fieldset>
 </DIV>
