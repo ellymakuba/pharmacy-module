@@ -88,5 +88,6 @@
         DeliveryNoteTracker.hbm.xml
         PharmacyFingerPrint.hbm.xml
         PharmacyOpeningStock.hbm.xml
+        PharmacyStockAdjustment.hbm.xml
     </mappingFiles>
 </module>

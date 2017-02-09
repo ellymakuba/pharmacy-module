@@ -2053,6 +2053,32 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
         Date date=(Date)criteria.uniqueResult();
         return date;
     }
+    public  boolean saveStockAdjustmentList(List<PharmacyStockAdjustment> pharmacyStockAdjustmentList){
+        for(PharmacyStockAdjustment pharmacyStockAdjustment:pharmacyStockAdjustmentList){
+            sessionFactory.getCurrentSession().saveOrUpdate(pharmacyStockAdjustment);
+        }
+        return true;
+    }
+    public List<PharmacyOpeningStock> getOpeningStockListBetweenDatesByDrug(Drug drug,Date startDate,Date endDate,PharmacyLocations location){
+        Criteria criteria=sessionFactory.getCurrentSession().createCriteria(PharmacyOpeningStock.class);
+        criteria.add(Expression.eq("location",location));
+        criteria.add(Expression.gt("date", startDate));
+        criteria.add(Expression.lt("date", endDate));
+        criteria.add(Expression.eq("drug",drug));
+        return criteria.list();
+    }
+    public PharmacyOpeningStock saveOpeningStock(PharmacyOpeningStock pharmacyOpeningStock){
+        sessionFactory.getCurrentSession().saveOrUpdate(pharmacyOpeningStock);
+        return pharmacyOpeningStock;
+    }
+    public PharmacyOpeningStock getOpeningStockByDrugAndDate(Date date,PharmacyLocations location,Drug drug){
+        Criteria criteria=sessionFactory.getCurrentSession().createCriteria(PharmacyOpeningStock.class);
+        criteria.add(Expression.eq("location", location));
+        criteria.add(Expression.eq("date", date));
+        criteria.add(Expression.eq("drug",drug));
+        PharmacyOpeningStock openingStock=(PharmacyOpeningStock)criteria.uniqueResult();
+        return openingStock;
+    }
 }
 
 

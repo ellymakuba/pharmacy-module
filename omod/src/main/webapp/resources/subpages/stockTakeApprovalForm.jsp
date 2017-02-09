@@ -101,7 +101,7 @@ List<PharmacyStore> pharmacyStores = service.getPharmacyStoreForApprovalByLocati
                        <input type="hidden" name="inventoryItemUUID" value=<%=pharmacyStoreInstance.getUuid()%> />
                        <td><%=pharmacyStoreInstance.getDrugs().getName()%></td>
                        <td><%=pharmacyStoreInstance.getBatchNo()%></td>
-                       <td><%=pharmacyStoreInstance.getQuantity()%></td>
+                       <td><%=pharmacyStoreInstance.getSystemQuantityOnLastStockTake()%></td>
                        <td><%=pharmacyStoreInstance.getStockTakeQuantityWaitingForApproval()%></td>
                        <td><input type="checkbox" name="approved"/></td>
                     </tr>

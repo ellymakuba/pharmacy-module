@@ -819,4 +819,8 @@ public interface PharmacyService extends OpenmrsService {
     public List<PharmacyStore> getPharmacyInventoryByLocation(PharmacyLocations location);
     public  boolean saveOpeningStockList(List<PharmacyOpeningStock> pharmacyOpeningStocks);
     public Date getLastOpeningStockGenerationDate(PharmacyLocations location);
+    public  boolean saveStockAdjustmentList(List<PharmacyStockAdjustment> pharmacyStockAdjustmentList);
+    public List<PharmacyOpeningStock> getOpeningStockListBetweenDatesByDrug(Drug drug,Date startDate,Date endDate,PharmacyLocations location);
+    public PharmacyOpeningStock saveOpeningStock(PharmacyOpeningStock pharmacyOpeningStock);
+    public PharmacyOpeningStock getOpeningStockByDrugAndDate(Date date,PharmacyLocations location,Drug drug);
 }

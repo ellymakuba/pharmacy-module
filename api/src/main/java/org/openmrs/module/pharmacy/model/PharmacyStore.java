@@ -36,6 +36,8 @@ public class PharmacyStore extends BaseOpenmrsData {
     private Integer unitsPerPack;
     private Integer stockTakeQuantityWaitingForApproval;
     private Integer stockTakeApprovalStatus;
+    private Date lastStockTakeDate;
+    private Integer systemQuantityOnLastStockTake;
     /** default constructor */
     public PharmacyStore() {
     }
@@ -416,6 +418,19 @@ public class PharmacyStore extends BaseOpenmrsData {
         return category;
     }
 
+    public Date getLastStockTakeDate() {
+        return lastStockTakeDate;
+    }
 
+    public void setLastStockTakeDate(Date lastStockTakeDate) {
+        this.lastStockTakeDate = lastStockTakeDate;
+    }
 
+    public Integer getSystemQuantityOnLastStockTake() {
+        return systemQuantityOnLastStockTake;
+    }
+
+    public void setSystemQuantityOnLastStockTake(Integer systemQuantityOnLastStockTake) {
+        this.systemQuantityOnLastStockTake = systemQuantityOnLastStockTake;
+    }
 }

@@ -1098,4 +1098,16 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public Date getLastOpeningStockGenerationDate(PharmacyLocations location){
         return pharmacyDAO.getLastOpeningStockGenerationDate(location);
     }
+    public  boolean saveStockAdjustmentList(List<PharmacyStockAdjustment> pharmacyStockAdjustmentList){
+        return pharmacyDAO.saveStockAdjustmentList(pharmacyStockAdjustmentList);
+    }
+    public List<PharmacyOpeningStock> getOpeningStockListBetweenDatesByDrug(Drug drug,Date startDate,Date endDate,PharmacyLocations location){
+        return pharmacyDAO.getOpeningStockListBetweenDatesByDrug(drug,startDate,endDate,location);
+    }
+    public PharmacyOpeningStock saveOpeningStock(PharmacyOpeningStock pharmacyOpeningStock){
+        return pharmacyDAO.saveOpeningStock(pharmacyOpeningStock);
+    }
+    public PharmacyOpeningStock getOpeningStockByDrugAndDate(Date date,PharmacyLocations location,Drug drug){
+        return pharmacyDAO.getOpeningStockByDrugAndDate(date,location,drug);
+    }
 }
