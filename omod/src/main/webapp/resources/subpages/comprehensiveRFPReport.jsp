@@ -64,7 +64,6 @@ $j("#endDate").datepicker();
         		}()
 );
 $j("table").delegate("#comprehensiveReportTable tbody tr :first-child","click",function(){
-alert("am clicked");
     var TableRow = this.parentNode;
 	$j('#west_panel_content').load("resources/subpages/detailedDrugHistory.form?drugID="+$j(this).html(), function () {});
     $j('#west_panel_content').empty();
@@ -104,7 +103,7 @@ $j("table").delegate("#comprehensiveReportTable tbody tr :last-child","click",fu
                  Date formatedDate = simpleDateFormat.parse(tommorowStringDate);
                  pharmacyStoreList = service.getDrugTransactionsBetweenRange(startDate, endDate, pharmacyLocation.getUuid());
                  List<S11> s11List=service.getDistinctS11WithinDateRange(pharmacyLocation.getUuid(),startDate,endDate);
-                 Integer openingStock;
+                 int openingStock;
                  Integer drugTransactionQuantity;
                  Integer drugTransferedQuantity;
                  Integer drugReceivedQuantity;
@@ -113,7 +112,9 @@ $j("table").delegate("#comprehensiveReportTable tbody tr :last-child","click",fu
                  Integer drugTotalTransfers;
                  Integer drugTotalReceived;
                  Integer cumilativeQuantityOfDrugDispensed;
+                 Integer totalDeductions;
                  String distinctS11;
+                 PharmacyOpeningStock openingStockObject;
                  List<DrugTransactions> transferedDrugTransactions=service.getTransferedTransactionsdBetweenDates(startDate,endDate,pharmacyLocation.getUuid());
                  List<DrugTransactions> receivedDrugTransactionsList=service.getReceivedDrugTransactionsdBetweenDates(startDate,endDate,pharmacyLocation.getUuid());
 %>
@@ -149,14 +150,12 @@ $j("table").delegate("#comprehensiveReportTable tbody tr :last-child","click",fu
 				drugTotalTransfers=0;
 				drugTotalReceived=0;
 				openingStock=0;
-						Drug drugFromContext = Context.getConceptService().getDrugByNameOrId(pharmacyStoreInstance.getDrugs().getId().toString());
-						cumilativeQuantityOfDrugDispensed=service.getDrugsDispensedWithinPeriodRange(startDate,endDate,drugFromContext.getDrugId(),pharmacyLocation.getUuid());
-
-						GeneratePharmacyInventoryQuantities drugToFindOpeningStock=service.getDrugInventoryOpeningStockByDateAndLocation(drugFromContext.getUuid(),startDate,formatedDate,pharmacyLocation.getUuid());
-						if(drugToFindOpeningStock!=null){
-							openingStock=drugToFindOpeningStock.getStockQuantities();
-						}
-
+				Drug drugFromContext = Context.getConceptService().getDrugByNameOrId(pharmacyStoreInstance.getDrugs().getId().toString());
+				openingStockObject=service.getOpeningStockByDrugAndDate(startDate,pharmacyLocation,drugFromContext);
+				if(openingStockObject !=null){
+					openingStock=openingStockObject.getQuantity();
+				}
+				cumilativeQuantityOfDrugDispensed=service.getDrugsDispensedWithinPeriodRange(startDate,endDate,drugFromContext.getDrugId(),pharmacyLocation.getUuid());
 						%>
 						<tr>
 						<td><a href="#"><%=pharmacyStoreInstance.getDrugs().getDrugId() %></a></td>
@@ -195,7 +194,9 @@ $j("table").delegate("#comprehensiveReportTable tbody tr :last-child","click",fu
 								<td><%=drugTransferedQuantity%></td>
                         <%
                         }
-                        drugTotalInventory=openingStock+drugTotalS11+drugTotalReceived-drugTotalTransfers;%>
+                        totalDeductions=0;
+                        totalDeductions=drugTotalTransfers+cumilativeQuantityOfDrugDispensed;
+                        drugTotalInventory=openingStock+drugTotalS11+drugTotalReceived-totalDeductions;%>
                         <td><%=drugTotalInventory%></td>
                         <td></td>
                         <td></td>

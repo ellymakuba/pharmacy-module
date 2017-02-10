@@ -40,5 +40,7 @@
         <property name="unitsPerPack" type="java.lang.Integer" column="units_per_pack" length="255"/>
         <property name="stockTakeQuantityWaitingForApproval" type="java.lang.Integer" column="stock_take_quantity_waiting_for_approval" length="255"/>
         <property name="stockTakeApprovalStatus" type="java.lang.Integer" column="stock_take_approval_status"/>
+        <property name="systemQuantityOnLastStockTake" type="java.lang.Integer" column="system_quantity_on_last_stock_take"/>
+        <property name="lastStockTakeDate" type="java.util.Date" column="last_stock_take_date"/>
     </class>
 </hibernate-mapping>

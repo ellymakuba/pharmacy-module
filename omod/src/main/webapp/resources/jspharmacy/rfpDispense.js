@@ -932,5 +932,5 @@ patienteEncounters = $j('#allPatientEncounters').dataTable({
  });
 }
 if($j("#patientId").val() != null){
-$j("#tableDispense").show();
+//$j("#tableDispense").show();
 }

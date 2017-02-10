@@ -67,6 +67,7 @@
   String reportStartDate=(String)session.getAttribute("reportStartDate");
   String reportEndDate=(String)session.getAttribute("reportEndDate");
   SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+  SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
   Date startDate = formatter.parse(reportStartDate);
   Date endDate = formatter.parse(reportEndDate);
   String sessionDrugIdToCheckHistory=(String)session.getAttribute("sessionDrugId");
@@ -74,6 +75,7 @@
   PharmacyDrugOrder pharmacyDrugOrder;
   Person person;
   Integer totalQuantity=0;
+  String dispenseDate;
  List<DrugExtra> drugExtraList=service.getDrugExtraRangeByDrugAndLocation(pharmacyLocation.getUuid(),drugFromContext.getDrugId().toString(),startDate,endDate);
 %>
 <DIV id="drugHistoryDiv">
@@ -92,6 +94,7 @@
 <% for(DrugExtra drugExtraInstance:drugExtraList){
  pharmacyDrugOrder=service.getPharmacyDrugOrdersByDrugExtraUUID(drugExtraInstance);
  if(pharmacyDrugOrder !=null){
+     dispenseDate=df.format(drugExtraInstance.getDateCreated());
      totalQuantity=totalQuantity+drugExtraInstance.getQuantitysold();
      person=Context.getPatientService().getPatient(pharmacyDrugOrder.getPerson().getPatientId());
         %>
@@ -99,7 +102,7 @@
           <td><%=pharmacyDrugOrder.getPerson().getPatientIdentifier()%></td>
           <td><%=Context.getPatientService().getPatient(pharmacyDrugOrder.getPerson().getPatientId()).getPersonName()%></td>
           <td><%=drugExtraInstance.getQuantitysold()%></td>
-          <td><%=drugExtraInstance.getDateCreated()%></td>
+          <td><%=dispenseDate %></td>
          </tr>
         <%
     }

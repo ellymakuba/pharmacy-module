@@ -4114,4 +4114,68 @@
         </createIndex>
         <addAutoIncrement columnDataType="int" columnName="pharmacy_opening_stock_id" tableName="pharmacy_opening_stock"/>
     </changeSet>
+    <changeSet author="ellymakuba" id="2017-02-09-12:12pm">
+        <addColumn tableName="pharmacy_inventory">
+            <column name="system_quantity_on_last_stock_take" type="int(11)" defaultValue="0"/>
+        </addColumn>
+        <addColumn tableName="pharmacy_inventory">
+            <column name="last_stock_take_date" type="date" />
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2017-02-09-01:57pm">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="pharmacy_stock_adjustment"></tableExists>
+            </not>
+        </preConditions>
+        <comment>create pharmacy_stock_adjustment</comment>
+        <createTable tableName="pharmacy_stock_adjustment">
+            <column name="pharmacy_stock_adjustment_id" type="int(11)">
+                <constraints  nullable="false"  primaryKey="true"/>
+            </column>
+            <column name="uuid" type="char(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_uuid" type="Char(38)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="drug_uuid" type="char(38)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="int(11)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="batch_no" type="VARCHAR(255)" >
+                <constraints nullable="true"/>
+            </column>
+            <column name="generation_date" type="date" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="VARCHAR(255)" >
+                <constraints nullable="true"/>
+            </column>
+            <column name="creator" defaultValue="0"  type="int(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datecreated"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column  name="voided" defaultValue="0" type="smallint(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voided_by" type="int(11)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date_voided"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="void_reason"  type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <createIndex indexName="uuid" tableName="pharmacy_stock_adjustment">
+            <column name="uuid"/>
+        </createIndex>
+        <addAutoIncrement columnDataType="int" columnName="pharmacy_stock_adjustment_id" tableName="pharmacy_stock_adjustment"/>
+    </changeSet>
 </databaseChangeLog>

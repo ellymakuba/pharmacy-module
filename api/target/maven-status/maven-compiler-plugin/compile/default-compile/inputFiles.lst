@@ -2,6 +2,7 @@
 /home/elly/workspace/amrspharmacy/api/src/main/java/org/openmrs/module/pharmacy/model/PharmacyEncounter.java
 /home/elly/workspace/amrspharmacy/api/src/main/java/org/openmrs/module/pharmacy/model/DeliveryNote.java
 /home/elly/workspace/amrspharmacy/api/src/main/java/org/openmrs/module/pharmacy/model/PharmacyStoreOutgoing.java
+/home/elly/workspace/amrspharmacy/api/src/main/java/org/openmrs/module/pharmacy/model/PharmacyStockAdjustment.java
 /home/elly/workspace/amrspharmacy/api/src/main/java/org/openmrs/module/pharmacy/model/StockTransferTracker.java
 /home/elly/workspace/amrspharmacy/api/src/main/java/org/openmrs/module/pharmacy/model/PharmacyTemporaryInventory.java
 /home/elly/workspace/amrspharmacy/api/src/main/java/org/openmrs/module/pharmacy/PharmacyActivator.java

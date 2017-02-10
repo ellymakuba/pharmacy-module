@@ -7,6 +7,7 @@ org/openmrs/module/pharmacy/service/PharmacyServiceTest.class
 org/openmrs/module/pharmacy/model/PharmacyLocations.class
 org/openmrs/module/pharmacy/model/PharmacyTemporaryInventory.class
 org/openmrs/module/pharmacy/model/PharmacyEncounter.class
+org/openmrs/module/pharmacy/model/PharmacyStockAdjustment.class
 org/openmrs/module/pharmacy/model/StockTransferTracker.class
 org/openmrs/module/pharmacy/service/PharmacyService.class
 org/openmrs/module/pharmacy/model/PharmacyObs.class
