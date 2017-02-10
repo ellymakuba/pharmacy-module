@@ -74,7 +74,6 @@ public class StockTakeFormController {
                 pharmacyStoreList.add(pharmacyStore);
             }
             for(PharmacyStore pharmacyStoreInstance:pharmacyStoreList){
-                System.out.println("pharmacyStoreInstance.getUuid()++++++++++++++++++++++++++++++++"+pharmacyStoreInstance.getUuid());
                 pharmacyStoreItemToSave=service.getPharmacyInventoryByUuid(pharmacyStoreInstance.getUuid());
                 if(pharmacyStoreInstance.getStockTakeApprovalStatus()==0){
                     Date today=new Date();

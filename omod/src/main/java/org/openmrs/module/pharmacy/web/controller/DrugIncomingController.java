@@ -1,11 +1,8 @@
 package org.openmrs.module.pharmacy.web.controller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-//import org.json.simple.JSONArray;
-//import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.simple.JSONArray;
 import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
 import org.openmrs.Drug;
@@ -19,13 +16,16 @@ import org.openmrs.module.pharmacy.service.PharmacyService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.*;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+//import org.json.simple.JSONArray;
+//import org.json.JSONArray;
 
 @Controller
 public class DrugIncomingController {
@@ -219,8 +219,8 @@ public class DrugIncomingController {
                     Integer totalQuantity= pharmacyStoreInstance.getQuantity()+ pharmacyStoreListItem.getQuantity();
                     pharmacyStoreListItem.setQuantity(totalQuantity);
                     if(inventoryMetaData !=null){
-                        pharmacyStoreListItem.setUnitPrice(inventoryMetaData.getBuyingPrice());
-                        pharmacyStoreListItem.setBuyingPrice(inventoryMetaData.getSellingPrice());
+                        pharmacyStoreListItem.setUnitPrice(inventoryMetaData.getSellingPrice());
+                        pharmacyStoreListItem.setBuyingPrice(inventoryMetaData.getBuyingPrice());
                         pharmacyStoreListItem.setUnitsPerPack(inventoryMetaData.getUnitsInPack());
                         pharmacyStoreListItem.setCategory(inventoryMetaData.getCategory());
                     }
