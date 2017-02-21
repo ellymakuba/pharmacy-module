@@ -4053,7 +4053,7 @@
     </changeSet>
     <changeSet author="ellymakuba" id="2017-01-26-10:10am">
         <addColumn tableName="pharmacy_locations">
-            <column name="cashier_present"  type="int(11)"/>
+            <column name="cashier_present"  type="int(11)" defaultValue="0"/>
         </addColumn>
     </changeSet>
     <changeSet author="ellymakuba" id="2017-01-30-11:38am">
@@ -4177,5 +4177,52 @@
             <column name="uuid"/>
         </createIndex>
         <addAutoIncrement columnDataType="int" columnName="pharmacy_stock_adjustment_id" tableName="pharmacy_stock_adjustment"/>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2017-02-15-08:35pm">
+        <addNotNullConstraint columnDataType="int" columnName="cashier_present"  defaultNullValue="0"  tableName="pharmacy_locations"/>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2017-02-16-09:59am">
+        <addDefaultValue columnName="cashier_present" defaultValue="0"  tableName="pharmacy_locations"/>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2017-02-20-09:32am">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="pharmacy_waiver_reason"></tableExists>
+            </not>
+        </preConditions>
+        <comment>create pharmacy_waiver_reason</comment>
+        <createTable tableName="pharmacy_waiver_reason">
+            <column name="reason_id" type="int(11)">
+                <constraints  nullable="false"  primaryKey="true"/>
+            </column>
+            <column name="uuid" type="char(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reason" type="VARCHAR(255)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="creator" defaultValue="0"  type="int(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datecreated"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column  name="voided" defaultValue="0" type="smallint(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voided_by" type="int(11)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date_voided"  type="datetime">
+                <constraints nullable="true"/>
+            </column>
+            <column name="void_reason"  type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <createIndex indexName="uuid" tableName="pharmacy_waiver_reason">
+            <column name="uuid"/>
+        </createIndex>
+        <addAutoIncrement columnDataType="int" columnName="reason_id" tableName="pharmacy_waiver_reason"/>
     </changeSet>
 </databaseChangeLog>

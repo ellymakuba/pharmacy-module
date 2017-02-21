@@ -115,18 +115,3 @@ $j("form#locationvoid").submit(function () {
         return false;
     }
 });
-$j("#locationreason").autocomplete({
-    minLength:0,
-    source:formReasons,
-    select:function (event, ui) {
-        $j("#locationreason").removeClass("highlight");
-        $j(this).autocomplete('close');
-    },
-    change:function (event, ui) {
-        if (!ui.item) {
-            $j('#locationreason').addClass('highlight');
-            $j("#locationreason").val("");
-        }
-    }
-
-});

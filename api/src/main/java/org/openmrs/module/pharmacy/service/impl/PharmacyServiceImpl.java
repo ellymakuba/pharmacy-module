@@ -1110,4 +1110,10 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public PharmacyOpeningStock getOpeningStockByDrugAndDate(Date date,PharmacyLocations location,Drug drug){
         return pharmacyDAO.getOpeningStockByDrugAndDate(date,location,drug);
     }
+    public List<WaiverReason> getAllWaiverReasons(){
+        return pharmacyDAO.getAllWaiverReasons();
+    }
+    public WaiverReason saveWaiverReason(WaiverReason waiver){
+        return pharmacyDAO.saveWaiverReason(waiver);
+    }
 }

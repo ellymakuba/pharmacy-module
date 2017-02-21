@@ -2,11 +2,11 @@ package org.openmrs.module.pharmacy.web.controller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.simple.JSONArray;
 import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.openmrs.Concept;
 import org.openmrs.Role;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
@@ -22,12 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.json.simple.parser.ContainerFactory;
 
 @Controller
 public class LocationUsersController {

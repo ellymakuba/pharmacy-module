@@ -2079,6 +2079,16 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
         PharmacyOpeningStock openingStock=(PharmacyOpeningStock)criteria.uniqueResult();
         return openingStock;
     }
+    public List<WaiverReason> getAllWaiverReasons(){
+        Criteria criteria=sessionFactory.getCurrentSession().createCriteria(WaiverReason.class);
+        criteria.add(Expression.eq("voided",false));
+        return criteria.list();
+    }
+    public WaiverReason saveWaiverReason(WaiverReason waiver){
+        sessionFactory.getCurrentSession().saveOrUpdate(waiver);
+        return waiver;
+    }
+
 }
 
 

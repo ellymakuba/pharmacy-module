@@ -89,5 +89,6 @@
         PharmacyFingerPrint.hbm.xml
         PharmacyOpeningStock.hbm.xml
         PharmacyStockAdjustment.hbm.xml
+        WaiverReason.hbm.xml
     </mappingFiles>
 </module>

@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page import="org.openmrs.web.WebConstants" %>
 <%@ include file="/WEB-INF/template/include.jsp" %>
@@ -832,6 +831,13 @@ $j("#issueDeliveredGoods").click(function () {
     });
     hideInactiveDivElements();
 });
+$j("#waiverReason").click(function () {
+    $j("#spinner").show();
+    $j('#west_panel_content').empty();
+    $j('#west_panel_content').load('resources/subpages/waiverReason.form', function () {
+    });
+    hideInactiveDivElements();
+});
 $j("#regimenAgeGenderBreakDown").click(function () {
     $j("#spinner").show();
     $j('#west_panel_content').empty();
@@ -1621,6 +1627,7 @@ CloseDialog();
                     <%  if (org.openmrs.api.context.Context.hasPrivilege("Pharmacy Admin")){ %>
                     <LI><A href="#" id="receiveDeliveryNote">Receive Delivery Note</A> </LI>
                     <LI><A href="#" id="issueDeliveredGoods">Issue Delivered Goods</A> </LI>
+                    <LI><A href="#" id="waiverReason">Waiver Reason</A> </LI>
                     <LI><A href="#" id="stockTakeApprovalForm">Stock Take Approval</A></LI>
                     <LI><A href="#" id="inventoryMetaData">Inventory MetaData</A></LI>
                     <LI><A href="#" id="stockTransferApprovalForm">Stock Transfer Approval</A></LI>
