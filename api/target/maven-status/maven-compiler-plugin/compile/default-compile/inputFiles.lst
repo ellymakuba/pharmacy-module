@@ -29,6 +29,7 @@
 /home/elly/workspace/amrspharmacy/api/src/main/java/org/openmrs/module/pharmacy/service/PharmacyService.java
 /home/elly/workspace/amrspharmacy/api/src/main/java/org/openmrs/module/pharmacy/model/PharmacyDose.java
 /home/elly/workspace/amrspharmacy/api/src/main/java/org/openmrs/module/pharmacy/model/PharmacyEncounterType.java
+/home/elly/workspace/amrspharmacy/api/src/main/java/org/openmrs/module/pharmacy/model/WaiverReason.java
 /home/elly/workspace/amrspharmacy/api/src/main/java/org/openmrs/module/pharmacy/model/PharmacyObs.java
 /home/elly/workspace/amrspharmacy/api/src/main/java/org/openmrs/module/pharmacy/model/PharmacyCategory.java
 /home/elly/workspace/amrspharmacy/api/src/main/java/org/openmrs/module/pharmacy/model/Indicators.java

@@ -56,6 +56,9 @@ public class RfpDispenseController {
     private String UUIDForExistingDrugExtra="";
     private PharmacyDose pharmacyDose;
     private Boolean booleanCheck=false;
+    private String waivingSite="NA";
+    private String reason="NA";
+    private String socialWorker="NA";
     @RequestMapping(method=RequestMethod.GET,value="module/pharmacy/resources/subpages/rfpDispenseForm")
     public void rfpDispenseFormGetProcessor(ModelMap map,HttpServletRequest request) throws java.text.ParseException, IOException {
 
@@ -129,6 +132,15 @@ public class RfpDispenseController {
                         pharmacyDose=service.getPharmacyDoseByID(Integer.valueOf(value));
                         drugExtra.setDose(pharmacyDose);
                     }
+                    if(key.equalsIgnoreCase("waiver_site")){
+                        waivingSite=value;
+                    }
+                    if(key.equalsIgnoreCase("waiver_reason")){
+                        reason=value;
+                    }
+                    if(key.equalsIgnoreCase("social_worker")){
+                        socialWorker=value;
+                    }
                 }
                 dispensedModel.add(drugExtra);
             }
@@ -152,6 +164,18 @@ public class RfpDispenseController {
             pharmacyEncounter.setDiscount(discount);
             pharmacyEncounter.setPaymentStatus(0);
             pharmacyEncounter.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));
+            if(!waivingSite.equalsIgnoreCase("NA")){
+                pharmacyEncounter.setSiteWaiving(service.getPharmacyLocationsByUuid(waivingSite));
+            }
+            else{
+                pharmacyEncounter.setSiteWaiving(service.getPharmacyLocationsByUuid(waivingSite));
+            }
+            if(!socialWorker.equalsIgnoreCase("NA")){
+                pharmacyEncounter.setSocialWorker(socialWorker);
+            }
+            if(!reason.equalsIgnoreCase("NA")){
+                pharmacyEncounter.setReason(service.getWaiverReasonByUuId(reason));
+            }
 
             service.savePharmacyEncounter(pharmacyEncounter);
             for(int i=0; i<dispensedModel.size(); i++){

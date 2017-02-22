@@ -32,5 +32,8 @@
         <property name="totalAmount" type="java.lang.Double" column="totalAmount"/>
         <property name="discount" type="java.lang.Double" column="discount"/>
         <property name="comment" type="java.lang.String" column="comments" length="255"/>
+        <many-to-one name="siteWaiving" property-ref="uuid" column="site_waiving"/>
+        <many-to-one name="reason" property-ref="uuid" column="waiver_reason"/>
+        <property name="socialWorker" type="java.lang.String" column="social_worker"/>
     </class>
 </hibernate-mapping>

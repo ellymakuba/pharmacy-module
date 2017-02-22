@@ -36,6 +36,7 @@ org/openmrs/module/pharmacy/model/GeneratePharmacyInventoryQuantities.class
 org/openmrs/module/pharmacy/ext/PharmacyAdminExt.class
 org/openmrs/module/pharmacy/model/S11.class
 org/openmrs/module/pharmacy/model/PharmacyStoreOutgoing.class
+org/openmrs/module/pharmacy/model/WaiverReason.class
 org/openmrs/module/pharmacy/model/DrugMaxMin.class
 org/openmrs/module/pharmacy/model/PharmacyExtra.class
 org/openmrs/module/pharmacy/model/DrugExtra.class

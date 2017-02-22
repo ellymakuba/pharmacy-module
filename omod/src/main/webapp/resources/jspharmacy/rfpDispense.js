@@ -273,6 +273,9 @@ function RefreshTable(tableId, urlData) {
 $j("#amountPaid").live("blur",function(){
     document.getElementById("balance").value= parseFloat($j("#amountPaid").val())-parseFloat($j("#totalAmount").val());
 })
+$j("#waiver_site_tr").hide();
+$j("#waiver_reason_tr").hide();
+$j("#social_worker_tr").hide();
 $j("INPUT[NAME='itemAmountWaived']").live("blur",function(){
     var amountRequiredToPay = 0;
     var totalReceiptSum=0;
@@ -293,6 +296,9 @@ $j("INPUT[NAME='itemAmountWaived']").live("blur",function(){
     document.getElementById("totalAmount").value=parseFloat(amountRequiredToPay);
     document.getElementById("amountWaived").value=Number(waivedSum);
     document.getElementById("balance").value= parseFloat($j("#amountPaid").val())-parseFloat($j("#totalAmount").val());
+    $j("#waiver_site_tr").show();
+    $j("#waiver_reason_tr").show();
+    $j("#social_worker_tr").show();
 });
 $j("INPUT[NAME='discount']").live("blur",function(){
     var amountRequiredToPay;
