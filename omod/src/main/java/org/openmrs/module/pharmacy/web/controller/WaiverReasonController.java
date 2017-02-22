@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.openmrs.api.context.Context;
@@ -33,31 +34,36 @@ public class WaiverReasonController {
     private JSONArray jsonArray;
     private WaiverReason reason;
     private ContainerFactory containerFactory;
+    private JSONObject jsonObject;
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/resources/subpages/waiverReason")
     public synchronized void waiverForm(ModelMap map,HttpServletRequest request) {
     }
     @RequestMapping(method = RequestMethod.GET, value = "module/pharmacy/waiver_reasons")
-    public synchronized void reasonGET(HttpServletRequest request,HttpServletResponse response) throws IOException {
+    public synchronized void reasonGET(HttpServletRequest request,HttpServletResponse response) throws IOException, JSONException {
         service= Context.getService(PharmacyService.class);
         reasonList=service.getAllWaiverReasons();
-        jsonArray=new JSONArray();
-        try {
+
+        jsonObject=new JSONObject();
         if(reasonList.size()>0){
             for(int i=0;i<reasonList.size();i++){
-                jsonArray.put(""+reasonList.get(i).getUuid());
+                jsonArray=new JSONArray();
+                jsonArray.put("edit");
                 jsonArray.put(""+reasonList.get(i).getReason());
-                jsonArray.put(""+reasonList.get(i).getUuid());
-                System.out.println("reason name +++++++++++++++++++++++++"+reasonList.get(i).getReason());
+                jsonArray.put("" + reasonList.get(i).getUuid());
+                jsonObject.accumulate("aaData",jsonArray);
             }
         }else{
+            jsonArray=new JSONArray();
             jsonArray.put("no data");
             jsonArray.put("no data");
             jsonArray.put("no data");
+            jsonObject.accumulate("aaData",jsonArray);
         }
-         response.getWriter().print(jsonArray);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        jsonObject.accumulate("iTotalRecords", jsonObject.getJSONArray("aaData").length());
+        jsonObject.accumulate("iTotalDisplayRecords", jsonObject.getJSONArray("aaData").length());
+        jsonObject.accumulate("iDisplayStart", 0);
+        jsonObject.accumulate("iDisplayLength", 10);
+        response.getWriter().print(jsonObject);
         response.flushBuffer();
     }
     @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/waiver")

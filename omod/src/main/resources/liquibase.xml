@@ -4225,4 +4225,39 @@
         </createIndex>
         <addAutoIncrement columnDataType="int" columnName="reason_id" tableName="pharmacy_waiver_reason"/>
     </changeSet>
+    <changeSet author="ellymakuba" id="2017-02-21-03:32pm">
+        <addColumn tableName="pharmacy_drug_extra">
+            <column name="site_waiving" type="char(38)" defaultValue="0"/>
+        </addColumn>
+        <addColumn tableName="pharmacy_drug_extra">
+            <column name="waiver_reason" type="char(38)" defaultValue="0"/>
+        </addColumn>
+        <addColumn tableName="pharmacy_drug_extra">
+            <column name="social_worker" type="VARCHAR(255)" defaultValue="0"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2017-02-22-01:37pm">
+        <addDefaultValue columnName="site_waiving" defaultValue="0"  tableName="pharmacy_drug_extra"/>
+        <addDefaultValue columnName="waiver_reason" defaultValue="0"  tableName="pharmacy_drug_extra"/>
+        <addDefaultValue columnName="social_worker" defaultValue="0"  tableName="pharmacy_drug_extra"/>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2017-02-22-01:46pm">
+        <addDefaultValue columnName="site_waiving" defaultValue="NA"  tableName="pharmacy_drug_extra"/>
+        <addDefaultValue columnName="waiver_reason" defaultValue="NA"  tableName="pharmacy_drug_extra"/>
+        <addDefaultValue columnName="social_worker" defaultValue="NA"  tableName="pharmacy_drug_extra"/>
+    </changeSet>
+    <changeSet author="ellymakuba" id="2017-02-22-02:31pm">
+        <addColumn tableName="pharmacy_encounter">
+            <column name="site_waiving" type="char(38)" />
+        </addColumn>
+        <addColumn tableName="pharmacy_encounter">
+            <column name="waiver_reason" type="char(38)"/>
+        </addColumn>
+        <addColumn tableName="pharmacy_encounter">
+            <column name="social_worker" type="VARCHAR(255)"/>
+        </addColumn>
+        <addDefaultValue columnName="site_waiving"  defaultValue="NA"  tableName="pharmacy_encounter"/>
+        <addDefaultValue columnName="waiver_reason"  defaultValue="NA"  tableName="pharmacy_encounter"/>
+        <addDefaultValue columnName="social_worker"  defaultValue="NA"  tableName="pharmacy_encounter"/>
+    </changeSet>
 </databaseChangeLog>

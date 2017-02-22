@@ -29,6 +29,9 @@ public class PharmacyEncounter extends BaseOpenmrsData {
     private Integer PEPChecked;
     private Integer regimenChanged;
     private Integer regimenInitiation;
+    private PharmacyLocations siteWaiving;
+    private WaiverReason reason;
+    private String socialWorker;
 
     public Integer getRegimenInitiation() {
         return regimenInitiation;
@@ -246,4 +249,27 @@ public class PharmacyEncounter extends BaseOpenmrsData {
 
     }
 
+    public PharmacyLocations getSiteWaiving() {
+        return siteWaiving;
+    }
+
+    public void setSiteWaiving(PharmacyLocations siteWaiving) {
+        this.siteWaiving = siteWaiving;
+    }
+
+    public WaiverReason getReason() {
+        return reason;
+    }
+
+    public void setReason(WaiverReason reason) {
+        this.reason = reason;
+    }
+
+    public String getSocialWorker() {
+        return socialWorker;
+    }
+
+    public void setSocialWorker(String socialWorker) {
+        this.socialWorker = socialWorker;
+    }
 }

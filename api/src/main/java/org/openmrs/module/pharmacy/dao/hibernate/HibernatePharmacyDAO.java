@@ -2088,7 +2088,12 @@ public class HibernatePharmacyDAO implements PharmacyDAO {
         sessionFactory.getCurrentSession().saveOrUpdate(waiver);
         return waiver;
     }
-
+    public WaiverReason getWaiverReasonByUuId(String uuid){
+        Criteria criteria=sessionFactory.getCurrentSession().createCriteria(WaiverReason.class);
+        criteria.add(Expression.eq("uuid",uuid));
+        WaiverReason reason=(WaiverReason)criteria.uniqueResult();
+        return reason;
+    }
 }
 
 

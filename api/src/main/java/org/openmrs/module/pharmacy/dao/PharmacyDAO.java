@@ -759,4 +759,5 @@ public interface PharmacyDAO {
     public PharmacyOpeningStock getOpeningStockByDrugAndDate(Date date,PharmacyLocations location,Drug drug);
     public List<WaiverReason> getAllWaiverReasons();
     public WaiverReason saveWaiverReason(WaiverReason waiver);
+    public WaiverReason getWaiverReasonByUuId(String uuid);
 }

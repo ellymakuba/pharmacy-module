@@ -1,4 +1,5 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<!DOCTYPE html>
 <%@ page import="org.openmrs.web.WebConstants" %>
 <%@ include file="/WEB-INF/template/include.jsp" %>
 <openmrs:require privilege="Manage Pharmacy" otherwise="/login.htm" redirect="/module/pharmacy/home.form"/>

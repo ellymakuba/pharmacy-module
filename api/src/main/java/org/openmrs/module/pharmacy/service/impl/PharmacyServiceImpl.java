@@ -1116,4 +1116,7 @@ public class PharmacyServiceImpl extends BaseOpenmrsService implements PharmacyS
     public WaiverReason saveWaiverReason(WaiverReason waiver){
         return pharmacyDAO.saveWaiverReason(waiver);
     }
+    public WaiverReason getWaiverReasonByUuId(String uuid){
+        return pharmacyDAO.getWaiverReasonByUuId(uuid);
+    }
 }

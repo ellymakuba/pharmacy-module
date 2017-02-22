@@ -43,6 +43,9 @@ public class SaveRPFEncounterController {
     private List<PharmacyOrders> listPharmacyOrders;
     List<PharmacyDrugOrder> listPharmacyDrugOrders;
     private PharmacyEncounter pharmacyEncounter;
+    private String waivingSite="NA";
+    private String reason="NA";
+    private String socialWorker="NA";
     @RequestMapping(method = RequestMethod.POST, value = "module/pharmacy/saveRFPEncounter")
     public  void saveRFPEncounter(HttpServletRequest request, HttpServletResponse response) throws IOException, DocumentException {
         String jsonText = request.getParameter("values");
@@ -110,6 +113,15 @@ public class SaveRPFEncounterController {
                         pharmacyDose=service.getPharmacyDoseByID(Integer.valueOf(value));
                         drugExtra.setDose(pharmacyDose);
                     }
+                    if(key.equalsIgnoreCase("waiver_site")){
+                       waivingSite=value;
+                    }
+                    if(key.equalsIgnoreCase("waiver_reason")){
+                        reason=value;
+                    }
+                    if(key.equalsIgnoreCase("social_worker")){
+                        socialWorker=value;
+                    }
                 }
                 dispensedModel.add(drugExtra);
             }
@@ -134,7 +146,18 @@ public class SaveRPFEncounterController {
             pharmacyEncounter.setPaymentStatus(1);
             pharmacyEncounter.setTotalAmount(receiptTotal);
             pharmacyEncounter.setPerson(Context.getPatientService().getPatient(Integer.parseInt(encounterProcessor.getPatientId())));
-
+            if(!waivingSite.equalsIgnoreCase("NA")){
+                pharmacyEncounter.setSiteWaiving(service.getPharmacyLocationsByUuid(waivingSite));
+            }
+            else{
+                pharmacyEncounter.setSiteWaiving(service.getPharmacyLocationsByUuid(waivingSite));
+            }
+            if(!socialWorker.equalsIgnoreCase("NA")){
+                pharmacyEncounter.setSocialWorker(socialWorker);
+            }
+            if(!reason.equalsIgnoreCase("NA")){
+                pharmacyEncounter.setReason(service.getWaiverReasonByUuId(reason));
+            }
             service.savePharmacyEncounter(pharmacyEncounter);
             pharmacyOrder = new PharmacyOrders();
             pharmacyOrder.setAutoEndDate(null);

@@ -32,7 +32,7 @@ function RefreshTable(tableId, urlData) {
     table.fnDraw();
 }
 function fnFormatDetails(nTr) {
-    document.getElementById("reason").value=data[3];
+    document.getElementById("reason").value=data[1];
 }
 waiver_reason_table = $j('#treasons').dataTable({
     bJQueryUI:true,
@@ -43,7 +43,7 @@ waiver_reason_table = $j('#treasons').dataTable({
     sAjaxSource:'waiver_reasons.form',
     "fnServerData":fnDataTablesPipeline,
     fnRowCallback:function (nRow, data, iDisplayIndex){
-        var htm = '<ul class="popLocationUsers">	<li> <img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/items.png" alt="" /><ul class="popLocationUsers" id=' + "popLocationUsers" + useraData[2] + '>';
+        var htm = '<ul class="popLocationUsers">	<li> <img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/items.png" alt="" /><ul class="popLocationUsers" id=' + "popLocationUsers" + data[0] + '>';
         if (data[0] == "edit") {
             htm += '<li> <a href=""  id="edit"><img src="' + jQuery.Page.context + 'moduleResources/pharmacy/images/edit2.png" />Edit</a></li>';
         }
@@ -72,7 +72,7 @@ $j('#cancel').live('click', function () {
 });
 $j('#treasons tbody td ul').live('click', function () {
     userEditTr = this.parentNode.parentNode;
-    useraData = waiver_reason_table.fnGetData(userEditTr);
-    userLink = "#popLocationUsers" + useraData[2];
+    data = waiver_reason_table.fnGetData(userEditTr);
+    userLink = "#popLocationUsers" + data[2];
     $j(userLink).show();
 });

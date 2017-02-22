@@ -63,6 +63,8 @@ String locationVal = (String)session.getAttribute("location");
 PharmacyLocations pharmacyLocation=service.getPharmacyLocationsByName(locationVal);
 String identifier = (String)session.getAttribute("pharmacyPatientIdentifier");
 String fullName = (String)session.getAttribute("pharmacyPatientName");
+List<WaiverReason> reasons=service.getAllWaiverReasons();
+List<PharmacyLocations> locations=service.getPharmacyLocations();
 %>
 <DIV id="dispenseFormDIV">
 <DIV id="align_left" class="align_left"></DIV>
@@ -86,6 +88,24 @@ String fullName = (String)session.getAttribute("pharmacyPatientName");
   <td>Search Identifier On Queue:<input type="text" name="patientIdentifier" id="patientIdentifier" /></td>
 </tr>
 <tr><td colspan=2>Date Prescribe</td><td colspan=2><input type="text" name="date_prescribed" id="date_prescribed" required readonly=""/></td></tr>
+<tr id="waiver_site_tr"><td colspan=2>Site</td><td><select name="waiver_site" id="waiver_site">
+<option value="0">Select Site</option>
+<%if(locations.size()>0){
+for(PharmacyLocations location: locations){%>
+<option value=<%=location.getUuid() %> ><%=location.getName()%> </option>
+<%}
+}%>
+</select></td><tr>
+<tr id="waiver_reason_tr"><td colspan=2>Reason for waiving</td><td><select name="waiver_reason" id="waiver_reason">
+<option value="0">Select Reason</option>
+<%if(reasons.size()>0){
+for(WaiverReason reason: reasons){%>
+<option value=<%=reason.getUuid() %> ><%=reason.getReason()%> </option>
+<%}
+}%>
+</select>
+</td></tr>
+<tr id="social_worker_tr"><td colspan=2>Social Work Officer</td><td><input type="text" name="social_worker" id="social_worker"/></td></tr>
 </table>
 <table id="tableDispense" class="tdbordered">
 <thead>
